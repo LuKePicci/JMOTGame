@@ -2,8 +2,8 @@
 /.project
 /Layered.atxa
 /.classpath
-/.setting
-.DS_Stores
+/.settings
+.DS_Store
 *~
 .metadata
 ._*
