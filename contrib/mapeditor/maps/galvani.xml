@@ -530,9 +530,6 @@
             <Location X="21" CharX="V" Y="12"/>
         </Sector>
         <Sector Type="Dangerous">
-            <Location X="21" CharX="V" Y="13"/>
-        </Sector>
-        <Sector Type="Dangerous">
             <Location X="22" CharX="W" Y="2"/>
         </Sector>
         <Sector Type="Dangerous">
@@ -564,9 +561,6 @@
         </Sector>
         <Sector Type="Dangerous">
             <Location X="22" CharX="W" Y="12"/>
-        </Sector>
-        <Sector Type="Dangerous">
-            <Location X="22" CharX="W" Y="13"/>
         </Sector>
     </Sectors>
 </Map>
