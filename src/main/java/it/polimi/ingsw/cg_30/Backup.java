@@ -9,7 +9,7 @@ public class Backup
 
 	private Player currentPlayer;
 
-	private MatchRules rules;
+	private Turn rules;
 
 	private Zone zone;
 	

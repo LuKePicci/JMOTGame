@@ -2,7 +2,7 @@ package it.polimi.ingsw.cg_30;
 
 
 
-public class MatchRules
+public class Turn
 {
 
 	public boolean mustMove;
@@ -12,6 +12,10 @@ public class MatchRules
 	public int maxSteps;
 
 	public boolean silenceForced;
+	
+	public Player currentPlayer;
+	
+	public boolean mustDiscard;
 
 }
 

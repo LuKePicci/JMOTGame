@@ -5,7 +5,7 @@ public class PartyController
 {
 	private static Iterable<Party> parties;
 
-	private Party currentParty;
+	private Party Party;
 
 	private MatchController currentMatch;
 

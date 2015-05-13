@@ -2,22 +2,17 @@ package it.polimi.ingsw.cg_30;
 
 public class MatchController
 {
-	private MatchRules rules;
+	public TurnController TurnController; //nome della variabile infelice, valutarne uno migliore
 
-	private Player currentPlayer;
-
-	private PartyController currentParty;
+	public PartyController currentParty;
 
 	private StackedDeck itemsDeck;
+	
+	private int turnCount;
 
 	
 
-	public Player getCurrentPlayer()
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	public void getPartyInfo()
+	public int getTurnCount()
 	{
 		throw new UnsupportedOperationException();
 	}
@@ -27,22 +22,22 @@ public class MatchController
 		throw new UnsupportedOperationException();
 	}
 
-	public MatchRules getRules()
+	private TurnController newTurn()
 	{
 		throw new UnsupportedOperationException();
 	}
-
-	public void playRuleModifier(ItemCard item)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	private void recycleTurnRules()
+	
+	public TurnController getTurnController()
 	{
 		throw new UnsupportedOperationException();
 	}
 
 	public PartyController getCurrentParty()
+	{
+		throw new UnsupportedOperationException();
+	}
+	
+	public PartyController getItemsDeck()
 	{
 		throw new UnsupportedOperationException();
 	}
