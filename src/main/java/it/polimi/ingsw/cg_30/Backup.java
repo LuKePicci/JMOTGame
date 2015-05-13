@@ -1,4 +1,4 @@
-﻿package it.polimi.ingsw.cg_30;
+package it.polimi.ingsw.cg_30;
 
 
 public class Backup
@@ -12,6 +12,8 @@ public class Backup
 	private MatchRules rules;
 
 	private Zone zone;
+	
+	
 	
 }
 
