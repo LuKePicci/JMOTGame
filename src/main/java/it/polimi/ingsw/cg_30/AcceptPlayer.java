@@ -35,10 +35,6 @@ public abstract class AcceptPlayer extends Thread
 	abstract protected void receiveMessage();
 	
 	@Override
-	final public void run(){
-		while(true){
-			receiveMessage();
-		}
-	}
+	abstract public void run();
 }
 

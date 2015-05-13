@@ -33,6 +33,13 @@ public class AcceptSocketPlayer extends AcceptPlayer {
 	}
 
 	@Override
+	final public void run(){
+		while(true){
+			receiveMessage();
+		}
+	}
+	
+	@Override
 	public void sendMessage(IMessage message) {
 		// TODO Marshall, encode and send to output stream
 		
