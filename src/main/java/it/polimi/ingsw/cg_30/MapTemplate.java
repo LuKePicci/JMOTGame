@@ -1,4 +1,4 @@
-﻿package it.polimi.ingsw.cg_30;
+package it.polimi.ingsw.cg_30;
 
 
 public class MapTemplate
@@ -10,4 +10,3 @@ public class MapTemplate
 	}
 
 }
-

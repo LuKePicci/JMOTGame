@@ -1,4 +1,4 @@
-﻿package it.polimi.ingsw.cg_30;
+package it.polimi.ingsw.cg_30;
 
 
 public abstract class ActionController
