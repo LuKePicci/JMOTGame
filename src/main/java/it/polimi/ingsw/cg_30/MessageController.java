@@ -1,16 +1,24 @@
 package it.polimi.ingsw.cg_30;
 
-public class MessageController
-{
-	public PartyController myParty;
+public class MessageController {
+	private PartyController myParty;
+	private AcceptPlayer myAP;
 
-	public ActionController myAction;
+	public MessageController(AcceptPlayer ap) {
+		this.myAP = ap;
+	}
 
-
-	public void deliver(IMessage msg)
-	{
-		throw new UnsupportedOperationException();
+	public void deliver(IMessage msg) {
+		switch (msg.getType()) {
+		case ActionMessage:
+			break;
+		case ChatMessage:
+			break;
+		case PartyMessage:
+			break;
+		case InitMessage:
+			break;
+		}
 	}
 
 }
-

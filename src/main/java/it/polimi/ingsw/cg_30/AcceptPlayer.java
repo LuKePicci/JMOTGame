@@ -1,17 +1,44 @@
 package it.polimi.ingsw.cg_30;
 
+import java.util.*;
 
-public abstract class AcceptPlayer
+
+public abstract class AcceptPlayer extends Thread
 {
-	public void getLastMessageDate()
-	{
-		throw new UnsupportedOperationException();
+	
+	private String myNickName;
+	
+	public String getNickName() {
+		return this.myNickName;
 	}
 
-	public void sendMessage(IMessage message)
+	public void setNickName(String name) {
+		this.myNickName = name;
+	}
+	
+	
+	private Date lastMessage;
+	
+	public Date getLastMessageDate()
 	{
-		throw new UnsupportedOperationException();
+		return lastMessage;
 	}
 
+	protected MessageController mc = new MessageController(this); 
+	
+	protected AcceptPlayer(){
+		
+	}
+	
+	abstract public void sendMessage(IMessage message);
+
+	abstract protected void receiveMessage();
+	
+	@Override
+	final public void run(){
+		while(true){
+			receiveMessage();
+		}
+	}
 }
 
