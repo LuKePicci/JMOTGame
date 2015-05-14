@@ -59,9 +59,10 @@ public class AcceptSocketPlayer extends AcceptPlayer {
 	@Override
 	protected void receiveMessage() {
 		try {
-			din.readUTF();
+			String input = din.readUTF();
 			
 			this.lastMessage = new Date();
+			
 			// TODO Receive, decode and unmarshall IMessage from input channel
 			IMessage msg = null;
 			
