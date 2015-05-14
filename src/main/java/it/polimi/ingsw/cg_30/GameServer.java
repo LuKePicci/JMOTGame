@@ -17,6 +17,6 @@ public class GameServer {
 
 	private void startServers(){
 		PlayerAcceptance socketServer = new SocketAcceptance();
-		PlayerAcceptance rmiServer = new RmiAcceptance();
+		// PlayerAcceptance rmiServer = new RmiAcceptance();
 	}
 }

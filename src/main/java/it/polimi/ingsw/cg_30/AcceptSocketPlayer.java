@@ -32,10 +32,20 @@ public class AcceptSocketPlayer extends AcceptPlayer {
 		
 		this.start();
 	}
+	
+	private void pingTrue(){
+		try {
+			dout.writeBoolean(true);
+		} catch (IOException e) {
+			e.printStackTrace();
+			this.interrupt();
+		}
+	}
 
 	@Override
 	final public void run(){
-		while(true){
+		this.pingTrue();
+		while(this.mySoc.isConnected() && !this.mySoc.isClosed() && !this.isInterrupted()){
 			receiveMessage();
 		}
 	}
@@ -48,10 +58,21 @@ public class AcceptSocketPlayer extends AcceptPlayer {
 
 	@Override
 	protected void receiveMessage() {
-		this.lastMessage = new Date();
-		// TODO Receive, decode and unmarshall IMessage from input channel
-		IMessage msg = null;
-		
-		this.mc.deliver(msg);
+		try {
+			din.readUTF();
+			
+			this.lastMessage = new Date();
+			// TODO Receive, decode and unmarshall IMessage from input channel
+			IMessage msg = null;
+			
+			this.mc.deliver(msg);
+		} catch (IOException e) {
+			try {
+				this.mySoc.close();
+			} catch (IOException e1) { }
+			System.out.println("Socket " + this.mySoc.hashCode() + " closed because of " + e.toString());
+			
+			this.interrupt();
+		}
 	}
 }

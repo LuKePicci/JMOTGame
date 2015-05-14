@@ -3,6 +3,7 @@ package it.polimi.ingsw.cg_30;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Set;
 
 public class SocketAcceptance extends PlayerAcceptance {
 
@@ -10,18 +11,21 @@ public class SocketAcceptance extends PlayerAcceptance {
 		this.start();
 	}
 
+	@SuppressWarnings("resource")
 	@Override
 	protected void acceptance() {
 		ServerSocket soc;
 		try {
-			soc = new ServerSocket(5217);
-			while (true) {
+			soc = new ServerSocket(17336);
+			while (!this.isInterrupted()) {
 				Socket CSoc;
 				try {
 					CSoc = soc.accept();
 					AcceptPlayer gameClient = new AcceptSocketPlayer(CSoc);
+					this.connections.add(gameClient);
 				} catch (IOException e) {
 					e.printStackTrace();
+					this.interrupt();
 				}
 			}
 		} catch (IOException e1) {
