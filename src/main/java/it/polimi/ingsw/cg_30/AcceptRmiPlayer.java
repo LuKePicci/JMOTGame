@@ -2,6 +2,7 @@ package it.polimi.ingsw.cg_30;
 
 import java.net.MalformedURLException;
 import java.rmi.*;
+import java.util.Date;
 import java.util.UUID;
 
 public class AcceptRmiPlayer extends AcceptPlayer implements IAcceptRmiPlayer {
@@ -29,6 +30,7 @@ public class AcceptRmiPlayer extends AcceptPlayer implements IAcceptRmiPlayer {
 
 	@Override
 	protected void receiveMessage() {
+		this.lastMessage = new Date();
 		this.mc.deliver(this.rcvMessage);
 	}
 

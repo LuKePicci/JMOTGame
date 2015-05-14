@@ -2,6 +2,7 @@ package it.polimi.ingsw.cg_30;
 
 import java.io.*;
 import java.net.*;
+import java.util.Date;
 
 public class AcceptSocketPlayer extends AcceptPlayer {
 	private final Socket mySoc;
@@ -47,6 +48,7 @@ public class AcceptSocketPlayer extends AcceptPlayer {
 
 	@Override
 	protected void receiveMessage() {
+		this.lastMessage = new Date();
 		// TODO Receive, decode and unmarshall IMessage from input channel
 		IMessage msg = null;
 		

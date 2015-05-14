@@ -17,7 +17,7 @@ public abstract class AcceptPlayer extends Thread
 	}
 	
 	
-	private Date lastMessage;
+	protected Date lastMessage;
 	
 	public Date getLastMessageDate()
 	{
