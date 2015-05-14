@@ -5,13 +5,22 @@ public class PartyMessage implements IMessage
 {
 	public PartyRequest Message;
 
-	public PartyRequest getMessage() {
-		return Message;
-	}
-	
+
 	public PartyMessage(PartyRequest request) {
 		Message = request;
 		
+	}
+
+	@Override
+	public RequestModel getContent() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public MessageType getType() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

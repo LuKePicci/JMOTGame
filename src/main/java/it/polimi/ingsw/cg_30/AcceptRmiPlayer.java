@@ -2,15 +2,16 @@ package it.polimi.ingsw.cg_30;
 
 import java.net.MalformedURLException;
 import java.rmi.*;
+import java.util.UUID;
 
 public class AcceptRmiPlayer extends AcceptPlayer implements IAcceptRmiPlayer {
 	private IMessage rcvMessage, sndMessage;
 	private IRmiClient rmiClient;
 
-	public AcceptRmiPlayer(String sessionId) {
+	public AcceptRmiPlayer(UUID rmiSessionId) {
 		try {
 			this.rmiClient = (IRmiClient) Naming.lookup("rmi://localhost/"
-					+ sessionId);
+					+ rmiSessionId);
 		} catch (NotBoundException e) {
 			e.printStackTrace();
 		} catch (RemoteException e) {

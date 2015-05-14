@@ -3,6 +3,7 @@ package it.polimi.ingsw.cg_30;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
+import java.util.UUID;
 
 import javax.rmi.PortableRemoteObject;
 
@@ -27,17 +28,17 @@ public class RmiAcceptance extends PlayerAcceptance implements IRmiAcceptance {
 
 	@Override
 	public String present() {
-		String rmiSessionId = "";
-		// TODO Generate random session id
+		// Generate random session id
+		UUID rmiSessionId = UUID.randomUUID();
 		AcceptRmiPlayer rmiClient = new AcceptRmiPlayer(rmiSessionId);
 		try {
 			PortableRemoteObject.exportObject(rmiClient);
-			Naming.rebind(rmiSessionId, rmiClient);
+			Naming.rebind(rmiSessionId.toString(), rmiClient);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
-		return rmiSessionId;
+		return rmiSessionId.toString();
 	}
 }
