@@ -1,27 +1,32 @@
 package it.polimi.ingsw.cg_30;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
-public class PartyMessage implements IMessage
+@XmlRootElement(name = "Message")
+@XmlAccessorType(XmlAccessType.NONE)
+public class PartyMessage extends Message
 {
-	public PartyRequest Message;
-
-
 	public PartyMessage(PartyRequest request) {
-		Message = request;
-		
+		super(MessageType.PartyMessage);
+		this.content = request;
 	}
 
+	@XmlElement(name = "Content")
 	@Override
-	public RequestModel getContent() {
-		// TODO Auto-generated method stub
-		return null;
+	public PartyRequest getContent() {
+		return (PartyRequest) super.getContent();
 	}
-
-	@Override
-	public MessageType getType() {
-		// TODO Auto-generated method stub
-		return null;
+	
+	public void setContent(PartyRequest content){
+		super.setContent(content);
 	}
-
+	
+	@SuppressWarnings("unused")
+	private PartyMessage(){
+		// local attributes initialization by JAXB
+	}
 }
 

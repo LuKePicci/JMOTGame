@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.UUID;
 
 public class AcceptRmiPlayer extends AcceptPlayer implements IAcceptRmiPlayer {
-	private IMessage rcvMessage, sndMessage;
+	private Message rcvMessage, sndMessage;
 	private IRmiClient rmiClient;
 
 	public AcceptRmiPlayer(UUID rmiSessionId) {
@@ -23,21 +23,21 @@ public class AcceptRmiPlayer extends AcceptPlayer implements IAcceptRmiPlayer {
 	}
 
 	@Override
-	public void sendMessage(IMessage msg) {
+	public void sendMessage(Message msg) {
 		this.sndMessage = msg;
 		this.rmiClient.toClient(this.sndMessage);
 	}
 
 	@Override
-	protected void receiveMessage() {
+	protected Message receiveMessage() {
 		this.lastMessage = new Date();
-		this.mc.deliver(this.rcvMessage);
+		return this.rcvMessage;
 	}
 
 	@Override
-	public void toServer(IMessage msg) throws RemoteException {
+	public void toServer(Message msg) throws RemoteException {
 		this.rcvMessage = msg;
-		this.receiveMessage();
+		this.mc.deliver(this.receiveMessage());
 	}
 	
 	@Override

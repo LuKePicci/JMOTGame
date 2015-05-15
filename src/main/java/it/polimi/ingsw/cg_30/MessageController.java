@@ -8,7 +8,7 @@ public class MessageController {
 		this.myAP = ap;
 	}
 
-	public void deliver(IMessage msg) {
+	public void deliver(Message msg) {
 		switch (msg.getType()) {
 		case ActionMessage:
 			break;

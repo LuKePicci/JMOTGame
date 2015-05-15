@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg_30;
 
+import java.io.IOException;
 import java.util.*;
 
 
@@ -30,9 +31,9 @@ public abstract class AcceptPlayer extends Thread
 		
 	}
 	
-	abstract public void sendMessage(IMessage message);
+	abstract public void sendMessage(Message message);
 
-	abstract protected void receiveMessage();
+	abstract protected Message receiveMessage() throws IOException;
 	
 	@Override
 	abstract public void run();
