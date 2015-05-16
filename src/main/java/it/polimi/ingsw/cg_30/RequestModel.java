@@ -2,13 +2,13 @@ package it.polimi.ingsw.cg_30;
 
 import java.util.Date;
 
+import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlSeeAlso;
 
-@XmlRootElement(name = "Content")
 @XmlAccessorType(XmlAccessType.NONE)
+@XmlSeeAlso({ ActionRequest.class, ChatRequest.class, PartyRequest.class })
 public abstract class RequestModel {
 	protected Date updatedAt;
 

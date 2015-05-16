@@ -1,7 +1,9 @@
 package it.polimi.ingsw.cg_30;
 
 import java.net.MalformedURLException;
-import java.rmi.*;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.util.Date;
 import java.util.UUID;
 
@@ -39,9 +41,14 @@ public class AcceptRmiPlayer extends AcceptPlayer implements IAcceptRmiPlayer {
 		this.rcvMessage = msg;
 		this.mc.deliver(this.receiveMessage());
 	}
-	
+
 	@Override
-	final public void run(){
-		
+	final public void run() {
+
+	}
+
+	@Override
+	public void ping() {
+
 	}
 }

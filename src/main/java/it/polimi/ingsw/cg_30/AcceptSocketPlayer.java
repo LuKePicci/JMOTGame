@@ -1,11 +1,13 @@
 package it.polimi.ingsw.cg_30;
 
-import java.io.*;
-import java.net.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.net.Socket;
 import java.util.Base64;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -16,8 +18,9 @@ public class AcceptSocketPlayer extends AcceptPlayer {
 	private final Socket mySoc;
 	private final DataInputStream din;
 	private final DataOutputStream dout;
-	private final Map<MessageType, Marshaller> marshallers;
-	private final Unmarshaller unmarshaller;
+	// private final Map<MessageType, Marshaller> marshallers;
+	private final Marshaller messageMarshaller;
+	private final Unmarshaller messageUnmarshaller;
 
 	private String lastSentData = null;
 
@@ -42,31 +45,33 @@ public class AcceptSocketPlayer extends AcceptPlayer {
 			this.dout = dout;
 		}
 
-		this.marshallers = new HashMap<MessageType, Marshaller>();
+		// this.marshallers = new HashMap<MessageType, Marshaller>();
+		Marshaller msl = null;
 		Unmarshaller unmsl = null;
 		try {
 			JAXBContext ctx;
-			for (MessageType t : MessageType.values()) {
-				ctx = JAXBContext.newInstance(t.linkedClass());
-
-				this.marshallers.put(t, ctx.createMarshaller());
-				// for pretty printing
-				this.marshallers.get(t).setProperty(
-						Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-			}
-
+			/*
+			 * for (MessageType t : MessageType.values()) { ctx =
+			 * JAXBContext.newInstance(t.linkedClass());
+			 * 
+			 * this.marshallers.put(t, ctx.createMarshaller()); // for pretty
+			 * printing this.marshallers.get(t).setProperty(
+			 * Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE); }
+			 */
 			ctx = JAXBContext.newInstance(Message.class);
+			msl = ctx.createMarshaller();
+			msl.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 			unmsl = ctx.createUnmarshaller();
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		} finally {
-			this.unmarshaller = unmsl;
+			this.messageMarshaller = msl;
+			this.messageUnmarshaller = unmsl;
 		}
-
-		this.start();
 	}
 
-	private void ping() {
+	@Override
+	public void ping() {
 		try {
 			dout.writeBoolean(false);
 		} catch (IOException e) {
@@ -81,7 +86,6 @@ public class AcceptSocketPlayer extends AcceptPlayer {
 
 	@Override
 	final public void run() {
-		this.ping();
 		while (this.mySoc.isConnected() && !this.mySoc.isClosed()
 				&& !this.isInterrupted()) {
 			try {
@@ -89,8 +93,9 @@ public class AcceptSocketPlayer extends AcceptPlayer {
 			} catch (IOException e) {
 				try {
 					this.mySoc.close();
-				} catch (IOException e1) { }
-				
+				} catch (IOException e1) {
+				}
+
 				System.out.println("Socket " + this.mySoc.hashCode()
 						+ " closed because of " + e.toString());
 
@@ -137,7 +142,8 @@ public class AcceptSocketPlayer extends AcceptPlayer {
 	private String msgToXML(Message msg) {
 		StringWriter sw = new StringWriter();
 		try {
-			this.marshallers.get(msg.getType()).marshal(msg, sw);
+			// this.marshallers.get(msg.getType()).marshal(msg, sw);
+			messageMarshaller.marshal(msg, sw);
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
@@ -147,7 +153,11 @@ public class AcceptSocketPlayer extends AcceptPlayer {
 	private Message msgFromXML(String xml) {
 		Message msg = null;
 		try {
-			msg = (Message) this.unmarshaller.unmarshal(new StringReader(xml));
+			msg = (Message) this.messageUnmarshaller
+					.unmarshal(new StringReader(xml));
+
+			// Class<Message> msgClass = msg.getType().linkedClass();
+			// msgClass.cast(msg);
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}

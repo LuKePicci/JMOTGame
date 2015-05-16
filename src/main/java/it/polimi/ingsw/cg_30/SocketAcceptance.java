@@ -43,6 +43,8 @@ public class SocketAcceptance extends PlayerAcceptance {
 				try {
 					CSoc = soc.accept();
 					AcceptPlayer gameClient = new AcceptSocketPlayer(CSoc);
+					gameClient.ping();
+					gameClient.start();
 					this.connections.add(gameClient);
 				} catch (IOException e) {
 					System.out.println("Server " + soc.hashCode()

@@ -2,7 +2,6 @@ package it.polimi.ingsw.cg_30;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "Message")
@@ -14,14 +13,12 @@ public class ActionMessage extends Message {
 		this.content = request;
 	}
 
-	@XmlElement(name = "Content")
-	@Override
 	public ActionRequest getContent() {
-		return (ActionRequest) super.getContent();
+		return (ActionRequest) super.getRawContent();
 	}
 
-	public void setContent(ActionRequest content) {
-		super.setContent(content);
+	protected void setContent(ActionRequest content) {
+		super.setRawContent(content);
 	}
 
 	@SuppressWarnings("unused")

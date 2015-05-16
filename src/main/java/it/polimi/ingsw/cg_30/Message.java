@@ -1,25 +1,35 @@
 package it.polimi.ingsw.cg_30;
 
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
 
-@XmlRootElement(name = "Message")
 @XmlAccessorType(XmlAccessType.NONE)
+@XmlSeeAlso({ ActionMessage.class, ChatMessage.class, PartyMessage.class })
 public abstract class Message {
 
-	@XmlAttribute(name = "Type")
-	protected MessageType type;
+	protected MessageType msgType;
 
 	protected RequestModel content;
 
-	protected final MessageType getType() {
-		return this.type;
+	@XmlAttribute(name = "MessageType")
+	public final MessageType getType() {
+		return this.msgType;
 	}
 
-	public RequestModel getContent() {
+	@SuppressWarnings("unused")
+	private final void setType(MessageType type) {
+		this.msgType = type;
+	}
+
+	@XmlElement(name = "Content")
+	public RequestModel getRawContent() {
 		return this.content;
 	}
 
-	public void setContent(RequestModel content) {
+	protected void setRawContent(RequestModel content) {
 		this.content = content;
 	}
 
@@ -27,10 +37,9 @@ public abstract class Message {
 	// Object To;
 
 	protected Message(MessageType t) {
-		this.type = t;
+		this.msgType = t;
 	}
 
-	@SuppressWarnings("unused")
 	protected Message() {
 		// local attributes initialization by JAXB
 	}

@@ -1,20 +1,19 @@
 package it.polimi.ingsw.cg_30;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Base64;
 import java.util.Date;
 import java.util.concurrent.Semaphore;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 public class TestAcceptSocketPlayer extends Thread {
@@ -22,11 +21,12 @@ public class TestAcceptSocketPlayer extends Thread {
 	public static Socket soc;
 	public static AcceptSocketPlayer ap;
 	public static TestAcceptSocketPlayer sckTest;
-	public static String testData = "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/Pgo8TWVzc2FnZSBUeXBlPSJDaGF0TWVzc2FnZSI+CiAgICA8Q29udGVudCBUZXh0PSJNZXNzYWdlIHRlc3RpbmciIERhdGU9IjE5NzAtMDEtMDFUMDE6MDA6MDArMDE6MDAiLz4KPC9NZXNzYWdlPgo=";
-	public static Semaphore sem = new Semaphore(0);
+	public static String testData = "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/Pgo8TWVzc2FnZSBNZXNzYWdlVHlwZT0iQ2hhdE1lc3NhZ2UiPgogICAgPENvbnRlbnQgeHNpOnR5cGU9ImNoYXRSZXF1ZXN0IiBUZXh0PSJNZXNzYWdlIHRlc3RpbmciIERhdGU9IjE5NzAtMDEtMDFUMDE6MDA6MDArMDE6MDAiIHhtbG5zOnhzaT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS9YTUxTY2hlbWEtaW5zdGFuY2UiLz4KPC9NZXNzYWdlPgo=";
+	public static Semaphore sem;
 
-	@BeforeClass
-	public static void initServerSocket() {
+	@Before
+	public void initServerSocket() {
+		sem = new Semaphore(0);
 		sckTest = new TestAcceptSocketPlayer();
 		try {
 			sckTest.server = new ServerSocket();
@@ -34,10 +34,16 @@ public class TestAcceptSocketPlayer extends Thread {
 			e.printStackTrace();
 		}
 		sckTest.start();
+
+		try {
+			sem.acquire();
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
 	}
 
-	@AfterClass
-	public static void closeServerSocket() {
+	@After
+	public void closeServerSocket() {
 		try {
 
 			soc.close();
@@ -74,32 +80,12 @@ public class TestAcceptSocketPlayer extends Thread {
 		}
 	}
 
-	// @Test
-	public void shouldReceiveMessage() {
-		try {
-			Socket client = new Socket("127.0.0.1", sckTest.localPort);
-			DataOutputStream cdout = new DataOutputStream(
-					client.getOutputStream());
-			cdout.writeUTF(new String(testData));
-			if (soc.isConnected() && !soc.isClosed()) {
-				ap.receiveMessage();
-			}
-			client.close();
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+	private static DataOutputStream cdout;
 
 	@Test
-	public void shouldSendMessage() {
+	public void shouldReceiveMessage() {
+		RequestModel received = null;
 		try {
-			try {
-				sem.acquire();
-			} catch (InterruptedException e1) {
-				e1.printStackTrace();
-			}
 			Socket client = new Socket("127.0.0.1", sckTest.localPort);
 			try {
 				sem.acquire();
@@ -107,11 +93,49 @@ public class TestAcceptSocketPlayer extends Thread {
 				e.printStackTrace();
 			}
 
-			DataInputStream cdin = new DataInputStream(client.getInputStream());
+			cdout = new DataOutputStream(client.getOutputStream());
 
-			// request server interruption preventing message from being
-			// delivered
-			ap.interrupt();
+			Thread sender = new Thread() {
+				@Override
+				public void run() {
+					try {
+						cdout.writeUTF(testData);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			};
+			sender.start();
+
+			try {
+				sender.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			} finally {
+				client.close();
+			}
+
+			received = ap.receiveMessage().getRawContent();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		assertTrue(received != null);
+		assertEquals("Message testing", ((ChatRequest) received).getText());
+		System.out.println("Test succeeded: shouldReceiveMessage");
+	}
+
+	@Test
+	public void shouldSendMessage() {
+		try {
+			Socket client = new Socket("127.0.0.1", sckTest.localPort);
+			try {
+				sem.acquire();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
 			ChatRequest chat = new ChatRequest("Message testing");
 			chat.setDate(new Date(0L));
 			ap.sendMessage(new ChatMessage(chat));
@@ -124,5 +148,6 @@ public class TestAcceptSocketPlayer extends Thread {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		System.out.println("Test succeeded: shouldSendMessage");
 	}
 }
