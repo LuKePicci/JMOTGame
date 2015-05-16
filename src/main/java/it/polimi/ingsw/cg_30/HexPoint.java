@@ -3,43 +3,45 @@ package it.polimi.ingsw.cg_30;
 
 public class HexPoint
 {
-	public int cubicX;
+	private int cubicX;
 
-	public int cubicY;
+	private int cubicY;
+	
 
 	public int getCubicX()
 	{
-		throw new UnsupportedOperationException();
+		return cubicX;
 	}
 
 	public int getCubicY()
 	{
-		throw new UnsupportedOperationException();
+		return cubicY;
 	}
 
 	public int getCubicZ()
 	{
-		throw new UnsupportedOperationException();
+		return (-cubicX-cubicY);
 	}
 
 	public int getAxialX()
 	{
-		throw new UnsupportedOperationException();
+		return cubicX;
 	}
 
 	public int getAxialY()
 	{
-		throw new UnsupportedOperationException();
+		return (-cubicX-cubicY);
 	}
 
 	public int getOffsetX()
 	{
-		throw new UnsupportedOperationException();
+		//z + (x - (x&1)) / 2;
+		return (((-cubicX-cubicY)+( cubicX - ( cubicX & 1 ) ))/2);
 	}
 
 	public int getOffsetY()
 	{
-		throw new UnsupportedOperationException();
+		return cubicX;
 	}
 
 }

@@ -6,7 +6,7 @@ import java.util.Set;
 
 public abstract class Deck
 {
-	private Collection<Card> cards;
+	protected Collection<Card> cards;
 
 	private Set<Card> bucket;
 
@@ -19,5 +19,7 @@ public abstract class Deck
 	{
 		throw new UnsupportedOperationException();
 	}
+	
 
+	
 }

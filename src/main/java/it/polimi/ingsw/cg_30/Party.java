@@ -1,5 +1,7 @@
 package it.polimi.ingsw.cg_30;
 
+import java.util.Iterator;
+
 
 public class Party
 {
@@ -9,13 +11,17 @@ public class Party
 
 	public String getName()
 	{
-		throw new UnsupportedOperationException();
+		return name;
 	}
 
 	public Iterable<Player> getMembers()
 	{
-		throw new UnsupportedOperationException();
+		return members;
+	}
+	
+	//CREAZIONE DI UN NUOVO PARTY DATO UN GIOCATORE
+	public Party(Player newPlayer){
+		//this.members=new //da implementare, forse posso usare add
 	}
 
 }
-

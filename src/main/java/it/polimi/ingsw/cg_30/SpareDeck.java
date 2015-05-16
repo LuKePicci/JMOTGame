@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg_30;
 
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -9,8 +10,12 @@ public class SpareDeck extends Deck
 
 	public Set<Card> getCards()
 	{
-		throw new UnsupportedOperationException();
+		return cards;
+	}
+	
+	//COSTRUTTORE
+	public SpareDeck(){
+		this.cards= new HashSet<Card>();
 	}
 
 }
-

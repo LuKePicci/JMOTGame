@@ -2,14 +2,19 @@ package it.polimi.ingsw.cg_30;
 
 public class MatchController
 {
-	public TurnController TurnController; //nome della variabile infelice, valutarne uno migliore
+	public TurnController currentTurn;
 
 	public PartyController currentParty;
 
 	private StackedDeck itemsDeck;
+	private StackedDeck hatchesDeck;
+	private StackedDeck sectorsDeck;
+
 	
 	private int turnCount;
-
+	
+	private ZoneController currentZone;
+	
 	
 
 	public int getTurnCount()
@@ -27,7 +32,7 @@ public class MatchController
 		throw new UnsupportedOperationException();
 	}
 	
-	public TurnController getTurnController()
+	public TurnController getCurrentTurn()
 	{
 		throw new UnsupportedOperationException();
 	}
@@ -40,6 +45,15 @@ public class MatchController
 	public PartyController getItemsDeck()
 	{
 		throw new UnsupportedOperationException();
+	}
+	
+	public ZoneController getCurrentZone()
+	{
+		throw new UnsupportedOperationException();
+	}
+	
+	public void incrementTurnCount(){
+		turnCount++;
 	}
 
 }

@@ -7,37 +7,60 @@ public class Player
 
 	private int index;
 
-	private SpareDeck itemsDeck;
-
 	private PlayerCard identity;
 
 	private int killsCount;
+	
+	private SpareDeck itemsDeck;
+	
+	
 
 
 	public int getIndex()
 	{
-		throw new UnsupportedOperationException();
+		return index;
 	}
 
 	public String getName()
 	{
-		throw new UnsupportedOperationException();
+		return name;
 	}
 
 	public PlayerCard getIdentity()
 	{
-		throw new UnsupportedOperationException();
+		return identity;
 	}
 
 	public SpareDeck getItemsDeck()
 	{
-		throw new UnsupportedOperationException();
+		return itemsDeck;
 	}
 
-	public void getKillsCount()
+	public int getKillsCount()
 	{
-		throw new UnsupportedOperationException();
+		return killsCount;
+	}
+	
+	
+	//COSTRUTTORE
+	public Player(String name, int index, PlayerCard identity){
+		this.name=name;
+		this.index=index;
+		this.identity=identity;
+		this.killsCount=0;
+		this.itemsDeck= new SpareDeck();
+	}
+	
+	public Player(){
+		this.name="unknown player";
+		this.index=0;
+		this.identity=null;
+		this.killsCount=0;
+		this.itemsDeck= new SpareDeck();
 	}
 
+	public void incrementKillsCount(){
+		killsCount++;
+	}
 }
 
