@@ -1,8 +1,10 @@
 package it.polimi.ingsw.cg_30;
 
 public class MessageController {
-	private PartyController myParty;
-	private AcceptPlayer myAP;
+
+	private AcceptPlayer myAP; // Bind the connected player
+
+	private PartyController myParty; // to its party
 
 	public MessageController(AcceptPlayer ap) {
 		this.myAP = ap;

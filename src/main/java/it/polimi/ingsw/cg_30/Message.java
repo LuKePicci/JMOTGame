@@ -1,5 +1,7 @@
 package it.polimi.ingsw.cg_30;
 
+import java.io.Serializable;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -8,7 +10,9 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlSeeAlso({ ActionMessage.class, ChatMessage.class, PartyMessage.class })
-public abstract class Message {
+public abstract class Message implements Serializable {
+
+	private static final long serialVersionUID = -7712280460808337633L;
 
 	protected MessageType msgType;
 

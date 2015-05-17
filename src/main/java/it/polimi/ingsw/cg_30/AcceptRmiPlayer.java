@@ -1,33 +1,62 @@
 package it.polimi.ingsw.cg_30;
 
-import java.net.MalformedURLException;
-import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.Date;
 import java.util.UUID;
 
 public class AcceptRmiPlayer extends AcceptPlayer implements IAcceptRmiPlayer {
 	private Message rcvMessage, sndMessage;
 	private IRmiClient rmiClient;
+	private String rmiSessionId;
+	private Registry rmiRegistry;
 
-	public AcceptRmiPlayer(UUID rmiSessionId) {
-		try {
-			this.rmiClient = (IRmiClient) Naming.lookup("rmi://localhost/"
-					+ rmiSessionId);
-		} catch (NotBoundException e) {
-			e.printStackTrace();
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		}
+	public AcceptRmiPlayer(String rmiSessionId, Registry rmiReg)
+			throws RemoteException {
+		this.rmiSessionId = rmiSessionId;
+		this.rmiRegistry = rmiReg;
+		IAcceptRmiPlayer stub = (IAcceptRmiPlayer) UnicastRemoteObject
+				.exportObject(this, 0);
+		this.rmiRegistry.rebind("server-" + rmiSessionId, stub);
+	}
+
+	public AcceptRmiPlayer() throws RemoteException {
+		this(UUID.randomUUID().toString(), LocateRegistry.getRegistry());
+	}
+
+	public Registry getRegistry() {
+		return this.rmiRegistry;
+	}
+
+	private boolean lookupClient() {
+		if (rmiClient == null)
+			try {
+				this.rmiClient = (IRmiClient) this.rmiRegistry.lookup("client-"
+						+ rmiSessionId);
+				return true;
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			} catch (NotBoundException e) {
+				e.printStackTrace();
+			}
+		return false;
 	}
 
 	@Override
 	public void sendMessage(Message msg) {
 		this.sndMessage = msg;
-		this.rmiClient.toClient(this.sndMessage);
+		if (lookupClient())
+			try {
+				this.rmiClient.toClient(this.sndMessage);
+			} catch (RemoteException e) {
+				System.out.println(String.format(
+						"%s : Message sending failure to %s", e.getMessage(),
+						this.rmiSessionId));
+				e.printStackTrace();
+			}
 	}
 
 	@Override
