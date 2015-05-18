@@ -1,6 +1,8 @@
 package it.polimi.ingsw.cg_30;
 
-public class HexPoint {
+import java.io.Serializable;
+
+public class HexPoint implements Serializable {
 	private int cubicX;
 	private int cubicY;
 
@@ -33,23 +35,21 @@ public class HexPoint {
 	}
 
 	// "COSTRUTTORI"
-	private HexPoint hexPoint(int x, int y) {
-		HexPoint ex = new HexPoint();
+	private HexPoint(int x, int y) {
 		this.cubicX = x;
 		this.cubicY = y;
-		return ex;
 	}
 
-	public HexPoint hexPointCubic(int x, int y) {
-		return hexPoint(x, y);
+	public static HexPoint hexPointCubic(int x, int y) {
+		return new HexPoint(x, y);
 	}
 
-	public HexPoint hexPointAxial(int q, int r) {
-		return hexPoint(q, -q - r);
+	public static HexPoint hexPointAxial(int q, int r) {
+		return new HexPoint(q, -q - r);
 	}
 
-	public HexPoint hexPointOffset(int col, int row) {
-		return hexPoint(col, -col - (row - (col - (col & 1)) / 2));
+	public static HexPoint hexPointOffset(int col, int row) {
+		return new HexPoint(col, -col - (row - (col - (col & 1)) / 2));
 	}
 
 }

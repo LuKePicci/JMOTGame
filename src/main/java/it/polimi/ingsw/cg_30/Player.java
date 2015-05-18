@@ -1,66 +1,52 @@
 package it.polimi.ingsw.cg_30;
 
+import java.io.Serializable;
 
-public class Player
-{
+public class Player implements Serializable {
 	private String name;
-
 	private int index;
-
 	private PlayerCard identity;
-
 	private int killsCount;
-	
 	private SpareDeck itemsDeck;
-	
-	
 
-
-	public int getIndex()
-	{
+	public int getIndex() {
 		return index;
 	}
 
-	public String getName()
-	{
+	public String getName() {
 		return name;
 	}
 
-	public PlayerCard getIdentity()
-	{
+	public PlayerCard getIdentity() {
 		return identity;
 	}
 
-	public SpareDeck getItemsDeck()
-	{
+	public SpareDeck getItemsDeck() {
 		return itemsDeck;
 	}
 
-	public int getKillsCount()
-	{
+	public int getKillsCount() {
 		return killsCount;
 	}
-	
-	
-	//COSTRUTTORE
-	public Player(String name, int index, PlayerCard identity){
-		this.name=name;
-		this.index=index;
-		this.identity=identity;
-		this.killsCount=0;
-		this.itemsDeck= new SpareDeck();
-	}
-	
-	public Player(){
-		this.name="unknown player";
-		this.index=0;
-		this.identity=null;
-		this.killsCount=0;
-		this.itemsDeck= new SpareDeck();
+
+	// COSTRUTTORE
+	public Player(String name, int index, PlayerCard identity) {
+		this.name = name;
+		this.index = index;
+		this.identity = identity;
+		this.killsCount = 0;
+		this.itemsDeck = new SpareDeck();
 	}
 
-	public void incrementKillsCount(){
+	public Player() {
+		this.name = "unknown player";
+		this.index = 0;
+		this.identity = null;
+		this.killsCount = 0;
+		this.itemsDeck = new SpareDeck();
+	}
+
+	public void incrementKillsCount() {
 		killsCount++;
 	}
 }
-
