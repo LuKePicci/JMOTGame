@@ -19,7 +19,6 @@ public class SocketAcceptance extends PlayerAcceptance {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		this.start();
 	}
 
 	public void StopServer() {
@@ -38,7 +37,7 @@ public class SocketAcceptance extends PlayerAcceptance {
 			soc.bind(new InetSocketAddress(randomizePort ? 0
 					: DEFAULT_SERVER_PORT));
 			this.randomPort = soc.getLocalPort();
-			while (!this.isInterrupted()) {
+			while (!Thread.interrupted()) {
 				Socket CSoc;
 				try {
 					CSoc = soc.accept();
@@ -49,7 +48,7 @@ public class SocketAcceptance extends PlayerAcceptance {
 				} catch (IOException e) {
 					System.out.println("Server " + soc.hashCode()
 							+ " closed because of " + e.getMessage());
-					this.interrupt();
+					return;
 				}
 			}
 		} catch (IOException e1) {

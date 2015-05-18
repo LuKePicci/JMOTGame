@@ -15,6 +15,7 @@ public class AcceptRmiPlayerTest implements IRmiClient {
 
 	private static final String TEST_MESSAGE_TEXT = "Rmi Message Testing";
 	private AcceptRmiPlayer rmiServer;
+	private Thread serverThread;
 	private boolean noError = false;
 	private static IAcceptRmiPlayer rmiClient;
 	private static Registry testRegistry;
@@ -25,6 +26,8 @@ public class AcceptRmiPlayerTest implements IRmiClient {
 			testRegistry = LocateRegistry.createRegistry(0);
 
 			rmiServer = new AcceptRmiPlayer("rmiTesting", testRegistry);
+			serverThread = new Thread(rmiServer, "rmiTesting");
+			serverThread.start();
 			IRmiClient stub = (IRmiClient) UnicastRemoteObject.exportObject(
 					this, 0);
 			testRegistry.rebind("client-rmiTesting", stub);

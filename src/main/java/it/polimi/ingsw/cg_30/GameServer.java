@@ -1,11 +1,5 @@
 package it.polimi.ingsw.cg_30;
 
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
-
-import javax.naming.OperationNotSupportedException;
-
 public class GameServer {
 	private static Iterable<AcceptPlayer> clients;
 
@@ -15,8 +9,13 @@ public class GameServer {
 		System.out.println("Hello Client!");
 	}
 
-	private void startServers(){
+	private void startServers() {
 		PlayerAcceptance socketServer = new SocketAcceptance();
-		// PlayerAcceptance rmiServer = new RmiAcceptance();
+		PlayerAcceptance rmiServer = new RmiAcceptance();
+		Thread socketThread = new Thread(socketServer, "socket-GameServer");
+		Thread rmiThread = new Thread(rmiServer, "rmi-GameServer");
+
+		socketThread.start();
+		rmiThread.start();
 	}
 }

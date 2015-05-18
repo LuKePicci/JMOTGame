@@ -5,6 +5,7 @@ import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.UUID;
 
 import javax.rmi.PortableRemoteObject;
@@ -15,17 +16,21 @@ public class RmiAcceptance extends PlayerAcceptance implements IRmiAcceptance {
 
 	public RmiAcceptance() {
 
-		this.start();
 	}
 
 	@Override
 	protected void acceptance() {
 		try {
-			PortableRemoteObject.exportObject(this);
-			Naming.rebind("RmiServer", this);
+			this.rmiRegistry = LocateRegistry.createRegistry(0);
 		} catch (RemoteException e) {
 			e.printStackTrace();
-		} catch (MalformedURLException e) {
+		}
+
+		try {
+			IRmiAcceptance stub = (IRmiAcceptance) UnicastRemoteObject
+					.exportObject(this, 0);
+			this.rmiRegistry.rebind("RmiServer", stub);
+		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 	}
@@ -45,14 +50,5 @@ public class RmiAcceptance extends PlayerAcceptance implements IRmiAcceptance {
 			e.printStackTrace();
 		}
 		return rmiSessionId;
-	}
-
-	@Override
-	public void run() {
-		try {
-			this.rmiRegistry = LocateRegistry.createRegistry(0);
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
 	}
 }

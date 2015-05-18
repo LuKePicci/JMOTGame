@@ -13,31 +13,37 @@ import org.junit.Test;
 
 public class TestSocketAcceptance {
 
+	static Thread serverThread;
 	static SocketAcceptance server;
 	static Semaphore sem = new Semaphore(0);
-	
+
 	public int randomPort;
-	
+
 	@BeforeClass
-	public static void initAcceptance(){
+	public static void initAcceptance() {
 		SocketAcceptance.randomizePort = true;
 		server = new SocketAcceptance();
+		serverThread = new Thread(server, "TestServer");
+		serverThread.start();
 		try {
 			Thread.sleep(1000);
-		} catch (InterruptedException e) {	}
+		} catch (InterruptedException e) {
+		}
 		sem.release();
 	}
-	
+
 	@AfterClass
-	public static void closeAcceptance(){
-		server.StopServer();;
+	public static void closeAcceptance() {
+		server.StopServer();
+		;
 		try {
-			server.join();
+			serverThread.join();
+
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Test
 	public void shouldAcceptMoreSocketClients() throws IOException {
 		try {
@@ -46,15 +52,16 @@ public class TestSocketAcceptance {
 			e.printStackTrace();
 		}
 		Socket soc = new Socket("127.0.0.1", server.randomPort);
-		
-		boolean success = !(new DataInputStream(soc.getInputStream()).readBoolean());
+
+		boolean success = !(new DataInputStream(soc.getInputStream())
+				.readBoolean());
 		soc.close();
 		assertTrue(success);
-		
+
 		success = false;
-		
+
 		soc = new Socket("127.0.0.1", server.randomPort);
-		
+
 		success = !(new DataInputStream(soc.getInputStream()).readBoolean());
 		soc.close();
 		assertTrue(success);
