@@ -1,14 +1,26 @@
 package it.polimi.ingsw.cg_30;
 
-public class MessageController
-{
-	public PartyController myParty;
+public class MessageController {
 
+	private AcceptPlayer myAP; // Bind the connected player
 
-	public void deliver(IMessage msg)
-	{
-		throw new UnsupportedOperationException();
+	private PartyController myParty; // to its party
+	
+	public MessageController(AcceptPlayer ap) {
+		this.myAP = ap;
 	}
 
+	public void deliver(Message msg) {
+		switch (msg.getType()) {
+		case ActionMessage:
+			break;
+		case ChatMessage:
+			break;
+		case PartyMessage:
+			break;
+		case InitMessage:
+			break;
+		}
 }
 
+}

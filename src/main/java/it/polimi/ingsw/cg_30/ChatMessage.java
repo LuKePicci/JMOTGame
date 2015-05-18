@@ -1,15 +1,28 @@
 package it.polimi.ingsw.cg_30;
 
-public class ChatMessage implements IMessage {
-	private ChatRequest Message;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 
-	public ChatRequest getMessage() {
-		return Message;
-	}
+@XmlRootElement(name = "Message")
+@XmlAccessorType(XmlAccessType.NONE)
+public class ChatMessage extends Message {
 
 	public ChatMessage(ChatRequest request) {
-		Message = request;
-		
+		super(MessageType.ChatMessage);
+		super.content = request;
 	}
 
+	public ChatRequest getContent() {
+		return (ChatRequest) super.getRawContent();
+	}
+
+	protected void setContent(ChatRequest content) {
+		super.setRawContent(content);
+	}
+
+	@SuppressWarnings("unused")
+	private ChatMessage() {
+		// local attributes initialization by JAXB
+	}
 }
