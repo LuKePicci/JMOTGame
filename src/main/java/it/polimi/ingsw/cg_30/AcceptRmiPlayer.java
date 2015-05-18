@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.UUID;
 
 public class AcceptRmiPlayer extends AcceptPlayer implements IAcceptRmiPlayer {
-	private Message rcvMessage, sndMessage;
+	protected Message rcvMessage, sndMessage;
 	private IRmiClient rmiClient;
 	private String rmiSessionId;
 	private Registry rmiRegistry;
