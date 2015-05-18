@@ -4,12 +4,11 @@ public class HatchCard extends Card {
 	private HatchChance chance;
 
 	public HatchChance getChance() {
-		throw new UnsupportedOperationException();
+		return chance;
 	}
-	
-	//COSTRUTTORE
-	/*public HatchCard(){
-		this.chance=???;
-	}*/
+
+	public HatchCard(HatchChance chance) {
+		this.chance = chance;
+	}
 
 }

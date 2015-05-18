@@ -1,24 +1,29 @@
 package it.polimi.ingsw.cg_30;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
-public class Party implements Serializable{
-	private Iterable<Player> members;
-
+public class Party implements Serializable {
+	private Map<Player, MessageController> members;
 	private String name;
 
 	public String getName() {
 		return name;
 	}
 
-	public Iterable<Player> getMembers() {
+	public Map<Player, MessageController> getMembers() {
 		return members;
 	}
-
-	// CREAZIONE DI UN NUOVO PARTY DATO UN GIOCATORE
-	public Party(Player newPlayer) {
-		// this.members=new //da implementare, forse posso usare add
+	
+	public void addToParty(MessageController message){
+		members.put(new Player(), message);
+	}
+	
+	public Party(String name){
+		this.name=name;
+		this.members=new HashMap<Player, MessageController>();
 	}
 
 }
