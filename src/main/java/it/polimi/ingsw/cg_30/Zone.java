@@ -1,8 +1,9 @@
 package it.polimi.ingsw.cg_30;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Zone
+public class Zone implements Serializable
 {
 	private Iterable<Sector> sectors;
 
@@ -53,4 +54,3 @@ public class Zone
 	}
 
 }
-
