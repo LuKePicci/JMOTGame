@@ -21,8 +21,8 @@ public class TestSocketAcceptance {
 
 	@BeforeClass
 	public static void initAcceptance() {
-		SocketAcceptance.randomizePort = true;
 		server = new SocketAcceptance();
+		server.randomizePort();
 		serverThread = new Thread(server, "TestServer");
 		serverThread.start();
 		try {

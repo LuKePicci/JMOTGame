@@ -8,7 +8,7 @@ import java.net.Socket;
 public class SocketAcceptance extends PlayerAcceptance {
 
 	public static final int DEFAULT_SERVER_PORT = 22222;
-	public static boolean randomizePort = false;
+	private boolean randomizePort = false;
 
 	private ServerSocket soc;
 	public int randomPort = 0;
@@ -19,6 +19,10 @@ public class SocketAcceptance extends PlayerAcceptance {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void randomizePort() {
+		this.randomizePort = true;
 	}
 
 	public void StopServer() {
