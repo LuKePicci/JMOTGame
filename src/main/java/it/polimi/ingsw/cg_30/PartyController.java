@@ -6,12 +6,12 @@ import java.util.Map;
 public class PartyController {
 	private static Map<Party, PartyController> parties = new HashMap<Party, PartyController>();
 
-	private Party Party;
+	private Party currentParty;
 
 	private MatchController currentMatch;
 
-	public PartyController(Player leader) {
-		this.currentParty = new Party();
+	public PartyController(AcceptPlayer leader) {
+		this.currentParty = new Party(leader.getName());
 		this.addToParty(leader);
 	}
 
@@ -19,8 +19,9 @@ public class PartyController {
 		throw new UnsupportedOperationException();
 	}
 
-	private void addToParty(Player player) {
-		this.currentParty.getMembers().add(player);
+	public void addToParty(AcceptPlayer player) {
+		Player p = new Player();
+		this.currentParty.getMembers().put(p, player);
 	}
 
 	public Party getCurrentParty() {
