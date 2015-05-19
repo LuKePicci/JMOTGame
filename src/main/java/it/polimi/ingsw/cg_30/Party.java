@@ -16,14 +16,14 @@ public class Party implements Serializable {
 	public Map<Player, MessageController> getMembers() {
 		return members;
 	}
-	
+
 	public void addToParty(MessageController message){
 		members.put(new Player(), message);
 	}
-	
+
 	public Party(String name){
 		this.name=name;
 		this.members=new HashMap<Player, MessageController>();
-	}
+}
 
 }

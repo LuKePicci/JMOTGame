@@ -118,6 +118,7 @@ public class AcceptSocketPlayer extends AcceptPlayer {
 					.getBytes());
 
 			this.dout.writeUTF(dataToSend);
+			this.dout.flush();
 			this.lastSentData = dataToSend;
 		} catch (IOException e) {
 			try {
