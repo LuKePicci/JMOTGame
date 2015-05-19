@@ -6,9 +6,9 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.net.Socket;
-import java.util.Base64;
 import java.util.Date;
 
+import javax.xml.bind.DatatypeConverter;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -109,10 +109,14 @@ public class AcceptSocketPlayer extends AcceptPlayer {
 		try {
 			// Marshall, encode and send Message objects to output stream
 			String clearXml = this.msgToXML(message);
-			byte[] encodedBytes = Base64.getEncoder().encode(
-					clearXml.getBytes());
 
-			String dataToSend = new String(encodedBytes);
+			// byte[] encodedBytes = Base64.getEncoder().encode(
+			// clearXml.getBytes());
+			// String dataToSend = new String(encodedBytes);
+
+			String dataToSend = DatatypeConverter.printBase64Binary(clearXml
+					.getBytes());
+
 			this.dout.writeUTF(dataToSend);
 			this.lastSentData = dataToSend;
 		} catch (IOException e) {
@@ -134,8 +138,12 @@ public class AcceptSocketPlayer extends AcceptPlayer {
 
 		this.lastMessage = new Date();
 
-		byte[] decodedBytes = Base64.getDecoder().decode(encoded.getBytes());
-		String decodedXml = new String(decodedBytes);
+		// byte[] decodedBytes = Base64.getDecoder().decode(encoded.getBytes());
+		// String decodedXml = new String(decodedBytes);
+
+		String decodedXml = new String(
+				DatatypeConverter.parseBase64Binary(encoded));
+
 		return this.msgFromXML(decodedXml);
 	}
 
