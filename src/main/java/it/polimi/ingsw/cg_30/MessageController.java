@@ -19,6 +19,7 @@ public class MessageController {
 		case PartyMessage:
 			break;
 		case InitMessage:
+
 			break;
 		}
 	}
