@@ -5,34 +5,34 @@ import java.util.Date;
 
 public abstract class AcceptPlayer extends Thread {
 
-	private String myNickName;
+    private String myNickName;
 
-	public String getNickName() {
-		return this.myNickName;
-	}
+    public String getNickName() {
+        return this.myNickName;
+    }
 
-	public void setNickName(String name) {
-		this.myNickName = name;
-	}
+    public void setNickName(String name) {
+        this.myNickName = name;
+    }
 
-	protected Date lastMessage;
+    protected Date lastMessage;
 
-	public Date getLastMessageDate() {
-		return lastMessage;
-	}
+    public Date getLastMessageDate() {
+        return lastMessage;
+    }
 
-	protected MessageController mc = new MessageController(this);
+    protected MessageController mc = new MessageController(this);
 
-	protected AcceptPlayer() {
+    protected AcceptPlayer() {
 
-	}
+    }
 
-	abstract public void sendMessage(Message message);
+    abstract public void sendMessage(Message message);
 
-	abstract protected Message receiveMessage() throws IOException;
+    abstract protected Message receiveMessage() throws IOException;
 
-	@Override
-	abstract public void run();
+    @Override
+    abstract public void run();
 
-	abstract public void ping();
+    abstract public void ping();
 }

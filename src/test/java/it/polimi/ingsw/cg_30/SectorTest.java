@@ -6,12 +6,12 @@ import org.junit.Test;
 
 public class SectorTest {
 
-	@Test
-	public void SectorTest() {
-		HexPoint he = HexPoint.hexPointCubic(1, 2);
-		Sector ex = new Sector(SectorType.Secure, he);
-		assertEquals(SectorType.Secure, ex.getType());
-		assertEquals(he, ex.getPoint());
-	}
+    @Test
+    public void SectorTest() {
+        HexPoint he = HexPoint.hexPointCubic(1, 2);
+        Sector ex = new Sector(SectorType.Secure, he);
+        assertEquals(SectorType.Secure, ex.getType());
+        assertEquals(he, ex.getPoint());
+    }
 
 }

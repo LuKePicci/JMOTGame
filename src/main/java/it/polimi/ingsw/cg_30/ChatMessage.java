@@ -8,21 +8,21 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class ChatMessage extends Message {
 
-	public ChatMessage(ChatRequest request) {
-		super(MessageType.ChatMessage);
-		super.content = request;
-	}
+    public ChatMessage(ChatRequest request) {
+        super(MessageType.ChatMessage);
+        super.content = request;
+    }
 
-	public ChatRequest getContent() {
-		return (ChatRequest) super.getRawContent();
-	}
+    public ChatRequest getContent() {
+        return (ChatRequest) super.getRawContent();
+    }
 
-	protected void setContent(ChatRequest content) {
-		super.setRawContent(content);
-	}
+    protected void setContent(ChatRequest content) {
+        super.setRawContent(content);
+    }
 
-	@SuppressWarnings("unused")
-	private ChatMessage() {
-		// local attributes initialization by JAXB
-	}
+    @SuppressWarnings("unused")
+    private ChatMessage() {
+        // local attributes initialization by JAXB
+    }
 }

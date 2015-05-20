@@ -7,21 +7,21 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "Message")
 @XmlAccessorType(XmlAccessType.NONE)
 public class PartyMessage extends Message {
-	public PartyMessage(PartyRequest request) {
-		super(MessageType.PartyMessage);
-		this.content = request;
-	}
+    public PartyMessage(PartyRequest request) {
+        super(MessageType.PartyMessage);
+        this.content = request;
+    }
 
-	public PartyRequest getContent() {
-		return (PartyRequest) super.getRawContent();
-	}
+    public PartyRequest getContent() {
+        return (PartyRequest) super.getRawContent();
+    }
 
-	protected void setContent(PartyRequest content) {
-		super.setRawContent(content);
-	}
+    protected void setContent(PartyRequest content) {
+        super.setRawContent(content);
+    }
 
-	@SuppressWarnings("unused")
-	private PartyMessage() {
-		// local attributes initialization by JAXB
-	}
+    @SuppressWarnings("unused")
+    private PartyMessage() {
+        // local attributes initialization by JAXB
+    }
 }

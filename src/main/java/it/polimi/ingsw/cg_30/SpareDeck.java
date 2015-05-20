@@ -5,21 +5,21 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class SpareDeck extends Deck {
-	
-	private Set<Card> cards;
 
-	public Set<Card> getCards() {
-		return cards;
-	}
+    private Set<Card> cards;
 
-	// COSTRUTTORE
-	public SpareDeck() {
-		this.cards = new HashSet<Card>();
-	}
+    public Set<Card> getCards() {
+        return cards;
+    }
 
-	@Override
-	public Collection getCardCollection() {
-		return this.cards;
-	}
+    // COSTRUTTORE
+    public SpareDeck() {
+        this.cards = new HashSet<Card>();
+    }
+
+    @Override
+    public Collection getCardCollection() {
+        return this.cards;
+    }
 
 }

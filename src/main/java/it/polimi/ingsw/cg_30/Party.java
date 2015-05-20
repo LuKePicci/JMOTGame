@@ -6,26 +6,39 @@ import java.util.Map;
 
 public class Party implements Serializable {
 
-	private static final long serialVersionUID = 228808363452233075L;
+    private static final long serialVersionUID = 228808363452233075L;
 
-	private Map<Player, AcceptPlayer> members;
-	private String name;
+    private Map<Player, AcceptPlayer> members;
+    private String name;
+    private Game currentGame;
+    private Boolean privateParty;
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public Map<Player, AcceptPlayer> getMembers() {
-		return members;
-	}
+    public Game getGame() {
+        return this.currentGame;
+    }
 
-	public void addToParty(AcceptPlayer client) {
-		members.put(new Player(), client);
-	}
+    public Boolean isPrivate() {
+        return this.privateParty;
+    }
 
-	public Party(String name) {
-		this.name = name;
-		this.members = new HashMap<Player, AcceptPlayer>();
-	}
+    public Map<Player, AcceptPlayer> getMembers() {
+        return members;
+    }
+
+    public Party addToParty(AcceptPlayer client) {
+        members.put(new Player(), client);
+        return this;
+    }
+
+    public Party(String name, Game g, Boolean privateParty) {
+        this.name = name;
+        this.privateParty = privateParty;
+        this.currentGame = g;
+        this.members = new HashMap<Player, AcceptPlayer>();
+    }
 
 }

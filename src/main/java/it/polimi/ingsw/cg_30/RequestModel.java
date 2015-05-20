@@ -12,21 +12,21 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 @XmlSeeAlso({ ActionRequest.class, ChatRequest.class, PartyRequest.class })
 public abstract class RequestModel implements Serializable {
 
-	private static final long serialVersionUID = 5763649894549251901L;
+    private static final long serialVersionUID = 5763649894549251901L;
 
-	protected Date updatedAt;
+    protected Date updatedAt;
 
-	@XmlAttribute(name = "Date")
-	public Date getDate() {
-		return this.updatedAt;
-	}
+    @XmlAttribute(name = "Date")
+    public Date getDate() {
+        return this.updatedAt;
+    }
 
-	public void setDate(Date d) {
-		this.updatedAt = d;
-	}
+    public void setDate(Date d) {
+        this.updatedAt = d;
+    }
 
-	protected RequestModel() {
-		this.setDate(new Date());
-	}
+    protected RequestModel() {
+        this.setDate(new Date());
+    }
 
 }

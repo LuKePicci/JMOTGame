@@ -5,5 +5,5 @@ import java.rmi.RemoteException;
 
 public interface IAcceptRmiPlayer extends Remote {
 
-	public void toServer(Message msg) throws RemoteException;
+    public void toServer(Message msg) throws RemoteException;
 }

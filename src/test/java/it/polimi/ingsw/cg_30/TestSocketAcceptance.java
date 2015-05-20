@@ -13,58 +13,58 @@ import org.junit.Test;
 
 public class TestSocketAcceptance {
 
-	static Thread serverThread;
-	static SocketAcceptance server;
-	static Semaphore sem = new Semaphore(0);
+    static Thread serverThread;
+    static SocketAcceptance server;
+    static Semaphore sem = new Semaphore(0);
 
-	public int randomPort;
+    public int randomPort;
 
-	@BeforeClass
-	public static void initAcceptance() {
-		server = new SocketAcceptance();
-		server.randomizePort();
-		serverThread = new Thread(server, "TestServer");
-		serverThread.start();
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-		}
-		sem.release();
-	}
+    @BeforeClass
+    public static void initAcceptance() {
+        server = new SocketAcceptance();
+        server.randomizePort();
+        serverThread = new Thread(server, "TestServer");
+        serverThread.start();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+        }
+        sem.release();
+    }
 
-	@AfterClass
-	public static void closeAcceptance() {
-		server.StopServer();
-		;
-		try {
-			serverThread.join();
+    @AfterClass
+    public static void closeAcceptance() {
+        server.StopServer();
+        ;
+        try {
+            serverThread.join();
 
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
-	@Test
-	public void shouldAcceptMoreSocketClients() throws IOException {
-		try {
-			sem.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		Socket soc = new Socket("127.0.0.1", server.randomPort);
+    @Test
+    public void shouldAcceptMoreSocketClients() throws IOException {
+        try {
+            sem.acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Socket soc = new Socket("127.0.0.1", server.randomPort);
 
-		boolean success = !(new DataInputStream(soc.getInputStream())
-				.readBoolean());
-		soc.close();
-		assertTrue(success);
+        boolean success = !(new DataInputStream(soc.getInputStream())
+                .readBoolean());
+        soc.close();
+        assertTrue(success);
 
-		success = false;
+        success = false;
 
-		soc = new Socket("127.0.0.1", server.randomPort);
+        soc = new Socket("127.0.0.1", server.randomPort);
 
-		success = !(new DataInputStream(soc.getInputStream()).readBoolean());
-		soc.close();
-		assertTrue(success);
-	}
+        success = !(new DataInputStream(soc.getInputStream()).readBoolean());
+        soc.close();
+        assertTrue(success);
+    }
 
 }

@@ -5,7 +5,7 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({ TestSocketAcceptance.class, TestAcceptSocketPlayer.class,
-		TestAcceptRmiPlayer.class })
+        TestAcceptRmiPlayer.class })
 public class GameManagerTestSuite {
 
 }

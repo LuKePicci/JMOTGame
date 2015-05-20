@@ -2,26 +2,40 @@ package it.polimi.ingsw.cg_30;
 
 public class MessageController {
 
-	private AcceptPlayer myAP; // Bind the connected player
+    private AcceptPlayer myAP; // Bind the connected player
 
-	private PartyController myParty; // to its party
-	
-	public MessageController(AcceptPlayer ap) {
-		this.myAP = ap;
-	}
+    private PartyController myParty; // to its party
 
-	public void deliver(Message msg) {
-		switch (msg.getType()) {
-		case ActionMessage:
-			break;
-		case ChatMessage:
-			break;
-		case PartyMessage:
-			break;
-		case InitMessage:
+    public MessageController(AcceptPlayer ap) {
+        this.myAP = ap;
+    }
 
-			break;
-		}
-}
+    public void deliver(Message msg) {
+        switch (msg.getType()) {
+            case ChatMessage:
+                break;
 
+            case JoinMessage:
+                myParty = PartyController.processJoinRequest(myAP,
+                        ((JoinMessage) msg).getContent());
+                break;
+
+            case ActionMessage:
+                if (isJoined()) {
+
+                }
+                break;
+
+            case PartyMessage:
+                if (isJoined()) {
+
+                }
+                break;
+
+        }
+    }
+
+    private boolean isJoined() {
+        return this.myParty != null;
+    }
 }

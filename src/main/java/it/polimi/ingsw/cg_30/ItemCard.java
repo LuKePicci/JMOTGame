@@ -1,14 +1,14 @@
 package it.polimi.ingsw.cg_30;
 
 public class ItemCard extends Card {
-	private Item item;
+    private Item item;
 
-	public Item getItem() {
-		return item;
-	}
+    public Item getItem() {
+        return item;
+    }
 
-	public ItemCard(Item item) {
-		this.item = item;
-	}
+    public ItemCard(Item item) {
+        this.item = item;
+    }
 
 }

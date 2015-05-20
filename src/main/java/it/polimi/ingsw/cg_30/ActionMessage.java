@@ -8,21 +8,21 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class ActionMessage extends Message {
 
-	public ActionMessage(ActionRequest request) {
-		super(MessageType.ActionMessage);
-		this.content = request;
-	}
+    public ActionMessage(ActionRequest request) {
+        super(MessageType.ActionMessage);
+        this.content = request;
+    }
 
-	public ActionRequest getContent() {
-		return (ActionRequest) super.getRawContent();
-	}
+    public ActionRequest getContent() {
+        return (ActionRequest) super.getRawContent();
+    }
 
-	protected void setContent(ActionRequest content) {
-		super.setRawContent(content);
-	}
+    protected void setContent(ActionRequest content) {
+        super.setRawContent(content);
+    }
 
-	@SuppressWarnings("unused")
-	private ActionMessage() {
-		// local attributes initialization by JAXB
-	}
+    @SuppressWarnings("unused")
+    private ActionMessage() {
+        // local attributes initialization by JAXB
+    }
 }

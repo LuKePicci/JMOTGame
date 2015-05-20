@@ -12,39 +12,39 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 @XmlSeeAlso({ ActionMessage.class, ChatMessage.class, PartyMessage.class })
 public abstract class Message implements Serializable {
 
-	private static final long serialVersionUID = -7712280460808337633L;
+    private static final long serialVersionUID = -7712280460808337633L;
 
-	protected MessageType msgType;
+    protected MessageType msgType;
 
-	protected RequestModel content;
+    protected RequestModel content;
 
-	@XmlAttribute(name = "MessageType")
-	public final MessageType getType() {
-		return this.msgType;
-	}
+    @XmlAttribute(name = "MessageType")
+    public final MessageType getType() {
+        return this.msgType;
+    }
 
-	@SuppressWarnings("unused")
-	private final void setType(MessageType type) {
-		this.msgType = type;
-	}
+    @SuppressWarnings("unused")
+    private final void setType(MessageType type) {
+        this.msgType = type;
+    }
 
-	@XmlElement(name = "Content")
-	public RequestModel getRawContent() {
-		return this.content;
-	}
+    @XmlElement(name = "Content")
+    public RequestModel getRawContent() {
+        return this.content;
+    }
 
-	protected void setRawContent(RequestModel content) {
-		this.content = content;
-	}
+    protected void setRawContent(RequestModel content) {
+        this.content = content;
+    }
 
-	// Object From;
-	// Object To;
+    // Object From;
+    // Object To;
 
-	protected Message(MessageType t) {
-		this.msgType = t;
-	}
+    protected Message(MessageType t) {
+        this.msgType = t;
+    }
 
-	protected Message() {
-		// local attributes initialization by JAXB
-	}
+    protected Message() {
+        // local attributes initialization by JAXB
+    }
 }
