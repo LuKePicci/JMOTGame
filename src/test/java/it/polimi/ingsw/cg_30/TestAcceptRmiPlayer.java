@@ -47,8 +47,7 @@ public class TestAcceptRmiPlayer implements IRmiClient {
                         thisTest.noError = true;
                 }
             };
-            serverThread = new Thread(rmiServer, "rmiTesting");
-            serverThread.start();
+
             IRmiClient stub = (IRmiClient) UnicastRemoteObject.exportObject(
                     this, 0);
             testRegistry.rebind("client-rmiTesting", stub);
