@@ -7,6 +7,7 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.net.Socket;
 import java.util.Date;
+import java.util.UUID;
 
 import javax.xml.bind.DatatypeConverter;
 import javax.xml.bind.JAXBContext;
@@ -25,6 +26,11 @@ public class AcceptSocketPlayer extends AcceptPlayer implements Runnable {
     private String lastSentData = null;
 
     public AcceptSocketPlayer(Socket soc) {
+        this(UUID.randomUUID(), soc);
+    }
+
+    public AcceptSocketPlayer(UUID sid, Socket soc) {
+        super(sid);
         this.mySoc = soc;
 
         DataInputStream din = null;
@@ -73,7 +79,7 @@ public class AcceptSocketPlayer extends AcceptPlayer implements Runnable {
     @Override
     public void ping() {
         try {
-            dout.writeBoolean(false);
+            dout.writeUTF(this.sessionId.toString());
         } catch (IOException e) {
             try {
                 this.mySoc.close();

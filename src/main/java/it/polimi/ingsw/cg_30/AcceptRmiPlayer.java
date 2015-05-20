@@ -11,20 +11,25 @@ import java.util.UUID;
 public class AcceptRmiPlayer extends AcceptPlayer implements IAcceptRmiPlayer {
     protected Message rcvMessage, sndMessage;
     private IRmiClient rmiClient;
-    private String rmiSessionId;
+    private UUID rmiSessionId;
     private Registry rmiRegistry;
 
-    public AcceptRmiPlayer(String rmiSessionId, Registry rmiReg)
+    public AcceptRmiPlayer() throws RemoteException {
+        this(UUID.randomUUID(), LocateRegistry.getRegistry());
+    }
+
+    public AcceptRmiPlayer(Registry reg) throws RemoteException {
+        this(UUID.randomUUID(), reg);
+    }
+
+    public AcceptRmiPlayer(UUID rmiSessionId, Registry rmiReg)
             throws RemoteException {
+        super(rmiSessionId);
         this.rmiSessionId = rmiSessionId;
         this.rmiRegistry = rmiReg;
         IAcceptRmiPlayer stub = (IAcceptRmiPlayer) UnicastRemoteObject
                 .exportObject(this, 0);
         this.rmiRegistry.rebind("server-" + rmiSessionId, stub);
-    }
-
-    public AcceptRmiPlayer() throws RemoteException {
-        this(UUID.randomUUID().toString(), LocateRegistry.getRegistry());
     }
 
     public Registry getRegistry() {

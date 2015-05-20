@@ -1,10 +1,11 @@
 package it.polimi.ingsw.cg_30;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.UUID;
 import java.util.concurrent.Semaphore;
 
 import org.junit.AfterClass;
@@ -46,25 +47,29 @@ public class TestSocketAcceptance {
 
     @Test
     public void shouldAcceptMoreSocketClients() throws IOException {
+
         try {
             sem.acquire();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        Socket soc = new Socket("127.0.0.1", server.randomPort);
 
-        boolean success = !(new DataInputStream(soc.getInputStream())
-                .readBoolean());
-        soc.close();
-        assertTrue(success);
+        UUID clientId;
 
-        success = false;
+        for (int i = 0; i < 10; i++) {
+            clientId = null;
+            Socket soc = new Socket("127.0.0.1", server.randomPort);
 
-        soc = new Socket("127.0.0.1", server.randomPort);
-
-        success = !(new DataInputStream(soc.getInputStream()).readBoolean());
-        soc.close();
-        assertTrue(success);
+            String response = (new DataInputStream(soc.getInputStream())
+                    .readUTF());
+            try {
+                clientId = UUID.fromString(response);
+            } catch (IllegalArgumentException e) {
+                // Test will fail
+            }
+            soc.close();
+            assertNotNull(clientId);
+        }
     }
 
 }

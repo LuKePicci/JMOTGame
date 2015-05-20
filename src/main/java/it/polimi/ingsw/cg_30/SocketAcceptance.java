@@ -36,6 +36,7 @@ public class SocketAcceptance extends PlayerAcceptance {
 
     @Override
     protected void acceptance() {
+        Thread.currentThread().setName("SocketServerAcceptance");
         try {
             soc.setReuseAddress(true);
             soc.bind(new InetSocketAddress(randomizePort ? 0
@@ -47,7 +48,7 @@ public class SocketAcceptance extends PlayerAcceptance {
                     cSoc = soc.accept();
                     AcceptSocketPlayer gameClient = new AcceptSocketPlayer(cSoc);
                     gameClient.ping();
-                    new Thread(gameClient).start();
+                    GameServer.execute(gameClient);
                     this.connections.add(gameClient);
                 } catch (IOException e) {
                     System.out.println("Server " + soc.hashCode()

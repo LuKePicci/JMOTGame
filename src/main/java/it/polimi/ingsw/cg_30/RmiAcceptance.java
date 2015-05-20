@@ -20,6 +20,7 @@ public class RmiAcceptance extends PlayerAcceptance implements IRmiAcceptance {
 
     @Override
     protected void acceptance() {
+        Thread.currentThread().setName("RmiServerAcceptance");
         try {
             this.rmiRegistry = LocateRegistry.createRegistry(0);
         } catch (RemoteException e) {
@@ -36,19 +37,19 @@ public class RmiAcceptance extends PlayerAcceptance implements IRmiAcceptance {
     }
 
     @Override
-    public String present() {
-        // Generate random session id
-        String rmiSessionId = UUID.randomUUID().toString();
+    public UUID present() {
+        UUID ret = null;
         try {
-            AcceptRmiPlayer gmClient = new AcceptRmiPlayer(rmiSessionId,
-                    this.rmiRegistry);
-            PortableRemoteObject.exportObject(gmClient);
-            Naming.rebind(rmiSessionId, gmClient);
+            AcceptRmiPlayer gameClient = new AcceptRmiPlayer(this.rmiRegistry);
+            PortableRemoteObject.exportObject(gameClient);
+            Naming.rebind("server-" + gameClient.getUUID(), gameClient);
+            this.connections.add(gameClient);
+            ret = gameClient.getUUID();
         } catch (RemoteException e) {
             e.printStackTrace();
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-        return rmiSessionId;
+        return ret;
     }
 }
