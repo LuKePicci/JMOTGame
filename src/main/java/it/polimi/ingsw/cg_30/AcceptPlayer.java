@@ -3,7 +3,7 @@ package it.polimi.ingsw.cg_30;
 import java.io.IOException;
 import java.util.Date;
 
-public abstract class AcceptPlayer extends Thread {
+public abstract class AcceptPlayer {
 
     private String myNickName;
 
@@ -30,9 +30,6 @@ public abstract class AcceptPlayer extends Thread {
     abstract public void sendMessage(Message message);
 
     abstract protected Message receiveMessage() throws IOException;
-
-    @Override
-    abstract public void run();
 
     abstract public void ping();
 }

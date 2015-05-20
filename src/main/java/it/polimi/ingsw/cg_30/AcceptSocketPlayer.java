@@ -14,7 +14,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
-public class AcceptSocketPlayer extends AcceptPlayer {
+public class AcceptSocketPlayer extends AcceptPlayer implements Runnable {
     private final Socket mySoc;
     private final DataInputStream din;
     private final DataOutputStream dout;
@@ -75,8 +75,11 @@ public class AcceptSocketPlayer extends AcceptPlayer {
         try {
             dout.writeBoolean(false);
         } catch (IOException e) {
-            e.printStackTrace();
-            this.interrupt();
+            try {
+                this.mySoc.close();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
         }
     }
 
@@ -87,19 +90,18 @@ public class AcceptSocketPlayer extends AcceptPlayer {
     @Override
     final public void run() {
         while (this.mySoc.isConnected() && !this.mySoc.isClosed()
-                && !this.isInterrupted()) {
+                && !Thread.interrupted()) {
             try {
                 this.mc.deliver(receiveMessage());
             } catch (IOException e) {
                 try {
                     this.mySoc.close();
                 } catch (IOException e1) {
+                    e1.printStackTrace();
                 }
 
                 System.out.println("Socket " + this.mySoc.hashCode()
                         + " closed because of " + e.toString());
-
-                this.interrupt();
             }
         }
     }
@@ -127,8 +129,6 @@ public class AcceptSocketPlayer extends AcceptPlayer {
             }
             System.out.println("Socket " + this.mySoc.hashCode()
                     + " closed because of " + e.toString());
-
-            this.interrupt();
         }
     }
 

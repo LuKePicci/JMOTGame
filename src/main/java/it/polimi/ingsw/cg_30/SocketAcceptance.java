@@ -42,12 +42,12 @@ public class SocketAcceptance extends PlayerAcceptance {
                     : DEFAULT_SERVER_PORT));
             this.randomPort = soc.getLocalPort();
             while (!Thread.interrupted()) {
-                Socket CSoc;
+                Socket cSoc;
                 try {
-                    CSoc = soc.accept();
-                    AcceptPlayer gameClient = new AcceptSocketPlayer(CSoc);
+                    cSoc = soc.accept();
+                    AcceptSocketPlayer gameClient = new AcceptSocketPlayer(cSoc);
                     gameClient.ping();
-                    gameClient.start();
+                    new Thread(gameClient).start();
                     this.connections.add(gameClient);
                 } catch (IOException e) {
                     System.out.println("Server " + soc.hashCode()

@@ -72,12 +72,7 @@ public class AcceptRmiPlayer extends AcceptPlayer implements IAcceptRmiPlayer {
     }
 
     @Override
-    final public void run() {
-
-    }
-
-    @Override
     public void ping() {
-
+        // TODO Not implemented yet
     }
 }
