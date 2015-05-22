@@ -1,14 +1,12 @@
 package it.polimi.ingsw.cg_30;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.UUID;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -17,79 +15,63 @@ import org.junit.Test;
 public class TestAcceptRmiPlayer implements IRmiClient {
 
     private static final String TEST_MESSAGE_TEXT = "Rmi Message Testing";
-    private AcceptRmiPlayer rmiServer;
-    private TestAcceptRmiPlayer thisTest;
-    private boolean noError;
-    private static IAcceptRmiPlayer rmiClient;
-    private static Registry testRegistry;
-    private UUID serverUUID;
+    private static RmiAcceptance rmiServer = new RmiAcceptance();
+
+    private Registry rmiReg;
+
+    private IRmiClient clientSkel;
+    private IRmiAcceptance serverStub;
+    private IAcceptRmiPlayer acceptStub;
+
+    private AcceptRmiPlayer rmiAcceptServer;
 
     @BeforeClass
-    public static void fakeRegistry() {
-        try {
-            testRegistry = LocateRegistry.createRegistry(0);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+    public static void initServer() {
+        rmiServer.acceptance();
     }
 
     @Before
-    public void fakeServer() {
-        this.noError = false;
-        thisTest = this;
+    public void initClient() {
         try {
-            rmiServer = new AcceptRmiPlayer(testRegistry) {
-                @Override
-                public synchronized void toServer(Message msg)
-                        throws RemoteException {
-                    super.rcvMessage = msg;
-                    ChatMessage cm = (ChatMessage) this.receiveMessage();
-                    if (cm.getContent().getText().equals(TEST_MESSAGE_TEXT))
-                        thisTest.noError = true;
-                }
-            };
+            this.rmiReg = LocateRegistry.getRegistry("localhost", 9090);
 
-            this.serverUUID = rmiServer.getUUID();
+            this.serverStub = (IRmiAcceptance) rmiReg.lookup("RmiServer");
 
-            IRmiClient stub = (IRmiClient) UnicastRemoteObject.exportObject(
+            this.clientSkel = (IRmiClient) UnicastRemoteObject.exportObject(
                     this, 0);
-            testRegistry.rebind("client-" + this.serverUUID, stub);
 
-            System.out.println("Dumb client bound");
+            this.acceptStub = this.serverStub.present(clientSkel);
+
+            System.out.println("Player connected by RMI {id:"
+                    + this.acceptStub.getUUID() + "}");
         } catch (RemoteException e) {
             e.printStackTrace();
+        } catch (NotBoundException e) {
+            e.printStackTrace();
         }
-
     }
 
     @Test
     public void shouldReceiveMessage() {
+        Message toSend = new ChatMessage(new ChatRequest(TEST_MESSAGE_TEXT));
         try {
-            rmiClient = (IAcceptRmiPlayer) testRegistry.lookup("server-"
-                    + this.serverUUID);
-            rmiClient.toServer(new ChatMessage(new ChatRequest(
-                    TEST_MESSAGE_TEXT)));
-            assertTrue(this.noError);
-        } catch (RemoteException | NotBoundException e) {
+            acceptStub.toServer(toSend);
+        } catch (RemoteException e) {
             e.printStackTrace();
         }
-        ChatMessage actual = (ChatMessage) this.rmiServer.receiveMessage();
-        assertEquals(TEST_MESSAGE_TEXT, actual.getContent().getText());
-
     }
 
     @Test
-    public void shouldSendMessage() {
-        this.rmiServer.sendMessage(new ChatMessage(new ChatRequest(
+    public void shouldSendMessage() throws RemoteException {
+        this.rmiAcceptServer = new AcceptRmiPlayer(clientSkel);
+        this.rmiAcceptServer.sendMessage(new ChatMessage(new ChatRequest(
                 TEST_MESSAGE_TEXT)));
-        assertTrue(noError);
     }
 
     @Override
-    public void toClient(Message msg) {
+    public void toClient(Message msg) throws RemoteException {
         ChatMessage unboxedMessage = (ChatMessage) msg;
 
         assertEquals(TEST_MESSAGE_TEXT, unboxedMessage.getContent().getText());
-        this.noError = true;
     }
 }

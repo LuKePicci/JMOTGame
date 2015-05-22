@@ -1,14 +1,9 @@
 package it.polimi.ingsw.cg_30;
 
-import java.net.MalformedURLException;
-import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.UUID;
-
-import javax.rmi.PortableRemoteObject;
 
 public class RmiAcceptance extends PlayerAcceptance implements IRmiAcceptance {
 
@@ -22,9 +17,15 @@ public class RmiAcceptance extends PlayerAcceptance implements IRmiAcceptance {
     protected void acceptance() {
         Thread.currentThread().setName("RmiServerAcceptance");
         try {
-            this.rmiRegistry = LocateRegistry.createRegistry(0);
+
+            this.rmiRegistry = LocateRegistry.createRegistry(9090);
+
         } catch (RemoteException e) {
-            e.printStackTrace();
+            try {
+                this.rmiRegistry = LocateRegistry.getRegistry(9090);
+            } catch (RemoteException e1) {
+                return;
+            }
         }
 
         try {
@@ -37,19 +38,14 @@ public class RmiAcceptance extends PlayerAcceptance implements IRmiAcceptance {
     }
 
     @Override
-    public UUID present() {
-        UUID ret = null;
+    public IAcceptRmiPlayer present(IRmiClient rmiClient) {
+        AcceptRmiPlayer gameClient = null;
         try {
-            AcceptRmiPlayer gameClient = new AcceptRmiPlayer(this.rmiRegistry);
-            PortableRemoteObject.exportObject(gameClient);
-            Naming.rebind("server-" + gameClient.getUUID(), gameClient);
+            gameClient = new AcceptRmiPlayer(rmiClient);
             this.connections.add(gameClient);
-            ret = gameClient.getUUID();
         } catch (RemoteException e) {
             e.printStackTrace();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
         }
-        return ret;
+        return gameClient;
     }
 }
