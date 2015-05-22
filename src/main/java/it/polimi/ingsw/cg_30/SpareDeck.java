@@ -4,22 +4,39 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * The Class SpareDeck.
+ */
 public class SpareDeck extends Deck {
-	
-	private Set<Card> cards;
 
-	public Set<Card> getCards() {
-		return cards;
-	}
+    /** The cards. */
+    private Set<Card> cards;
 
-	// COSTRUTTORE
-	public SpareDeck() {
-		this.cards = new HashSet<Card>();
-	}
+    /**
+     * Gets the cards.
+     *
+     * @return the cards
+     */
+    public Set<Card> getCards() {
+        return cards;
+    }
 
-	@Override
-	public Collection getCardCollection() {
-		return this.cards;
-	}
+    // COSTRUTTORE
+    /**
+     * Instantiates a new spare deck.
+     */
+    public SpareDeck() {
+        this.cards = new HashSet<Card>();
+    }
+
+    /**
+     * Gets the card collection.
+     *
+     * @return the card collection
+     */
+    @Override
+    public Collection getCardCollection() {
+        return this.cards;
+    }
 
 }

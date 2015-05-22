@@ -6,16 +6,16 @@ import java.util.Set;
 
 public abstract class Deck implements Serializable {
 
-	private Set<Card> bucket;
+    private Set<Card> bucket;
 
-	public abstract Collection getCardCollection();
-		
-	public void recycle() {
-		throw new UnsupportedOperationException();
-	}
+    public abstract Collection getCardCollection();
 
-	public void putIntoBucket(Card c) {
-		throw new UnsupportedOperationException();
-	}
+    public void recycle() {
+        throw new UnsupportedOperationException();
+    }
+
+    public void putIntoBucket(Card c) {
+        throw new UnsupportedOperationException();
+    }
 
 }

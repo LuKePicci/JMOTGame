@@ -6,10 +6,10 @@ import org.junit.Test;
 
 public class BackupTest {
 
-	@Test
-	public void BackupTest() {
-		Backup ex = new Backup(null);
-		assertEquals(null, ex.getActiveParty());
-	}
+    @Test
+    public void BackupTest() {
+        Backup ex = new Backup(null);
+        assertEquals(null, ex.getActiveParty());
+    }
 
 }

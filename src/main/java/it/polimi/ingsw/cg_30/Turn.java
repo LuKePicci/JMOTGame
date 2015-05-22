@@ -1,23 +1,27 @@
 package it.polimi.ingsw.cg_30;
 
-import java.io.Serializable;
 
+/**
+ * The Class Turn.
+ */
+public class Turn {
 
+    /** The must move. */
+    public boolean mustMove;
 
-public class Turn
-{
+    /** The can attack. */
+    public boolean canAttack;
 
-	public boolean mustMove;
+    /** The max steps. */
+    public int maxSteps;
 
-	public boolean canAttack;
+    /** The silence forced. */
+    public boolean silenceForced;
 
-	public int maxSteps;
+    /** The current player. */
+    public Player currentPlayer;
 
-	public boolean silenceForced;
-	
-	public Player currentPlayer;
-	
-	public boolean mustDiscard;
+    /** The must discard. */
+    public boolean mustDiscard;
 
 }
-

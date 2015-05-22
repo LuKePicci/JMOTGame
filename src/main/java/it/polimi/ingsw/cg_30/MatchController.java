@@ -1,60 +1,48 @@
 package it.polimi.ingsw.cg_30;
 
-public class MatchController
-{
-	public TurnController currentTurn;
+public class MatchController {
+    public TurnController currentTurn;
 
-	public PartyController currentParty;
+    public PartyController currentParty;
 
-	private StackedDeck itemsDeck;
-	private StackedDeck hatchesDeck;
-	private StackedDeck sectorsDeck;
+    private StackedDeck itemsDeck;
+    private StackedDeck hatchesDeck;
+    private StackedDeck sectorsDeck;
 
-	
-	private int turnCount;
-	
-	private ZoneController currentZone;
-	
-	
+    private int turnCount;
 
-	public int getTurnCount()
-	{
-		throw new UnsupportedOperationException();
-	}
+    private ZoneController currentZone;
 
-	private void initMatch()
-	{
-		throw new UnsupportedOperationException();
-	}
+    public int getTurnCount() {
+        throw new UnsupportedOperationException();
+    }
 
-	private TurnController newTurn()
-	{
-		throw new UnsupportedOperationException();
-	}
-	
-	public TurnController getCurrentTurn()
-	{
-		throw new UnsupportedOperationException();
-	}
+    private void initMatch() {
+        throw new UnsupportedOperationException();
+    }
 
-	public PartyController getCurrentParty()
-	{
-		throw new UnsupportedOperationException();
-	}
-	
-	public PartyController getItemsDeck()
-	{
-		throw new UnsupportedOperationException();
-	}
-	
-	public ZoneController getCurrentZone()
-	{
-		throw new UnsupportedOperationException();
-	}
-	
-	public void incrementTurnCount(){
-		turnCount++;
-	}
+    private TurnController newTurn() {
+        throw new UnsupportedOperationException();
+    }
+
+    public TurnController getCurrentTurn() {
+        throw new UnsupportedOperationException();
+    }
+
+    public PartyController getCurrentParty() {
+        throw new UnsupportedOperationException();
+    }
+
+    public PartyController getItemsDeck() {
+        throw new UnsupportedOperationException();
+    }
+
+    public ZoneController getCurrentZone() {
+        throw new UnsupportedOperationException();
+    }
+
+    public void incrementTurnCount() {
+        turnCount++;
+    }
 
 }
-

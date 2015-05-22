@@ -1,5 +1,14 @@
 package it.polimi.ingsw.cg_30;
 
+/**
+ * The Enum SectorEvent.
+ */
 public enum SectorEvent {
-	Silence, NoiseAny, NoiseYour,
+
+    /** The Silence. */
+    Silence,
+    /** The Noise any. */
+    NoiseAny,
+    /** The Noise your. */
+    NoiseYour,
 }
