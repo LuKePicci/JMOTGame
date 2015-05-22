@@ -1,10 +1,14 @@
 package it.polimi.ingsw.cg_30;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Stack;
 
+/**
+ * The Class StackedDeck.
+ */
 public class StackedDeck extends Deck {
+
+    /** The cards. */
     private Stack<Card> cards;
 
     public void shuffle() {
@@ -27,16 +31,29 @@ public class StackedDeck extends Deck {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Gets the card collection.
+     *
+     * @return the card collection
+     */
     @Override
     public Collection getCardCollection() {
         return cards;
     }
 
     // "COSTRUTTORI"
+    /**
+     * Instantiates a new stacked deck.
+     */
     private StackedDeck() {
         this.cards = new Stack<Card>();
     }
 
+    /**
+     * Stacked deck hatch.
+     *
+     * @return the stacked deck
+     */
     public StackedDeck StackedDeckHatch() {
         StackedDeck ex = new StackedDeck();
         ex.cards.push(new HatchCard(HatchChance.Free));
@@ -44,6 +61,11 @@ public class StackedDeck extends Deck {
         return ex;
     }
 
+    /**
+     * Stacked deck sector.
+     *
+     * @return the stacked deck
+     */
     public StackedDeck StackedDeckSector() {
         StackedDeck ex = new StackedDeck();
         ex.cards.push(new SectorCard(SectorEvent.Silence));
@@ -52,6 +74,11 @@ public class StackedDeck extends Deck {
         return ex;
     }
 
+    /**
+     * Stacked deck item.
+     *
+     * @return the stacked deck
+     */
     public StackedDeck StackedDeckItem() {
         StackedDeck ex = new StackedDeck();
         ex.cards.push(new ItemCard(Item.Attack));
