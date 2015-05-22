@@ -1,11 +1,11 @@
 package it.polimi.ingsw.cg_30;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class PartyController {
 
-    private static Map<Party, PartyController> parties = new HashMap<Party, PartyController>();
+    private static Map<Party, PartyController> parties = new ConcurrentHashMap<Party, PartyController>();
 
     private Party currentParty;
 
@@ -39,7 +39,7 @@ public class PartyController {
             pc = parties.get(p);
             if (p.getGame().sameGame(g)
                     && p.getMembers().size() <= p.getGame().getMaxPlayers()
-                    && pc.currentMatch == null)
+                    && pc.currentMatch == null && !p.isPrivate())
                 return p;
         }
         return null;
@@ -65,14 +65,14 @@ public class PartyController {
     public static PartyController processJoinRequest(AcceptPlayer playerClient,
             JoinRequest request) {
 
-        if (request.MyGame == null)
-            request.MyGame = new EftaiosGame(EftaiosGame.DEFAULT_MAP);
+        if (request.getGame() == null)
+            request.setGame(new EftaiosGame(EftaiosGame.DEFAULT_MAP));
 
-        if (request.IsPrivate)
-            return joinPrivateParty(playerClient, request.MyGame,
-                    request.PartyName);
+        if (request.isPrivate())
+            return joinPrivateParty(playerClient, request.getGame(),
+                    request.getPartyName());
         else
-            return joinPublicParty(playerClient, request.MyGame);
+            return joinPublicParty(playerClient, request.getGame());
     }
 
     public PartyController(Party p) {
