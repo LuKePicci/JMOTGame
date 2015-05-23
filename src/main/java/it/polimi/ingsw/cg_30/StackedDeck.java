@@ -16,7 +16,13 @@ public class StackedDeck extends Deck {
     }
 
     public Card pickCard() {
-        throw new UnsupportedOperationException();
+        return this.cards.pop();
+    }
+
+    public Card pickAndThrow() {
+        Card c = pickCard();
+        this.putIntoBucket(c);
+        return c;
     }
 
     public StackedDeck newStackedDeckHatch() {
@@ -54,10 +60,12 @@ public class StackedDeck extends Deck {
      *
      * @return the stacked deck
      */
-    public StackedDeck StackedDeckHatch() {
+    public static StackedDeck StackedDeckHatch() {
         StackedDeck ex = new StackedDeck();
-        ex.cards.push(new HatchCard(HatchChance.Free));
-        ex.cards.push(new HatchCard(HatchChance.Locked));
+        for (int i = 0; i < 3; i++) {
+            ex.cards.push(new HatchCard(HatchChance.Free));
+            ex.cards.push(new HatchCard(HatchChance.Locked));
+        }
         return ex;
     }
 
@@ -66,11 +74,15 @@ public class StackedDeck extends Deck {
      *
      * @return the stacked deck
      */
-    public StackedDeck StackedDeckSector() {
+    public static StackedDeck StackedDeckSector() {
         StackedDeck ex = new StackedDeck();
-        ex.cards.push(new SectorCard(SectorEvent.Silence));
-        ex.cards.push(new SectorCard(SectorEvent.NoiseAny));
-        ex.cards.push(new SectorCard(SectorEvent.NoiseYour));
+        for (int i = 0; i < 5; i++) {
+            ex.cards.push(new SectorCard(SectorEvent.Silence));
+        }
+        for (int i = 0; i < 10; i++) {
+            ex.cards.push(new SectorCard(SectorEvent.NoiseAny));
+            ex.cards.push(new SectorCard(SectorEvent.NoiseYour));
+        }
         return ex;
     }
 
@@ -79,14 +91,18 @@ public class StackedDeck extends Deck {
      *
      * @return the stacked deck
      */
-    public StackedDeck StackedDeckItem() {
+    public static StackedDeck StackedDeckItem() {
         StackedDeck ex = new StackedDeck();
-        ex.cards.push(new ItemCard(Item.Attack));
-        ex.cards.push(new ItemCard(Item.Teleport));
-        ex.cards.push(new ItemCard(Item.Sedatives));
-        ex.cards.push(new ItemCard(Item.Spotlight));
         ex.cards.push(new ItemCard(Item.Defense));
-        ex.cards.push(new ItemCard(Item.Adrenaline));
+        for (int i = 0; i < 2; i++) {
+            ex.cards.push(new ItemCard(Item.Adrenaline));
+            ex.cards.push(new ItemCard(Item.Attack));
+            ex.cards.push(new ItemCard(Item.Teleport));
+            ex.cards.push(new ItemCard(Item.Spotlight));
+        }
+        for (int i = 0; i < 3; i++) {
+            ex.cards.push(new ItemCard(Item.Sedatives));
+        }
         return ex;
     }
 
