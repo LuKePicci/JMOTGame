@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg_30;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Stack;
 
 /**
@@ -11,30 +12,31 @@ public class StackedDeck extends Deck {
     /** The cards. */
     private Stack<Card> cards;
 
+    /**
+     * Shuffle.
+     */
     public void shuffle() {
-        throw new UnsupportedOperationException();
+        Collections.shuffle(cards);
     }
 
+    /**
+     * Pick card.
+     *
+     * @return the card
+     */
     public Card pickCard() {
         return this.cards.pop();
     }
 
+    /**
+     * Pick card and throw it into the bucket.
+     *
+     * @return the card
+     */
     public Card pickAndThrow() {
         Card c = pickCard();
         this.putIntoBucket(c);
         return c;
-    }
-
-    public StackedDeck newStackedDeckHatch() {
-        throw new UnsupportedOperationException();
-    }
-
-    public StackedDeck newStackedDeckSector() {
-        throw new UnsupportedOperationException();
-    }
-
-    public StackedDeck newStackedDeckItem() {
-        throw new UnsupportedOperationException();
     }
 
     /**
@@ -51,7 +53,9 @@ public class StackedDeck extends Deck {
     /**
      * Instantiates a new stacked deck.
      */
-    private StackedDeck() {
+    public StackedDeck() {// pubblico in quanto verrà usato dal
+                          // matchcontroller per creare i mazzi cestino per ogni
+                          // tipologia di carta
         this.cards = new Stack<Card>();
     }
 
@@ -60,7 +64,7 @@ public class StackedDeck extends Deck {
      *
      * @return the stacked deck
      */
-    public static StackedDeck StackedDeckHatch() {
+    public static StackedDeck newStackedDeckHatch() {
         StackedDeck ex = new StackedDeck();
         for (int i = 0; i < 3; i++) {
             ex.cards.push(new HatchCard(HatchChance.Free));
@@ -74,7 +78,7 @@ public class StackedDeck extends Deck {
      *
      * @return the stacked deck
      */
-    public static StackedDeck StackedDeckSector() {
+    public static StackedDeck newStackedDeckSector() {
         StackedDeck ex = new StackedDeck();
         for (int i = 0; i < 5; i++) {
             ex.cards.push(new SectorCard(SectorEvent.Silence));
@@ -91,7 +95,7 @@ public class StackedDeck extends Deck {
      *
      * @return the stacked deck
      */
-    public static StackedDeck StackedDeckItem() {
+    public static StackedDeck newStackedDeckItem() {
         StackedDeck ex = new StackedDeck();
         ex.cards.push(new ItemCard(Item.Defense));
         for (int i = 0; i < 2; i++) {

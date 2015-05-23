@@ -1,9 +1,10 @@
 package it.polimi.ingsw.cg_30;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.Map;
 
 public class Zone implements Serializable {
+
     private Iterable<Sector> sectors;
 
     public Map<Player, Sector> playersLocation;
@@ -14,12 +15,14 @@ public class Zone implements Serializable {
         throw new UnsupportedOperationException();
     }
 
+    // fatto
     public void movePlayer(Player who, Sector where) {
-        throw new UnsupportedOperationException();
+        playersLocation.put(who, where);
     }
 
+    // fatto
     public Sector getSector(Player player) {
-        throw new UnsupportedOperationException();
+        return playersLocation.get(player);
     }
 
     public Iterable<Player> getPlayersInSector(Sector sec) {

@@ -14,8 +14,19 @@ public abstract class Deck implements Serializable {
         throw new UnsupportedOperationException();
     }
 
-    public void putIntoBucket(Card c) {
-        throw new UnsupportedOperationException();
+    // questa implementazione prevede che i tre bucketDeck siano nel
+    // matchcontroller
+    public void putIntoBucket(Card c) {/*
+                                        * if (c.getClass().equals(HatchCard)){
+                                        * MatchController
+                                        * .getBucketDeckHatch.push(c); } if
+                                        * (c.getClass
+                                        * ().equals(SectorEventCard)){
+                                        * MatchController
+                                        * .getBucketDeckSector.push(c); } if
+                                        * (c.getClass().equals(ItemCard)){
+                                        * MatchController
+                                        * .getBucketDeckItem.push(c); }
+                                        */
     }
-
 }
