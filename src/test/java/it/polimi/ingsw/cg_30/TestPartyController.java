@@ -5,13 +5,14 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.util.UUID;
 
 import org.junit.Test;
 
 public class TestPartyController {
 
     private static AcceptPlayer newMockAp() {
-        return new AcceptPlayer() {
+        return new AcceptPlayer(UUID.randomUUID()) {
 
             @Override
             public void sendMessage(Message message) {
