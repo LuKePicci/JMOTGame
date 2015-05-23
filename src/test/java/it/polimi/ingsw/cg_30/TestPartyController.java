@@ -26,11 +26,6 @@ public class TestPartyController {
             }
 
             @Override
-            public void run() {
-                // mock implementation
-            }
-
-            @Override
             public void ping() {
                 // mock implementation
             }
