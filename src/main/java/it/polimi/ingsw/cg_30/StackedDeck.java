@@ -1,65 +1,112 @@
 package it.polimi.ingsw.cg_30;
 
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.Stack;
 
+/**
+ * The Class StackedDeck.
+ */
 public class StackedDeck extends Deck {
+
+    /** The cards. */
     private Stack<Card> cards;
 
+    /**
+     * Shuffle.
+     */
     public void shuffle() {
-        throw new UnsupportedOperationException();
+        Collections.shuffle(cards);
     }
 
+    /**
+     * Pick card.
+     *
+     * @return the card
+     */
     public Card pickCard() {
-        throw new UnsupportedOperationException();
+        return this.cards.pop();
     }
 
-    public StackedDeck newStackedDeckHatch() {
-        throw new UnsupportedOperationException();
+    /**
+     * Pick card and throw it into the bucket.
+     *
+     * @return the card
+     */
+    public Card pickAndThrow() {
+        Card c = pickCard();
+        this.putIntoBucket(c);
+        return c;
     }
 
-    public StackedDeck newStackedDeckSector() {
-        throw new UnsupportedOperationException();
-    }
-
-    public StackedDeck newStackedDeckItem() {
-        throw new UnsupportedOperationException();
-    }
-
+    /**
+     * Gets the card collection.
+     *
+     * @return the card collection
+     */
     @Override
     public Collection getCardCollection() {
         return cards;
     }
 
     // "COSTRUTTORI"
-    private StackedDeck() {
+    /**
+     * Instantiates a new stacked deck.
+     */
+    public StackedDeck() {// pubblico in quanto verrà usato dal
+                          // matchcontroller per creare i mazzi cestino per ogni
+                          // tipologia di carta
         this.cards = new Stack<Card>();
     }
 
-    public StackedDeck StackedDeckHatch() {
+    /**
+     * Stacked deck hatch.
+     *
+     * @return the stacked deck
+     */
+    public static StackedDeck newStackedDeckHatch() {
         StackedDeck ex = new StackedDeck();
-        ex.cards.push(new HatchCard(HatchChance.Free));
-        ex.cards.push(new HatchCard(HatchChance.Locked));
+        for (int i = 0; i < 3; i++) {
+            ex.cards.push(new HatchCard(HatchChance.Free));
+            ex.cards.push(new HatchCard(HatchChance.Locked));
+        }
         return ex;
     }
 
-    public StackedDeck StackedDeckSector() {
+    /**
+     * Stacked deck sector.
+     *
+     * @return the stacked deck
+     */
+    public static StackedDeck newStackedDeckSector() {
         StackedDeck ex = new StackedDeck();
-        ex.cards.push(new SectorCard(SectorEvent.Silence));
-        ex.cards.push(new SectorCard(SectorEvent.NoiseAny));
-        ex.cards.push(new SectorCard(SectorEvent.NoiseYour));
+        for (int i = 0; i < 5; i++) {
+            ex.cards.push(new SectorCard(SectorEvent.Silence));
+        }
+        for (int i = 0; i < 10; i++) {
+            ex.cards.push(new SectorCard(SectorEvent.NoiseAny));
+            ex.cards.push(new SectorCard(SectorEvent.NoiseYour));
+        }
         return ex;
     }
 
-    public StackedDeck StackedDeckItem() {
+    /**
+     * Stacked deck item.
+     *
+     * @return the stacked deck
+     */
+    public static StackedDeck newStackedDeckItem() {
         StackedDeck ex = new StackedDeck();
-        ex.cards.push(new ItemCard(Item.Attack));
-        ex.cards.push(new ItemCard(Item.Teleport));
-        ex.cards.push(new ItemCard(Item.Sedatives));
-        ex.cards.push(new ItemCard(Item.Spotlight));
         ex.cards.push(new ItemCard(Item.Defense));
-        ex.cards.push(new ItemCard(Item.Adrenaline));
+        for (int i = 0; i < 2; i++) {
+            ex.cards.push(new ItemCard(Item.Adrenaline));
+            ex.cards.push(new ItemCard(Item.Attack));
+            ex.cards.push(new ItemCard(Item.Teleport));
+            ex.cards.push(new ItemCard(Item.Spotlight));
+        }
+        for (int i = 0; i < 3; i++) {
+            ex.cards.push(new ItemCard(Item.Sedatives));
+        }
         return ex;
     }
 

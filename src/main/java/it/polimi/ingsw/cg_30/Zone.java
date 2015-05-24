@@ -46,12 +46,16 @@ public class Zone extends GameTable<Sector> implements Serializable {
 
     @Override
     public void movePlayer(Player who, Sector where) {
-        throw new UnsupportedOperationException();
+        playersLocation.put(who, where);
     }
 
     @Override
     public Collection<Sector> reachableTargets(Sector from, Integer maxSteps) {
-        throw new UnsupportedOperationException();
+		throw new UnsupportedOperationException();
+	}
+    
+    public Sector getSector(Player player) {
+        return playersLocation.get(player);
     }
 
     public Iterable<Player> getPlayersInSector(Sector sec) {
