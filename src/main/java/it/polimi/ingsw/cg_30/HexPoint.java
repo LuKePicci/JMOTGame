@@ -9,6 +9,10 @@ public class HexPoint extends Point implements Serializable {
     private int cubicX;
     private int cubicY;
 
+    private HexPoint() {
+        // JAXB handled
+    }
+
     private HexPoint(int x, int y) {
         this.cubicX = x;
         this.cubicY = y;

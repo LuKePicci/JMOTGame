@@ -3,14 +3,29 @@ package it.polimi.ingsw.cg_30;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+@XmlRootElement(name = "Zone")
+@XmlAccessorType(XmlAccessType.NONE)
 public class Zone extends GameTable<Sector> implements Serializable {
 
     private static final long serialVersionUID = -2636229005380853458L;
 
-    private Iterable<Sector> sectors;
+    @XmlElement(name = "Contents")
+    @XmlJavaTypeAdapter(XmlZoneMapAdapter.class)
+    private Map<HexPoint, Sector> sectors = new HashMap<HexPoint, Sector>();
+
+    @XmlAttribute(name = "Name")
+    private String mapName;
 
     public Map<Player, Sector> playersLocation;
 
@@ -18,6 +33,10 @@ public class Zone extends GameTable<Sector> implements Serializable {
 
     public Iterable<Sector> getSectors() {
         throw new UnsupportedOperationException();
+    }
+
+    public String getMapName() {
+        return this.mapName;
     }
 
     @Override
