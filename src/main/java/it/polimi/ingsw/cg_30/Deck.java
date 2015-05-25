@@ -2,31 +2,44 @@ package it.polimi.ingsw.cg_30;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * The Class Deck.
+ */
 public abstract class Deck implements Serializable {
 
-    private Set<Card> bucket;
+    /** The bucket. */
+    protected Set<Card> bucket;
 
+    /**
+     * Gets the card collection.
+     *
+     * @return the card collection
+     */
     public abstract Collection getCardCollection();
 
-    public void recycle() {
-        throw new UnsupportedOperationException();
+    /**
+     * Recycle.
+     */
+    public abstract void recycle();
+
+    /**
+     * Put into bucket.
+     *
+     * @param c
+     *            the c
+     */
+    public void putIntoBucket(Card c) {
+        this.bucket.add(c);
     }
 
-    // questa implementazione prevede che i tre bucketDeck siano nel
-    // matchcontroller
-    public void putIntoBucket(Card c) {/*
-                                        * if (c.getClass().equals(HatchCard)){
-                                        * MatchController
-                                        * .getBucketDeckHatch.push(c); } if
-                                        * (c.getClass
-                                        * ().equals(SectorEventCard)){
-                                        * MatchController
-                                        * .getBucketDeckSector.push(c); } if
-                                        * (c.getClass().equals(ItemCard)){
-                                        * MatchController
-                                        * .getBucketDeckItem.push(c); }
-                                        */
+    /**
+     * Instantiates a new deck.
+     */
+    protected Deck() {
+        this.bucket = new HashSet<Card>();
     }
+
 }
