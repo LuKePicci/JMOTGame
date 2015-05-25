@@ -2,6 +2,7 @@ package it.polimi.ingsw.cg_30;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.nio.file.Path;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -11,9 +12,8 @@ public class TemplateZoneFactory extends ZoneFactory {
 
     private File zoneTemplate;
 
-    public TemplateZoneFactory(String templateName)
-            throws FileNotFoundException {
-        zoneTemplate = new File(templateName + ".xml");
+    public TemplateZoneFactory(Path templatePath) throws FileNotFoundException {
+        zoneTemplate = templatePath.toFile();
         if (!zoneTemplate.exists()) {
             throw new FileNotFoundException();
         }

@@ -31,8 +31,8 @@ public class Zone extends GameTable<Sector> implements Serializable {
 
     private List<Boolean> hatchesStatus = new ArrayList<Boolean>();
 
-    public Iterable<Sector> getSectors() {
-        throw new UnsupportedOperationException();
+    public Map<HexPoint, Sector> getSectors() {
+        return this.sectors;
     }
 
     public String getMapName() {
@@ -51,10 +51,10 @@ public class Zone extends GameTable<Sector> implements Serializable {
 
     @Override
     public Collection<Sector> reachableTargets(Sector from, Integer maxSteps) {
-		throw new UnsupportedOperationException();
-	}
-    
-    public Sector getSector(Player player) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Sector getPlayerSector(Player player) {
         return playersLocation.get(player);
     }
 

@@ -2,13 +2,19 @@ package it.polimi.ingsw.cg_30;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlType;
+
 /**
  * The Class HexPoint.
  */
+@XmlAccessorType(XmlAccessType.NONE)
+@XmlType(propOrder = { "offsetX", "offsetY" })
 public class HexPoint extends Point implements Serializable {
 
     private static final long serialVersionUID = -6158359481566322375L;
-
 
     /** The cubic x. */
     private int cubicX;
@@ -20,7 +26,7 @@ public class HexPoint extends Point implements Serializable {
         // JAXB handled
     }
 
-	 /**
+    /**
      * Instantiates a new hex point.
      *
      * @param x
@@ -33,7 +39,7 @@ public class HexPoint extends Point implements Serializable {
         this.cubicY = y;
     }
 
-	/**
+    /**
      * Hex point cubic.
      *
      * @param x
@@ -46,7 +52,7 @@ public class HexPoint extends Point implements Serializable {
         return new HexPoint(x, y);
     }
 
-	/**
+    /**
      * Hex point axial.
      *
      * @param q
@@ -59,7 +65,7 @@ public class HexPoint extends Point implements Serializable {
         return new HexPoint(q, -q - r);
     }
 
-	/**
+    /**
      * Hex point offset.
      *
      * @param col
@@ -77,8 +83,8 @@ public class HexPoint extends Point implements Serializable {
      *
      * @return the cubic x
      */
-    
-	public int getCubicX() {
+
+    public int getCubicX() {
         return cubicX;
     }
 
@@ -127,6 +133,11 @@ public class HexPoint extends Point implements Serializable {
         return cubicX;
     }
 
+    @XmlAttribute(name = "X")
+    private void setOffsetX(int col) {
+        this.cubicX = col;
+    }
+
     /**
      * Gets the offset y.
      *
@@ -134,6 +145,12 @@ public class HexPoint extends Point implements Serializable {
      */
     public int getOffsetY() {
         return -cubicX - cubicY + (cubicX - (cubicX & 1)) / 2;
+    }
+
+    @XmlAttribute(name = "Y")
+    private void setOffsetY(int row) {
+        this.cubicY = -this.cubicX
+                - (row - (this.cubicX - (this.cubicX & 1)) / 2);
     }
 
     @Override
@@ -144,6 +161,31 @@ public class HexPoint extends Point implements Serializable {
     @Override
     public int getY() {
         return getOffsetY();
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + cubicX;
+        result = prime * result + cubicY;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        HexPoint other = (HexPoint) obj;
+        if (cubicX != other.cubicX)
+            return false;
+        if (cubicY != other.cubicY)
+            return false;
+        return true;
     }
 
 }

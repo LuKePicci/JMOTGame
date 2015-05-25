@@ -34,7 +34,7 @@ public class XmlZoneMapAdapter extends
         Map<HexPoint, Sector> map = new HashMap<HexPoint, Sector>();
 
         for (XmlZoneMapEntry entry : v.entries) {
-            map.put(entry.key, entry.value);
+            map.put(entry.key, new Sector(entry.value.getType(), entry.key));
         }
 
         return map;

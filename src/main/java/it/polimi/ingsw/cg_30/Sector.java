@@ -2,21 +2,26 @@ package it.polimi.ingsw.cg_30;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+
 /**
  * The Class Sector.
  */
+@XmlAccessorType(XmlAccessType.NONE)
 public class Sector extends Cell implements Serializable {
 
     private static final long serialVersionUID = -6244660747783651595L;
 
-
     /** The type. */
+    @XmlAttribute(name = "Type")
     private SectorType type;
 
     /** The point. */
     private HexPoint point;
 
-	/**
+    /**
      * Instantiates a new sector.
      *
      * @param type
@@ -24,7 +29,7 @@ public class Sector extends Cell implements Serializable {
      * @param point
      *            the point
      */
-	public Sector(SectorType type, HexPoint point) {
+    public Sector(SectorType type, HexPoint point) {
         this.type = type;
         this.point = point;
     }
@@ -33,6 +38,7 @@ public class Sector extends Cell implements Serializable {
     private Sector() {
         // JAXB handled
     }
+
     /**
      * Gets the type.
      *
