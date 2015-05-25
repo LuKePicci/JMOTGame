@@ -2,10 +2,11 @@ package it.polimi.ingsw.cg_30;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -50,8 +51,34 @@ public class Zone extends GameTable<Sector> implements Serializable {
     }
 
     @Override
-    public Collection<Sector> reachableTargets(Sector from, Integer maxSteps) {
-        throw new UnsupportedOperationException();
+    public Set<Sector> reachableTargets(Sector from, Integer maxSteps) {
+
+        Set<Sector> visited = new HashSet<Sector>();
+        List<List<Sector>> fringes = new ArrayList<List<Sector>>();
+        List<Sector> firstlist = new ArrayList<Sector>();
+        Sector neighbor;
+
+        visited.add(from);
+        firstlist.add(from);
+        fringes.add(firstlist);
+
+        for (int k = 1; k <= maxSteps; k++) {
+            fringes.add(new ArrayList<Sector>());
+            for (Sector var : fringes.get(k - 1))
+                for (HexCubeDirections dir : HexCubeDirections.values()) {
+                    neighbor = this.sectors.get(var.getPoint().neighbor(dir));
+                    if (neighbor == null)
+                        // neighbor not existing in this zone
+                        continue;
+                    if (!visited.contains(neighbor)) {
+                        visited.add(neighbor);
+                        fringes.get(k).add(neighbor);
+                    }
+                }
+
+        }
+        visited.remove(from);
+        return visited;
     }
 
     public Sector getPlayerSector(Player player) {

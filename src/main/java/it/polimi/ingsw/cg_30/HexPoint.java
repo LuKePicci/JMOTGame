@@ -34,7 +34,7 @@ public class HexPoint extends Point implements Serializable {
      * @param y
      *            the y
      */
-    private HexPoint(int x, int y) {
+    public HexPoint(int x, int y) {
         this.cubicX = x;
         this.cubicY = y;
     }
@@ -76,6 +76,11 @@ public class HexPoint extends Point implements Serializable {
      */
     public static HexPoint hexPointOffset(int col, int row) {
         return new HexPoint(col, -col - (row - (col - (col & 1)) / 2));
+    }
+
+    public HexPoint neighbor(HexCubeDirections dir) {
+        return new HexPoint(this.getCubicX() + dir.getAddX(), this.getCubicY()
+                + dir.getAddY());
     }
 
     /**
