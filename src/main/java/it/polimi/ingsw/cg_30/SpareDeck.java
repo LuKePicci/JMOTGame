@@ -39,4 +39,14 @@ public class SpareDeck extends Deck {
         return this.cards;
     }
 
+    /**
+     * Recycle Deck using all cards in bucket
+     */
+    @Override
+    public void recycle() {
+        this.cards.clear();
+        this.cards.addAll(bucket);
+        this.bucket.clear();
+    }
+
 }

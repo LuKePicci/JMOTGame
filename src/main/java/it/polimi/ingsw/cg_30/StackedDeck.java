@@ -53,9 +53,8 @@ public class StackedDeck extends Deck {
     /**
      * Instantiates a new stacked deck.
      */
-    public StackedDeck() {// pubblico in quanto verrà usato dal
-                          // matchcontroller per creare i mazzi cestino per ogni
-                          // tipologia di carta
+    private StackedDeck() {
+        super();
         this.cards = new Stack<Card>();
     }
 
@@ -110,4 +109,14 @@ public class StackedDeck extends Deck {
         return ex;
     }
 
+    /**
+     * Recycle Deck using all cards in bucket
+     */
+    @Override
+    public void recycle() {
+        this.cards.clear();
+        this.cards.addAll(bucket);
+        this.shuffle();
+        this.bucket.clear();
+    }
 }
