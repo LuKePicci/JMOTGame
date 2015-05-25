@@ -1,14 +1,15 @@
 package it.polimi.ingsw.cg_30;
 
 public class ZoneController {
-    private Zone zone;
 
-    public Zone Map;
+    private Zone currentZone;
 
-    public MapTemplate MapTemplate;
+    public ZoneController() {
+        this(new RandomZoneFactory());
+    }
 
-    public Zone create(MapTemplate temp) {
-        throw new UnsupportedOperationException();
+    public ZoneController(ZoneFactory zf) {
+        this.currentZone = zf.newMap();
     }
 
 }

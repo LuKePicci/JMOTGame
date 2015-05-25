@@ -36,18 +36,19 @@ public class SocketAcceptance extends PlayerAcceptance {
 
     @Override
     protected void acceptance() {
+        Thread.currentThread().setName("SocketServerAcceptance");
         try {
             soc.setReuseAddress(true);
             soc.bind(new InetSocketAddress(randomizePort ? 0
                     : DEFAULT_SERVER_PORT));
             this.randomPort = soc.getLocalPort();
             while (!Thread.interrupted()) {
-                Socket CSoc;
+                Socket cSoc;
                 try {
-                    CSoc = soc.accept();
-                    AcceptPlayer gameClient = new AcceptSocketPlayer(CSoc);
+                    cSoc = soc.accept();
+                    AcceptSocketPlayer gameClient = new AcceptSocketPlayer(cSoc);
                     gameClient.ping();
-                    gameClient.start();
+                    GameServer.execute(gameClient);
                     this.connections.add(gameClient);
                 } catch (IOException e) {
                     System.out.println("Server " + soc.hashCode()

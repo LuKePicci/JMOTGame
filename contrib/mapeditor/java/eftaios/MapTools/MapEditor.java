@@ -5,11 +5,9 @@ import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Comparator;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -56,8 +54,9 @@ public class MapEditor {
 
 		frame.getContentPane().add(mapPanel).setBackground(Color.BLACK);
 		;
-		frame.setBounds(300, 15, 1410, 1040);
-		// frame.pack();
+		frame.setSize(1410, 1040);
+		frame.setLocationRelativeTo(null);
+		;
 		frame.setTitle("EFTAIOS - Map Editor");
 		frame.setVisible(true);
 	}
@@ -66,9 +65,9 @@ public class MapEditor {
 		MapModel mapFromFile = jaxbXMLToObject(xmlFile);
 		// System.out.println(mapFromFile.toString());
 
-		for (SectorModel sm : mapFromFile.getSectorModels()) {
-			Sector s = createSector(sm.getLocation().X, sm.getLocation().Y);
-			s.setType(sm.getType());
+		for (PairXY xy : mapFromFile.getSectors().keySet()) {
+			Sector s = createSector(xy.X, xy.Y);
+			s.setType(mapFromFile.getSectors().get(xy).getType());
 			mapPanel.add(s);
 		}
 	}
@@ -92,7 +91,8 @@ public class MapEditor {
 		sector.setLocation(horiz * i, height * j + ((i % 2) * height / 2));
 
 		// JLabel label = new JLabel(i + "/" + j);
-		JLabel label = new JLabel(getCharForNumber(i + 1) + j);
+		JLabel label = new JLabel(getCharForNumber(i + 1)
+				+ String.format("%02d", (j + 1)));
 		// label.setFont(new Font("TitilliumText22L Rg", 0, 25));
 		label.setFont(loadCustomFont("TitilliumText22L"));
 
@@ -135,16 +135,24 @@ public class MapEditor {
 	}
 
 	private void saveMapToXML(File xmlFile) {
-		List<SectorModel> sectorList = new ArrayList<SectorModel>();
+		Map<PairXY, SectorModel> sectorMap = new TreeMap<PairXY, SectorModel>(
+				new Comparator<PairXY>() {
+					public int compare(PairXY o1, PairXY o2) {
+						int comp = o1.X - o2.X;
+						return comp == 0 ? o1.Y - o2.Y : comp;
+					}
+				});
 		for (int i = 0; i < DIM_X; i++)
 			for (int j = 0; j < DIM_Y; j++) {
 				if (sectors[i][j] != null
-						&& sectors[i][j].getType() != SectorType.Empty)
-					sectorList.add(new SectorModel(new PairXY(i, j),
-							sectors[i][j].getType()));
+						&& sectors[i][j].getType() != SectorType.Empty) {
+					PairXY current = new PairXY(i, j);
+					sectorMap.put(current,
+							new SectorModel(sectors[i][j].getType()));
+				}
 			}
 		MapModel map = new MapModel();
-		map.setSectorModels(sectorList);
+		map.setSectors(sectorMap);
 		jaxbObjectToXML(xmlFile, map);
 	}
 
