@@ -28,7 +28,7 @@ public class TestZone {
 
     @Test
     public void shouldFindSectorNeighbors() {
-        Sector f09 = testZone.getMap().get(HexPoint.hexPointOffset(5, 8));
+        Sector f09 = testZone.getMap().get(HexPoint.fromOffset(5, 8));
         Set<Sector> targets = this.testZone.reachableTargets(f09, 1);
         assertEquals(6, targets.size());
     }

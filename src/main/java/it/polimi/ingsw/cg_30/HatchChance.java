@@ -6,7 +6,7 @@ package it.polimi.ingsw.cg_30;
 public enum HatchChance {
 
     /** The Free. */
-    Free,
+    FREE,
     /** The Locked. */
-    Locked,
+    LOCKED,
 }

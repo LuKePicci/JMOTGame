@@ -16,6 +16,10 @@ public abstract class RequestModel implements Serializable {
 
     protected Date updatedAt;
 
+    protected RequestModel() {
+        this.setDate(new Date());
+    }
+
     @XmlAttribute(name = "Date")
     public Date getDate() {
         return this.updatedAt;
@@ -23,10 +27,6 @@ public abstract class RequestModel implements Serializable {
 
     public void setDate(Date d) {
         this.updatedAt = d;
-    }
-
-    protected RequestModel() {
-        this.setDate(new Date());
     }
 
 }

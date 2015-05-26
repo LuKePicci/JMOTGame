@@ -8,8 +8,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class ActionMessage extends Message {
 
+    @SuppressWarnings("unused")
+    private ActionMessage() {
+        // local attributes initialization by JAXB
+    }
+
     public ActionMessage(ActionRequest request) {
-        super(MessageType.ActionMessage);
+        super(MessageType.ACTION_MESSAGE);
         this.content = request;
     }
 
@@ -21,8 +26,4 @@ public class ActionMessage extends Message {
         super.setRawContent(content);
     }
 
-    @SuppressWarnings("unused")
-    private ActionMessage() {
-        // local attributes initialization by JAXB
-    }
 }

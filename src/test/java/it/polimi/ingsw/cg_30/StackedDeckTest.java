@@ -18,7 +18,7 @@ public class StackedDeckTest {
         int j = 0;
         for (int i = 0; i < 20; i++) {
             SectorCard c = (SectorCard) ex.pickCard();
-            if (c.getEvent().equals(SectorEvent.Silence)) {
+            if (c.getEvent().equals(SectorEvent.SILENCE)) {
                 j++;
             }
         }
@@ -29,7 +29,7 @@ public class StackedDeckTest {
     public void pickCardTest() {
         StackedDeck ex = StackedDeck.newStackedDeckHatch();
         HatchCard c = (HatchCard) ex.pickCard();
-        assertEquals(HatchChance.Locked, c.getChance());
+        assertEquals(HatchChance.LOCKED, c.getChance());
     }
 
     @Test
@@ -37,7 +37,7 @@ public class StackedDeckTest {
         StackedDeck ex = StackedDeck.newStackedDeckHatch();
         assertTrue(ex.bucket.isEmpty());
         HatchCard c = (HatchCard) ex.pickAndThrow();
-        assertEquals(HatchChance.Locked, c.getChance());
+        assertEquals(HatchChance.LOCKED, c.getChance());
         assertTrue(ex.bucket.contains(c));
     }
 

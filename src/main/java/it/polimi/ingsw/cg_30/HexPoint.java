@@ -52,7 +52,7 @@ public class HexPoint extends Point implements Serializable {
      *            the y
      * @return the hex point
      */
-    public static HexPoint hexPointCubic(int x, int y) {
+    public static HexPoint fromCubic(int x, int y) {
         return new HexPoint(x, y);
     }
 
@@ -65,7 +65,7 @@ public class HexPoint extends Point implements Serializable {
      *            the r
      * @return the hex point
      */
-    public static HexPoint hexPointAxial(int q, int r) {
+    public static HexPoint fromAxial(int q, int r) {
         return new HexPoint(q, -q - r);
     }
 
@@ -78,7 +78,7 @@ public class HexPoint extends Point implements Serializable {
      *            the row
      * @return the hex point
      */
-    public static HexPoint hexPointOffset(int col, int row) {
+    public static HexPoint fromOffset(int col, int row) {
         return new HexPoint(col, -col - (row - (col - (col & 1)) / 2));
     }
 

@@ -6,19 +6,19 @@ package it.polimi.ingsw.cg_30;
 public enum Character {
 
     /** The The first alien. */
-    TheFirstAlien,
+    THE_FIRST_ALIEN,
     /** The The second alien. */
-    TheSecondAlien,
+    THE_SECOND_ALIEN,
     /** The The third alien. */
-    TheThirdAlien,
+    THE_THIRD_ALIEN,
     /** The The fourth alien. */
-    TheFourthAlien,
+    THE_FOURTH_ALIEN,
     /** The The captain. */
-    TheCaptain,
+    THE_CAPTAIN,
     /** The The soldier. */
-    TheSoldier,
+    THE_SOLDIER,
     /** The The pilot. */
-    ThePilot,
+    THE_PILOT,
     /** The The psychologist. */
-    ThePsychologist,
+    THE_PSYCHOLOGIST
 }

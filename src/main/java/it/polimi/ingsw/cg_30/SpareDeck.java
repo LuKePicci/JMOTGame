@@ -16,20 +16,19 @@ public class SpareDeck extends Deck {
     private HashSet<Card> cards;
 
     /**
+     * Instantiates a new spare deck.
+     */
+    public SpareDeck() {
+        this.cards = new HashSet<Card>();
+    }
+
+    /**
      * Gets the cards.
      *
      * @return the cards
      */
     public HashSet<Card> getCards() {
         return cards;
-    }
-
-    // COSTRUTTORE
-    /**
-     * Instantiates a new spare deck.
-     */
-    public SpareDeck() {
-        this.cards = new HashSet<Card>();
     }
 
     /**

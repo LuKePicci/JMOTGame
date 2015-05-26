@@ -6,7 +6,7 @@ package it.polimi.ingsw.cg_30;
 public enum PlayerRace {
 
     /** The Alien. */
-    Alien,
+    ALIEN,
     /** The Human. */
-    Human,
+    HUMAN,
 }

@@ -8,8 +8,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class JoinMessage extends Message {
 
+    private static final long serialVersionUID = -832817960487122513L;
+
+    @SuppressWarnings("unused")
+    private JoinMessage() {
+        // local attributes initialization by JAXB
+    }
+
     public JoinMessage(JoinRequest request) {
-        super(MessageType.PartyMessage);
+        super(MessageType.PARTY_MESSAGE);
         this.content = request;
     }
 
@@ -21,8 +28,4 @@ public class JoinMessage extends Message {
         super.setRawContent(content);
     }
 
-    @SuppressWarnings("unused")
-    private JoinMessage() {
-        // local attributes initialization by JAXB
-    }
 }

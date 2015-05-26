@@ -23,6 +23,35 @@ public class Player implements Serializable {
     private SpareDeck itemsDeck;
 
     /**
+     * Instantiates a new player.
+     *
+     * @param name
+     *            the name
+     * @param index
+     *            the index
+     * @param identity
+     *            the identity
+     */
+    public Player(String name, int index, PlayerCard identity) {
+        this.name = name;
+        this.index = index;
+        this.identity = identity;
+        this.killsCount = 0;
+        this.itemsDeck = new SpareDeck();
+    }
+
+    /**
+     * Instantiates a new player.
+     */
+    protected Player() {
+        this.name = "unknown player";
+        this.index = 0;
+        this.identity = null;
+        this.killsCount = 0;
+        this.itemsDeck = new SpareDeck();
+    }
+
+    /**
      * Gets the index.
      *
      * @return the index
@@ -65,36 +94,6 @@ public class Player implements Serializable {
      */
     public int getKillsCount() {
         return killsCount;
-    }
-
-    // COSTRUTTORE
-    /**
-     * Instantiates a new player.
-     *
-     * @param name
-     *            the name
-     * @param index
-     *            the index
-     * @param identity
-     *            the identity
-     */
-    public Player(String name, int index, PlayerCard identity) {
-        this.name = name;
-        this.index = index;
-        this.identity = identity;
-        this.killsCount = 0;
-        this.itemsDeck = new SpareDeck();
-    }
-
-    /**
-     * Instantiates a new player.
-     */
-    public Player() {
-        this.name = "unknown player";
-        this.index = 0;
-        this.identity = null;
-        this.killsCount = 0;
-        this.itemsDeck = new SpareDeck();
     }
 
     /**
