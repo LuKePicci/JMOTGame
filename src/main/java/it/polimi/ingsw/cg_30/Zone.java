@@ -66,7 +66,8 @@ public class Zone extends GameTable<Sector> implements Serializable {
             fringes.add(new ArrayList<Sector>());
             for (Sector var : fringes.get(k - 1))
                 for (HexCubeDirections dir : HexCubeDirections.values()) {
-                    neighbor = this.sectors.get(var.getPoint().neighbor(dir));
+                    neighbor = this.sectorsMap
+                            .get(var.getPoint().neighbor(dir));
                     if (neighbor == null)
                         // neighbor not existing in this zone
                         continue;
