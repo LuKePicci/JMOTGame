@@ -2,12 +2,13 @@ package it.polimi.ingsw.cg_30;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Party implements Serializable {
 
     private static final long serialVersionUID = 228808363452233075L;
 
-    private HashMap<Player, AcceptPlayer> members;
+    private Map<Player, AcceptPlayer> members;
     private String name;
     private Game currentGame;
     private Boolean privateParty;
@@ -31,7 +32,7 @@ public class Party implements Serializable {
         return this.privateParty;
     }
 
-    public HashMap<Player, AcceptPlayer> getMembers() {
+    public Map<Player, AcceptPlayer> getMembers() {
         return members;
     }
 

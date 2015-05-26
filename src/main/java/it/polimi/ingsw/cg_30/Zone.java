@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -26,7 +27,7 @@ public class Zone extends GameTable<Sector> implements Serializable {
     /** The sectors map. */
     @XmlElement(name = "Contents")
     @XmlJavaTypeAdapter(XmlZoneMapAdapter.class)
-    private HashMap<HexPoint, Sector> sectorsMap = new HashMap<HexPoint, Sector>();
+    private Map<HexPoint, Sector> sectorsMap = new HashMap<HexPoint, Sector>();
 
     /** The map name. */
     @XmlAttribute(name = "Name")
@@ -43,7 +44,7 @@ public class Zone extends GameTable<Sector> implements Serializable {
      *
      * @return the map
      */
-    public HashMap<HexPoint, Sector> getMap() {
+    public Map<HexPoint, Sector> getMap() {
         return this.sectorsMap;
     }
 
@@ -67,20 +68,20 @@ public class Zone extends GameTable<Sector> implements Serializable {
     }
 
     /**
-     * Moves player who in sector where. This method does not check the legality
-     * of the move.
+     * Moves player "who" in sector "where". This method does not check the
+     * legality of the movement.
      */
     @Override
     public void movePlayer(Player who, Sector where) {
         playersLocation.put(who, where);
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Gets all the sectors, whose distance is not higher than maxSteps,
+     * reachable from the sector "from".
      * 
-     * @see
-     * it.polimi.ingsw.cg_30.GameTable#reachableTargets(it.polimi.ingsw.cg_30
-     * .Cell, java.lang.Integer)
+     * @return the set of reachable sectors
+     * 
      */
     @Override
     public Set<Sector> reachableTargets(Sector from, Integer maxSteps) {
@@ -115,11 +116,11 @@ public class Zone extends GameTable<Sector> implements Serializable {
     }
 
     /**
-     * Gets the players in sector.
+     * Gets all the players in sector sec.
      *
      * @param sec
-     *            the sec
-     * @return the players in sector
+     *            the sector to be checked
+     * @return the players in sector sec
      */
     public Iterable<Player> getPlayersInSector(Sector sec) {
         Set<Player> pl = new HashSet<Player>();
@@ -134,20 +135,20 @@ public class Zone extends GameTable<Sector> implements Serializable {
     }
 
     /**
-     * Lock hatch.
+     * Locks hatch whose number is hatchNumber.
      *
      * @param hatchNumber
-     *            the hatch number
+     *            the number of the hatch that have to be locked
      */
     public void lockHatch(int hatchNumber) {
         this.hatchesStatus.set(hatchNumber, true);
     }
 
     /**
-     * Checks if is hatch locked.
+     * Checks if the hatch number "hatchNumber" is locked.
      *
      * @param hatchNumber
-     *            the hatch number
+     *            the number of the hatch to be checked
      */
     public void isHatchLocked(int hatchNumber) {
         this.hatchesStatus.get(hatchNumber);
@@ -156,7 +157,7 @@ public class Zone extends GameTable<Sector> implements Serializable {
     /**
      * No more hatches.
      *
-     * @return true, if successful
+     * @return true if all hatches are locked, false otherwise
      */
     public boolean noMoreHatches() {
         int g = 0;

@@ -2,6 +2,7 @@ package it.polimi.ingsw.cg_30;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Set;
 
 /**
  * The Class SpareDeck.
@@ -13,7 +14,7 @@ public class SpareDeck extends Deck {
      */
     private static final long serialVersionUID = -8291946562346963478L;
     /** The cards. */
-    private HashSet<Card> cards;
+    private Set<Card> cards;
 
     /**
      * Instantiates a new spare deck.
@@ -27,7 +28,7 @@ public class SpareDeck extends Deck {
      *
      * @return the cards
      */
-    public HashSet<Card> getCards() {
+    public Set<Card> getCards() {
         return cards;
     }
 

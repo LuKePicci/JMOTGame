@@ -2,6 +2,7 @@ package it.polimi.ingsw.cg_30;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.EmptyStackException;
 import java.util.Stack;
 
 /**
@@ -86,10 +87,17 @@ public class StackedDeck extends Deck {
      * Pick card.
      *
      * @return the card
+     * @throws EmptyStackException
+     *             both bucket and deck are empty
      */
-    public Card pickCard() {
-        return this.cards.pop();// devo considerare il caso in cui il mazzo sia
-                                // vuoto aggiungendo qui un'eccezione?
+    public Card pickCard() throws EmptyStackException {
+        try {
+            return this.cards.pop();
+
+        } catch (EmptyStackException e) {
+            this.recycle();
+            return this.cards.pop();
+        }
     }
 
     /**
@@ -97,7 +105,8 @@ public class StackedDeck extends Deck {
      *
      * @return the card
      */
-    public Card pickAndThrow() {
+    public Card pickAndThrow() {// devo aggiungere anche qui la parte
+                                // sull'eccezione?
         Card c = pickCard();
         this.putIntoBucket(c);
         return c;
@@ -117,7 +126,8 @@ public class StackedDeck extends Deck {
      * Recycle Deck using all cards in bucket
      */
     @Override
-    public void recycle() {
+    protected void recycle() {// non l'ho messo private per non invalidare il
+                              // test
         this.cards.clear();
         this.cards.addAll(bucket);
         this.shuffle();

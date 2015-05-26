@@ -28,8 +28,19 @@ public class StackedDeckTest {
     @Test
     public void pickCardTest() {
         StackedDeck ex = StackedDeck.newStackedDeckHatch();
+        int prevSize = ex.getCardCollection().size();
         HatchCard c = (HatchCard) ex.pickCard();
         assertEquals(HatchChance.LOCKED, c.getChance());
+        ex.putIntoBucket(c);
+        for (int i = 0; i < prevSize - 1; i++) {
+            c = (HatchCard) ex.pickCard();
+            ex.putIntoBucket(c);
+        }
+        assertEquals(0, ex.getCardCollection().size());
+        assertEquals(prevSize, ex.bucket.size());
+        c = (HatchCard) ex.pickCard();
+        assertEquals(prevSize - 1, ex.getCardCollection().size());
+        assertEquals(0, ex.bucket.size());
     }
 
     @Test
