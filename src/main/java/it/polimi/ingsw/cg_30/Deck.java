@@ -3,7 +3,6 @@ package it.polimi.ingsw.cg_30;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
 
 /**
  * The Class Deck.
@@ -15,7 +14,7 @@ public abstract class Deck implements Serializable {
      */
     private static final long serialVersionUID = -555545505649022630L;
     /** The bucket. */
-    protected Set<Card> bucket;
+    protected HashSet<Card> bucket;
 
     /**
      * Gets the card collection.

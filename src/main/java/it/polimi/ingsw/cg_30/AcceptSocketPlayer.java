@@ -16,12 +16,12 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 public class AcceptSocketPlayer extends AcceptPlayer implements Runnable {
-    private final Socket mySoc;
-    private final DataInputStream din;
-    private final DataOutputStream dout;
+    private transient final Socket mySoc;
+    private transient final DataInputStream din;
+    private transient final DataOutputStream dout;
     // private final Map<MessageType, Marshaller> marshallers;
-    private final Marshaller messageMarshaller;
-    private final Unmarshaller messageUnmarshaller;
+    private transient final Marshaller messageMarshaller;
+    private transient final Unmarshaller messageUnmarshaller;
 
     private String lastSentData = null;
 

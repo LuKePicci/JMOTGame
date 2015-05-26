@@ -1,6 +1,6 @@
 package it.polimi.ingsw.cg_30;
 
-import java.util.Map;
+import java.util.HashMap;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
@@ -13,7 +13,7 @@ public class JoinRequest extends RequestModel {
 
     @XmlElementWrapper(name = "Informations")
     @XmlElement(name = "Info")
-    private Map<String, Object> joinInfo;
+    private HashMap<String, Object> joinInfo;
 
     @XmlElement(name = "Game")
     private Game myGame;
@@ -40,7 +40,7 @@ public class JoinRequest extends RequestModel {
         this.partyName = name;
     }
 
-    public Map<String, Object> getJoinInfo() {
+    public HashMap<String, Object> getJoinInfo() {
         return this.joinInfo;
     }
 
