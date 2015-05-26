@@ -9,6 +9,10 @@ import java.util.Stack;
  */
 public class StackedDeck extends Deck {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -7122684108628884837L;
     /** The cards. */
     private Stack<Card> cards;
 
@@ -25,7 +29,8 @@ public class StackedDeck extends Deck {
      * @return the card
      */
     public Card pickCard() {
-        return this.cards.pop();
+        return this.cards.pop();// devo considerare il caso in cui il mazzo sia
+                                // vuoto aggiungendo qui un'eccezione?
     }
 
     /**
@@ -45,7 +50,7 @@ public class StackedDeck extends Deck {
      * @return the card collection
      */
     @Override
-    public Collection getCardCollection() {
+    public Collection<Card> getCardCollection() {
         return cards;
     }
 

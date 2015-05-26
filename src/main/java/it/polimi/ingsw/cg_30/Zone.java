@@ -4,8 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -22,7 +24,7 @@ public class Zone extends GameTable<Sector> implements Serializable {
 
     @XmlElement(name = "Contents")
     @XmlJavaTypeAdapter(XmlZoneMapAdapter.class)
-    private Map<HexPoint, Sector> sectors = new HashMap<HexPoint, Sector>();
+    private Map<HexPoint, Sector> sectorsMap = new HashMap<HexPoint, Sector>();
 
     @XmlAttribute(name = "Name")
     private String mapName;
@@ -31,8 +33,8 @@ public class Zone extends GameTable<Sector> implements Serializable {
 
     private List<Boolean> hatchesStatus = new ArrayList<Boolean>();
 
-    public Map<HexPoint, Sector> getSectors() {
-        return this.sectors;
+    public Map<HexPoint, Sector> getMap() {
+        return this.sectorsMap;
     }
 
     public String getMapName() {
@@ -41,7 +43,7 @@ public class Zone extends GameTable<Sector> implements Serializable {
 
     @Override
     public Sector getCell(Player player) {
-        throw new UnsupportedOperationException();
+        return playersLocation.get(player);
     }
 
     @Override
@@ -54,24 +56,37 @@ public class Zone extends GameTable<Sector> implements Serializable {
         throw new UnsupportedOperationException();
     }
 
-    public Sector getPlayerSector(Player player) {
-        return playersLocation.get(player);
-    }
-
     public Iterable<Player> getPlayersInSector(Sector sec) {
-        throw new UnsupportedOperationException();
+        Set<Player> pl = new HashSet<Player>();
+        if (playersLocation.containsValue(sec)) {
+            for (Player ex : playersLocation.keySet()) {
+                if (playersLocation.get(ex).equals(sec)) {
+                    pl.add(ex);
+                }
+            }
+        }
+        return pl;
     }
 
-    private void lockHatch(int hatchNumber) {
-        throw new UnsupportedOperationException();
+    public void lockHatch(int hatchNumber) {
+        this.hatchesStatus.set(hatchNumber, true);
     }
 
     public void isHatchLocked(int hatchNumber) {
-        throw new UnsupportedOperationException();
+        this.hatchesStatus.get(hatchNumber);
     }
 
     public boolean noMoreHatches() {
-        throw new UnsupportedOperationException();
+        int g = 0;
+        for (Boolean st : hatchesStatus) {
+            if (st == true) {
+                g++;
+            }
+        }
+        if (g == hatchesStatus.size()) {
+            return true;
+        } else
+            return false;
     }
 
 }

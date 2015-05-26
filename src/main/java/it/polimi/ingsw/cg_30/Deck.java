@@ -10,6 +10,10 @@ import java.util.Set;
  */
 public abstract class Deck implements Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -555545505649022630L;
     /** The bucket. */
     protected Set<Card> bucket;
 
@@ -29,7 +33,7 @@ public abstract class Deck implements Serializable {
      * Put into bucket.
      *
      * @param c
-     *            the c
+     *            the card that will be put into bucket
      */
     public void putIntoBucket(Card c) {
         this.bucket.add(c);
