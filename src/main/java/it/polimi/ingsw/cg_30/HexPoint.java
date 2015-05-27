@@ -14,6 +14,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(propOrder = { "offsetX", "offsetY" })
 public class HexPoint extends Point implements Serializable {
 
+    /** The Constant serialVersionUID. */
     private static final long serialVersionUID = -6158359481566322375L;
 
     /** The cubic x. */
@@ -22,6 +23,9 @@ public class HexPoint extends Point implements Serializable {
     /** The cubic y. */
     private int cubicY;
 
+    /**
+     * Instantiates a new hex point.
+     */
     private HexPoint() {
         // JAXB handled
     }
@@ -34,7 +38,7 @@ public class HexPoint extends Point implements Serializable {
      * @param y
      *            the y
      */
-    private HexPoint(int x, int y) {
+    public HexPoint(int x, int y) {
         this.cubicX = x;
         this.cubicY = y;
     }
@@ -48,7 +52,7 @@ public class HexPoint extends Point implements Serializable {
      *            the y
      * @return the hex point
      */
-    public static HexPoint hexPointCubic(int x, int y) {
+    public static HexPoint fromCubic(int x, int y) {
         return new HexPoint(x, y);
     }
 
@@ -61,7 +65,7 @@ public class HexPoint extends Point implements Serializable {
      *            the r
      * @return the hex point
      */
-    public static HexPoint hexPointAxial(int q, int r) {
+    public static HexPoint fromAxial(int q, int r) {
         return new HexPoint(q, -q - r);
     }
 
@@ -74,8 +78,20 @@ public class HexPoint extends Point implements Serializable {
      *            the row
      * @return the hex point
      */
-    public static HexPoint hexPointOffset(int col, int row) {
+    public static HexPoint fromOffset(int col, int row) {
         return new HexPoint(col, -col - (row - (col - (col & 1)) / 2));
+    }
+
+    /**
+     * Neighbor.
+     *
+     * @param dir
+     *            the dir
+     * @return the hex point
+     */
+    public HexPoint neighbor(HexCubeDirections dir) {
+        return new HexPoint(this.getCubicX() + dir.getAddX(), this.getCubicY()
+                + dir.getAddY());
     }
 
     /**
@@ -133,6 +149,12 @@ public class HexPoint extends Point implements Serializable {
         return cubicX;
     }
 
+    /**
+     * Sets the offset x.
+     *
+     * @param col
+     *            the new offset x
+     */
     @XmlAttribute(name = "X")
     private void setOffsetX(int col) {
         this.cubicX = col;
@@ -147,22 +169,43 @@ public class HexPoint extends Point implements Serializable {
         return -cubicX - cubicY + (cubicX - (cubicX & 1)) / 2;
     }
 
+    /**
+     * Sets the offset y.
+     *
+     * @param row
+     *            the new offset y
+     */
     @XmlAttribute(name = "Y")
     private void setOffsetY(int row) {
         this.cubicY = -this.cubicX
                 - (row - (this.cubicX - (this.cubicX & 1)) / 2);
     }
 
+    /**
+     * Gets the x.
+     *
+     * @return the offset x
+     */
     @Override
     public int getX() {
         return getOffsetX();
     }
 
+    /**
+     * Gets the y.
+     *
+     * @return the offset y
+     */
     @Override
     public int getY() {
         return getOffsetY();
     }
 
+    /**
+     * Gets the hashCode.
+     *
+     * @return the hashCode based on class attributes
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -172,6 +215,14 @@ public class HexPoint extends Point implements Serializable {
         return result;
     }
 
+    /**
+     * Implements the method equals.
+     *
+     * @param obj
+     *            the object to be compared with
+     *
+     * @return the boolean true if obj is equal
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj)

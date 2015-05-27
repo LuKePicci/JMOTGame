@@ -13,6 +13,13 @@ public class Party implements Serializable {
     private Game currentGame;
     private Boolean privateParty;
 
+    public Party(String name, Game g, Boolean privateParty) {
+        this.name = name;
+        this.privateParty = privateParty;
+        this.currentGame = g;
+        this.members = new HashMap<Player, AcceptPlayer>();
+    }
+
     public String getName() {
         return name;
     }
@@ -32,13 +39,6 @@ public class Party implements Serializable {
     public Party addToParty(AcceptPlayer client) {
         members.put(new Player(), client);
         return this;
-    }
-
-    public Party(String name, Game g, Boolean privateParty) {
-        this.name = name;
-        this.privateParty = privateParty;
-        this.currentGame = g;
-        this.members = new HashMap<Player, AcceptPlayer>();
     }
 
 }

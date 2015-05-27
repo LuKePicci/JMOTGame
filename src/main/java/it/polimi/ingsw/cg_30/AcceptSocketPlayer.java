@@ -16,12 +16,11 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 public class AcceptSocketPlayer extends AcceptPlayer implements Runnable {
-    private final Socket mySoc;
-    private final DataInputStream din;
-    private final DataOutputStream dout;
-    // private final Map<MessageType, Marshaller> marshallers;
-    private final Marshaller messageMarshaller;
-    private final Unmarshaller messageUnmarshaller;
+    private final transient Socket mySoc;
+    private final transient DataInputStream din;
+    private final transient DataOutputStream dout;
+    private final transient Marshaller messageMarshaller;
+    private final transient Unmarshaller messageUnmarshaller;
 
     private String lastSentData = null;
 
@@ -33,37 +32,28 @@ public class AcceptSocketPlayer extends AcceptPlayer implements Runnable {
         super(sid);
         this.mySoc = soc;
 
-        DataInputStream din = null;
+        DataInputStream tempDin = null;
         try {
-            din = new DataInputStream(soc.getInputStream());
+            tempDin = new DataInputStream(soc.getInputStream());
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            this.din = din;
+            this.din = tempDin;
         }
 
-        DataOutputStream dout = null;
+        DataOutputStream tempDout = null;
         try {
-            dout = new DataOutputStream(soc.getOutputStream());
+            tempDout = new DataOutputStream(soc.getOutputStream());
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            this.dout = dout;
+            this.dout = tempDout;
         }
 
-        // this.marshallers = new HashMap<MessageType, Marshaller>();
         Marshaller msl = null;
         Unmarshaller unmsl = null;
         try {
             JAXBContext ctx;
-            /*
-             * for (MessageType t : MessageType.values()) { ctx =
-             * JAXBContext.newInstance(t.linkedClass());
-             * 
-             * this.marshallers.put(t, ctx.createMarshaller()); // for pretty
-             * printing this.marshallers.get(t).setProperty(
-             * Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE); }
-             */
             ctx = JAXBContext.newInstance(Message.class);
             msl = ctx.createMarshaller();
             msl.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
@@ -94,7 +84,7 @@ public class AcceptSocketPlayer extends AcceptPlayer implements Runnable {
     }
 
     @Override
-    final public void run() {
+    public final void run() {
         while (this.mySoc.isConnected() && !this.mySoc.isClosed()
                 && !Thread.interrupted()) {
             try {
@@ -117,11 +107,6 @@ public class AcceptSocketPlayer extends AcceptPlayer implements Runnable {
         try {
             // Marshall, encode and send Message objects to output stream
             String clearXml = this.msgToXML(message);
-
-            // byte[] encodedBytes = Base64.getEncoder().encode(
-            // clearXml.getBytes());
-            // String dataToSend = new String(encodedBytes);
-
             String dataToSend = DatatypeConverter.printBase64Binary(clearXml
                     .getBytes());
 
@@ -142,12 +127,7 @@ public class AcceptSocketPlayer extends AcceptPlayer implements Runnable {
     protected Message receiveMessage() throws IOException {
         // Receive, decode and unmarshall Message objects from input stream
         String encoded = this.din.readUTF();
-
         this.lastMessage = new Date();
-
-        // byte[] decodedBytes = Base64.getDecoder().decode(encoded.getBytes());
-        // String decodedXml = new String(decodedBytes);
-
         String decodedXml = new String(
                 DatatypeConverter.parseBase64Binary(encoded));
 
@@ -157,7 +137,6 @@ public class AcceptSocketPlayer extends AcceptPlayer implements Runnable {
     private String msgToXML(Message msg) {
         StringWriter sw = new StringWriter();
         try {
-            // this.marshallers.get(msg.getType()).marshal(msg, sw);
             messageMarshaller.marshal(msg, sw);
         } catch (JAXBException e) {
             e.printStackTrace();
@@ -171,8 +150,6 @@ public class AcceptSocketPlayer extends AcceptPlayer implements Runnable {
             msg = (Message) this.messageUnmarshaller
                     .unmarshal(new StringReader(xml));
 
-            // Class<Message> msgClass = msg.getType().linkedClass();
-            // msgClass.cast(msg);
         } catch (JAXBException e) {
             e.printStackTrace();
         }

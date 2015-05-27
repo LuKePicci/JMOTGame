@@ -11,15 +11,6 @@ public class Backup implements Serializable {
     private Party activeParty;
 
     /**
-     * Gets the active party.
-     *
-     * @return the active party
-     */
-    public Party getActiveParty() {
-        return activeParty;
-    }
-
-    /**
      * Instantiates a new backup.
      *
      * @param activeParty
@@ -27,6 +18,15 @@ public class Backup implements Serializable {
      */
     public Backup(Party activeParty) {
         this.activeParty = activeParty;
+    }
+
+    /**
+     * Gets the active party.
+     *
+     * @return the active party
+     */
+    public Party getActiveParty() {
+        return activeParty;
     }
 
 }

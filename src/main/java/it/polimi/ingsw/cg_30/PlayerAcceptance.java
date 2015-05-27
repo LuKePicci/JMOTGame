@@ -11,7 +11,7 @@ public abstract class PlayerAcceptance implements Runnable {
         return this.connections;
     }
 
-    abstract protected void acceptance();
+    protected abstract void acceptance();
 
     @Override
     public void run() {

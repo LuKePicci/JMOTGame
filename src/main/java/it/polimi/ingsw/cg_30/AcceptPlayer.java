@@ -1,14 +1,16 @@
 package it.polimi.ingsw.cg_30;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
-public abstract class AcceptPlayer {
+public abstract class AcceptPlayer implements Serializable {
 
+    private static final long serialVersionUID = -7240265207942528345L;
     private String myNickName;
     protected UUID sessionId;
-    protected MessageController mc = new MessageController(this);
+    protected transient MessageController mc = new MessageController(this);
     protected Date lastMessage;
 
     protected AcceptPlayer(UUID sid) {
@@ -31,9 +33,9 @@ public abstract class AcceptPlayer {
         return this.sessionId;
     }
 
-    abstract public void sendMessage(Message message);
+    public abstract void sendMessage(Message message);
 
-    abstract protected Message receiveMessage() throws IOException;
+    protected abstract Message receiveMessage() throws IOException;
 
-    abstract public void ping();
+    public abstract void ping();
 }

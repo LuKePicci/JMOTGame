@@ -12,21 +12,21 @@ public class MessageController {
 
     public void deliver(Message msg) {
         switch (msg.getType()) {
-            case ChatMessage:
+            case CHAT_MESSAGE:
                 break;
 
-            case JoinMessage:
+            case JOIN_MESSAGE:
                 myParty = PartyController.processJoinRequest(myAP,
                         ((JoinMessage) msg).getContent());
                 break;
 
-            case ActionMessage:
+            case ACTION_MESSAGE:
                 if (isJoined()) {
 
                 }
                 break;
 
-            case PartyMessage:
+            case PARTY_MESSAGE:
                 if (isJoined()) {
 
                 }

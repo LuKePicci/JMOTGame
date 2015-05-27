@@ -35,7 +35,7 @@ public class TestSocketAcceptance {
 
     @AfterClass
     public static void closeAcceptance() {
-        server.StopServer();
+        server.stopServer();
         ;
         try {
             serverThread.join();
@@ -58,7 +58,7 @@ public class TestSocketAcceptance {
 
         for (int i = 0; i < 10; i++) {
             clientId = null;
-            Socket soc = new Socket("127.0.0.1", server.randomPort);
+            Socket soc = new Socket("127.0.0.1", server.getRandomPort());
 
             String response = (new DataInputStream(soc.getInputStream())
                     .readUTF());

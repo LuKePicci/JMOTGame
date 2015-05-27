@@ -9,8 +9,19 @@ import java.util.Set;
  */
 public class SpareDeck extends Deck {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -8291946562346963478L;
     /** The cards. */
     private Set<Card> cards;
+
+    /**
+     * Instantiates a new spare deck.
+     */
+    public SpareDeck() {
+        this.cards = new HashSet<Card>();
+    }
 
     /**
      * Gets the cards.
@@ -19,14 +30,6 @@ public class SpareDeck extends Deck {
      */
     public Set<Card> getCards() {
         return cards;
-    }
-
-    // COSTRUTTORE
-    /**
-     * Instantiates a new spare deck.
-     */
-    public SpareDeck() {
-        this.cards = new HashSet<Card>();
     }
 
     /**

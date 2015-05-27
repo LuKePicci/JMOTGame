@@ -10,8 +10,17 @@ import java.util.Set;
  */
 public abstract class Deck implements Serializable {
 
+    private static final long serialVersionUID = -555545505649022630L;
+
     /** The bucket. */
     protected Set<Card> bucket;
+
+    /**
+     * Instantiates a new deck.
+     */
+    protected Deck() {
+        this.bucket = new HashSet<Card>();
+    }
 
     /**
      * Gets the card collection.
@@ -23,23 +32,16 @@ public abstract class Deck implements Serializable {
     /**
      * Recycle.
      */
-    public abstract void recycle();
+    protected abstract void recycle();
 
     /**
      * Put into bucket.
      *
      * @param c
-     *            the c
+     *            the card that will be put into bucket
      */
     public void putIntoBucket(Card c) {
         this.bucket.add(c);
-    }
-
-    /**
-     * Instantiates a new deck.
-     */
-    protected Deck() {
-        this.bucket = new HashSet<Card>();
     }
 
 }

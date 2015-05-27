@@ -8,12 +8,12 @@ public abstract class Game implements Serializable {
 
     protected GameType type;
 
-    public GameType getGameType() {
-        return this.type;
-    }
-
     protected Game(GameType t) {
         this.type = t;
+    }
+
+    public GameType getGameType() {
+        return this.type;
     }
 
     public abstract boolean sameGame(Game g);

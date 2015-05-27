@@ -23,10 +23,10 @@ public class TestTemplateZoneFactory {
         ZoneFactory zf = new TemplateZoneFactory(resourcePath);
         Zone z = zf.newMap();
         assertEquals(TEST_MAP, z.getMapName());
-        Sector s = z.getSectors().get(HexPoint.hexPointOffset(10, 10));
+        Sector s = z.getMap().get(HexPoint.fromOffset(10, 10));
         assertNotNull(s);
-        assertEquals(HexPoint.hexPointOffset(10, 10), s.getPoint());
-        assertEquals(SectorType.Secure, s.getType());
+        assertEquals(HexPoint.fromOffset(10, 10), s.getPoint());
+        assertEquals(SectorType.SECURE, s.getType());
     }
 
     @Test(expected = FileNotFoundException.class)

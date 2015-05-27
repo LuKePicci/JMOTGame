@@ -6,15 +6,15 @@ package it.polimi.ingsw.cg_30;
 public enum Item {
 
     /** The Attack. */
-    Attack,
+    ATTACK,
     /** The Teleport. */
-    Teleport,
+    TELEPORT,
     /** The Sedatives. */
-    Sedatives,
+    SEDATIVES,
     /** The Spotlight. */
-    Spotlight,
+    SPOTLIGHT,
     /** The Defense. */
-    Defense,
+    DEFENSE,
     /** The Adrenaline. */
-    Adrenaline,
+    ADRENALINE,
 }

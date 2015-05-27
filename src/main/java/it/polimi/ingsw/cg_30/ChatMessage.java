@@ -8,8 +8,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class ChatMessage extends Message {
 
+    @SuppressWarnings("unused")
+    private ChatMessage() {
+        // local attributes initialization by JAXB
+    }
+
     public ChatMessage(ChatRequest request) {
-        super(MessageType.ChatMessage);
+        super(MessageType.CHAT_MESSAGE);
         super.content = request;
     }
 
@@ -21,8 +26,4 @@ public class ChatMessage extends Message {
         super.setRawContent(content);
     }
 
-    @SuppressWarnings("unused")
-    private ChatMessage() {
-        // local attributes initialization by JAXB
-    }
 }

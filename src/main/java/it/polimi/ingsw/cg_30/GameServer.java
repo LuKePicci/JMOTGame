@@ -35,6 +35,10 @@ public class GameServer {
         });
     }
 
+    private GameServer() {
+        this.servers = new ArrayList<PlayerAcceptance>();
+    }
+
     public static void main(String[] args) {
         GameServer gm = new GameServer();
         gm.startServers();
@@ -42,10 +46,6 @@ public class GameServer {
 
     public static void execute(Runnable task) {
         es.execute(task);
-    }
-
-    private GameServer() {
-        this.servers = new ArrayList<PlayerAcceptance>();
     }
 
     private void startServers() {
