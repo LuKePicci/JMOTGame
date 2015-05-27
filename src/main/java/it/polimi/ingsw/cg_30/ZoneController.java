@@ -13,6 +13,12 @@ public class ZoneController {
         this(new RandomZoneFactory());
     }
 
+    /**
+     * Instantiates a new zone controller.
+     *
+     * @param zf
+     *            any zone factory instance
+     */
     public ZoneController(ZoneFactory zf) {
         this.currentZone = zf.newMap();
         for (Sector s : this.currentZone.getMap().values())
