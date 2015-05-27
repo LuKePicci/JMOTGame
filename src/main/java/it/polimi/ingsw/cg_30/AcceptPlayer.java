@@ -33,9 +33,9 @@ public abstract class AcceptPlayer implements Serializable {
         return this.sessionId;
     }
 
-    abstract public void sendMessage(Message message);
+    public abstract void sendMessage(Message message);
 
-    abstract protected Message receiveMessage() throws IOException;
+    protected abstract Message receiveMessage() throws IOException;
 
-    abstract public void ping();
+    public abstract void ping();
 }

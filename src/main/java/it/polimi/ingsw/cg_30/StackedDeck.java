@@ -10,10 +10,9 @@ import java.util.Stack;
  */
 public class StackedDeck extends Deck {
 
-    /**
-     * 
-     */
+    /** The Constant serialVersionUID. */
     private static final long serialVersionUID = -7122684108628884837L;
+
     /** The cards. */
     private Stack<Card> cards;
 
@@ -77,18 +76,22 @@ public class StackedDeck extends Deck {
     }
 
     /**
-     * Shuffle.
+     * Shuffle the card collection.
      */
     public void shuffle() {
         Collections.shuffle(cards);
     }
 
     /**
-     * Pick card.
+     * Picks a card from the deck and throws an exception if both deck and
+     * bucket are empy.
      *
      * @return the card
      * @throws EmptyStackException
-     *             both bucket and deck are empty
+     *             both bucket and deck are empty; the first exception is
+     *             managed locally by recycling bucket card, if the bucket is
+     *             empty the second exception is thrown. This exception must be
+     *             managed by the method which called pickCard
      */
     public Card pickCard() throws EmptyStackException {
         try {
@@ -101,12 +104,16 @@ public class StackedDeck extends Deck {
     }
 
     /**
-     * Pick card and throw it into the bucket.
+     * Pick card from deck and throw it into the bucket. If it can't pick a card
+     * the exception is thrown.
      *
      * @return the card
+     * @throws EmptyStackException
+     *             both the deck and the bucket are empty, pickCard can't pick a
+     *             card so it throws the exception. This exception must be
+     *             managed by the method which called pickAndThrow
      */
-    public Card pickAndThrow() {// devo aggiungere anche qui la parte
-                                // sull'eccezione?
+    public Card pickAndThrow() throws EmptyStackException {
         Card c = pickCard();
         this.putIntoBucket(c);
         return c;
@@ -123,11 +130,10 @@ public class StackedDeck extends Deck {
     }
 
     /**
-     * Recycle Deck using all cards in bucket
+     * Recycle Deck using all cards in bucket.
      */
     @Override
-    protected void recycle() {// non l'ho messo private per non invalidare il
-                              // test
+    protected void recycle() {
         this.cards.clear();
         this.cards.addAll(bucket);
         this.shuffle();
