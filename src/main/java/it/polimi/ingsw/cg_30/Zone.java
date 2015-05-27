@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -34,10 +35,7 @@ public class Zone extends GameTable<Sector> implements Serializable {
     private String mapName;
 
     /** The players location. */
-    public HashMap<Player, Sector> playersLocation;
-
-    /** The hatches collection. */
-    private Set<Sector> hatches;
+    public Map<Player, Sector> playersLocation;
 
     /**
      * Gets the map.
@@ -87,8 +85,8 @@ public class Zone extends GameTable<Sector> implements Serializable {
     public Set<Sector> reachableTargets(Sector from, Integer maxSteps) {
 
         Set<Sector> visited = new HashSet<Sector>();
-        ArrayList<ArrayList<Sector>> fringes = new ArrayList<ArrayList<Sector>>();
-        ArrayList<Sector> firstlist = new ArrayList<Sector>();
+        List<List<Sector>> fringes = new ArrayList<List<Sector>>();
+        List<Sector> firstlist = new ArrayList<Sector>();
         Sector neighbor;
 
         visited.add(from);
