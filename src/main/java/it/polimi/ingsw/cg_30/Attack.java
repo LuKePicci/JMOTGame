@@ -51,5 +51,8 @@ public class Attack extends ActionController {
         }
         // verifico se la partita è finita
         matchController.checkEndGame();
+        // TO DO rimuovere la seguente riga
+        return null;
+
     }
 }

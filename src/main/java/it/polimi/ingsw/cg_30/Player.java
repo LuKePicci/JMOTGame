@@ -48,9 +48,11 @@ public class Player implements Serializable {
      * Instantiates a new player.
      */
     protected Player() {
+        PlayerCard es = new PlayerCard(PlayerRace.HUMAN,
+                PlayerCharacter.THE_CAPTAIN);
         this.name = "unknown player";
         this.index = 0;
-        this.identity = null;
+        this.identity = es;
         this.killsCount = 0;
         this.itemsDeck = new SpareDeck();
         this.isDead = false;

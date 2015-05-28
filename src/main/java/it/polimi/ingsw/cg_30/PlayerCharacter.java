@@ -3,7 +3,7 @@ package it.polimi.ingsw.cg_30;
 /**
  * The Enum Character.
  */
-public enum Character {
+public enum PlayerCharacter {
 
     /** The The first alien. */
     THE_FIRST_ALIEN,

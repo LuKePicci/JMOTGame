@@ -3,9 +3,9 @@ package it.polimi.ingsw.cg_30;
 public class PlayerCard extends Card {
 
     private PlayerRace race;
-    private Character character;
+    private PlayerCharacter character;
 
-    public PlayerCard(PlayerRace race, Character character) {
+    public PlayerCard(PlayerRace race, PlayerCharacter character) {
         this.race = race;
         this.character = character;
     }
@@ -14,7 +14,7 @@ public class PlayerCard extends Card {
         return race;
     }
 
-    public Character getCharacter() {
+    public PlayerCharacter getCharacter() {
         return character;
     }
 
