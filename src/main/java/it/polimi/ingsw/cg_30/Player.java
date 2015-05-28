@@ -22,6 +22,9 @@ public class Player implements Serializable {
     /** The items deck. */
     private SpareDeck itemsDeck;
 
+    /** The player is dead. */
+    private boolean isDead;
+
     /**
      * Instantiates a new player.
      *
@@ -38,6 +41,7 @@ public class Player implements Serializable {
         this.identity = identity;
         this.killsCount = 0;
         this.itemsDeck = new SpareDeck();
+        this.isDead = false;
     }
 
     /**
@@ -49,6 +53,7 @@ public class Player implements Serializable {
         this.identity = null;
         this.killsCount = 0;
         this.itemsDeck = new SpareDeck();
+        this.isDead = false;
     }
 
     /**
@@ -94,6 +99,22 @@ public class Player implements Serializable {
      */
     public int getKillsCount() {
         return killsCount;
+    }
+
+    /**
+     * Gets the checks if player is dead.
+     *
+     * @return the checks if player is dead
+     */
+    public boolean getIsDead() {
+        return isDead;
+    }
+
+    /**
+     * Sets that the player is dead.
+     */
+    public void setIsDead() {
+        this.isDead = true;
     }
 
     /**

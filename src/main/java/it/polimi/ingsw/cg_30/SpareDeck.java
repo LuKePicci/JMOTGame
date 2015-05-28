@@ -9,10 +9,9 @@ import java.util.Set;
  */
 public class SpareDeck extends Deck {
 
-    /**
-     * 
-     */
+    /** The Constant serialVersionUID. */
     private static final long serialVersionUID = -8291946562346963478L;
+
     /** The cards. */
     private Set<Card> cards;
 
@@ -43,7 +42,7 @@ public class SpareDeck extends Deck {
     }
 
     /**
-     * Recycle Deck using all cards in bucket
+     * Recycle Deck using all cards in bucket.
      */
     @Override
     public void recycle() {

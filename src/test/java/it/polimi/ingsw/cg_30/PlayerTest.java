@@ -1,6 +1,6 @@
 package it.polimi.ingsw.cg_30;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
@@ -20,6 +20,7 @@ public class PlayerTest {
         assertEquals(0, ex.getIndex());
         assertEquals("unknown player", ex.getName());
         assertEquals(null, ex.getIdentity());
+        assertEquals(false, ex.getIsDead());
     }
 
 }

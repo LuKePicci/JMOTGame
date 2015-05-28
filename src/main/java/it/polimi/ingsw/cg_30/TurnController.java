@@ -4,12 +4,17 @@ public class TurnController {
 
     private Turn turn;
 
+    public TurnController() {
+        // TO DO
+        // this.turn = new Turn();
+    }
+
     public Player getCurrentPlayer() {
-        throw new UnsupportedOperationException();
+        return turn.getCurrentPlayer();
     }
 
     public Turn getTurn() {
-        throw new UnsupportedOperationException();
+        return turn;
     }
 
     public void playRuleModifier(ItemCard item) {

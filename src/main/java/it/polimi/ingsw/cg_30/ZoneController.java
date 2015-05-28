@@ -12,4 +12,8 @@ public class ZoneController {
         this.currentZone = zf.newMap();
     }
 
+    public Zone getCurrentZone() {
+        return currentZone;
+    }
+
 }
