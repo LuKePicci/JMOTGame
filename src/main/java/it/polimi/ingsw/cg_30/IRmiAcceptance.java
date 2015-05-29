@@ -4,6 +4,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public interface IRmiAcceptance extends Remote {
-    public String present() throws RemoteException;
+    public IAcceptRmiPlayer present(IRmiClient rmiClient)
+            throws RemoteException;
 
 }

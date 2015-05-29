@@ -2,13 +2,15 @@ package eftaios.MapTools;
 
 import java.io.Serializable;
 
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlType;
 
-@XmlRootElement(name = "XY")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType (propOrder={"X","charX","Y"})
+@XmlType(propOrder = { "X", "charX", "Y" })
 public class PairXY implements Serializable {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -3398531959361569313L;
 
 	@XmlAttribute(name = "X")
 	public int X;
@@ -18,7 +20,7 @@ public class PairXY implements Serializable {
 	public PairXY(double x, double y) {
 		this.X = (int) Math.round(x);
 		this.Y = (int) Math.round(y);
-		
+
 	}
 
 	public PairXY(int x, int y) {
@@ -31,7 +33,6 @@ public class PairXY implements Serializable {
 		this.Y = 0;
 	}
 
-	
 	public int getX() {
 		return this.X;
 	}
@@ -42,10 +43,10 @@ public class PairXY implements Serializable {
 
 	@XmlAttribute(name = "CharX")
 	public String getCharX() {
-		return getCharForNumber(this.X+1);
+		return getCharForNumber(this.X + 1);
 	}
-	
-	private void setCharX(String charX){
+
+	private void setCharX(String charX) {
 		this.X = (int) charX.charAt(0) - 65;
 	}
 

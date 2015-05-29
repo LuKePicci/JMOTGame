@@ -1,8 +1,18 @@
 package it.polimi.ingsw.cg_30;
 
+/**
+ * The Enum MessageType.
+ */
 public enum MessageType {
-    ChatMessage(ChatRequest.class), ActionMessage(ActionRequest.class), PartyMessage(
-            PartyRequest.class), JoinMessage(JoinRequest.class);
+
+    /** The chat message. */
+    CHAT_MESSAGE(ChatRequest.class),
+    /** The action message. */
+    ACTION_MESSAGE(ActionRequest.class),
+    /** The party message. */
+    PARTY_MESSAGE(PartyRequest.class),
+    /** The join message. */
+    JOIN_MESSAGE(JoinRequest.class);
 
     /** The actual value of this enum constant */
     private Class c;

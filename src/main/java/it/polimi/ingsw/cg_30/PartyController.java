@@ -1,15 +1,19 @@
 package it.polimi.ingsw.cg_30;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class PartyController {
 
-    private static Map<Party, PartyController> parties = new HashMap<Party, PartyController>();
+    private static Map<Party, PartyController> parties = new ConcurrentHashMap<Party, PartyController>();
 
     private Party currentParty;
 
-    private MatchController currentMatch;
+    protected MatchController currentMatch;
+
+    public PartyController(Party p) {
+        this.currentParty = p;
+    }
 
     public static Map<Party, PartyController> getParties() {
         return PartyController.parties;
@@ -17,66 +21,69 @@ public class PartyController {
 
     private static PartyController joinPrivateParty(AcceptPlayer newPlayer,
             Game g, String privatePartyName) {
-        return createNewParty(newPlayer, g, true, privatePartyName);
+        Party found = findFreeParty(g, privatePartyName);
+        if (found == null)
+            // if given private party not exists create it
+            return createPrivateParty(newPlayer, g, privatePartyName);
+        else
+            return parties.get(found.addToParty(newPlayer));
     }
 
     private static PartyController joinPublicParty(AcceptPlayer newPlayer,
             Game g) {
-        Party found = findFreeParty(g);
+        Party found = findFreeParty(g, null);
         if (found == null)
-            // if no available party
-            return createNewParty(newPlayer, g);
-
-        else {
+            // if no available party put him into a new party
+            return createPublicParty(newPlayer, g);
+        else
             return parties.get(found.addToParty(newPlayer));
-        }
-
     }
 
-    private static Party findFreeParty(Game g) {
+    private static Party findFreeParty(Game g, String privateName) {
         PartyController pc;
+        boolean checkPrivate;
         for (Party p : parties.keySet()) {
             pc = parties.get(p);
+            checkPrivate = !p.isPrivate() || p.getName().equals(privateName);
             if (p.getGame().sameGame(g)
-                    && p.getMembers().size() <= p.getGame().getMaxPlayers()
-                    && pc.currentMatch == null)
+                    && p.getMembers().size() < p.getGame().getMaxPlayers()
+                    && pc.currentMatch == null && checkPrivate)
                 return p;
+            else
+                continue;
         }
         return null;
     }
 
-    private static PartyController createNewParty(AcceptPlayer leader, Game g) {
-        return createNewParty(leader, g, false, null);
+    private static PartyController createPublicParty(AcceptPlayer leader, Game g) {
+        Party newParty = new Party(leader.getNickName(), g, false)
+                .addToParty(leader);
+        return createNewParty(newParty);
     }
 
-    private static PartyController createNewParty(AcceptPlayer leader, Game g,
-            boolean isPrivate, String privateName) {
-        Party newParty = new Party(isPrivate ? privateName
-                : leader.getNickName(), g, isPrivate);
-        // newParty.setPrivate(isPrivate);
-        PartyController newPc = new PartyController(newParty);
-        newParty.addToParty(leader);
+    private static PartyController createPrivateParty(AcceptPlayer leader,
+            Game g, String privateName) {
+        Party newParty = new Party(privateName, g, true).addToParty(leader);
+        return createNewParty(newParty);
+    }
 
-        parties.put(newParty, newPc);
-
+    private static PartyController createNewParty(Party p) {
+        PartyController newPc = new PartyController(p);
+        parties.put(p, newPc);
         return newPc;
     }
 
     public static PartyController processJoinRequest(AcceptPlayer playerClient,
             JoinRequest request) {
 
-        if (request.MyGame == null)
-            request.MyGame = new EftaiosGame(EftaiosGame.DEFAULT_MAP);
+        if (request.getGame() == null)
+            request.setGame(new EftaiosGame(EftaiosGame.DEFAULT_MAP));
 
-        if (request.IsPrivate)
-            return joinPrivateParty(playerClient, request.MyGame,
-                    request.PartyName);
+        if (request.isPrivate())
+            return joinPrivateParty(playerClient, request.getGame(),
+                    request.getPartyName());
         else
-            return joinPublicParty(playerClient, request.MyGame);
-    }
-
-    public PartyController(Party p) {
-        this.currentParty = p;
+            return joinPublicParty(playerClient, request.getGame());
     }
 
     public void processPartyRequest(PartyRequest request) {

@@ -18,6 +18,14 @@ public abstract class Message implements Serializable {
 
     protected RequestModel content;
 
+    protected Message(MessageType t) {
+        this.msgType = t;
+    }
+
+    protected Message() {
+        // local attributes initialization by JAXB
+    }
+
     @XmlAttribute(name = "MessageType")
     public final MessageType getType() {
         return this.msgType;
@@ -37,14 +45,4 @@ public abstract class Message implements Serializable {
         this.content = content;
     }
 
-    // Object From;
-    // Object To;
-
-    protected Message(MessageType t) {
-        this.msgType = t;
-    }
-
-    protected Message() {
-        // local attributes initialization by JAXB
-    }
 }

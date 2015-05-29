@@ -38,11 +38,11 @@ public class MessageController {
      */
     private void deliver(RequestModel req) {
         throw new UnsupportedOperationException();
-    }
+                }
 
     private void deliver(JoinRequest req) {
         this.myParty = PartyController.processJoinRequest(this.myAP, req);
-    }
+                }
 
     private void deliver(ChatRequest req) {
         throw new UnsupportedOperationException();

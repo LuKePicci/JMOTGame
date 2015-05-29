@@ -21,7 +21,7 @@ public class TestAcceptSocketPlayer extends Thread {
     public static Socket soc;
     public static AcceptSocketPlayer ap;
     public static TestAcceptSocketPlayer sckTest;
-    public static String testData = "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/Pgo8TWVzc2FnZSBNZXNzYWdlVHlwZT0iQ2hhdE1lc3NhZ2UiPgogICAgPENvbnRlbnQgeHNpOnR5cGU9ImNoYXRSZXF1ZXN0IiBUZXh0PSJNZXNzYWdlIHRlc3RpbmciIERhdGU9IjE5NzAtMDEtMDFUMDE6MDA6MDArMDE6MDAiIHhtbG5zOnhzaT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS9YTUxTY2hlbWEtaW5zdGFuY2UiLz4KPC9NZXNzYWdlPgo=";
+    public static String testData = "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/Pgo8TWVzc2FnZSBNZXNzYWdlVHlwZT0iQ0hBVF9NRVNTQUdFIj4KICAgIDxDb250ZW50IHhzaTp0eXBlPSJjaGF0UmVxdWVzdCIgVGV4dD0iTWVzc2FnZSB0ZXN0aW5nIiBEYXRlPSIxOTcwLTAxLTAxVDAxOjAwOjAwKzAxOjAwIiB4bWxuczp4c2k9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvWE1MU2NoZW1hLWluc3RhbmNlIi8+CjwvTWVzc2FnZT4K";
     public static Semaphore sem;
 
     @Before

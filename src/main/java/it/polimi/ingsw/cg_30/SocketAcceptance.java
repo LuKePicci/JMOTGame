@@ -11,7 +11,7 @@ public class SocketAcceptance extends PlayerAcceptance {
     private boolean randomizePort = false;
 
     private ServerSocket soc;
-    public int randomPort = 0;
+    private int randomPort = 0;
 
     public SocketAcceptance() {
         try {
@@ -25,7 +25,7 @@ public class SocketAcceptance extends PlayerAcceptance {
         this.randomizePort = true;
     }
 
-    public void StopServer() {
+    public void stopServer() {
         try {
             if (!soc.isClosed())
                 this.soc.close();
@@ -34,21 +34,25 @@ public class SocketAcceptance extends PlayerAcceptance {
         }
     }
 
+    private void socketAccept() throws IOException {
+        Socket cSoc = soc.accept();
+        AcceptSocketPlayer gameClient = new AcceptSocketPlayer(cSoc);
+        gameClient.ping();
+        GameServer.execute(gameClient);
+        this.connections.add(gameClient);
+    }
+
     @Override
     protected void acceptance() {
+        Thread.currentThread().setName("SocketServerAcceptance");
         try {
             soc.setReuseAddress(true);
             soc.bind(new InetSocketAddress(randomizePort ? 0
                     : DEFAULT_SERVER_PORT));
             this.randomPort = soc.getLocalPort();
             while (!Thread.interrupted()) {
-                Socket CSoc;
                 try {
-                    CSoc = soc.accept();
-                    AcceptPlayer gameClient = new AcceptSocketPlayer(CSoc);
-                    gameClient.ping();
-                    gameClient.start();
-                    this.connections.add(gameClient);
+                    this.socketAccept();
                 } catch (IOException e) {
                     System.out.println("Server " + soc.hashCode()
                             + " closed because of " + e.getMessage());
@@ -65,6 +69,10 @@ public class SocketAcceptance extends PlayerAcceptance {
                 e.printStackTrace();
             }
         }
+    }
+
+    public int getRandomPort() {
+        return this.randomPort;
     }
 
 }

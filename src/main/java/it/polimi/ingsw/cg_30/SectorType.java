@@ -1,5 +1,20 @@
 package it.polimi.ingsw.cg_30;
 
+/**
+ * The Enum SectorType.
+ */
 public enum SectorType {
-    Secure, Dangerous, HumansStart, AliensStart, EscapeHatch, Empty,
+
+    /** The Secure. */
+    SECURE,
+    /** The Dangerous. */
+    DANGEROUS,
+    /** The Humans start. */
+    HUMANS_START,
+    /** The Aliens start. */
+    ALIENS_START,
+    /** The Escape hatch. */
+    ESCAPE_HATCH,
+    /** The Empty. */
+    EMPTY,
 }
