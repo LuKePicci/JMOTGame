@@ -16,7 +16,7 @@ public class JoinMessage extends Message {
     }
 
     public JoinMessage(JoinRequest request) {
-        super(MessageType.PARTY_MESSAGE);
+        super(MessageType.JOIN_MESSAGE);
         this.content = request;
     }
 

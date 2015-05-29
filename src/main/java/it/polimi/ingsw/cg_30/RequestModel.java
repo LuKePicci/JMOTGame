@@ -9,7 +9,8 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlSeeAlso({ ActionRequest.class, ChatRequest.class, PartyRequest.class })
+@XmlSeeAlso({ ActionRequest.class, ChatRequest.class, PartyRequest.class,
+        JoinRequest.class })
 public abstract class RequestModel implements Serializable {
 
     private static final long serialVersionUID = 5763649894549251901L;
@@ -29,4 +30,5 @@ public abstract class RequestModel implements Serializable {
         this.updatedAt = d;
     }
 
+    public abstract void process(MessageController mc);
 }

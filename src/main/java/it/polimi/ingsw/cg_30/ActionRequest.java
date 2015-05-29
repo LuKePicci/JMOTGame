@@ -25,4 +25,9 @@ public class ActionRequest extends RequestModel implements Serializable {
         throw new UnsupportedOperationException();
     }
 
+    @Override
+    public void process(MessageController mc) {
+        mc.deliver(this);
+    }
+
 }

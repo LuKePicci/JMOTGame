@@ -43,7 +43,7 @@ public class AcceptRmiPlayer extends AcceptPlayer implements IAcceptRmiPlayer {
     @Override
     public synchronized void toServer(Message msg) throws RemoteException {
         this.rcvMessage = msg;
-        this.mc.deliver(this.receiveMessage());
+        this.mc.dispatchIncoming(this.receiveMessage());
     }
 
     @Override

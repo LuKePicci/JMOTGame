@@ -21,4 +21,9 @@ public class PartyRequest extends RequestModel {
         throw new UnsupportedOperationException();
     }
 
+    @Override
+    public void process(MessageController mc) {
+        mc.deliver(this);
+    }
+
 }

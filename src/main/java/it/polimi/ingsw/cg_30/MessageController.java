@@ -1,7 +1,5 @@
 package it.polimi.ingsw.cg_30;
 
-import javax.naming.OperationNotSupportedException;
-
 public class MessageController {
 
     private AcceptPlayer myAP; // Bind the connected player
@@ -13,42 +11,40 @@ public class MessageController {
     }
 
     /**
-     * Deliver a generic message to its target.
+     * Deliver a generic message to its target. Let the request instance to
+     * invoke its handler.
      *
      * @param msg
      *            the message to be delivered
      */
-    public synchronized void deliver(Message msg) {
-        RequestModel rq = msg.getRawContent();
+    public synchronized void dispatchIncoming(Message msg) {
         try {
-            msg.getType().linkedClass().cast(rq);
-            this.deliver(rq);
-        } catch (UnsupportedOperationException | ClassCastException ex) {
-            ex.printStackTrace();
+            RequestModel rq = msg.getRawContent();
+            rq.process(this);
+        } catch (UnsupportedOperationException ex) {
+            // TODO Log this event
+            System.out.println("User issued an unsupported request");
         }
     }
 
-    /**
-     * Alert that the message has no valid target
-     *
-     * @param req
-     *            the request that has not been delivered
-     * @throws OperationNotSupportedException
-     *             the operation not supported exception
-     */
-    private void deliver(RequestModel req) {
-        throw new UnsupportedOperationException();
-                }
-
-    private void deliver(JoinRequest req) {
+    public void deliver(JoinRequest req) {
         this.myParty = PartyController.processJoinRequest(this.myAP, req);
-                }
+    }
 
-    private void deliver(ChatRequest req) {
+    public void deliver(ChatRequest req) {
+        throw new UnsupportedOperationException();
+    }
+
+    public void deliver(PartyRequest partyRequest) {
+        throw new UnsupportedOperationException();
+    }
+
+    public void deliver(ActionRequest actionRequest) {
         throw new UnsupportedOperationException();
     }
 
     private boolean isJoined() {
         return this.myParty != null;
     }
+
 }
