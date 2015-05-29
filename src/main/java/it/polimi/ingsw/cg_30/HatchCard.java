@@ -22,6 +22,12 @@ public class HatchCard extends Card {
     }
 
     /**
+     * Instantiates an empty hatch card.
+     */
+    public HatchCard() {
+    }
+
+    /**
      * Gets the chance.
      *
      * @return the chance

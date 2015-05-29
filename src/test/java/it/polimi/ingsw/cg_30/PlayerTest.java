@@ -19,7 +19,6 @@ public class PlayerTest {
         Player ex1 = new Player();
         assertEquals(0, ex1.getIndex());
         assertEquals("unknown player", ex1.getName());
-        assertEquals(false, ex1.getIsDead());
         PlayerCard es = new PlayerCard(PlayerRace.HUMAN,
                 PlayerCharacter.THE_CAPTAIN);
         Player ex2 = new Player("tizio", 1, es);

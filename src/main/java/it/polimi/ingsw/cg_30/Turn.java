@@ -71,4 +71,8 @@ public class Turn {
         this.maxSteps = steps;
     }
 
+    public void setMustMove() {
+        this.mustMove = false;
+    }
+
 }

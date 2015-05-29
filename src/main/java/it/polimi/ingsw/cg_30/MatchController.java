@@ -1,15 +1,18 @@
 package it.polimi.ingsw.cg_30;
 
+import java.util.Set;
+
 public class MatchController {
 
-    public TurnController currentTurn;
-    public PartyController currentParty;
-
+    private TurnController currentTurn;
+    private PartyController currentParty;
     private ZoneController currentZoneController;
     private int turnCount;
     private StackedDeck itemsDeck;
     private StackedDeck hatchesDeck;
     private StackedDeck sectorsDeck;
+    private Set<Player> deadPlayer;
+    private Set<Player> rescuedPlayer;
 
     public int getTurnCount() {
         throw new UnsupportedOperationException();
@@ -41,16 +44,36 @@ public class MatchController {
     }
 
     public void incrementTurnCount() {
-        turnCount++;
+        this.turnCount++;
     }
 
-    public void killed(Player deadPlayer) {
+    public Set<Player> getDeadPlayer() {
+        return deadPlayer;
+    }
+
+    public ZoneController getCurrentZoneController() {
+        return currentZoneController;
+    }
+
+    public StackedDeck getHatchesDeck() {
+        return hatchesDeck;
+    }
+
+    public StackedDeck getSectorsDeck() {
+        return sectorsDeck;
+    }
+
+    public Set<Player> getRescuedPlayer() {
+        return this.rescuedPlayer;
+    }
+
+    public void killed(Player killedPlayer) {
         // non posso rimuovere un player da party altrimenti incorro in problemi
         // successivamente in fase di notifiche/ripristino server
 
         // verifico eventuale presenza carta difesa
-        if (deadPlayer.getIdentity().getRace().equals(PlayerRace.HUMAN)) {
-            for (Card card : deadPlayer.getItemsDeck().getCards()) {
+        if (killedPlayer.getIdentity().getRace().equals(PlayerRace.HUMAN)) {
+            for (Card card : killedPlayer.getItemsDeck().getCards()) {
                 if (card.equals(Item.DEFENSE)) {
                     itemsDeck.putIntoBucket(card);
                     // TO DO avviso dell'uso della carta DIFESA
@@ -59,24 +82,27 @@ public class MatchController {
                 }
             }
         }
-        // attivo il flag isDead di player
-        deadPlayer.setIsDead();
+        // inserisce il player tra i morti
+        deadPlayer.add(killedPlayer);
         // TO DO avvisa quel giocatore che è morto, informa gli altri players
         // sulla sua identità e l'uccisore del fatto che ha ucciso
 
         // scarta le carte del giocatore
-        for (Card card : deadPlayer.getItemsDeck().getCards()) {
+        for (Card card : killedPlayer.getItemsDeck().getCards()) {
             itemsDeck.putIntoBucket(card);
-            deadPlayer.getItemsDeck().getCards().remove(card);
+            killedPlayer.getItemsDeck().getCards().remove(card);
         }
         // faccio sparire il giocatore dalla mappa
-        currentZoneController.getCurrentZone().movePlayer(deadPlayer, null);
+        currentZoneController.getCurrentZone().movePlayer(killedPlayer, null);
         // l'incremento del contatore uccisione lo faccio in Attack
     }
 
     public void checkEndGame() {
         // TO DO funzione che verifica che ci sono le condizioni per la fine del
         // gioco. Se sì, lo termina notificando opportunamente.
+
+        // ricorda che se c'è ancora una sciluppa ma tutte le carte
+        // HatchChance.Free sono già state usate l'umano rimasto è morto.
     }
 
 }

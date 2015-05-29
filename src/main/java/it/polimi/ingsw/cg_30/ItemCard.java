@@ -22,6 +22,12 @@ public class ItemCard extends Card {
     }
 
     /**
+     * Instantiates an empty item card.
+     */
+    public ItemCard() {
+    }
+
+    /**
      * Gets the item.
      *
      * @return the item

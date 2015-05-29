@@ -49,12 +49,66 @@ public class Move extends ActionController {
 
     @Override
     public ActionMessage processAction() {
-        // TO DO rimuovere la seguente riga
-        return null;
-
         // TO DO il controllo con isvalid lo eseguo esternamente prima di
         // chiamare processAction
-
+        // sposto il giocatore
+        matchController.getZoneController().getCurrentZone()
+                .movePlayer(player, target);
+        // segno che il giocatore ha effettuato uno spostamento
+        matchController.getCurrentTurn().getTurn().setMustMove();
+        if (target.getType().equals(SectorType.ESCAPE_HATCH)) {
+            HatchCard drawnCard = new HatchCard();
+            drawnCard = (HatchCard) matchController.getHatchesDeck()
+                    .pickAndThrow();
+            // TO DO notifica quale carta è stata pescata
+            if (drawnCard.getChance().equals(HatchChance.FREE)) {
+                matchController.getRescuedPlayer().add(player);
+                // TO DO notifica che il giocatore si è salvato
+                // TO DO rimuovere la seguente riga
+                return null;
+            }
+        } else if (target.getType().equals(SectorType.DANGEROUS)) {
+            SectorCard drawnCard = new SectorCard();
+            drawnCard = (SectorCard) matchController.getSectorsDeck()
+                    .pickAndThrow();
+            if (drawnCard.getEvent().equals(SectorEvent.SILENCE)) {
+                // TO DO notifica SILENZIO
+                // TO DO rimuovere la seguente riga
+                return null;
+            } else {
+                if (drawnCard.getEvent().equals(SectorEvent.NOISE_YOUR)) {
+                    Noise noise = new Noise(matchController, player, target,
+                            SectorEvent.NOISE_YOUR);
+                    noise.processAction();
+                } else if (drawnCard.getEvent().equals(SectorEvent.NOISE_ANY)) {
+                    Noise noise = new Noise(matchController, player, target,
+                            SectorEvent.NOISE_ANY);
+                    noise.processAction();
+                }
+                // controllo la presenza del sibolo oggetto sulla carta
+                if (drawnCard.hasObjectSymbol()) {
+                    ItemCard icard = new ItemCard();
+                    icard = (ItemCard) matchController.getItemsDeck()
+                            .pickCard();
+                    // TO DO la gestiamo qui l'eccezione nel caso siano finite
+                    // le carte Item?
+                    player.getItemsDeck().getCards().add(icard);
+                    // TO DO notifica il giocatore sulla carta pescata
+                    if (player.getItemsDeck().getCards().size() > 3) {
+                        matchController.getCurrentTurn().getTurn()
+                                .setMustDiscard(true);
+                        // TO DO informa il giocatore che dovrà scartare o usare
+                        // una carta prima di finire il turno
+                    }
+                }
+                // TO DO ho gestito il rumore, quindi devo terminare qui questo
+                // metodo
+                // TO DO rimuovere la seguente riga
+                return null;
+            }
+        }
+        // TO DO ritorna opportuno ActionMessage (settore non pericoloso)
+        // TO DO rimuovere la seguente riga
+        return null;
     }
-
 }
