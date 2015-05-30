@@ -13,7 +13,7 @@ import org.junit.Test;
 
 public class TestPartyController {
 
-    private static AcceptPlayer newMockAp() {
+    public static AcceptPlayer newMockAp() {
         return new AcceptPlayer(UUID.randomUUID()) {
 
             @Override

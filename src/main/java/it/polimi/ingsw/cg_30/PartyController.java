@@ -73,8 +73,8 @@ public class PartyController {
         return newPc;
     }
 
-    public static PartyController processJoinRequest(AcceptPlayer playerClient,
-            JoinRequest request) {
+    public static synchronized PartyController processJoinRequest(
+            AcceptPlayer playerClient, JoinRequest request) {
 
         if (request.getGame() == null)
             request.setGame(new EftaiosGame(EftaiosGame.DEFAULT_MAP));

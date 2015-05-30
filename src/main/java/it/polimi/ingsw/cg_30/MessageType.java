@@ -14,7 +14,7 @@ public enum MessageType {
     /** The join message. */
     JOIN_MESSAGE(JoinRequest.class);
 
-    /** The c. */
+    /** The actual value of this enum constant */
     private Class c;
 
     /**
@@ -23,7 +23,7 @@ public enum MessageType {
      * @param c
      *            the c
      */
-    MessageType(Class c) {
+    <T extends RequestModel> MessageType(Class<T> c) {
         this.c = c;
     }
 
@@ -32,7 +32,7 @@ public enum MessageType {
      *
      * @return the class
      */
-    public Class linkedClass() {
+    public <T extends RequestModel> Class<T> linkedClass() {
         return this.c;
     }
 }

@@ -10,32 +10,41 @@ public class MessageController {
         this.myAP = ap;
     }
 
-    public void deliver(Message msg) {
-        switch (msg.getType()) {
-            case CHAT_MESSAGE:
-                break;
-
-            case JOIN_MESSAGE:
-                myParty = PartyController.processJoinRequest(myAP,
-                        ((JoinMessage) msg).getContent());
-                break;
-
-            case ACTION_MESSAGE:
-                if (isJoined()) {
-
-                }
-                break;
-
-            case PARTY_MESSAGE:
-                if (isJoined()) {
-
-                }
-                break;
-
+    /**
+     * Deliver a generic message to its target. Let the request instance to
+     * invoke its handler.
+     *
+     * @param msg
+     *            the message to be delivered
+     */
+    public synchronized void dispatchIncoming(Message msg) {
+        try {
+            RequestModel rq = msg.getRawContent();
+            rq.process(this);
+        } catch (UnsupportedOperationException ex) {
+            // TODO Log this event
+            System.out.println("User issued an unsupported request");
         }
+    }
+
+    public void deliver(JoinRequest req) {
+        this.myParty = PartyController.processJoinRequest(this.myAP, req);
+    }
+
+    public void deliver(ChatRequest req) {
+        throw new UnsupportedOperationException();
+    }
+
+    public void deliver(PartyRequest partyRequest) {
+        throw new UnsupportedOperationException();
+    }
+
+    public void deliver(ActionRequest actionRequest) {
+        throw new UnsupportedOperationException();
     }
 
     private boolean isJoined() {
         return this.myParty != null;
     }
+
 }

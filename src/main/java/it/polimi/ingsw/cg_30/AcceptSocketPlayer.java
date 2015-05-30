@@ -88,7 +88,7 @@ public class AcceptSocketPlayer extends AcceptPlayer implements Runnable {
         while (this.mySoc.isConnected() && !this.mySoc.isClosed()
                 && !Thread.interrupted()) {
             try {
-                this.mc.deliver(receiveMessage());
+                this.mc.dispatchIncoming(receiveMessage());
             } catch (IOException e) {
                 try {
                     this.mySoc.close();
@@ -98,6 +98,9 @@ public class AcceptSocketPlayer extends AcceptPlayer implements Runnable {
 
                 System.out.println("Socket " + this.mySoc.hashCode()
                         + " closed because of " + e.toString());
+            } catch (Exception e) {
+                System.out
+                        .println("Failed to decode user message, see log for details.");
             }
         }
     }

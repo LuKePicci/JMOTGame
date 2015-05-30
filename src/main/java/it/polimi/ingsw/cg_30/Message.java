@@ -9,7 +9,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlSeeAlso({ ActionMessage.class, ChatMessage.class, PartyMessage.class })
+@XmlSeeAlso({ ActionMessage.class, ChatMessage.class, PartyMessage.class,
+        JoinMessage.class })
 public abstract class Message implements Serializable {
 
     private static final long serialVersionUID = -7712280460808337633L;
