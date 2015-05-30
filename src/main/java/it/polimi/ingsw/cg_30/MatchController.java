@@ -22,8 +22,8 @@ public class MatchController {
         throw new UnsupportedOperationException();
     }
 
-    private TurnController newTurn() {
-        currentTurn = new TurnController();
+    public TurnController newTurn(Player player) {
+        currentTurn = new TurnController(player);
         return currentTurn;
     }
 

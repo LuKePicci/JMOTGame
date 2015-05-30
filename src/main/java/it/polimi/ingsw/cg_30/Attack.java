@@ -19,7 +19,10 @@ public class Attack extends ActionController {
         // TO DO non controllo se è il turno del giocatore, lo devo fare prima.
         // se arrivo qui sono già nel turno del giocatore
         if ((matchController.getCurrentTurn().getTurn().getCanAttack() == true)
-                && (matchController.getCurrentTurn().getTurn().getMustMove() == false))
+                && (matchController.getCurrentTurn().getTurn().getMustMove() == false)
+                && (matchController.getCurrentTurn().getTurn()
+                        .getSilenceForced() == true))// se pesco non posso
+                                                     // attaccare
             return true;
         else
             return false;

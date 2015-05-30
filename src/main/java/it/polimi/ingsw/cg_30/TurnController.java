@@ -4,9 +4,8 @@ public class TurnController {
 
     private Turn turn;
 
-    public TurnController() {
-        // TO DO
-        // this.turn = new Turn();
+    public TurnController(Player player) {
+        this.turn = new Turn(player);
     }
 
     public Player getCurrentPlayer() {

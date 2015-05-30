@@ -12,6 +12,7 @@ public class Player implements Serializable {
 
     /** The index. */
     private int index;
+    // index deve essere compreso tra 1 e 8
 
     /** The identity. */
     private PlayerCard identity;
