@@ -53,6 +53,8 @@ public class Attack extends ActionController {
                 }
             }
         }
+        // impedisco di attaccare di nuovo
+        matchController.getCurrentTurn().getTurn().setCanAttack(false);
         // verifico se la partita è finita
         matchController.checkEndGame();
         // TO DO invio l'ActionMessage

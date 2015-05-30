@@ -35,7 +35,7 @@ public class Zone extends GameTable<Sector> implements Serializable {
     private String mapName;
 
     /** The players location. */
-    public Map<Player, Sector> playersLocation;
+    private Map<Player, Sector> playersLocation;
 
     /** The hatches status. */
     private List<Boolean> hatchesStatus = new ArrayList<Boolean>();
@@ -59,8 +59,19 @@ public class Zone extends GameTable<Sector> implements Serializable {
     }
 
     /**
+     * Gets the players location.
+     *
+     * @return the players location
+     */
+    public Map<Player, Sector> getPlayersLocation() {
+        return this.playersLocation;
+    }
+
+    /**
      * Gets the sector of a particular player.
      *
+     * @param player
+     *            the player
      * @return the sector where player is located
      */
     @Override
@@ -71,6 +82,11 @@ public class Zone extends GameTable<Sector> implements Serializable {
     /**
      * Moves player "who" in sector "where". This method does not check the
      * legality of the movement.
+     *
+     * @param who
+     *            the who
+     * @param where
+     *            the where
      */
     @Override
     public void movePlayer(Player who, Sector where) {
@@ -80,9 +96,12 @@ public class Zone extends GameTable<Sector> implements Serializable {
     /**
      * Gets all the sectors, whose distance is not higher than maxSteps,
      * reachable from the sector "from".
-     * 
+     *
+     * @param from
+     *            the from
+     * @param maxSteps
+     *            the max steps
      * @return the set of reachable sectors
-     * 
      */
     @Override
     public Set<Sector> reachableTargets(Sector from, Integer maxSteps) {
