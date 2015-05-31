@@ -1,6 +1,9 @@
 package it.polimi.ingsw.cg_30;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+
+import java.util.UUID;
 
 import org.junit.Test;
 
@@ -17,6 +20,48 @@ public class TestMessageController {
             }
         };
         mc.dispatchIncoming(testMsg);
+    }
+
+    @Test
+    public void shouldReuseUuidToken() {
+        final Message testMsg = new JoinMessage(new JoinRequest(
+                new EftaiosGame()));
+        MessageController mc = new MessageController(
+                TestPartyController.newMockAp());
+        mc.dispatchIncoming(testMsg);
+
+        JoinRequest req = new JoinRequest(new EftaiosGame());
+        req.myID = mc.getAcceptPlayer().getUUID();
+        final Message testMsg2 = new JoinMessage(req);
+        MessageController otherMc = new MessageController(
+                TestPartyController.newMockAp());
+        otherMc.dispatchIncoming(testMsg2);
+
+        assertEquals(mc.getAcceptPlayer().getUUID(), otherMc.getAcceptPlayer()
+                .getUUID());
+        assertEquals(otherMc, MessageController.connectedClients.get(mc
+                .getAcceptPlayer().getUUID()));
+    }
+
+    @Test
+    public void shouldNotReuseUuidToken() {
+        final Message testMsg = new JoinMessage(new JoinRequest(
+                new EftaiosGame()));
+        MessageController mc = new MessageController(
+                TestPartyController.newMockAp());
+        mc.dispatchIncoming(testMsg);
+
+        JoinRequest req = new JoinRequest(new EftaiosGame());
+        req.myID = UUID.randomUUID();
+        final Message testMsg2 = new JoinMessage(req);
+        MessageController otherMc = new MessageController(
+                TestPartyController.newMockAp());
+        otherMc.dispatchIncoming(testMsg2);
+
+        assertNotEquals(mc.getAcceptPlayer().getUUID(), otherMc
+                .getAcceptPlayer().getUUID());
+        assertNotEquals(otherMc, MessageController.connectedClients.get(mc
+                .getAcceptPlayer().getUUID()));
     }
 
     @Test

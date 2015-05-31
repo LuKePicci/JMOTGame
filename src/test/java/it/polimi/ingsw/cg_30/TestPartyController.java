@@ -45,11 +45,14 @@ public class TestPartyController {
         // no party at the start, this should create a new one
         int prevSize = PartyController.getParties().size();
         AcceptPlayer mockAp = newMockAp();
+        MessageController mc = new MessageController(mockAp);
+        MessageController.usedIds.add(mockAp.getUUID());
+        MessageController.connectedClients.put(mockAp.getUUID(), mc);
         PartyController firstJoinedParty = PartyController.processJoinRequest(
-                mockAp, new JoinRequest(null));
+                mockAp.getUUID(), new JoinRequest(null));
         assertEquals(prevSize + 1, PartyController.getParties().size());
         assertTrue(firstJoinedParty.getCurrentParty().getMembers()
-                .containsValue(mockAp));
+                .containsValue(mockAp.getUUID()));
 
         PartyController secondJoinedParty;
 
@@ -60,36 +63,45 @@ public class TestPartyController {
 
             prevSize = PartyController.getParties().size();
             mockAp = newMockAp();
-            secondJoinedParty = PartyController.processJoinRequest(mockAp,
-                    new JoinRequest(new EftaiosGame()));
+            mc = new MessageController(mockAp);
+            MessageController.usedIds.add(mockAp.getUUID());
+            MessageController.connectedClients.put(mockAp.getUUID(), mc);
+            secondJoinedParty = PartyController.processJoinRequest(
+                    mockAp.getUUID(), new JoinRequest(new EftaiosGame()));
             assertEquals(prevSize, PartyController.getParties().size());
             assertEquals(firstJoinedParty, secondJoinedParty);
             assertTrue(secondJoinedParty.getCurrentParty().getMembers()
-                    .containsValue(mockAp));
+                    .containsValue(mockAp.getUUID()));
         }
 
         // at the moment the first party is full, a new request should create
         // another party
         prevSize = PartyController.getParties().size();
         mockAp = newMockAp();
-        secondJoinedParty = PartyController.processJoinRequest(mockAp,
-                new JoinRequest(new EftaiosGame()));
+        mc = new MessageController(mockAp);
+        MessageController.usedIds.add(mockAp.getUUID());
+        MessageController.connectedClients.put(mockAp.getUUID(), mc);
+        secondJoinedParty = PartyController.processJoinRequest(
+                mockAp.getUUID(), new JoinRequest(new EftaiosGame()));
         assertEquals(prevSize + 1, PartyController.getParties().size());
         assertNotEquals(firstJoinedParty, secondJoinedParty);
         assertTrue(secondJoinedParty.getCurrentParty().getMembers()
-                .containsValue(mockAp));
+                .containsValue(mockAp.getUUID()));
         assertEquals(1, secondJoinedParty.getCurrentParty().getMembers().size());
 
         // now a player asks to join a different game, so a new party should be
         // created
         prevSize = PartyController.getParties().size();
         mockAp = newMockAp();
+        mc = new MessageController(mockAp);
+        MessageController.usedIds.add(mockAp.getUUID());
+        MessageController.connectedClients.put(mockAp.getUUID(), mc);
         PartyController thirdJoinedParty = PartyController.processJoinRequest(
-                mockAp, new JoinRequest(new EftaiosGame("galilei")));
+                mockAp.getUUID(), new JoinRequest(new EftaiosGame("galilei")));
         assertEquals(prevSize + 1, PartyController.getParties().size());
         assertNotEquals(secondJoinedParty, thirdJoinedParty);
         assertTrue(thirdJoinedParty.getCurrentParty().getMembers()
-                .containsValue(mockAp));
+                .containsValue(mockAp.getUUID()));
     }
 
     @Test
@@ -97,28 +109,38 @@ public class TestPartyController {
         // no party at the start, this should create a new one
         int prevSize = PartyController.getParties().size();
         AcceptPlayer mockAp = newMockAp();
+        MessageController mc = new MessageController(mockAp);
+        MessageController.usedIds.add(mockAp.getUUID());
+        MessageController.connectedClients.put(mockAp.getUUID(), mc);
         PartyController privateJoinedParty = PartyController
-                .processJoinRequest(mockAp, new JoinRequest(new EftaiosGame(),
-                        true, "PrivateParty"));
+                .processJoinRequest(mockAp.getUUID(), new JoinRequest(
+                        new EftaiosGame(), true, "PrivateParty"));
         mockAp = newMockAp();
-        privateJoinedParty = PartyController.processJoinRequest(mockAp,
-                new JoinRequest(new EftaiosGame(), true, "PrivateParty"));
+        mc = new MessageController(mockAp);
+        MessageController.usedIds.add(mockAp.getUUID());
+        MessageController.connectedClients.put(mockAp.getUUID(), mc);
+        privateJoinedParty = PartyController.processJoinRequest(mockAp
+                .getUUID(), new JoinRequest(new EftaiosGame(), true,
+                "PrivateParty"));
         assertEquals(2, privateJoinedParty.getCurrentParty().getMembers()
                 .size());
         assertEquals(prevSize + 1, PartyController.getParties().size());
         assertTrue(privateJoinedParty.getCurrentParty().getMembers()
-                .containsValue(mockAp));
+                .containsValue(mockAp.getUUID()));
         assertTrue(privateJoinedParty.getCurrentParty().isPrivate());
 
         // an user ask for the same game but the existing party is private, a
         // new party should be created
         prevSize = PartyController.getParties().size();
         mockAp = newMockAp();
+        mc = new MessageController(mockAp);
+        MessageController.usedIds.add(mockAp.getUUID());
+        MessageController.connectedClients.put(mockAp.getUUID(), mc);
         PartyController publicJoinedParty = PartyController.processJoinRequest(
-                mockAp, new JoinRequest(new EftaiosGame()));
+                mockAp.getUUID(), new JoinRequest(new EftaiosGame()));
         assertEquals(prevSize + 1, PartyController.getParties().size());
         assertTrue(publicJoinedParty.getCurrentParty().getMembers()
-                .containsValue(mockAp));
+                .containsValue(mockAp.getUUID()));
         assertFalse(publicJoinedParty.getCurrentParty().isPrivate());
         assertNotEquals(privateJoinedParty, publicJoinedParty);
     }
@@ -126,13 +148,20 @@ public class TestPartyController {
     @Test
     public void shouldNotJoinMatchInProgressParty() {
         AcceptPlayer mockAp = newMockAp();
+        MessageController mc = new MessageController(mockAp);
+        MessageController.usedIds.add(mockAp.getUUID());
+        MessageController.connectedClients.put(mockAp.getUUID(), mc);
         PartyController privateJoinedParty = PartyController
-                .processJoinRequest(mockAp, new JoinRequest(new EftaiosGame(),
-                        true, "PrivateParty"));
+                .processJoinRequest(mockAp.getUUID(), new JoinRequest(
+                        new EftaiosGame(), true, "PrivateParty"));
         privateJoinedParty.currentMatch = new MatchController();
         mockAp = newMockAp();
-        privateJoinedParty = PartyController.processJoinRequest(mockAp,
-                new JoinRequest(new EftaiosGame(), true, "PrivateParty"));
+        mc = new MessageController(mockAp);
+        MessageController.usedIds.add(mockAp.getUUID());
+        MessageController.connectedClients.put(mockAp.getUUID(), mc);
+        privateJoinedParty = PartyController.processJoinRequest(mockAp
+                .getUUID(), new JoinRequest(new EftaiosGame(), true,
+                "PrivateParty"));
 
     }
 }

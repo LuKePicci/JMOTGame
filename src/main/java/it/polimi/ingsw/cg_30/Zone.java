@@ -107,7 +107,6 @@ public class Zone extends GameTable<Sector> implements Serializable {
                         fringes.get(k).add(neighbor);
                     }
                 }
-
         }
         visited.remove(from);
         return visited;
