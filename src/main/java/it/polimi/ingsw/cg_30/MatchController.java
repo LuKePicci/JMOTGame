@@ -1,6 +1,11 @@
 package it.polimi.ingsw.cg_30;
 
-public class MatchController {
+import java.io.Serializable;
+
+public class MatchController implements Serializable {
+
+    private static final long serialVersionUID = 7559199248239316673L;
+
     public TurnController currentTurn;
 
     public PartyController currentParty;
@@ -13,12 +18,19 @@ public class MatchController {
 
     private ZoneController currentZone;
 
+    public MatchController() {
+        // TODO assign all sub-controllers instances
+    }
+
     public int getTurnCount() {
         throw new UnsupportedOperationException();
     }
 
     private void initMatch() {
-        throw new UnsupportedOperationException();
+
+        // TODO call init methods on every sub-controller
+
+        this.currentTurn = this.newTurn();
     }
 
     private TurnController newTurn() {
@@ -43,6 +55,10 @@ public class MatchController {
 
     public void incrementTurnCount() {
         turnCount++;
+    }
+
+    public synchronized void processActionRequest(ActionRequest req) {
+        throw new UnsupportedOperationException();
     }
 
 }

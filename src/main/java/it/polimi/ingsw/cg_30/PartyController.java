@@ -1,10 +1,13 @@
 package it.polimi.ingsw.cg_30;
 
+import java.io.Serializable;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class PartyController {
+public class PartyController implements Serializable {
+
+    private static final long serialVersionUID = -1363976846969598226L;
 
     private static Map<Party, PartyController> parties = new ConcurrentHashMap<Party, PartyController>();
 
@@ -47,7 +50,7 @@ public class PartyController {
             checkPrivate = !p.isPrivate() || p.getName().equals(privateName);
             if (p.getGame().sameGame(g)
                     && p.getMembers().size() < p.getGame().getMaxPlayers()
-                    && pc.currentMatch == null && checkPrivate)
+                    && !pc.matchInProgress() && checkPrivate)
                 return p;
             else
                 continue;
@@ -94,8 +97,19 @@ public class PartyController {
         return this.currentParty;
     }
 
+    public void sendMessageToParty(Message message) {
+        for (UUID memberId : this.currentParty.getMembers().values()) {
+            MessageController.connectedClients.get(memberId).getAcceptPlayer()
+                    .sendMessage(message);
+        }
+    }
+
     public MatchController getCurrentMatch() {
-        return currentMatch;
+        return this.currentMatch;
+    }
+
+    public boolean matchInProgress() {
+        return this.currentMatch != null;
     }
 
 }

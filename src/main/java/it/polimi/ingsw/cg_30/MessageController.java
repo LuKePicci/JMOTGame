@@ -58,12 +58,13 @@ public class MessageController {
         throw new UnsupportedOperationException();
     }
 
-    public void deliver(PartyRequest partyRequest) {
+    public void deliver(PartyRequest req) {
         throw new UnsupportedOperationException();
     }
 
-    public void deliver(ActionRequest actionRequest) {
-        throw new UnsupportedOperationException();
+    public void deliver(ActionRequest req) {
+        if (this.isJoined() && this.myParty.matchInProgress())
+            this.myParty.getCurrentMatch().processActionRequest(req);
     }
 
     private boolean isJoined() {
@@ -108,4 +109,8 @@ public class MessageController {
         return connectedClients.get(apId);
     }
 
+    public static void sendMessageToAll(Message message) {
+        for (MessageController mc : MessageController.connectedClients.values())
+            mc.getAcceptPlayer().sendMessage(message);
+    }
 }
