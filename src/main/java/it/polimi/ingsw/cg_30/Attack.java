@@ -11,4 +11,5 @@ public class Attack extends ActionController {
     public ActionMessage processAction() {
         throw new UnsupportedOperationException();
     }
+
 }

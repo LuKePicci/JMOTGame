@@ -89,7 +89,7 @@ public class PartyController implements Serializable {
             return joinPublicParty(playerClient, request.getGame());
     }
 
-    public void processPartyRequest(PartyRequest request) {
+    public synchronized void processPartyRequest(PartyRequest request) {
         throw new UnsupportedOperationException();
     }
 

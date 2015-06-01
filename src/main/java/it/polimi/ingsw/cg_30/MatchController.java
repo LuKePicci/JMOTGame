@@ -58,7 +58,17 @@ public class MatchController implements Serializable {
     }
 
     public synchronized void processActionRequest(ActionRequest req) {
-        throw new UnsupportedOperationException();
+        ActionController act;
+        try {
+            act = ActionController.getStrategy(req);
+            act.initAction(this, req);
+            if (act.isValid())
+                act.processAction();
+        } catch (InstantiationException | IllegalAccessException e) {
+            // TODO Log this exception
+            System.out
+                    .println("Failed to instanciate a controller for requested action.");
+        }
     }
 
 }

@@ -11,4 +11,5 @@ public class Noise extends ActionController {
     public ActionMessage processAction() {
         throw new UnsupportedOperationException();
     }
+
 }

@@ -59,7 +59,7 @@ public class MessageController {
     }
 
     public void deliver(PartyRequest req) {
-        throw new UnsupportedOperationException();
+        this.myParty.processPartyRequest(req);
     }
 
     public void deliver(ActionRequest req) {
