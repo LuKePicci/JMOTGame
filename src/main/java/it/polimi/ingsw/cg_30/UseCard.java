@@ -11,4 +11,5 @@ public class UseCard extends ActionController {
     public ActionMessage processAction() {
         throw new UnsupportedOperationException();
     }
+
 }

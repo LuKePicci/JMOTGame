@@ -37,7 +37,6 @@ public class SocketAcceptance extends PlayerAcceptance {
     private void socketAccept() throws IOException {
         Socket cSoc = soc.accept();
         AcceptSocketPlayer gameClient = new AcceptSocketPlayer(cSoc);
-        gameClient.ping();
         GameServer.execute(gameClient);
         this.connections.add(gameClient);
     }

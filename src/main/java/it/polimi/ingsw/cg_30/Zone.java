@@ -37,9 +37,6 @@ public class Zone extends GameTable<Sector> implements Serializable {
     /** The players location. */
     public Map<Player, Sector> playersLocation;
 
-    /** The hatches status. */
-    private List<Boolean> hatchesStatus = new ArrayList<Boolean>();
-
     /**
      * Gets the map.
      *
@@ -79,7 +76,7 @@ public class Zone extends GameTable<Sector> implements Serializable {
 
     /**
      * Gets all the sectors, whose distance is not higher than maxSteps,
-     * reachable from the sector "from".
+     * reachable from the sector "from" (canonical BFS).
      * 
      * @return the set of reachable sectors
      * 
@@ -110,20 +107,19 @@ public class Zone extends GameTable<Sector> implements Serializable {
                         fringes.get(k).add(neighbor);
                     }
                 }
-
         }
         visited.remove(from);
         return visited;
     }
 
     /**
-     * Gets all the players in sector sec.
+     * Gets a collection of all players in sector sec.
      *
      * @param sec
      *            the sector to be checked
      * @return the players in sector sec
      */
-    public Iterable<Player> getPlayersInSector(Sector sec) {
+    public Set<Player> getPlayersInSector(Sector sec) {
         Set<Player> pl = new HashSet<Player>();
         if (playersLocation.containsValue(sec)) {
             for (Player ex : playersLocation.keySet()) {
@@ -133,44 +129,6 @@ public class Zone extends GameTable<Sector> implements Serializable {
             }
         }
         return pl;
-    }
-
-    /**
-     * Locks hatch whose number is hatchNumber.
-     *
-     * @param hatchNumber
-     *            the number of the hatch that have to be locked
-     */
-    public void lockHatch(int hatchNumber) {
-        this.hatchesStatus.set(hatchNumber, true);
-    }
-
-    /**
-     * Checks if the hatch number "hatchNumber" is locked.
-     *
-     * @param hatchNumber
-     *            the number of the hatch to be checked
-     */
-    public void isHatchLocked(int hatchNumber) {
-        this.hatchesStatus.get(hatchNumber);
-    }
-
-    /**
-     * No more hatches.
-     *
-     * @return true if all hatches are locked, false otherwise
-     */
-    public boolean noMoreHatches() {
-        int g = 0;
-        for (Boolean st : hatchesStatus) {
-            if (st) {
-                g++;
-            }
-        }
-        if (g == hatchesStatus.size()) {
-            return true;
-        } else
-            return false;
     }
 
 }

@@ -1,22 +1,36 @@
 package it.polimi.ingsw.cg_30;
 
-public class MatchController {
+import java.io.Serializable;
+
+public class MatchController implements Serializable {
+
+    private static final long serialVersionUID = 7559199248239316673L;
 
     public TurnController currentTurn;
+
     public PartyController currentParty;
 
-    private ZoneController currentZoneController;
-    private int turnCount;
     private StackedDeck itemsDeck;
     private StackedDeck hatchesDeck;
     private StackedDeck sectorsDeck;
+
+    private int turnCount;
+
+    private ZoneController currentZone;
+
+    public MatchController() {
+        // TODO assign all sub-controllers instances
+    }
 
     public int getTurnCount() {
         throw new UnsupportedOperationException();
     }
 
     private void initMatch() {
-        throw new UnsupportedOperationException();
+
+        // TODO call init methods on every sub-controller
+
+        this.currentTurn = this.newTurn();
     }
 
     private TurnController newTurn() {
@@ -77,6 +91,20 @@ public class MatchController {
     public void checkEndGame() {
         // TO DO funzione che verifica che ci sono le condizioni per la fine del
         // gioco. Se sì, lo termina notificando opportunamente.
+    }
+
+    public synchronized void processActionRequest(ActionRequest req) {
+        ActionController act;
+        try {
+            act = ActionController.getStrategy(req);
+            act.initAction(this, req);
+            if (act.isValid())
+                act.processAction();
+        } catch (InstantiationException | IllegalAccessException e) {
+            // TODO Log this exception
+            System.out
+                    .println("Failed to instanciate a controller for requested action.");
+        }
     }
 
 }

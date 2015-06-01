@@ -22,4 +22,9 @@ public class ChatRequest extends RequestModel {
         return this.text;
     }
 
+    @Override
+    public void process(MessageController mc) {
+        mc.deliver(this);
+    }
+
 }

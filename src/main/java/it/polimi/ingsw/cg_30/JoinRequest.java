@@ -68,4 +68,9 @@ public class JoinRequest extends RequestModel {
         return this.joinInfo.get(infoName);
     }
 
+    @Override
+    public void process(MessageController mc) {
+        mc.deliver(this);
+    }
+
 }

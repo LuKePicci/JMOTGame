@@ -55,4 +55,5 @@ public class Attack extends ActionController {
         return null;
 
     }
+
 }

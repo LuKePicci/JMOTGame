@@ -136,6 +136,8 @@ public class TestAcceptSocketPlayer extends Thread {
                 e.printStackTrace();
             }
 
+            ap.sendMessage(new JoinMessage(new JoinRequest(new EftaiosGame())));
+
             ChatRequest chat = new ChatRequest("Message testing");
             chat.setDate(new Date(0L));
             ap.sendMessage(new ChatMessage(chat));
