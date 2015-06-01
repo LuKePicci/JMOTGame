@@ -8,9 +8,10 @@ public class Turn {
     private boolean canAttack;
     private boolean mustMove;
     private int maxSteps;
-    private boolean silenceForced;
     private Player currentPlayer;
     private boolean mustDiscard;
+    private boolean silenceForced; // indica che non deve pescare una crata
+                                   // settore
 
     // costruttore che prepara turno basandosi su un giocatore
     public Turn(Player player) {
@@ -69,6 +70,10 @@ public class Turn {
 
     public void setMaxSteps(int steps) {
         this.maxSteps = steps;
+    }
+
+    public void setMustMove() {
+        this.mustMove = false;
     }
 
 }

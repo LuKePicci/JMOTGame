@@ -46,11 +46,15 @@ public class StackedDeck extends Deck {
     public static StackedDeck newStackedDeckSector() {
         StackedDeck ex = new StackedDeck();
         for (int i = 0; i < 5; i++) {
-            ex.cards.push(new SectorCard(SectorEvent.SILENCE));
+            ex.cards.push(new SectorCard(SectorEvent.SILENCE, false));
         }
-        for (int i = 0; i < 10; i++) {
-            ex.cards.push(new SectorCard(SectorEvent.NOISE_ANY));
-            ex.cards.push(new SectorCard(SectorEvent.NOISE_YOUR));
+        for (int i = 0; i < 4; i++) {
+            ex.cards.push(new SectorCard(SectorEvent.NOISE_ANY, true));
+            ex.cards.push(new SectorCard(SectorEvent.NOISE_YOUR, true));
+        }
+        for (int i = 0; i < 6; i++) {
+            ex.cards.push(new SectorCard(SectorEvent.NOISE_ANY, false));
+            ex.cards.push(new SectorCard(SectorEvent.NOISE_YOUR, false));
         }
         return ex;
     }
@@ -84,7 +88,7 @@ public class StackedDeck extends Deck {
 
     /**
      * Picks a card from the deck and throws an exception if both deck and
-     * bucket are empy.
+     * bucket are empty.
      *
      * @return the card
      * @throws EmptyStackException

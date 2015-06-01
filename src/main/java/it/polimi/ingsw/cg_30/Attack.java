@@ -18,7 +18,14 @@ public class Attack extends ActionController {
     public boolean isValid() {
         // TO DO non controllo se è il turno del giocatore, lo devo fare prima.
         // se arrivo qui sono già nel turno del giocatore
-        return matchController.getCurrentTurn().getTurn().getCanAttack();
+        if ((matchController.getCurrentTurn().getTurn().getCanAttack() == true)
+                && (matchController.getCurrentTurn().getTurn().getMustMove() == false)
+                && (matchController.getCurrentTurn().getTurn()
+                        .getSilenceForced() == true))// se pesco non posso
+                                                     // attaccare
+            return true;
+        else
+            return false;
     }
 
     @Override
@@ -34,26 +41,28 @@ public class Attack extends ActionController {
                 .getCurrentZone().getPlayersInSector(sec);
         dead.remove(player); // devo evitare di uccidere player
         // uccido i giocatori
-        for (Player pl : dead) {
-            matchController.killed(pl);
+        for (Player kp : dead) {
+            matchController.killed(kp);
             // se un alieno uccide un umano incremento il contatore
             if (player.getIdentity().getRace().equals(PlayerRace.ALIEN)) {
-                if (pl.getIdentity().getRace().equals(PlayerRace.HUMAN)) {
+                if (kp.getIdentity().getRace().equals(PlayerRace.HUMAN)) {
                     player.incrementKillsCount();
                 }
             }
             // se un umano uccide un alieno incremento il contatore
             if (player.getIdentity().getRace().equals(PlayerRace.HUMAN)) {
-                if (pl.getIdentity().getRace().equals(PlayerRace.ALIEN)) {
+                if (kp.getIdentity().getRace().equals(PlayerRace.ALIEN)) {
                     player.incrementKillsCount();
                 }
             }
         }
+        // impedisco di attaccare di nuovo
+        matchController.getCurrentTurn().getTurn().setCanAttack(false);
         // verifico se la partita è finita
         matchController.checkEndGame();
+        // TO DO invio l'ActionMessage
         // TO DO rimuovere la seguente riga
         return null;
-
     }
 
 }
