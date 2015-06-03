@@ -27,6 +27,6 @@ public abstract class ActionController {
 
     public abstract boolean isValid();
 
-    public abstract ActionMessage processAction();
+    public abstract void processAction();
 
 }

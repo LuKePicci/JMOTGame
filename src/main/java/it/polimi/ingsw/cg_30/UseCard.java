@@ -56,7 +56,7 @@ public class UseCard extends ActionController {
     }
 
     @Override
-    public ActionMessage processAction() {
+    public void processAction() {
         if (card.equals(Item.ATTACK)) {
             Attack attack = new Attack(matchController);
             attack.processAction();
@@ -89,9 +89,8 @@ public class UseCard extends ActionController {
             borderSectors.add(start);
             for (Sector sec : borderSectors) {
                 Set<Player> watchedPlayers = new HashSet<Player>();
-                watchedPlayers = (Set<Player>) matchController
-                        .getZoneController().getCurrentZone()
-                        .getPlayersInSector(sec);
+                watchedPlayers = matchController.getZoneController()
+                        .getCurrentZone().getPlayersInSector(sec);
                 // TO DO avvisa tutti che nel settore sec si trovano i players
                 // watchedPlayers (ma non terminare il metodo)
             }
@@ -99,8 +98,6 @@ public class UseCard extends ActionController {
         // scarto la carta oggetto utilizzata
         matchController.getItemsDeck().putIntoBucket(card);
         spareDeck.getCards().remove(card);
-        // TO DO rimuovere la seguente riga
-        return null;
     }
 
 }

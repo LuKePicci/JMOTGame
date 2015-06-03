@@ -48,7 +48,7 @@ public class Move extends ActionController {
     }
 
     @Override
-    public ActionMessage processAction() {
+    public void processAction() {
         // TO DO il controllo con isvalid lo eseguo esternamente prima di
         // chiamare processAction
         // sposto il giocatore
@@ -66,8 +66,7 @@ public class Move extends ActionController {
                 // TO DO notifica che il giocatore si è salvato
                 // verifico se la partita è finita
                 matchController.checkEndGame();
-                // TO DO rimuovere la seguente riga
-                return null;
+                return;
             }
         } else if ((target.getType().equals(SectorType.DANGEROUS))
                 && (matchController.getCurrentTurn().getTurn()
@@ -78,17 +77,17 @@ public class Move extends ActionController {
             if (drawnCard.getEvent().equals(SectorEvent.SILENCE)) {
                 // TO DO notifica SILENZIO
                 // TO DO rimuovere la seguente riga
-                return null;
+                return;
             } else {
                 if (drawnCard.getEvent().equals(SectorEvent.NOISE_YOUR)) {
-                    Noise noise = new Noise(matchController, player, target,
-                            SectorEvent.NOISE_YOUR);
-                    noise.processAction();
+                    // Noise noise = new Noise(matchController, player, target,
+                    // SectorEvent.NOISE_YOUR);
+                    // noise.processAction();
                     // TO DO come gestiamo il ritorno di noise.processAction()?
                 } else if (drawnCard.getEvent().equals(SectorEvent.NOISE_ANY)) {
-                    Noise noise = new Noise(matchController, player, target,
-                            SectorEvent.NOISE_ANY);
-                    noise.processAction();
+                    // Noise noise = new Noise(matchController, player, target,
+                    // SectorEvent.NOISE_ANY);
+                    // noise.processAction();
                     // TO DO come gestiamo il ritorno di noise.processAction()?
                 }
                 // controllo la presenza del sibolo oggetto sulla carta
@@ -110,12 +109,12 @@ public class Move extends ActionController {
                 // TO DO ho gestito il rumore, quindi devo terminare qui questo
                 // metodo
                 // TO DO rimuovere la seguente riga
-                return null;
+                return;
             }
         }
         // TO DO ritorna opportuno ActionMessage (settore non pericoloso (oppure
         // è stata usata una carta SEDATIVI))
         // TO DO rimuovere la seguente riga
-        return null;
+        return;
     }
 }

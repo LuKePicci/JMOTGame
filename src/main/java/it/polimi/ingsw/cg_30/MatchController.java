@@ -1,6 +1,5 @@
 package it.polimi.ingsw.cg_30;
 
-import java.io.Serializable;
 import java.util.Set;
 
 public class MatchController {
@@ -14,7 +13,6 @@ public class MatchController {
     private StackedDeck sectorsDeck;
     private Set<Player> deadPlayer;
     private Set<Player> rescuedPlayer;
-
 
     public MatchController() {
         // TODO assign all sub-controllers instances
@@ -31,8 +29,44 @@ public class MatchController {
         this.currentTurn = this.newTurn();
     }
 
-    public TurnController newTurn(Player player) {
-        currentTurn = new TurnController(player);
+    public TurnController newTurn() {
+        // prendo i membri dal party passando da partyController
+        Set<Player> playerList;
+        playerList = this.getCurrentParty().getCurrentParty().getMembers()
+                .keySet();// set con tutti i player del party
+        int playerNumber = playerList.size();
+        int index = this.getCurrentTurn().getTurn().getCurrentPlayer()
+                .getIndex();// indice del giocatore
+                            // successivo a quello di cui
+                            // voglio terminare il turno
+        playerList.removeAll(this.getDeadPlayer());
+        playerList.removeAll(this.getRescuedPlayer());
+        for (int i = 0; i < playerNumber; i++) {
+            if (index == playerNumber) {
+                index = 1;
+                this.incrementTurnCount();
+            } else {
+                index++;
+            }
+            for (Player nextPlayer : playerList) {// faccio ciò in quanto non ho
+                                                  // la
+                                                  // cartezza che nel set
+                                                  // restituito
+                                                  // i player siano nell'ordine
+                                                  // index (vedi attributi
+                                                  // Player)
+                if (nextPlayer.getIndex() == index) {
+                    // qui passo il turno a nextPlayer
+                    this.currentTurn = new TurnController(nextPlayer);
+                    // TO DO comunico il passaggio del turno
+                    this.checkEndGame();
+                    // TO DO rimuovere la seguente riga
+                    return null;
+                }
+            }
+        }
+        // qui non ci dovrei mai arrivare
+        // TO DO rimuovere la seguente riga
         return currentTurn;
     }
 

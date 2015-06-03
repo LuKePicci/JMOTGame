@@ -29,7 +29,7 @@ public class Attack extends ActionController {
     }
 
     @Override
-    public ActionMessage processAction() {
+    public void processAction() {
         // TO DO il controllo con isvalid lo eseguo esternamente prima di
         // chiamare processAction
         // prendo l'elenco dei giocatori morti
@@ -37,8 +37,8 @@ public class Attack extends ActionController {
         sec = matchController.getZoneController().getCurrentZone()
                 .getCell(player);
         Set<Player> dead = new HashSet<Player>();
-        dead = (Set<Player>) matchController.getZoneController()
-                .getCurrentZone().getPlayersInSector(sec);
+        dead = matchController.getZoneController().getCurrentZone()
+                .getPlayersInSector(sec);
         dead.remove(player); // devo evitare di uccidere player
         // uccido i giocatori
         for (Player kp : dead) {
@@ -61,8 +61,6 @@ public class Attack extends ActionController {
         // verifico se la partita è finita
         matchController.checkEndGame();
         // TO DO invio l'ActionMessage
-        // TO DO rimuovere la seguente riga
-        return null;
     }
 
 }
