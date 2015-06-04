@@ -1,113 +1,36 @@
 package it.polimi.ingsw.cg_30;
 
-import java.util.Set;
-
 public class MatchController {
 
-    private TurnController currentTurn;
-    private PartyController currentParty;
-    private ZoneController currentZoneController;
-    private int turnCount;
-    private StackedDeck itemsDeck;
-    private StackedDeck hatchesDeck;
-    private StackedDeck sectorsDeck;
-    private Set<Player> deadPlayer;
-    private Set<Player> rescuedPlayer;
+    private TurnController turnController;
+    private PartyController partyController;
+    private ZoneController zoneController;
+    private Match match;
 
-    public MatchController() {
+    public MatchController() {// ???
         // TODO assign all sub-controllers instances
-    }
-
-    public int getTurnCount() {
-        throw new UnsupportedOperationException();
     }
 
     private void initMatch() {
 
         // TODO call init methods on every sub-controller
 
-        this.currentTurn = this.newTurn();
     }
 
-    public TurnController newTurn() {
-        // prendo i membri dal party passando da partyController
-        Set<Player> playerList;
-        playerList = this.getCurrentParty().getCurrentParty().getMembers()
-                .keySet();// set con tutti i player del party
-        int playerNumber = playerList.size();
-        int index = this.getCurrentTurn().getTurn().getCurrentPlayer()
-                .getIndex();// indice del giocatore
-                            // successivo a quello di cui
-                            // voglio terminare il turno
-        playerList.removeAll(this.getDeadPlayer());
-        playerList.removeAll(this.getRescuedPlayer());
-        for (int i = 0; i < playerNumber; i++) {
-            if (index == playerNumber) {
-                index = 1;
-                this.incrementTurnCount();
-            } else {
-                index++;
-            }
-            for (Player nextPlayer : playerList) {// faccio ciò in quanto non ho
-                                                  // la
-                                                  // cartezza che nel set
-                                                  // restituito
-                                                  // i player siano nell'ordine
-                                                  // index (vedi attributi
-                                                  // Player)
-                if (nextPlayer.getIndex() == index) {
-                    // qui passo il turno a nextPlayer
-                    this.currentTurn = new TurnController(nextPlayer);
-                    // TO DO comunico il passaggio del turno
-                    this.checkEndGame();
-                    // TO DO rimuovere la seguente riga
-                    return null;
-                }
-            }
-        }
-        // qui non ci dovrei mai arrivare
-        // TO DO rimuovere la seguente riga
-        return currentTurn;
+    public TurnController getTurnController() {
+        return turnController;
     }
 
-    public TurnController getCurrentTurn() {
-        return currentTurn;
-    }
-
-    public PartyController getCurrentParty() {
-        return currentParty;
-    }
-
-    public StackedDeck getItemsDeck() {
-        return itemsDeck;
+    public PartyController getPartyController() {
+        return partyController;
     }
 
     public ZoneController getZoneController() {
-        return currentZoneController;
+        return zoneController;
     }
 
-    public void incrementTurnCount() {
-        this.turnCount++;
-    }
-
-    public Set<Player> getDeadPlayer() {
-        return deadPlayer;
-    }
-
-    public ZoneController getCurrentZoneController() {
-        return currentZoneController;
-    }
-
-    public StackedDeck getHatchesDeck() {
-        return hatchesDeck;
-    }
-
-    public StackedDeck getSectorsDeck() {
-        return sectorsDeck;
-    }
-
-    public Set<Player> getRescuedPlayer() {
-        return this.rescuedPlayer;
+    public Match getMatch() {
+        return match;
     }
 
     public void killed(Player killedPlayer) {
@@ -115,10 +38,10 @@ public class MatchController {
         // successivamente in fase di notifiche/ripristino server
 
         // verifico eventuale presenza carta difesa
-        if (killedPlayer.getIdentity().getRace().equals(PlayerRace.HUMAN)) {
+        if (PlayerRace.HUMAN.equals(killedPlayer.getIdentity().getRace())) {
             for (Card card : killedPlayer.getItemsDeck().getCards()) {
-                if (card.equals(Item.DEFENSE)) {
-                    itemsDeck.putIntoBucket(card);
+                if (Item.DEFENSE.equals(card)) {
+                    match.getItemsDeck().putIntoBucket(card);
                     // TO DO avviso dell'uso della carta DIFESA
                     // il giocatore è salvo
                     return;
@@ -126,17 +49,17 @@ public class MatchController {
             }
         }
         // inserisce il player tra i morti
-        deadPlayer.add(killedPlayer);
+        match.getDeadPlayer().add(killedPlayer);
         // TO DO avvisa quel giocatore che è morto, informa gli altri players
         // sulla sua identità e l'uccisore del fatto che ha ucciso
 
         // scarta le carte del giocatore
         for (Card card : killedPlayer.getItemsDeck().getCards()) {
-            itemsDeck.putIntoBucket(card);
+            match.getItemsDeck().putIntoBucket(card);
             killedPlayer.getItemsDeck().getCards().remove(card);
         }
         // faccio sparire il giocatore dalla mappa
-        currentZoneController.getCurrentZone().movePlayer(killedPlayer, null);
+        zoneController.getCurrentZone().movePlayer(killedPlayer, null);
         // l'incremento del contatore uccisione lo faccio in Attack
     }
 

@@ -10,19 +10,20 @@ public class Attack extends ActionController {
 
     public Attack(MatchController matchController) {
         this.matchController = matchController;
-        this.player = matchController.getCurrentTurn().getTurn()
+        this.player = matchController.getTurnController().getTurn()
                 .getCurrentPlayer();
     }
 
     @Override
-    public boolean isValid() {
+    public boolean isValid() { // funzione ad uso esclusivo dell'alieno
         // TO DO non controllo se è il turno del giocatore, lo devo fare prima.
         // se arrivo qui sono già nel turno del giocatore
-        if ((matchController.getCurrentTurn().getTurn().getCanAttack() == true)
-                && (matchController.getCurrentTurn().getTurn().getMustMove() == false)
-                && (matchController.getCurrentTurn().getTurn()
-                        .getSilenceForced() == true))// se pesco non posso
-                                                     // attaccare
+        if ((matchController.getTurnController().getTurn().getCanAttack() == true)
+                && (matchController.getTurnController().getTurn().getMustMove() == false))// se
+                                                                                          // pesco
+                                                                                          // non
+                                                                                          // posso
+                                                                                          // attaccare
             return true;
         else
             return false;
@@ -44,20 +45,20 @@ public class Attack extends ActionController {
         for (Player kp : dead) {
             matchController.killed(kp);
             // se un alieno uccide un umano incremento il contatore
-            if (player.getIdentity().getRace().equals(PlayerRace.ALIEN)) {
-                if (kp.getIdentity().getRace().equals(PlayerRace.HUMAN)) {
-                    player.incrementKillsCount();
-                }
+            if ((PlayerRace.ALIEN.equals(player.getIdentity().getRace()))
+                    && (PlayerRace.HUMAN.equals(kp.getIdentity().getRace()))) {
+                player.incrementKillsCount();
             }
             // se un umano uccide un alieno incremento il contatore
-            if (player.getIdentity().getRace().equals(PlayerRace.HUMAN)) {
-                if (kp.getIdentity().getRace().equals(PlayerRace.ALIEN)) {
-                    player.incrementKillsCount();
-                }
+            else if ((PlayerRace.HUMAN.equals(player.getIdentity().getRace()))
+                    && (PlayerRace.ALIEN.equals(kp.getIdentity().getRace()))) {
+                player.incrementKillsCount();
             }
         }
         // impedisco di attaccare di nuovo
-        matchController.getCurrentTurn().getTurn().setCanAttack(false);
+        matchController.getTurnController().getTurn().setCanAttack(false);
+        // ho risolto gli effetti del settore pericoloso
+        matchController.getTurnController().getTurn().setIsSecDangerous(false);
         // verifico se la partita è finita
         matchController.checkEndGame();
         // TO DO invio l'ActionMessage

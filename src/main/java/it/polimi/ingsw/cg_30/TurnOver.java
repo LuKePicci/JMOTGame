@@ -10,20 +10,20 @@ public class TurnOver extends ActionController {
 
     @Override
     public boolean isValid() {
-        // player deve essersi mosso
-        if (matchController.getCurrentTurn().getTurn().getMustMove() == true) {
+        // player deve essersi mosso, non deve avere 4 carte in mano, deve aver
+        // risolto gli effetti legati al settore pericoloso
+        if ((matchController.getTurnController().getTurn().getMustMove() == true)
+                || (matchController.getTurnController().getTurn()
+                        .getMustDiscard() == true)
+                || (matchController.getTurnController().getTurn()
+                        .getIsSecDangerous() == true)) {
             return false;
-        }
-        // player non deve avere 4 carte in mano
-        if (matchController.getCurrentTurn().getTurn().getMustDiscard() == true) {
-            return false;
-        }
-        return true;
+        } else
+            return true;
     }
 
     @Override
     public void processAction() {
-
+        matchController.getTurnController().nextTurn(matchController);
     }
-
 }
