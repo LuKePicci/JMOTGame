@@ -13,11 +13,11 @@ public class StackedDeckTest {
 
     @Test
     public void shuffleTest() {
-        StackedDeck ex = StackedDeck.newStackedDeckSector();
+        StackedDeck<SectorCard> ex = StackedDeck.newStackedDeckSector();
         ex.shuffle();
         int j = 0;
         for (int i = 0; i < 20; i++) {
-            SectorCard c = (SectorCard) ex.pickCard();
+            SectorCard c = ex.pickCard();
             if (c.getEvent().equals(SectorEvent.SILENCE)) {
                 j++;
             }
@@ -27,53 +27,53 @@ public class StackedDeckTest {
 
     @Test
     public void pickCardTest() {
-        StackedDeck ex = StackedDeck.newStackedDeckHatch();
+        StackedDeck<HatchCard> ex = StackedDeck.newStackedDeckHatch();
         int prevSize = ex.getCardCollection().size();
-        HatchCard c = (HatchCard) ex.pickCard();
+        HatchCard c = ex.pickCard();
         assertEquals(HatchChance.LOCKED, c.getChance());
         ex.putIntoBucket(c);
         for (int i = 0; i < prevSize - 1; i++) {
-            c = (HatchCard) ex.pickCard();
+            c = ex.pickCard();
             ex.putIntoBucket(c);
         }
         assertEquals(0, ex.getCardCollection().size());
         assertEquals(prevSize, ex.bucket.size());
-        c = (HatchCard) ex.pickCard();
+        c = ex.pickCard();
         assertEquals(prevSize - 1, ex.getCardCollection().size());
         assertEquals(0, ex.bucket.size());
     }
 
     @Test
     public void pickAndThrowTest() {
-        StackedDeck ex = StackedDeck.newStackedDeckHatch();
+        StackedDeck<HatchCard> ex = StackedDeck.newStackedDeckHatch();
         assertTrue(ex.bucket.isEmpty());
-        HatchCard c = (HatchCard) ex.pickAndThrow();
+        HatchCard c = ex.pickAndThrow();
         assertEquals(HatchChance.LOCKED, c.getChance());
         assertTrue(ex.bucket.contains(c));
     }
 
     @Test
     public void StackedDeckHatchTest() {
-        StackedDeck ex = StackedDeck.newStackedDeckHatch();
+        StackedDeck<HatchCard> ex = StackedDeck.newStackedDeckHatch();
         assertEquals(6, ex.getCardCollection().size());
     }
 
     @Test
     public void StackedDeckSectorTest() {
-        StackedDeck ex = StackedDeck.newStackedDeckSector();
+        StackedDeck<SectorCard> ex = StackedDeck.newStackedDeckSector();
         assertEquals(25, ex.getCardCollection().size());
     }
 
     @Test
     public void StackedDeckItemTest() {
-        StackedDeck ex = StackedDeck.newStackedDeckItem();
+        StackedDeck<ItemCard> ex = StackedDeck.newStackedDeckItem();
         assertEquals(12, ex.getCardCollection().size());
 
     }
 
     @Test
     public void recycleTest() {
-        StackedDeck ex = StackedDeck.newStackedDeckItem();
+        StackedDeck<ItemCard> ex = StackedDeck.newStackedDeckItem();
         int prevSize = ex.getCardCollection().size();
         for (int i = 0; i < prevSize; i++) {
             ex.pickAndThrow();

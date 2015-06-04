@@ -1,6 +1,5 @@
 package it.polimi.ingsw.cg_30;
 
-import java.util.HashSet;
 import java.util.Set;
 
 public class Move extends ActionController {
@@ -22,10 +21,9 @@ public class Move extends ActionController {
         // TO DO non controllo se è il turno del giocatore, lo devo fare prima.
         // se arrivo qui sono già nel turno del giocatore
         if (matchController.getCurrentTurn().getTurn().getMustMove()) {
-            Set<Sector> reachableSectors = new HashSet<Sector>();
             int maxSteps = matchController.getCurrentTurn().getTurn()
                     .getMaxSteps();
-            reachableSectors = matchController.getZoneController()
+            Set<Sector> reachableSectors = matchController.getZoneController()
                     .getCurrentZone().reachableTargets(target, maxSteps);
             if (reachableSectors.contains(target)) {
                 // anche se un settore è raggiungibile devo assicurarmi che non
@@ -57,8 +55,7 @@ public class Move extends ActionController {
         // segno che il giocatore ha effettuato uno spostamento
         matchController.getCurrentTurn().getTurn().setMustMove();
         if (target.getType().equals(SectorType.ESCAPE_HATCH)) {
-            HatchCard drawnCard = new HatchCard();
-            drawnCard = (HatchCard) matchController.getHatchesDeck()
+            HatchCard drawnCard = matchController.getHatchesDeck()
                     .pickAndThrow();
             // TO DO notifica quale carta è stata pescata
             if (drawnCard.getChance().equals(HatchChance.FREE)) {
@@ -71,8 +68,7 @@ public class Move extends ActionController {
         } else if ((target.getType().equals(SectorType.DANGEROUS))
                 && (matchController.getCurrentTurn().getTurn()
                         .getSilenceForced() == false)) {
-            SectorCard drawnCard = new SectorCard();
-            drawnCard = (SectorCard) matchController.getSectorsDeck()
+            SectorCard drawnCard = matchController.getSectorsDeck()
                     .pickAndThrow();
             if (drawnCard.getEvent().equals(SectorEvent.SILENCE)) {
                 // TO DO notifica SILENZIO
@@ -92,9 +88,7 @@ public class Move extends ActionController {
                 }
                 // controllo la presenza del sibolo oggetto sulla carta
                 if (drawnCard.hasObjectSymbol()) {
-                    ItemCard icard = new ItemCard();
-                    icard = (ItemCard) matchController.getItemsDeck()
-                            .pickCard();
+                    ItemCard icard = matchController.getItemsDeck().pickCard();
                     // TO DO la gestiamo qui l'eccezione nel caso siano finite
                     // le carte Item?
                     player.getItemsDeck().getCards().add(icard);

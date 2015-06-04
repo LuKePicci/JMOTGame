@@ -28,7 +28,7 @@ public class MessageController {
      */
     public synchronized void dispatchIncoming(Message msg) {
         try {
-            RequestModel rq = msg.getRawContent();
+            RequestModel rq = msg.getRawRequest();
             rq.process(this);
         } catch (UnsupportedOperationException ex) {
             // TODO Log this event

@@ -6,7 +6,7 @@ import java.util.Set;
 public class UseCard extends ActionController {
 
     private MatchController matchController;
-    private SpareDeck spareDeck;
+    private SpareDeck<ItemCard> playerItems;
     private Player player;
     private ItemCard card;
 
@@ -15,7 +15,7 @@ public class UseCard extends ActionController {
         this.card = card;
         this.player = matchController.getCurrentTurn().getTurn()
                 .getCurrentPlayer();
-        this.spareDeck = matchController.getCurrentTurn().getTurn()
+        this.playerItems = matchController.getCurrentTurn().getTurn()
                 .getCurrentPlayer().getItemsDeck();
     }
 
@@ -34,7 +34,7 @@ public class UseCard extends ActionController {
             return false;
         } else {
             // verifico che player possieda la carta
-            if (spareDeck.getCards().contains(card)) {
+            if (playerItems.getCards().contains(card)) {
                 if (card.equals(Item.DEFENSE)) {// non posso attivare la carta
                                                 // difesa
                     return false;
@@ -97,7 +97,7 @@ public class UseCard extends ActionController {
         }
         // scarto la carta oggetto utilizzata
         matchController.getItemsDeck().putIntoBucket(card);
-        spareDeck.getCards().remove(card);
+        playerItems.getCards().remove(card);
     }
 
 }

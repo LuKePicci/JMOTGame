@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlRootElement(name = "Zone")
 @XmlAccessorType(XmlAccessType.NONE)
-public class Zone extends GameTable<Sector> implements Serializable {
+public class Zone extends GameTable<Sector> implements IViewable, Serializable {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = -2636229005380853458L;
@@ -148,6 +148,12 @@ public class Zone extends GameTable<Sector> implements Serializable {
             }
         }
         return pl;
+    }
+
+    @Override
+    public ViewModel getViewModel() {
+
+        return new ZoneViewModel(this);
     }
 
 }

@@ -21,7 +21,7 @@ public class TestAcceptSocketPlayer extends Thread {
     public static Socket soc;
     public static AcceptSocketPlayer ap;
     public static TestAcceptSocketPlayer sckTest;
-    public static String testData = "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/Pgo8TWVzc2FnZSBNZXNzYWdlVHlwZT0iQ0hBVF9NRVNTQUdFIj4KICAgIDxDb250ZW50IHhzaTp0eXBlPSJjaGF0UmVxdWVzdCIgVGV4dD0iTWVzc2FnZSB0ZXN0aW5nIiBEYXRlPSIxOTcwLTAxLTAxVDAxOjAwOjAwKzAxOjAwIiB4bWxuczp4c2k9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvWE1MU2NoZW1hLWluc3RhbmNlIi8+CjwvTWVzc2FnZT4K";
+    public static String testData = "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/Pgo8TWVzc2FnZSBNZXNzYWdlVHlwZT0iQ0hBVF9NRVNTQUdFIj4KICAgIDxSZXF1ZXN0IHhzaTp0eXBlPSJjaGF0UmVxdWVzdCIgVGV4dD0iTWVzc2FnZSB0ZXN0aW5nIiBEYXRlPSIxOTcwLTAxLTAxVDAxOjAwOjAwKzAxOjAwIiB4bWxuczp4c2k9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvWE1MU2NoZW1hLWluc3RhbmNlIi8+CjwvTWVzc2FnZT4K";
     public static Semaphore sem;
 
     @Before
@@ -115,7 +115,7 @@ public class TestAcceptSocketPlayer extends Thread {
                 client.close();
             }
 
-            received = ap.receiveMessage().getRawContent();
+            received = ap.receiveMessage().getRawRequest();
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {

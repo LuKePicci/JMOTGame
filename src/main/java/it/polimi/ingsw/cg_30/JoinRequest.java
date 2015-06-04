@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "Content")
+@XmlRootElement(name = "Request")
 public class JoinRequest extends RequestModel {
 
     private static final long serialVersionUID = -4330706792605351579L;

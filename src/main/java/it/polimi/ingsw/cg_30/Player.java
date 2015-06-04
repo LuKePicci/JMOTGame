@@ -21,7 +21,19 @@ public class Player implements Serializable {
     private int killsCount;
 
     /** The items deck. */
-    private SpareDeck itemsDeck;
+    private SpareDeck<ItemCard> itemsDeck;
+
+    /**
+     * Instantiates a new player leaving identity undefined.
+     *
+     * @param name
+     *            the name
+     * @param index
+     *            the index
+     */
+    public Player(String name, int index) {
+        this(name, index, null);
+    }
 
     /**
      * Instantiates a new player.
@@ -38,11 +50,11 @@ public class Player implements Serializable {
         this.index = index;
         this.identity = identity;
         this.killsCount = 0;
-        this.itemsDeck = new SpareDeck();
+        this.itemsDeck = new SpareDeck<ItemCard>();
     }
 
     /**
-     * Instantiates a new player.
+     * Instantiates a new mock player (for testing).
      */
     protected Player() {
         PlayerCard es = new PlayerCard(PlayerRace.HUMAN,
@@ -51,7 +63,7 @@ public class Player implements Serializable {
         this.index = 0;
         this.identity = es;
         this.killsCount = 0;
-        this.itemsDeck = new SpareDeck();
+        this.itemsDeck = new SpareDeck<ItemCard>();
     }
 
     /**
@@ -86,8 +98,18 @@ public class Player implements Serializable {
      *
      * @return the items deck
      */
-    public SpareDeck getItemsDeck() {
+    public SpareDeck<ItemCard> getItemsDeck() {
         return itemsDeck;
+    }
+
+    /**
+     * Sets the player identity from the given card.
+     *
+     * @param myId
+     *            the new identity
+     */
+    public void setIdentity(PlayerCard myId) {
+        this.identity = myId;
     }
 
     /**

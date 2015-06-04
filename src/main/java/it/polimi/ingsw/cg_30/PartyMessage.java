@@ -17,15 +17,15 @@ public class PartyMessage extends Message {
 
     public PartyMessage(PartyRequest request) {
         super(MessageType.PARTY_MESSAGE);
-        this.content = request;
+        this.requestContent = request;
     }
 
     public PartyRequest getContent() {
-        return (PartyRequest) super.getRawContent();
+        return (PartyRequest) super.getRawRequest();
     }
 
     protected void setContent(PartyRequest content) {
-        super.setRawContent(content);
+        super.setRawRequest(content);
     }
 
 }

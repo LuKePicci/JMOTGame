@@ -7,19 +7,19 @@ import java.util.Set;
 /**
  * The Class SpareDeck.
  */
-public class SpareDeck extends Deck {
+public class SpareDeck<C extends Card> extends Deck<C> {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = -8291946562346963478L;
 
     /** The cards. */
-    private Set<Card> cards;
+    private Set<C> cards;
 
     /**
      * Instantiates a new spare deck.
      */
     public SpareDeck() {
-        this.cards = new HashSet<Card>();
+        this.cards = new HashSet<C>();
     }
 
     /**
@@ -27,7 +27,7 @@ public class SpareDeck extends Deck {
      *
      * @return the cards
      */
-    public Set<Card> getCards() {
+    public Set<C> getCards() {
         return cards;
     }
 
@@ -37,7 +37,7 @@ public class SpareDeck extends Deck {
      * @return the card collection
      */
     @Override
-    public Collection getCardCollection() {
+    public Collection<C> getCardCollection() {
         return this.cards;
     }
 

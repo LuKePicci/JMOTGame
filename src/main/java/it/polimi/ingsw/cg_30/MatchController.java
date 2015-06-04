@@ -8,9 +8,9 @@ public class MatchController {
     private PartyController currentParty;
     private ZoneController currentZoneController;
     private int turnCount;
-    private StackedDeck itemsDeck;
-    private StackedDeck hatchesDeck;
-    private StackedDeck sectorsDeck;
+    private StackedDeck<ItemCard> itemsDeck;
+    private StackedDeck<HatchCard> hatchesDeck;
+    private StackedDeck<SectorCard> sectorsDeck;
     private Set<Player> deadPlayer;
     private Set<Player> rescuedPlayer;
 
@@ -78,7 +78,7 @@ public class MatchController {
         return currentParty;
     }
 
-    public StackedDeck getItemsDeck() {
+    public StackedDeck<ItemCard> getItemsDeck() {
         return itemsDeck;
     }
 
@@ -98,11 +98,11 @@ public class MatchController {
         return currentZoneController;
     }
 
-    public StackedDeck getHatchesDeck() {
+    public StackedDeck<HatchCard> getHatchesDeck() {
         return hatchesDeck;
     }
 
-    public StackedDeck getSectorsDeck() {
+    public StackedDeck<SectorCard> getSectorsDeck() {
         return sectorsDeck;
     }
 
@@ -116,7 +116,7 @@ public class MatchController {
 
         // verifico eventuale presenza carta difesa
         if (killedPlayer.getIdentity().getRace().equals(PlayerRace.HUMAN)) {
-            for (Card card : killedPlayer.getItemsDeck().getCards()) {
+            for (ItemCard card : killedPlayer.getItemsDeck().getCards()) {
                 if (card.equals(Item.DEFENSE)) {
                     itemsDeck.putIntoBucket(card);
                     // TO DO avviso dell'uso della carta DIFESA
@@ -131,7 +131,7 @@ public class MatchController {
         // sulla sua identità e l'uccisore del fatto che ha ucciso
 
         // scarta le carte del giocatore
-        for (Card card : killedPlayer.getItemsDeck().getCards()) {
+        for (ItemCard card : killedPlayer.getItemsDeck().getCards()) {
             itemsDeck.putIntoBucket(card);
             killedPlayer.getItemsDeck().getCards().remove(card);
         }

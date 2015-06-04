@@ -3,7 +3,7 @@ package it.polimi.ingsw.cg_30;
 /**
  * The Class Turn.
  */
-public class Turn {
+public class Turn implements IViewable {
 
     private boolean canAttack;
     private boolean mustMove;
@@ -74,6 +74,11 @@ public class Turn {
 
     public void setMustMove() {
         this.mustMove = false;
+    }
+
+    @Override
+    public ViewModel getViewModel() {
+        return new TurnViewModel(this);
     }
 
 }

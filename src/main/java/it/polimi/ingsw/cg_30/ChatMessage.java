@@ -15,15 +15,15 @@ public class ChatMessage extends Message {
 
     public ChatMessage(ChatRequest request) {
         super(MessageType.CHAT_MESSAGE);
-        super.content = request;
+        super.requestContent = request;
     }
 
     public ChatRequest getContent() {
-        return (ChatRequest) super.getRawContent();
+        return (ChatRequest) super.getRawRequest();
     }
 
     protected void setContent(ChatRequest content) {
-        super.setRawContent(content);
+        super.setRawRequest(content);
     }
 
 }

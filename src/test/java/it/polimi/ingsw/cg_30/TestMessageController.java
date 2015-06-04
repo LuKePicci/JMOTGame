@@ -16,7 +16,7 @@ public class TestMessageController {
                 TestPartyController.newMockAp()) {
             @Override
             public void deliver(JoinRequest req) {
-                assertEquals(testMsg.getRawContent(), req);
+                assertEquals(testMsg.getRawRequest(), req);
             }
         };
         mc.dispatchIncoming(testMsg);
@@ -71,7 +71,7 @@ public class TestMessageController {
                 TestPartyController.newMockAp()) {
             @Override
             public void deliver(ChatRequest req) {
-                assertEquals(testMsg.getRawContent(), req);
+                assertEquals(testMsg.getRawRequest(), req);
             }
         };
         mc.dispatchIncoming(testMsg);
@@ -84,7 +84,7 @@ public class TestMessageController {
                 TestPartyController.newMockAp()) {
             @Override
             public void deliver(PartyRequest req) {
-                assertEquals(testMsg.getRawContent(), req);
+                assertEquals(testMsg.getRawRequest(), req);
             }
         };
         mc.dispatchIncoming(testMsg);
@@ -97,7 +97,7 @@ public class TestMessageController {
                 TestPartyController.newMockAp()) {
             @Override
             public void deliver(ActionRequest req) {
-                assertEquals(testMsg.getRawContent(), req);
+                assertEquals(testMsg.getRawRequest(), req);
             }
         };
         mc.dispatchIncoming(testMsg);

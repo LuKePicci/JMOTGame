@@ -5,12 +5,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class Party implements Serializable {
+public class Party implements IViewable, Serializable {
 
     private static final long serialVersionUID = 228808363452233075L;
 
     private Map<Player, UUID> members;
+
     private String name;
+
     private Game currentGame;
     private Boolean privateParty;
 
@@ -37,9 +39,18 @@ public class Party implements Serializable {
         return members;
     }
 
-    public Party addToParty(UUID client) {
-        members.put(new Player(), client);
+    public Party addToParty(UUID clientId) {
+        return this.addToParty(clientId, clientId.toString());
+    }
+
+    public Party addToParty(UUID clientId, String nickName) {
+        members.put(new Player(nickName, this.members.size() + 1), clientId);
         return this;
+    }
+
+    @Override
+    public ViewModel getViewModel() {
+        return new PartyViewModel(this);
     }
 
 }

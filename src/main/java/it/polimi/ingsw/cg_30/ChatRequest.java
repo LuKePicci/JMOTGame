@@ -1,10 +1,9 @@
 package it.polimi.ingsw.cg_30;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlAccessorType(XmlAccessType.NONE)
+@XmlRootElement(name = "Request")
 public class ChatRequest extends RequestModel {
     @XmlAttribute(name = "Text")
     private String text;
