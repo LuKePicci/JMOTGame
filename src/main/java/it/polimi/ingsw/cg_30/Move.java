@@ -10,7 +10,7 @@ public class Move extends ActionController {
     private MatchController matchController;
 
     public Move(MatchController matchController, Sector target) {
-        this.player = matchController.getCurrentTurn().getTurn()
+        this.player = matchController.getTurnController().getTurn()
                 .getCurrentPlayer();
         this.target = target;
         this.matchController = matchController;
@@ -21,9 +21,9 @@ public class Move extends ActionController {
     public boolean isValid() {
         // TO DO non controllo se è il turno del giocatore, lo devo fare prima.
         // se arrivo qui sono già nel turno del giocatore
-        if (matchController.getCurrentTurn().getTurn().getMustMove()) {
+        if (matchController.getTurnController().getTurn().getMustMove()) {
             Set<Sector> reachableSectors = new HashSet<Sector>();
-            int maxSteps = matchController.getCurrentTurn().getTurn()
+            int maxSteps = matchController.getTurnController().getTurn()
                     .getMaxSteps();
             reachableSectors = matchController.getZoneController()
                     .getCurrentZone().reachableTargets(target, maxSteps);
@@ -33,12 +33,12 @@ public class Move extends ActionController {
                 // TO DO è possibile che i seguenti test non siano necessari a
                 // seconda che reachableTargets ritorni o meno i settori start e
                 // sciluppa
-                if ((!target.getType().equals(SectorType.ALIENS_START))
-                        && (!target.getType().equals(SectorType.HUMANS_START))) {
-                    if (player.getIdentity().equals(PlayerRace.HUMAN)) {
+                if ((!SectorType.ALIENS_START.equals(target.getType()))
+                        && (!SectorType.HUMANS_START.equals(target.getType()))) {
+                    if (PlayerRace.HUMAN.equals(player.getIdentity())) {
                         return true; // gli umani posso andare sulle scialuppe
-                    } else if (!target.getType()
-                            .equals(SectorType.ESCAPE_HATCH)) {
+                    } else if (!SectorType.ESCAPE_HATCH
+                            .equals(target.getType())) {
                         return true;
                     }
                 }
@@ -55,66 +55,41 @@ public class Move extends ActionController {
         matchController.getZoneController().getCurrentZone()
                 .movePlayer(player, target);
         // segno che il giocatore ha effettuato uno spostamento
-        matchController.getCurrentTurn().getTurn().setMustMove();
-        if (target.getType().equals(SectorType.ESCAPE_HATCH)) {
+        matchController.getTurnController().getTurn().setMustMove();
+        if (SectorType.ESCAPE_HATCH.equals(target.getType())) {
             HatchCard drawnCard = new HatchCard();
-            drawnCard = (HatchCard) matchController.getHatchesDeck()
+            drawnCard = (HatchCard) matchController.getMatch().getHatchesDeck()
                     .pickAndThrow();
             // TO DO notifica quale carta è stata pescata
-            if (drawnCard.getChance().equals(HatchChance.FREE)) {
-                matchController.getRescuedPlayer().add(player);
+            if (HatchChance.FREE.equals(drawnCard.getChance())) {
+                matchController.getMatch().getRescuedPlayer().add(player);
                 // TO DO notifica che il giocatore si è salvato
                 // verifico se la partita è finita
                 matchController.checkEndGame();
-                return;
             }
-        } else if ((target.getType().equals(SectorType.DANGEROUS))
-                && (matchController.getCurrentTurn().getTurn()
-                        .getSilenceForced() == false)) {
-            SectorCard drawnCard = new SectorCard();
-            drawnCard = (SectorCard) matchController.getSectorsDeck()
-                    .pickAndThrow();
-            if (drawnCard.getEvent().equals(SectorEvent.SILENCE)) {
-                // TO DO notifica SILENZIO
-                // TO DO rimuovere la seguente riga
-                return;
-            } else {
-                if (drawnCard.getEvent().equals(SectorEvent.NOISE_YOUR)) {
-                    // Noise noise = new Noise(matchController, player, target,
-                    // SectorEvent.NOISE_YOUR);
-                    // noise.processAction();
-                    // TO DO come gestiamo il ritorno di noise.processAction()?
-                } else if (drawnCard.getEvent().equals(SectorEvent.NOISE_ANY)) {
-                    // Noise noise = new Noise(matchController, player, target,
-                    // SectorEvent.NOISE_ANY);
-                    // noise.processAction();
-                    // TO DO come gestiamo il ritorno di noise.processAction()?
-                }
-                // controllo la presenza del sibolo oggetto sulla carta
-                if (drawnCard.hasObjectSymbol()) {
-                    ItemCard icard = new ItemCard();
-                    icard = (ItemCard) matchController.getItemsDeck()
-                            .pickCard();
-                    // TO DO la gestiamo qui l'eccezione nel caso siano finite
-                    // le carte Item?
-                    player.getItemsDeck().getCards().add(icard);
-                    // TO DO notifica il giocatore sulla carta pescata
-                    if (player.getItemsDeck().getCards().size() > 3) {
-                        matchController.getCurrentTurn().getTurn()
-                                .setMustDiscard(true);
-                        // TO DO informa il giocatore che dovrà scartare o usare
-                        // una carta prima di finire il turno
-                    }
-                }
-                // TO DO ho gestito il rumore, quindi devo terminare qui questo
-                // metodo
-                // TO DO rimuovere la seguente riga
-                return;
+            matchController.getZoneController().lockHatch(target.getPoint());// in
+                                                                             // teoria
+                                                                             // ho
+                                                                             // già
+                                                                             // verificato
+                                                                             // il
+                                                                             // tipo
+                                                                             // di
+                                                                             // settore
+                                                                             // e
+                                                                             // quindi
+                                                                             // non
+                                                                             // potrebbe
+                                                                             // mai
+                                                                             // verificarsi
+                                                                             // un'eccezione
+        } else if (SectorType.DANGEROUS.equals(target.getType())){
+            matchController.getTurnController().getTurn().setIsSecDangerous(true);//l'alieno dovrà o pescare o attaccare
+            if ((PlayerRace.HUMAN == player.getIdentity().getRace()) && (matchController.getTurnController().getTurn().getSilenceForced()==false)){
+            DrawCard forcedDraw = new DrawCard(matchController);//l'umano deve pescare (salvo uso di sedativi)
             }
         }
-        // TO DO ritorna opportuno ActionMessage (settore non pericoloso (oppure
-        // è stata usata una carta SEDATIVI))
-        // TO DO rimuovere la seguente riga
-        return;
+        else 
+        // TO DO ritorna ActionMessage per settore non pericoloso
     }
 }

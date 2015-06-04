@@ -62,21 +62,17 @@ public class UseCard extends ActionController {
             attack.processAction();
             // TO DO devo gestire il messaggio ritornato da attack
             matchController.getItemsDeck().putIntoBucket(card);
-        }
-        if (card.equals(Item.TELEPORT)) {
+        } else if (card.equals(Item.TELEPORT)) {
             Sector target = new Sector(null, null);
             // TO DO target deve essere il settore di partenza degli umani;
             // target = SETTORE DI PARTENZA UMANI;
             matchController.getZoneController().getCurrentZone()
                     .movePlayer(player, target);
-        }
-        if (card.equals(Item.ADRENALINE)) {
+        } else if (card.equals(Item.ADRENALINE)) {
             matchController.getCurrentTurn().getTurn().setMaxSteps(2);
-        }
-        if (card.equals(Item.SEDATIVES)) {
+        } else if (card.equals(Item.SEDATIVES)) {
             matchController.getCurrentTurn().getTurn().setSilenceForced(true);
-        }
-        if (card.equals(Item.SPOTLIGHT)) {
+        } else if (card.equals(Item.SPOTLIGHT)) {
             // identifico i settori
             Sector start = new Sector(null, null);
             // TO DO chiedere a player il settore centrale di partenza e
