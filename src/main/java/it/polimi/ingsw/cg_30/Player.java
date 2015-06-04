@@ -2,6 +2,7 @@ package it.polimi.ingsw.cg_30;
 
 import java.io.Serializable;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class Player.
  */
@@ -9,6 +10,9 @@ public class Player implements Serializable {
 
     /** The name. */
     private String name;
+
+    /** Player readiness to play. */
+    private boolean ready;
 
     /** The index. */
     private int index;
@@ -52,7 +56,26 @@ public class Player implements Serializable {
     }
 
     /**
-     * Gets the index.
+     * Checks if is ready to play.
+     *
+     * @return true, if is ready
+     */
+    public boolean isReady() {
+        return this.ready;
+    }
+
+    /**
+     * Sets the readiness of this player.
+     *
+     * @param r
+     *            the new ready state
+     */
+    public void setReady(boolean r) {
+        this.ready = r;
+    }
+
+    /**
+     * Gets the index of this player in the context of its party.
      *
      * @return the index
      */
