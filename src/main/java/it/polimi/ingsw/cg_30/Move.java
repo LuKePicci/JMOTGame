@@ -19,7 +19,7 @@ public class Move extends ActionController {
 
     @Override
     public boolean isValid() {
-        // TO DO non controllo se è il turno del giocatore, lo devo fare prima.
+        // TODO non controllo se è il turno del giocatore, lo devo fare prima.
         // se arrivo qui sono già nel turno del giocatore
         if (matchController.getTurnController().getTurn().getMustMove()) {
             Set<Sector> reachableSectors = new HashSet<Sector>();
@@ -30,7 +30,7 @@ public class Move extends ActionController {
             if (reachableSectors.contains(target)) {
                 // anche se un settore è raggiungibile devo assicurarmi che non
                 // sia (scialuppa/)settore umani/settore alieni
-                // TO DO è possibile che i seguenti test non siano necessari a
+                // TODO è possibile che i seguenti test non siano necessari a
                 // seconda che reachableTargets ritorni o meno i settori start e
                 // sciluppa
                 if ((!SectorType.ALIENS_START.equals(target.getType()))
@@ -49,7 +49,7 @@ public class Move extends ActionController {
 
     @Override
     public void processAction() {
-        // TO DO il controllo con isvalid lo eseguo esternamente prima di
+        // TODO il controllo con isvalid lo eseguo esternamente prima di
         // chiamare processAction
         // sposto il giocatore
         matchController.getZoneController().getCurrentZone()
@@ -60,36 +60,38 @@ public class Move extends ActionController {
             HatchCard drawnCard = new HatchCard();
             drawnCard = (HatchCard) matchController.getMatch().getHatchesDeck()
                     .pickAndThrow();
-            // TO DO notifica quale carta è stata pescata
+            // TODO notifica quale carta è stata pescata
             if (HatchChance.FREE.equals(drawnCard.getChance())) {
                 matchController.getMatch().getRescuedPlayer().add(player);
-                // TO DO notifica che il giocatore si è salvato
+                // TODO notifica che il giocatore si è salvato
                 // verifico se la partita è finita
                 matchController.checkEndGame();
             }
-            matchController.getZoneController().lockHatch(target.getPoint());// in
-                                                                             // teoria
-                                                                             // ho
-                                                                             // già
-                                                                             // verificato
-                                                                             // il
-                                                                             // tipo
-                                                                             // di
-                                                                             // settore
-                                                                             // e
-                                                                             // quindi
-                                                                             // non
-                                                                             // potrebbe
-                                                                             // mai
-                                                                             // verificarsi
-                                                                             // un'eccezione
-        } else if (SectorType.DANGEROUS.equals(target.getType())){
-            matchController.getTurnController().getTurn().setIsSecDangerous(true);//l'alieno dovrà o pescare o attaccare
-            if ((PlayerRace.HUMAN == player.getIdentity().getRace()) && (matchController.getTurnController().getTurn().getSilenceForced()==false)){
-            DrawCard forcedDraw = new DrawCard(matchController);//l'umano deve pescare (salvo uso di sedativi)
+            try {
+                matchController.getZoneController()
+                        .lockHatch(target.getPoint());
+            } catch (NotAnHatchException e) {
+                // in teoria ho già verificato il tipo di settore e quindi non
+                // dovrebbe mai verificarsi un'eccezione
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        } else if (SectorType.DANGEROUS.equals(target.getType())) {
+            matchController.getTurnController().getTurn()
+                    .setIsSecDangerous(true);// l'alieno dovrà o pescare o
+                                             // attaccare
+            if ((PlayerRace.HUMAN.equals(player.getIdentity().getRace()))
+                    && (matchController.getTurnController().getTurn()
+                            .getSilenceForced() == false)) {
+                DrawCard forcedDraw = new DrawCard(matchController);// l'umano
+                                                                    // deve
+                                                                    // pescare
+                                                                    // (salvo
+                                                                    // uso di
+                                                                    // sedativi)
             }
         }
-        else 
-        // TO DO ritorna ActionMessage per settore non pericoloso
+        // else
+        // TODO ritorna ActionMessage per settore non pericoloso
     }
 }

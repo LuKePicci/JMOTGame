@@ -25,9 +25,9 @@ public class Noise extends ActionController {
     @Override
     public void processAction() {
         if (noise.equals(SectorEvent.NOISE_YOUR)) {
-            // TO DO notifica il rumore nel settore sector da parte di player
+            // TODO notifica il rumore nel settore sector da parte di player
         } else {
-            // TO DO proponi la scelta del settore in cui far rumore e poi
+            // TODO proponi la scelta del settore in cui far rumore e poi
             // notifica il rumore
         }
     }

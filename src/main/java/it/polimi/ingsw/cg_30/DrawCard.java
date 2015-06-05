@@ -1,5 +1,7 @@
 package it.polimi.ingsw.cg_30;
 
+import java.util.EmptyStackException;
+
 public class DrawCard extends ActionController {
 
     private Player player;
@@ -13,7 +15,7 @@ public class DrawCard extends ActionController {
     }
 
     @Override
-    public boolean isValid() {// funzione inutile
+    public boolean isValid() {// funzione utile solo per l'alieno
         if ((SectorType.DANGEROUS.equals(matchController.getZoneController()
                 .getCurrentZone().getCell(player)))
                 && (matchController.getTurnController().getTurn()
@@ -27,12 +29,14 @@ public class DrawCard extends ActionController {
     public void processAction() {
         {
             SectorCard drawnCard = new SectorCard();
+            // TODO gestione eccezione
             drawnCard = (SectorCard) matchController.getMatch()
                     .getSectorsDeck().pickAndThrow();
             matchController.getTurnController().getTurn()
                     .setIsSecDangerous(false);
+            matchController.getTurnController().getTurn().setCanAttack(false);
             if (SectorEvent.SILENCE.equals(drawnCard.getEvent())) {
-                // TO DO notifica SILENZIO
+                // TODO notifica SILENZIO
             } else {
                 if (SectorEvent.NOISE_YOUR.equals(drawnCard.getEvent())) {
                     Noise noise = new Noise(matchController, player,
@@ -48,16 +52,21 @@ public class DrawCard extends ActionController {
                 // controllo la presenza del sibolo oggetto sulla carta
                 if (drawnCard.hasObjectSymbol()) {
                     ItemCard icard = new ItemCard();
-                    icard = (ItemCard) matchController.getMatch()
-                            .getItemsDeck().pickCard();
-                    // TO DO la gestiamo qui l'eccezione nel caso siano finite
-                    // le carte Item?
+                    // il mazzo item è l'unico che potrebbe terminare le carte
+                    try {
+                        icard = (ItemCard) matchController.getMatch()
+                                .getItemsDeck().pickCard();
+                    } catch (EmptyStackException e) {
+                        // TODO informa il giocatore che non ci son più carte
+                        // oggetto
+                        return;
+                    }
                     player.getItemsDeck().getCards().add(icard);
-                    // TO DO notifica il giocatore sulla carta pescata
+                    // TODO notifica il giocatore sulla carta pescata
                     if (player.getItemsDeck().getCards().size() > 3) {
                         matchController.getTurnController().getTurn()
                                 .setMustDiscard(true);
-                        // TO DO informa il giocatore che dovrà scartare o usare
+                        // TODO informa il giocatore che dovrà scartare o usare
                         // una carta prima di finire il turno
                     }
                 }

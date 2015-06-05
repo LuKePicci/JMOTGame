@@ -16,7 +16,7 @@ public class Attack extends ActionController {
 
     @Override
     public boolean isValid() { // funzione ad uso esclusivo dell'alieno
-        // TO DO non controllo se è il turno del giocatore, lo devo fare prima.
+        // TODO non controllo se è il turno del giocatore, lo devo fare prima.
         // se arrivo qui sono già nel turno del giocatore
         if ((matchController.getTurnController().getTurn().getCanAttack() == true)
                 && (matchController.getTurnController().getTurn().getMustMove() == false))// se
@@ -31,7 +31,7 @@ public class Attack extends ActionController {
 
     @Override
     public void processAction() {
-        // TO DO il controllo con isvalid lo eseguo esternamente prima di
+        // TODO il controllo con isvalid lo eseguo esternamente prima di
         // chiamare processAction
         // prendo l'elenco dei giocatori morti
         Sector sec = new Sector(null, null);
@@ -57,11 +57,11 @@ public class Attack extends ActionController {
         }
         // impedisco di attaccare di nuovo
         matchController.getTurnController().getTurn().setCanAttack(false);
-        // ho risolto gli effetti del settore pericoloso
+        // ho risolto gli eventuali effetti del settore pericoloso
         matchController.getTurnController().getTurn().setIsSecDangerous(false);
         // verifico se la partita è finita
         matchController.checkEndGame();
-        // TO DO invio l'ActionMessage
+        // TODO invio l'ActionMessage
     }
 
 }

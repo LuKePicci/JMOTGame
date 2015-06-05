@@ -40,7 +40,7 @@ public class TurnController {
                     // qui passo il turno a nextPlayer
                     turn = new Turn(nextPlayer);
                     matchController.checkEndGame();
-                    // TO DO comunico il passaggio del turno
+                    // TODO comunico il passaggio del turno
                 }
             }
         }

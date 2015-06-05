@@ -13,9 +13,9 @@ public class UseCard extends ActionController {
     public UseCard(MatchController matchController, ItemCard card) {
         this.matchController = matchController;
         this.card = card;
-        this.player = matchController.getCurrentTurn().getTurn()
+        this.player = matchController.getTurnController().getTurn()
                 .getCurrentPlayer();
-        this.spareDeck = matchController.getCurrentTurn().getTurn()
+        this.spareDeck = matchController.getTurnController().getTurn()
                 .getCurrentPlayer().getItemsDeck();
     }
 
@@ -27,25 +27,23 @@ public class UseCard extends ActionController {
      */
     @Override
     public boolean isValid() {
-        // TO DO non controllo se è il turno del giocatore, lo devo fare prima.
+        // TODO non controllo se è il turno del giocatore, lo devo fare prima.
         // se arrivo qui sono già nel turno del giocatore
         // verifico che player sia umano e non alieno
-        if (player.getIdentity().getRace().equals(PlayerRace.ALIEN)) {
+        if (PlayerRace.ALIEN.equals(player.getIdentity().getRace())) {
             return false;
         } else {
-            // verifico che player possieda la carta
+            // verifico che player umano possieda la carta
             if (spareDeck.getCards().contains(card)) {
-                if (card.equals(Item.DEFENSE)) {// non posso attivare la carta
+                if (Item.DEFENSE.equals(card)) {// non posso attivare la carta
                                                 // difesa
                     return false;
-                }
-                if (card.equals(Item.ADRENALINE)
-                        && (matchController.getCurrentTurn().getTurn()
+                } else if ((Item.ADRENALINE.equals(card))
+                        && (matchController.getTurnController().getTurn()
                                 .getMustMove() == false)) {
                     return false; // va usata prima di muoversi
-                }
-                if (card.equals(Item.SEDATIVES)
-                        && (matchController.getCurrentTurn().getTurn()
+                } else if (Item.SEDATIVES.equals(card)
+                        && (matchController.getTurnController().getTurn()
                                 .getMustMove() == false)) {
                     return false;// va usata prima di muoversi
                 }
@@ -57,25 +55,25 @@ public class UseCard extends ActionController {
 
     @Override
     public void processAction() {
-        if (card.equals(Item.ATTACK)) {
+        if (Item.ATTACK.equals(card)) {
             Attack attack = new Attack(matchController);
             attack.processAction();
-            // TO DO devo gestire il messaggio ritornato da attack
-            matchController.getItemsDeck().putIntoBucket(card);
-        } else if (card.equals(Item.TELEPORT)) {
+            matchController.getMatch().getItemsDeck().putIntoBucket(card);
+        } else if (Item.TELEPORT.equals(card)) {
             Sector target = new Sector(null, null);
-            // TO DO target deve essere il settore di partenza degli umani;
+            // TODO target deve essere il settore di partenza degli umani;
             // target = SETTORE DI PARTENZA UMANI;
             matchController.getZoneController().getCurrentZone()
                     .movePlayer(player, target);
-        } else if (card.equals(Item.ADRENALINE)) {
-            matchController.getCurrentTurn().getTurn().setMaxSteps(2);
-        } else if (card.equals(Item.SEDATIVES)) {
-            matchController.getCurrentTurn().getTurn().setSilenceForced(true);
-        } else if (card.equals(Item.SPOTLIGHT)) {
+        } else if (Item.ADRENALINE.equals(card)) {
+            matchController.getTurnController().getTurn().setMaxSteps(2);
+        } else if (Item.SEDATIVES.equals(card)) {
+            matchController.getTurnController().getTurn()
+                    .setSilenceForced(true);
+        } else if (Item.SPOTLIGHT.equals(card)) {
             // identifico i settori
             Sector start = new Sector(null, null);
-            // TO DO chiedere a player il settore centrale di partenza e
+            // TODO chiedere a player il settore centrale di partenza e
             // impostarne il valoce in start
             start = null; // settore scelto dal player
             Set<Sector> borderSectors = new HashSet<Sector>();
@@ -87,13 +85,15 @@ public class UseCard extends ActionController {
                 Set<Player> watchedPlayers = new HashSet<Player>();
                 watchedPlayers = matchController.getZoneController()
                         .getCurrentZone().getPlayersInSector(sec);
-                // TO DO avvisa tutti che nel settore sec si trovano i players
+                // TODO avvisa tutti che nel settore sec si trovano i players
                 // watchedPlayers (ma non terminare il metodo)
             }
         }
         // scarto la carta oggetto utilizzata
-        matchController.getItemsDeck().putIntoBucket(card);
+        matchController.getMatch().getItemsDeck().putIntoBucket(card);
         spareDeck.getCards().remove(card);
+        // elimino l'eventuale obbligo di scartare
+        matchController.getTurnController().getTurn().setMustDiscard(false);
     }
 
 }
