@@ -1,15 +1,32 @@
 package it.polimi.ingsw.cg_30;
 
-import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * The Class UseCard.
+ */
 public class UseCard extends ActionController {
 
+    /** The match controller. */
     private MatchController matchController;
+
+    /** The spare deck. */
     private SpareDeck spareDeck;
+
+    /** The player. */
     private Player player;
+
+    /** The card. */
     private ItemCard card;
 
+    /**
+     * Instantiates a new use card action.
+     *
+     * @param matchController
+     *            the match controller
+     * @param card
+     *            the card the player is going to use
+     */
     public UseCard(MatchController matchController, ItemCard card) {
         this.matchController = matchController;
         this.card = card;
@@ -24,6 +41,11 @@ public class UseCard extends ActionController {
      * un elenco con tutti i tipi di itemCard e può chiedere l'utilizzo di
      * qualunque carta, sarà isValid che negherà l'uso di una carta se il
      * giocatore non la possiede o non è in condizione di usarla.
+     */
+    /**
+     * Checks the legality of this action.
+     * 
+     * @return true if player can use the card
      */
     @Override
     public boolean isValid() {
@@ -53,6 +75,9 @@ public class UseCard extends ActionController {
         }
     }
 
+    /**
+     * Executes the action.
+     */
     @Override
     public void processAction() {
         if (Item.ATTACK.equals(card)) {
@@ -76,15 +101,14 @@ public class UseCard extends ActionController {
             // TODO chiedere a player il settore centrale di partenza e
             // impostarne il valoce in start
             start = null; // settore scelto dal player
-            Set<Sector> borderSectors = new HashSet<Sector>();
-            borderSectors = matchController.getZoneController()
+            Set<Sector> borderSectors = matchController.getZoneController()
                     .getCurrentZone().reachableTargets(start, 1);// settori
                                                                  // confinanti
             borderSectors.add(start);
             for (Sector sec : borderSectors) {
-                Set<Player> watchedPlayers = new HashSet<Player>();
-                watchedPlayers = matchController.getZoneController()
-                        .getCurrentZone().getPlayersInSector(sec);
+                Set<Player> watchedPlayers = matchController
+                        .getZoneController().getCurrentZone()
+                        .getPlayersInSector(sec);
                 // TODO avvisa tutti che nel settore sec si trovano i players
                 // watchedPlayers (ma non terminare il metodo)
             }

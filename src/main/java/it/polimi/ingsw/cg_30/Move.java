@@ -1,14 +1,29 @@
 package it.polimi.ingsw.cg_30;
 
-import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * The Class Move.
+ */
 public class Move extends ActionController {
 
+    /** The player. */
     private Player player;
+
+    /** The target. */
     private Sector target;
+
+    /** The match controller. */
     private MatchController matchController;
 
+    /**
+     * Instantiates a new move action.
+     *
+     * @param matchController
+     *            the match controller
+     * @param target
+     *            the sector where the player is going
+     */
     public Move(MatchController matchController, Sector target) {
         this.player = matchController.getTurnController().getTurn()
                 .getCurrentPlayer();
@@ -17,15 +32,19 @@ public class Move extends ActionController {
 
     }
 
+    /**
+     * Checks the legality of this action.
+     * 
+     * @return true if the movement is valid
+     */
     @Override
     public boolean isValid() {
         // TODO non controllo se è il turno del giocatore, lo devo fare prima.
         // se arrivo qui sono già nel turno del giocatore
         if (matchController.getTurnController().getTurn().getMustMove()) {
-            Set<Sector> reachableSectors = new HashSet<Sector>();
             int maxSteps = matchController.getTurnController().getTurn()
                     .getMaxSteps();
-            reachableSectors = matchController.getZoneController()
+            Set<Sector> reachableSectors = matchController.getZoneController()
                     .getCurrentZone().reachableTargets(target, maxSteps);
             if (reachableSectors.contains(target)) {
                 // anche se un settore è raggiungibile devo assicurarmi che non
@@ -47,6 +66,9 @@ public class Move extends ActionController {
         return false;
     }
 
+    /**
+     * Executes the action.
+     */
     @Override
     public void processAction() {
         // TODO il controllo con isvalid lo eseguo esternamente prima di
@@ -57,9 +79,8 @@ public class Move extends ActionController {
         // segno che il giocatore ha effettuato uno spostamento
         matchController.getTurnController().getTurn().setMustMove();
         if (SectorType.ESCAPE_HATCH.equals(target.getType())) {
-            HatchCard drawnCard = new HatchCard();
-            drawnCard = (HatchCard) matchController.getMatch().getHatchesDeck()
-                    .pickAndThrow();
+            HatchCard drawnCard = (HatchCard) matchController.getMatch()
+                    .getHatchesDeck().pickAndThrow();
             // TODO notifica quale carta è stata pescata
             if (HatchChance.FREE.equals(drawnCard.getChance())) {
                 matchController.getMatch().getRescuedPlayer().add(player);

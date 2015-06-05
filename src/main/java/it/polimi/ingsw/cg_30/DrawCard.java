@@ -2,11 +2,23 @@ package it.polimi.ingsw.cg_30;
 
 import java.util.EmptyStackException;
 
+/**
+ * The Class DrawCard.
+ */
 public class DrawCard extends ActionController {
 
+    /** The player. */
     private Player player;
+
+    /** The match controller. */
     private MatchController matchController;
 
+    /**
+     * Instantiates a new draw card action.
+     *
+     * @param matchController
+     *            the match controller
+     */
     public DrawCard(MatchController matchController) {
         this.player = matchController.getTurnController().getTurn()
                 .getCurrentPlayer();
@@ -14,6 +26,11 @@ public class DrawCard extends ActionController {
 
     }
 
+    /**
+     * Checks the legality of this action.
+     * 
+     * @return true if the player can draw a card
+     */
     @Override
     public boolean isValid() {// funzione utile solo per l'alieno
         if ((SectorType.DANGEROUS.equals(matchController.getZoneController()
@@ -25,6 +42,9 @@ public class DrawCard extends ActionController {
             return false;
     }
 
+    /**
+     * Executes the action.
+     */
     @Override
     public void processAction() {
         {

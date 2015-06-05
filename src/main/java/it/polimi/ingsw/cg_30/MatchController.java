@@ -7,13 +7,22 @@ public class MatchController {
     private ZoneController zoneController;
     private Match match;
 
-    public MatchController() {// ???
-        // TODO assign all sub-controllers instances
+    public MatchController() {
+
     }
 
-    private void initMatch() {
+    // TODO questa implementazione è una bozza, necessita di revisione
+    public MatchController(PartyController partyController) {
+        this.partyController = partyController;
+        this.match = new Match();
+        this.turnController = new TurnController();
+        this.zoneController = null;// TODO implementare correttamente
+    }
 
+    // TODO questa implementazione è una bozza, necessita di completamento
+    private void initMatch() {
         // TODO call init methods on every sub-controller
+        turnController.firstTurn(this);
 
     }
 

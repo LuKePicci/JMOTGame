@@ -1,19 +1,35 @@
 package it.polimi.ingsw.cg_30;
 
-import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * The Class Attack.
+ */
 public class Attack extends ActionController {
 
+    /** The player. */
     private Player player;
+
+    /** The match controller. */
     private MatchController matchController;
 
+    /**
+     * Instantiates a new attack action.
+     *
+     * @param matchController
+     *            the match controller
+     */
     public Attack(MatchController matchController) {
         this.matchController = matchController;
         this.player = matchController.getTurnController().getTurn()
                 .getCurrentPlayer();
     }
 
+    /**
+     * Checks the legality of this action.
+     * 
+     * @return true if the attack is valid
+     */
     @Override
     public boolean isValid() { // funzione ad uso esclusivo dell'alieno
         // TODO non controllo se è il turno del giocatore, lo devo fare prima.
@@ -29,16 +45,17 @@ public class Attack extends ActionController {
             return false;
     }
 
+    /**
+     * Executes the action.
+     */
     @Override
     public void processAction() {
         // TODO il controllo con isvalid lo eseguo esternamente prima di
         // chiamare processAction
         // prendo l'elenco dei giocatori morti
-        Sector sec = new Sector(null, null);
-        sec = matchController.getZoneController().getCurrentZone()
+        Sector sec = matchController.getZoneController().getCurrentZone()
                 .getCell(player);
-        Set<Player> dead = new HashSet<Player>();
-        dead = matchController.getZoneController().getCurrentZone()
+        Set<Player> dead = matchController.getZoneController().getCurrentZone()
                 .getPlayersInSector(sec);
         dead.remove(player); // devo evitare di uccidere player
         // uccido i giocatori
