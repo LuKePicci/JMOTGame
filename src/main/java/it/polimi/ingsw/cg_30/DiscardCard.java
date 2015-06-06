@@ -25,7 +25,8 @@ public class DiscardCard extends ActionController {
     @Override
     public boolean isValid() {// ipotizzo che si possa scartare una carta solo
                               // se si hanno più di 3 carte in mano
-        if (matchController.getTurnController().getTurn().getMustDiscard()) {
+        if ((matchController.getTurnController().getTurn().getMustDiscard() == true)
+                && (findItemCardByItem(item) != null)) {
             return true;
         }
         return false;
