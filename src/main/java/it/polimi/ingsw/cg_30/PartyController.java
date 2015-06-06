@@ -2,6 +2,8 @@ package it.polimi.ingsw.cg_30;
 
 import java.io.Serializable;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -9,14 +11,19 @@ public class PartyController implements Serializable {
 
     private static final long serialVersionUID = -1363976846969598226L;
 
+    private long startDelay;
+
     private static Map<Party, PartyController> parties = new ConcurrentHashMap<Party, PartyController>();
 
     private Party currentParty;
 
     protected MatchController currentMatch;
 
+    protected Timer startTimer = new Timer();
+
     public PartyController(Party p) {
         this.currentParty = p;
+        this.startDelay = 0;
     }
 
     public static Map<Party, PartyController> getParties() {
@@ -82,11 +89,15 @@ public class PartyController implements Serializable {
         if (request.getGame() == null)
             request.setGame(new EftaiosGame(EftaiosGame.DEFAULT_MAP));
 
+        final PartyController joined;
         if (request.isPrivate())
-            return joinPrivateParty(playerClient, request.getGame(),
+            joined = joinPrivateParty(playerClient, request.getGame(),
                     request.getPartyName());
         else
-            return joinPublicParty(playerClient, request.getGame());
+            joined = joinPublicParty(playerClient, request.getGame());
+        if (joined.getCurrentParty().getMembers().size() >= 2)
+            joined.scheduleMatchStart();
+        return joined;
     }
 
     public synchronized void processPartyRequest(PartyRequest request) {
@@ -112,4 +123,33 @@ public class PartyController implements Serializable {
         return this.currentMatch != null;
     }
 
+    private void startIfReady() {
+        for (Player p : this.currentParty.getMembers().keySet()) {
+            if (!p.isReady())
+                return;
+        }
+        this.startNewMatch();
+    }
+
+    private void startNewMatch() {
+        this.currentMatch = new MatchController();
+        this.currentMatch.initMatch();
+    }
+
+    private void scheduleMatchStart() {
+
+        this.startTimer.cancel();
+
+        this.startDelay = 5 * 1000 * this.getCurrentParty().getMembers().size();
+
+        this.startTimer = new Timer();
+        this.startTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                startTimer.cancel();
+                if (!matchInProgress())
+                    startNewMatch();
+            }
+        }, this.startDelay);
+    }
 }

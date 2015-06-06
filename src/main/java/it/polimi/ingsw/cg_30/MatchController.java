@@ -22,7 +22,7 @@ public class MatchController {
         throw new UnsupportedOperationException();
     }
 
-    private void initMatch() {
+    public void initMatch() {
 
         // TODO call init methods on every sub-controller
 
