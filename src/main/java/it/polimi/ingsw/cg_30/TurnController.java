@@ -26,7 +26,7 @@ public class TurnController {
      *            the match controller
      * @return the players of the party
      */
-    private Set<Player> getPartyPlayers(MatchController matchController) {
+    public Set<Player> getPartyPlayers(MatchController matchController) {
         // prendo i membri dal party passando da partyController
         Set<Player> playerList = matchController.getPartyController()
                 .getCurrentParty().getMembers().keySet();// set con tutti i

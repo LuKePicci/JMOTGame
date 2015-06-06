@@ -3,6 +3,7 @@ package it.polimi.ingsw.cg_30;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EmptyStackException;
+import java.util.Set;
 import java.util.Stack;
 
 /**
@@ -143,4 +144,14 @@ public class StackedDeck extends Deck {
         this.shuffle();
         this.bucket.clear();
     }
+
+    /**
+     * Gets the bucket.
+     *
+     * @return the bucket
+     */
+    public Set<Card> getBucket() {
+        return bucket;
+    }
+
 }

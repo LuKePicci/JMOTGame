@@ -36,4 +36,13 @@ public class ActionRequest extends RequestModel implements Serializable {
     public ActionType getActionType() {
         return this.type;
     }
+
+    public HexPoint getActionTarget() {
+        return this.target;
+    }
+
+    public Item getActionItem() {
+        return this.item;
+    }
+
 }

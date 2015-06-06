@@ -5,19 +5,6 @@ package it.polimi.ingsw.cg_30;
  */
 public class TurnOver extends ActionController {
 
-    /** The match controller. */
-    private MatchController matchController;
-
-    /**
-     * Instantiates a new turn over action.
-     *
-     * @param matchController
-     *            the match controller
-     */
-    public TurnOver(MatchController matchController) {
-        this.matchController = matchController;
-    }
-
     /**
      * Checks the legality of this action.
      * 

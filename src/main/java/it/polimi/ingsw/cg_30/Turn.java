@@ -28,6 +28,10 @@ public class Turn {
                                    // settore pericoloso in cui player è finito
                                    // dopo il movimento
 
+    /** The human killed. */
+    private int humanKilled; // indica quanti umano sono stato uccisi da alieni
+                             // in questo turno
+
     /**
      * Instantiates a new turn based on the player "player".
      *
@@ -51,6 +55,7 @@ public class Turn {
         this.silenceForced = false;
         this.mustDiscard = false;
         this.isSecDangerous = false;
+        this.humanKilled = 0;
     }
 
     /**
@@ -117,6 +122,15 @@ public class Turn {
     }
 
     /**
+     * Gets the human killed value.
+     *
+     * @return the human killed value
+     */
+    public int getHumanKilled() {
+        return this.humanKilled;
+    }
+
+    /**
      * Sets the can attack value.
      *
      * @param canAttack
@@ -173,4 +187,13 @@ public class Turn {
         this.isSecDangerous = isDangerous;
     }
 
+    /**
+     * Change human killed value.
+     *
+     * @param killed
+     *            the number of killed players
+     */
+    public void changeHumanKilled(int killed) {
+        this.humanKilled = humanKilled + killed;
+    }
 }

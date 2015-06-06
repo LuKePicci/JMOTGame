@@ -105,4 +105,12 @@ public class Player implements Serializable {
     public void incrementKillsCount() {
         killsCount++;
     }
+
+    /**
+     * Decrement kills count.
+     */
+    public void decrementKillsCount() {
+        killsCount--;
+    }
+
 }

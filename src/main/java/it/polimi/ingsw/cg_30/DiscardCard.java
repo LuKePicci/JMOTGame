@@ -5,33 +5,16 @@ package it.polimi.ingsw.cg_30;
  */
 public class DiscardCard extends ActionController {
 
-    /** The match controller. */
-    private MatchController matchController;
-
-    /** The spare deck. */
     private SpareDeck spareDeck;
+    private Item item;
 
-    /** The player. */
-    private Player player;
-
-    /** The card. */
-    private ItemCard card;
-
-    /**
-     * Instantiates a new discard card action.
-     *
-     * @param matchController
-     *            the match controller
-     * @param card
-     *            the card the player is going to discard
-     */
-    public DiscardCard(MatchController matchController, ItemCard card) {
-        this.matchController = matchController;
-        this.card = card;
-        this.player = matchController.getTurnController().getTurn()
-                .getCurrentPlayer();
+    @Override
+    public void initAction(MatchController matchController,
+            ActionRequest request) {
+        super.initAction(matchController, request);
         this.spareDeck = matchController.getTurnController().getTurn()
                 .getCurrentPlayer().getItemsDeck();
+        this.item = request.getActionItem();
     }
 
     /**
@@ -53,6 +36,7 @@ public class DiscardCard extends ActionController {
      */
     @Override
     public void processAction() {
+        ItemCard card = findItemCardByItem(item);
         // scarto la carta oggetto
         matchController.getMatch().getItemsDeck().putIntoBucket(card);
         spareDeck.getCards().remove(card);

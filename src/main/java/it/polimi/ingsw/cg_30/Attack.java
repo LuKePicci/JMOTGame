@@ -7,18 +7,7 @@ import java.util.Set;
  */
 public class Attack extends ActionController {
 
-    /** The player. */
-    private Player player;
-
-    /** The match controller. */
-    private MatchController matchController;
-
-    /**
-     * Instantiates a new attack action.
-     *
-     * @param matchController
-     *            the match controller
-     */
+    // costruttore ad uso di UseCard
     public Attack(MatchController matchController) {
         this.matchController = matchController;
         this.player = matchController.getTurnController().getTurn()
@@ -35,11 +24,7 @@ public class Attack extends ActionController {
         // TODO non controllo se è il turno del giocatore, lo devo fare prima.
         // se arrivo qui sono già nel turno del giocatore
         if ((matchController.getTurnController().getTurn().getCanAttack() == true)
-                && (matchController.getTurnController().getTurn().getMustMove() == false))// se
-                                                                                          // pesco
-                                                                                          // non
-                                                                                          // posso
-                                                                                          // attaccare
+                && (matchController.getTurnController().getTurn().getMustMove() == false))
             return true;
         else
             return false;
@@ -50,8 +35,6 @@ public class Attack extends ActionController {
      */
     @Override
     public void processAction() {
-        // TODO il controllo con isvalid lo eseguo esternamente prima di
-        // chiamare processAction
         // prendo l'elenco dei giocatori morti
         Sector sec = matchController.getZoneController().getCurrentZone()
                 .getCell(player);
@@ -60,17 +43,19 @@ public class Attack extends ActionController {
         dead.remove(player); // devo evitare di uccidere player
         // uccido i giocatori
         for (Player kp : dead) {
-            matchController.killed(kp);
             // se un alieno uccide un umano incremento il contatore
             if ((PlayerRace.ALIEN.equals(player.getIdentity().getRace()))
                     && (PlayerRace.HUMAN.equals(kp.getIdentity().getRace()))) {
                 player.incrementKillsCount();
+                matchController.getTurnController().getTurn()
+                        .changeHumanKilled(1);
             }
             // se un umano uccide un alieno incremento il contatore
             else if ((PlayerRace.HUMAN.equals(player.getIdentity().getRace()))
                     && (PlayerRace.ALIEN.equals(kp.getIdentity().getRace()))) {
                 player.incrementKillsCount();
             }
+            matchController.killed(kp);
         }
         // impedisco di attaccare di nuovo
         matchController.getTurnController().getTurn().setCanAttack(false);

@@ -7,23 +7,11 @@ import java.util.EmptyStackException;
  */
 public class DrawCard extends ActionController {
 
-    /** The player. */
-    private Player player;
-
-    /** The match controller. */
-    private MatchController matchController;
-
-    /**
-     * Instantiates a new draw card action.
-     *
-     * @param matchController
-     *            the match controller
-     */
+    // costruttore usato da Move
     public DrawCard(MatchController matchController) {
+        this.matchController = matchController;
         this.player = matchController.getTurnController().getTurn()
                 .getCurrentPlayer();
-        this.matchController = matchController;
-
     }
 
     /**
@@ -34,7 +22,7 @@ public class DrawCard extends ActionController {
     @Override
     public boolean isValid() {// funzione utile solo per l'alieno
         if ((SectorType.DANGEROUS.equals(matchController.getZoneController()
-                .getCurrentZone().getCell(player)))
+                .getCurrentZone().getCell(player).getType()))
                 && (matchController.getTurnController().getTurn()
                         .getIsSecDangerous() == true)) {
             return true;
@@ -49,7 +37,6 @@ public class DrawCard extends ActionController {
     public void processAction() {
         {
             SectorCard drawnCard = new SectorCard();
-            // TODO gestione eccezione
             drawnCard = (SectorCard) matchController.getMatch()
                     .getSectorsDeck().pickAndThrow();
             matchController.getTurnController().getTurn()
@@ -59,15 +46,12 @@ public class DrawCard extends ActionController {
                 // TODO notifica SILENZIO
             } else {
                 if (SectorEvent.NOISE_YOUR.equals(drawnCard.getEvent())) {
-                    Noise noise = new Noise(matchController, player,
-                            matchController.getZoneController()
-                                    .getCurrentZone().getCell(player),
-                            SectorEvent.NOISE_YOUR);
-                    noise.processAction();
+                    // TODO notifica rumore in settore
+                    // matchController.getZoneController().getCurrentZone().getCell(player));
                 } else if (SectorEvent.NOISE_ANY.equals(drawnCard.getEvent())) {
-                    Noise noise = new Noise(matchController, player, null,
-                            SectorEvent.NOISE_ANY);
-                    noise.processAction();
+                    // TODO notifica la richiesta di scegliere in quale settore
+                    // fare rumore
+                    // COME GESTIAMO LA SITUAZIONE???
                 }
                 // controllo la presenza del sibolo oggetto sulla carta
                 if (drawnCard.hasObjectSymbol()) {

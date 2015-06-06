@@ -2,13 +2,14 @@ package it.polimi.ingsw.cg_30;
 
 public abstract class ActionController {
 
-    protected MatchController currentMatch;
-
+    protected MatchController matchController;
     protected ActionRequest req;
+    protected Player player;
 
     public void initAction(MatchController match, ActionRequest request) {
         this.req = request;
-        this.currentMatch = match;
+        this.matchController = match;
+        this.player = match.getTurnController().getTurn().getCurrentPlayer();
     }
 
     public static ActionController getStrategy(ActionRequest request)
@@ -28,5 +29,18 @@ public abstract class ActionController {
     public abstract boolean isValid();
 
     public abstract void processAction();
+
+    // cerco tra le carte in mano a player se c'è quella del tipo richiesto
+    // la ritorno se c'è; ritorno null altrimenti
+    protected ItemCard findItemCardByItem(Item item) {
+        for (Card card : matchController.getTurnController().getTurn()
+                .getCurrentPlayer().getItemsDeck().getCards()) {
+            ItemCard icard = (ItemCard) card;
+            if (item.equals(icard.getItem())) {
+                return icard;
+            }
+        }
+        return null;
+    }
 
 }

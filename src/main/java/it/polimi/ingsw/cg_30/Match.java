@@ -31,7 +31,7 @@ public class Match {
      * Instantiates a new match.
      */
     public Match() {
-        this.turnCount = 0;
+        this.turnCount = 1;
         this.itemsDeck = StackedDeck.newStackedDeckItem();
         this.hatchesDeck = StackedDeck.newStackedDeckHatch();
         this.sectorsDeck = StackedDeck.newStackedDeckSector();

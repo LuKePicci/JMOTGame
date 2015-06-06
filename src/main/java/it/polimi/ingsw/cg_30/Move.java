@@ -7,29 +7,14 @@ import java.util.Set;
  */
 public class Move extends ActionController {
 
-    /** The player. */
-    private Player player;
-
     /** The target. */
     private Sector target;
 
-    /** The match controller. */
-    private MatchController matchController;
-
-    /**
-     * Instantiates a new move action.
-     *
-     * @param matchController
-     *            the match controller
-     * @param target
-     *            the sector where the player is going
-     */
-    public Move(MatchController matchController, Sector target) {
-        this.player = matchController.getTurnController().getTurn()
-                .getCurrentPlayer();
-        this.target = target;
-        this.matchController = matchController;
-
+    @Override
+    public void initAction(MatchController matchController,
+            ActionRequest request) {
+        this.target = matchController.getZoneController().getCurrentZone()
+                .getMap().get(request.getActionTarget());
     }
 
     /**
@@ -71,8 +56,6 @@ public class Move extends ActionController {
      */
     @Override
     public void processAction() {
-        // TODO il controllo con isvalid lo eseguo esternamente prima di
-        // chiamare processAction
         // sposto il giocatore
         matchController.getZoneController().getCurrentZone()
                 .movePlayer(player, target);
@@ -104,15 +87,12 @@ public class Move extends ActionController {
             if ((PlayerRace.HUMAN.equals(player.getIdentity().getRace()))
                     && (matchController.getTurnController().getTurn()
                             .getSilenceForced() == false)) {
-                DrawCard forcedDraw = new DrawCard(matchController);// l'umano
-                                                                    // deve
-                                                                    // pescare
-                                                                    // (salvo
-                                                                    // uso di
-                                                                    // sedativi)
+                // l'umano deve pescare (salvo uso di sedativi)
+                DrawCard forcedDraw = new DrawCard(matchController);
+                forcedDraw.processAction();
             }
-        }
-        // else
-        // TODO ritorna ActionMessage per settore non pericoloso
+        } else
+            // TODO ritorna ActionMessage per settore non pericoloso
+            ;
     }
 }
