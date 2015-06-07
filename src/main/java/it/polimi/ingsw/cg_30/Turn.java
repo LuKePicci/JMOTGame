@@ -32,6 +32,9 @@ public class Turn {
     private int humanKilled; // indica quanti umano sono stato uccisi da alieni
                              // in questo turno
 
+    /** The draw card. */
+    private SectorCard drawnCard;
+
     /**
      * Instantiates a new turn based on the player "player".
      *
@@ -56,6 +59,7 @@ public class Turn {
         this.mustDiscard = false;
         this.isSecDangerous = false;
         this.humanKilled = 0;
+        this.drawnCard = null;
     }
 
     /**
@@ -131,6 +135,15 @@ public class Turn {
     }
 
     /**
+     * Gets the drawn card.
+     *
+     * @return the drawn card
+     */
+    public SectorCard getDrawnCard() {
+        return this.drawnCard;
+    }
+
+    /**
      * Sets the can attack value.
      *
      * @param canAttack
@@ -196,4 +209,15 @@ public class Turn {
     public void changeHumanKilled(int killed) {
         this.humanKilled = humanKilled + killed;
     }
+
+    /**
+     * Sets the drawn card.
+     *
+     * @param drawnCard
+     *            the new drawn card
+     */
+    public void setDrawnCard(SectorCard drawnCard) {
+        this.drawnCard = drawnCard;
+    }
+
 }

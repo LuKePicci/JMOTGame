@@ -38,7 +38,9 @@ public class UseCard extends ActionController {
             return false;
         } else {
             // verifico che player umano possieda la carta
-            if (findItemCardByItem(item) != null) {
+            if ((findItemCardByItem(item) != null)
+                    && (matchController.getTurnController().getTurn()
+                            .getDrawnCard() == null)) {
                 if (Item.DEFENSE.equals(item)) {// non posso attivare la carta
                                                 // difesa
                     return false;

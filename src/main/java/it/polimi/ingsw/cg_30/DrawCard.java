@@ -1,7 +1,5 @@
 package it.polimi.ingsw.cg_30;
 
-import java.util.EmptyStackException;
-
 /**
  * The Class DrawCard.
  */
@@ -36,8 +34,7 @@ public class DrawCard extends ActionController {
     @Override
     public void processAction() {
         {
-            SectorCard drawnCard = new SectorCard();
-            drawnCard = (SectorCard) matchController.getMatch()
+            SectorCard drawnCard = (SectorCard) matchController.getMatch()
                     .getSectorsDeck().pickAndThrow();
             matchController.getTurnController().getTurn()
                     .setIsSecDangerous(false);
@@ -48,31 +45,14 @@ public class DrawCard extends ActionController {
                 if (SectorEvent.NOISE_YOUR.equals(drawnCard.getEvent())) {
                     // TODO notifica rumore in settore
                     // matchController.getZoneController().getCurrentZone().getCell(player));
+                    hasObject(drawnCard);
                 } else if (SectorEvent.NOISE_ANY.equals(drawnCard.getEvent())) {
+                    // salvo in turno la carta pescata in modo da portela avere
+                    // anche nell'action NoiseAny
+                    matchController.getTurnController().getTurn()
+                            .setDrawnCard(drawnCard);
                     // TODO notifica la richiesta di scegliere in quale settore
                     // fare rumore
-                    // COME GESTIAMO LA SITUAZIONE???
-                }
-                // controllo la presenza del sibolo oggetto sulla carta
-                if (drawnCard.hasObjectSymbol()) {
-                    ItemCard icard = new ItemCard();
-                    // il mazzo item è l'unico che potrebbe terminare le carte
-                    try {
-                        icard = (ItemCard) matchController.getMatch()
-                                .getItemsDeck().pickCard();
-                    } catch (EmptyStackException e) {
-                        // TODO informa il giocatore che non ci son più carte
-                        // oggetto
-                        return;
-                    }
-                    player.getItemsDeck().getCards().add(icard);
-                    // TODO notifica il giocatore sulla carta pescata
-                    if (player.getItemsDeck().getCards().size() > 3) {
-                        matchController.getTurnController().getTurn()
-                                .setMustDiscard(true);
-                        // TODO informa il giocatore che dovrà scartare o usare
-                        // una carta prima di finire il turno
-                    }
                 }
             }
         }

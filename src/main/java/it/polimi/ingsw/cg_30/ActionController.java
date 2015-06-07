@@ -1,5 +1,7 @@
 package it.polimi.ingsw.cg_30;
 
+import java.util.EmptyStackException;
+
 public abstract class ActionController {
 
     protected MatchController matchController;
@@ -41,6 +43,30 @@ public abstract class ActionController {
             }
         }
         return null;
+    }
+
+    // controllo la presenza del sibolo oggetto sulla carta settore pescata
+    protected void hasObject(SectorCard drawnCard) {
+        if (drawnCard.hasObjectSymbol()) {
+            ItemCard icard = new ItemCard();
+            // il mazzo item è l'unico che potrebbe terminare le carte
+            try {
+                icard = (ItemCard) matchController.getMatch().getItemsDeck()
+                        .pickCard();
+            } catch (EmptyStackException e) {
+                // TODO informa il giocatore che non ci son più carte
+                // oggetto
+                return;
+            }
+            player.getItemsDeck().getCards().add(icard);
+            // TODO notifica il giocatore sulla carta pescata
+            if (player.getItemsDeck().getCards().size() > 3) {
+                matchController.getTurnController().getTurn()
+                        .setMustDiscard(true);
+                // TODO informa il giocatore che dovrà scartare o usare
+                // una carta prima di finire il turno
+            }
+        }
     }
 
 }

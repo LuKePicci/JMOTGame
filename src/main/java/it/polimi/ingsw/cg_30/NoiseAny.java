@@ -25,5 +25,9 @@ public class NoiseAny extends ActionController {
     @Override
     public void processAction() {
         // TODO notifica il rumore nel settore target
+        hasObject(matchController.getTurnController().getTurn().getDrawnCard());
+        // dopo aver usato la carta la rimuovo da turno così da sbloccare
+        // UseCard e TurnOver
+        matchController.getTurnController().getTurn().setDrawnCard(null);
     }
 }
