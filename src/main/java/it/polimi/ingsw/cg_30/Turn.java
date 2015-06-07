@@ -3,7 +3,7 @@ package it.polimi.ingsw.cg_30;
 /**
  * The Class Turn.
  */
-public class Turn {
+public class Turn implements IViewable {
 
     /** The can attack. */
     private boolean canAttack;
@@ -218,6 +218,11 @@ public class Turn {
      */
     public void setDrawnCard(SectorCard drawnCard) {
         this.drawnCard = drawnCard;
+    }
+
+    @Override
+    public ViewModel getViewModel() {
+        return new TurnViewModel(this);
     }
 
 }

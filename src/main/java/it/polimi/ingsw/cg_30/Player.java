@@ -2,6 +2,7 @@ package it.polimi.ingsw.cg_30;
 
 import java.io.Serializable;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class Player.
  */
@@ -9,6 +10,9 @@ public class Player implements Serializable {
 
     /** The name. */
     private String name;
+
+    /** Player readiness to play. */
+    private boolean ready;
 
     /** The index. */
     private int index;
@@ -21,7 +25,19 @@ public class Player implements Serializable {
     private int killsCount;
 
     /** The items deck. */
-    private SpareDeck itemsDeck;
+    private SpareDeck<ItemCard> itemsDeck;
+
+    /**
+     * Instantiates a new player leaving identity undefined.
+     *
+     * @param name
+     *            the name
+     * @param index
+     *            the index
+     */
+    public Player(String name, int index) {
+        this(name, index, null);
+    }
 
     /**
      * Instantiates a new player.
@@ -38,11 +54,11 @@ public class Player implements Serializable {
         this.index = index;
         this.identity = identity;
         this.killsCount = 0;
-        this.itemsDeck = new SpareDeck();
+        this.itemsDeck = new SpareDeck<ItemCard>();
     }
 
     /**
-     * Instantiates a new player.
+     * Instantiates a new mock player (for testing).
      */
     protected Player() {
         PlayerCard es = new PlayerCard(PlayerRace.HUMAN,
@@ -51,11 +67,30 @@ public class Player implements Serializable {
         this.index = 0;
         this.identity = es;
         this.killsCount = 0;
-        this.itemsDeck = new SpareDeck();
+        this.itemsDeck = new SpareDeck<ItemCard>();
     }
 
     /**
-     * Gets the index.
+     * Checks if is ready to play.
+     *
+     * @return true, if is ready
+     */
+    public boolean isReady() {
+        return this.ready;
+    }
+
+    /**
+     * Sets the readiness of this player.
+     *
+     * @param r
+     *            the new ready state
+     */
+    public void setReady(boolean r) {
+        this.ready = r;
+    }
+
+    /**
+     * Gets the index of this player in the context of its party.
      *
      * @return the index
      */
@@ -86,8 +121,18 @@ public class Player implements Serializable {
      *
      * @return the items deck
      */
-    public SpareDeck getItemsDeck() {
+    public SpareDeck<ItemCard> getItemsDeck() {
         return itemsDeck;
+    }
+
+    /**
+     * Sets the player identity from the given card.
+     *
+     * @param myId
+     *            the new identity
+     */
+    public void setIdentity(PlayerCard myId) {
+        this.identity = myId;
     }
 
     /**

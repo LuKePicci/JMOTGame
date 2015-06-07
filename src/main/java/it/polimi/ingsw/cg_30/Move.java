@@ -86,11 +86,11 @@ public class Move extends ActionController {
                                              // attaccare
             if ((PlayerRace.HUMAN.equals(player.getIdentity().getRace()))
                     && (matchController.getTurnController().getTurn()
-                            .getSilenceForced() == false)) {
+                        .getSilenceForced() == false)) {
                 // l'umano deve pescare (salvo uso di sedativi)
                 DrawCard forcedDraw = new DrawCard(matchController);
                 forcedDraw.processAction();
-            }
+        }
         } else
             // TODO ritorna ActionMessage per settore non pericoloso
             ;

@@ -28,7 +28,7 @@ public class MessageController {
      */
     public synchronized void dispatchIncoming(Message msg) {
         try {
-            RequestModel rq = msg.getRawContent();
+            RequestModel rq = msg.getRawRequest();
             rq.process(this);
         } catch (UnsupportedOperationException ex) {
             // TODO Log this event
@@ -55,7 +55,8 @@ public class MessageController {
     }
 
     public void deliver(ChatRequest req) {
-        throw new UnsupportedOperationException();
+        req.setSender(this.myAP.getUUID());
+        ChatController.processChatRequest(req, this.myParty);
     }
 
     public void deliver(PartyRequest req) {
@@ -63,11 +64,32 @@ public class MessageController {
     }
 
     public void deliver(ActionRequest req) {
-        if (this.isJoined() && this.myParty.matchInProgress())
+        if (this.isJoined() && this.myParty.matchInProgress()
+                && this.isMyTurn())
             this.myParty.getCurrentMatch().processActionRequest(req);
     }
 
-    private boolean isJoined() {
+    /**
+     * Checks if the managed player can perform actions on its match.
+     *
+     * @return true, if is my turn
+     * @throws NullPointerException
+     *             if the player is not joined to a party
+     */
+    private boolean isMyTurn() throws NullPointerException {
+        Player me = this.myParty.getCurrentMatch().getCurrentTurn()
+                .getCurrentPlayer();
+        return this.myAP.getUUID().equals(
+                this.myParty.getCurrentParty().getMembers().get(me));
+
+    }
+
+    /**
+     * Checks if the managed player joined to a party.
+     *
+     * @return true, if is joined
+     */
+    public boolean isJoined() {
         return this.myParty != null;
     }
 
@@ -103,6 +125,10 @@ public class MessageController {
 
     public AcceptPlayer getAcceptPlayer() {
         return this.myAP;
+    }
+
+    public PartyController getPartyController() {
+        return this.myParty;
     }
 
     public static MessageController getPlayerHandler(UUID apId) {

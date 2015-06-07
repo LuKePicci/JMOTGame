@@ -24,7 +24,9 @@ public class HatchCard extends Card {
     /**
      * Instantiates an empty hatch card.
      */
-    public HatchCard() {
+    @SuppressWarnings("unused")
+    private HatchCard() {
+        // JAXB handled
     }
 
     /**

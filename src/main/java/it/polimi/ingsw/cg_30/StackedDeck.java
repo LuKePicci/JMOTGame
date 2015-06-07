@@ -9,20 +9,20 @@ import java.util.Stack;
 /**
  * The Class StackedDeck.
  */
-public class StackedDeck extends Deck {
+public class StackedDeck<C extends Card> extends Deck<C> {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = -7122684108628884837L;
 
     /** The cards. */
-    private Stack<Card> cards;
+    private Stack<C> cards;
 
     /**
      * Instantiates a new stacked deck.
      */
     private StackedDeck() {
         super();
-        this.cards = new Stack<Card>();
+        this.cards = new Stack<C>();
     }
 
     /**
@@ -30,8 +30,8 @@ public class StackedDeck extends Deck {
      *
      * @return the stacked deck
      */
-    public static StackedDeck newStackedDeckHatch() {
-        StackedDeck ex = new StackedDeck();
+    public static StackedDeck<HatchCard> newStackedDeckHatch() {
+        StackedDeck<HatchCard> ex = new StackedDeck<HatchCard>();
         for (int i = 0; i < 3; i++) {
             ex.cards.push(new HatchCard(HatchChance.FREE));
             ex.cards.push(new HatchCard(HatchChance.LOCKED));
@@ -44,8 +44,8 @@ public class StackedDeck extends Deck {
      *
      * @return the stacked deck
      */
-    public static StackedDeck newStackedDeckSector() {
-        StackedDeck ex = new StackedDeck();
+    public static StackedDeck<SectorCard> newStackedDeckSector() {
+        StackedDeck<SectorCard> ex = new StackedDeck<SectorCard>();
         for (int i = 0; i < 5; i++) {
             ex.cards.push(new SectorCard(SectorEvent.SILENCE, false));
         }
@@ -65,8 +65,8 @@ public class StackedDeck extends Deck {
      *
      * @return the stacked deck
      */
-    public static StackedDeck newStackedDeckItem() {
-        StackedDeck ex = new StackedDeck();
+    public static StackedDeck<ItemCard> newStackedDeckItem() {
+        StackedDeck<ItemCard> ex = new StackedDeck<ItemCard>();
         ex.cards.push(new ItemCard(Item.DEFENSE));
         for (int i = 0; i < 2; i++) {
             ex.cards.push(new ItemCard(Item.ADRENALINE));
@@ -98,7 +98,7 @@ public class StackedDeck extends Deck {
      *             empty the second exception is thrown. This exception must be
      *             managed by the method which called pickCard
      */
-    public Card pickCard() throws EmptyStackException {
+    public C pickCard() throws EmptyStackException {
         try {
             return this.cards.pop();
 
@@ -118,8 +118,8 @@ public class StackedDeck extends Deck {
      *             card so it throws the exception. This exception must be
      *             managed by the method which called pickAndThrow
      */
-    public Card pickAndThrow() throws EmptyStackException {
-        Card c = pickCard();
+    public C pickAndThrow() throws EmptyStackException {
+        C c = pickCard();
         this.putIntoBucket(c);
         return c;
     }
@@ -130,7 +130,7 @@ public class StackedDeck extends Deck {
      * @return the card collection
      */
     @Override
-    public Collection<Card> getCardCollection() {
+    public Collection<C> getCardCollection() {
         return cards;
     }
 

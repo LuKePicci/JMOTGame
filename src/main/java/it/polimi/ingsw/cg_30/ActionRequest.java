@@ -5,7 +5,7 @@ import java.io.Serializable;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "Content")
+@XmlRootElement(name = "Request")
 public class ActionRequest extends RequestModel implements Serializable {
 
     private static final long serialVersionUID = 6425875533542791509L;

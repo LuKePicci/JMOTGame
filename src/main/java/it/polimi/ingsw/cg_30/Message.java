@@ -17,7 +17,9 @@ public abstract class Message implements Serializable {
 
     protected MessageType msgType;
 
-    protected RequestModel content;
+    protected RequestModel requestContent;
+
+    protected ViewModel publishedContent;
 
     protected Message(MessageType t) {
         this.msgType = t;
@@ -37,13 +39,18 @@ public abstract class Message implements Serializable {
         this.msgType = type;
     }
 
-    @XmlElement(name = "Content")
-    public RequestModel getRawContent() {
-        return this.content;
+    @XmlElement(name = "Request")
+    public RequestModel getRawRequest() {
+        return this.requestContent;
     }
 
-    protected void setRawContent(RequestModel content) {
-        this.content = content;
+    @XmlElement(name = "View")
+    public ViewModel getRawView() {
+        return this.publishedContent;
+    }
+
+    protected void setRawRequest(RequestModel content) {
+        this.requestContent = content;
     }
 
 }

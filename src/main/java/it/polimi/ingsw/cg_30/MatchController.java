@@ -33,7 +33,7 @@ public class MatchController {
 
     public TurnController getTurnController() {
         return turnController;
-    }
+            }
 
     public PartyController getPartyController() {
         return partyController;

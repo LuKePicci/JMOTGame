@@ -17,15 +17,15 @@ public class JoinMessage extends Message {
 
     public JoinMessage(JoinRequest request) {
         super(MessageType.JOIN_MESSAGE);
-        this.content = request;
+        this.requestContent = request;
     }
 
     public JoinRequest getContent() {
-        return (JoinRequest) super.getRawContent();
+        return (JoinRequest) super.getRawRequest();
     }
 
     protected void setContent(JoinRequest content) {
-        super.setRawContent(content);
+        super.setRawRequest(content);
     }
 
 }

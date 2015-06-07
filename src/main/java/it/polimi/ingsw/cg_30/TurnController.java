@@ -46,8 +46,8 @@ public class TurnController {
         for (Player nextPlayer : playerList) {
             if (nextPlayer.getIndex() == 1) {
                 turn = new Turn(nextPlayer);
-                return turn;
-            }
+        return turn;
+    }
         }
         return null;
     }
@@ -90,5 +90,4 @@ public class TurnController {
         }
         // qui non ci dovrei mai arrivare
     }
-
 }

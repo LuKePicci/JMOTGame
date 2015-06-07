@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg_30;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.DataOutputStream;
@@ -21,7 +22,7 @@ public class TestAcceptSocketPlayer extends Thread {
     public static Socket soc;
     public static AcceptSocketPlayer ap;
     public static TestAcceptSocketPlayer sckTest;
-    public static String testData = "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/Pgo8TWVzc2FnZSBNZXNzYWdlVHlwZT0iQ0hBVF9NRVNTQUdFIj4KICAgIDxDb250ZW50IHhzaTp0eXBlPSJjaGF0UmVxdWVzdCIgVGV4dD0iTWVzc2FnZSB0ZXN0aW5nIiBEYXRlPSIxOTcwLTAxLTAxVDAxOjAwOjAwKzAxOjAwIiB4bWxuczp4c2k9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvWE1MU2NoZW1hLWluc3RhbmNlIi8+CjwvTWVzc2FnZT4K";
+    public static String testData = "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/Pgo8TWVzc2FnZSBNZXNzYWdlVHlwZT0iQ0hBVF9NRVNTQUdFIj4KICAgIDxSZXF1ZXN0IHhzaTp0eXBlPSJjaGF0UmVxdWVzdCIgVmlzaWJpbGl0eT0iUFVCTElDIiBEYXRlPSIxOTcwLTAxLTAxVDAxOjAwOjAwKzAxOjAwIiB4bWxuczp4c2k9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvWE1MU2NoZW1hLWluc3RhbmNlIj4KICAgICAgICA8VGV4dD5NZXNzYWdlIHRlc3Rpbmc8L1RleHQ+CiAgICA8L1JlcXVlc3Q+CjwvTWVzc2FnZT4K";
     public static Semaphore sem;
 
     @Before
@@ -115,7 +116,7 @@ public class TestAcceptSocketPlayer extends Thread {
                 client.close();
             }
 
-            received = ap.receiveMessage().getRawContent();
+            received = ap.receiveMessage().getRawRequest();
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -123,7 +124,6 @@ public class TestAcceptSocketPlayer extends Thread {
         }
         assertTrue(received != null);
         assertEquals("Message testing", ((ChatRequest) received).getText());
-        System.out.println("Test succeeded: shouldReceiveMessage");
     }
 
     @Test
@@ -135,21 +135,24 @@ public class TestAcceptSocketPlayer extends Thread {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            String prevSentData = ap.getLastSentData();
+            ap.sendMessage(new JoinMessage(new JoinRequest("Player",
+                    new EftaiosGame())));
+            assertNotEquals(prevSentData, ap.getLastSentData());
 
-            ap.sendMessage(new JoinMessage(new JoinRequest(new EftaiosGame())));
-
-            ChatRequest chat = new ChatRequest("Message testing");
+            ChatRequest chat = new ChatRequest("Message testing",
+                    ChatVisibility.PUBLIC, null);
             chat.setDate(new Date(0L));
+            prevSentData = ap.getLastSentData();
             ap.sendMessage(new ChatMessage(chat));
+            assertNotEquals(prevSentData, ap.getLastSentData());
 
-            String utfData = ap.getLastSentData();
             client.close();
-            assertEquals(testData, utfData);
+
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("Test succeeded: shouldSendMessage");
     }
 }
