@@ -9,6 +9,8 @@ public class ZoneController {
 
     private Map<HexPoint, Sector> hatches = new HashMap<HexPoint, Sector>();
 
+    private Sector aliensStart, humansStart;
+
     public ZoneController() {
         this(new RandomZoneFactory());
     }
@@ -21,9 +23,21 @@ public class ZoneController {
      */
     public ZoneController(ZoneFactory zf) {
         this.currentZone = zf.newMap();
-        for (Sector s : this.currentZone.getMap().values())
-            if (s.getType() == SectorType.ESCAPE_HATCH)
-                this.hatches.put(s.getPoint(), s);
+        for (Sector s : this.currentZone.getMap().values()) {
+            switch (s.getType()) {
+                case ESCAPE_HATCH:
+                    this.hatches.put(s.getPoint(), s);
+                    break;
+                case ALIENS_START:
+                    this.aliensStart = s;
+                    break;
+                case HUMANS_START:
+                    this.humansStart = s;
+                    break;
+                default:
+                    continue;
+            }
+        }
     }
 
     /**
