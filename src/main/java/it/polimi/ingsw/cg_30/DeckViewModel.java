@@ -16,4 +16,9 @@ public class DeckViewModel<C extends Card> extends ViewModel {
         this.cards = new ArrayList<C>(d.getCardCollection());
     }
 
+    @SuppressWarnings("unused")
+    private DeckViewModel() {
+        // JAXB handled
+    }
+
 }

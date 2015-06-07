@@ -2,6 +2,8 @@ package it.polimi.ingsw.cg_30;
 
 public class PlayerCard extends Card {
 
+    private static final long serialVersionUID = 7504696064744265687L;
+
     private PlayerRace race;
     private PlayerCharacter character;
 

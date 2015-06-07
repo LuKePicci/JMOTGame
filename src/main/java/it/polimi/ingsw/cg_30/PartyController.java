@@ -30,23 +30,24 @@ public class PartyController implements Serializable {
         return PartyController.parties;
     }
 
-    private static PartyController joinPrivateParty(UUID newPlayer, Game g,
-            String privatePartyName) {
-        Party found = findFreeParty(g, privatePartyName);
+    private static PartyController joinPrivateParty(UUID newPlayer,
+            JoinRequest req) {
+        Party found = findFreeParty(req.getGame(), req.getPartyName());
         if (found == null)
             // if given private party not exists create it
-            return createPrivateParty(newPlayer, g, privatePartyName);
+            return createPrivateParty(newPlayer, req);
         else
-            return parties.get(found.addToParty(newPlayer));
+            return parties.get(found.addToParty(newPlayer, req.getNick()));
     }
 
-    private static PartyController joinPublicParty(UUID newPlayer, Game g) {
-        Party found = findFreeParty(g, null);
+    private static PartyController joinPublicParty(UUID newPlayer,
+            JoinRequest req) {
+        Party found = findFreeParty(req.getGame(), null);
         if (found == null)
             // if no available party put him into a new party
-            return createPublicParty(newPlayer, g);
+            return createPublicParty(newPlayer, req);
         else
-            return parties.get(found.addToParty(newPlayer));
+            return parties.get(found.addToParty(newPlayer, req.getNick()));
     }
 
     private static Party findFreeParty(Game g, String privateName) {
@@ -65,15 +66,16 @@ public class PartyController implements Serializable {
         return null;
     }
 
-    private static PartyController createPublicParty(UUID leader, Game g) {
-        Party newParty = new Party(MessageController.getPlayerHandler(leader)
-                .getAcceptPlayer().getNickName(), g, false).addToParty(leader);
-        return createNewParty(newParty);
+    private static PartyController createPublicParty(UUID leader,
+            JoinRequest req) {
+        Party newParty = new Party(req.getNick(), req.getGame(), false);
+        return createNewParty(newParty.addToParty(leader, req.getNick()));
     }
 
-    private static PartyController createPrivateParty(UUID leader, Game g,
-            String privateName) {
-        Party newParty = new Party(privateName, g, true).addToParty(leader);
+    private static PartyController createPrivateParty(UUID leader,
+            JoinRequest req) {
+        Party newParty = new Party(req.getPartyName(), req.getGame(), true)
+                .addToParty(leader, req.getNick());
         return createNewParty(newParty);
     }
 
@@ -91,10 +93,9 @@ public class PartyController implements Serializable {
 
         final PartyController joined;
         if (request.isPrivate())
-            joined = joinPrivateParty(playerClient, request.getGame(),
-                    request.getPartyName());
+            joined = joinPrivateParty(playerClient, request);
         else
-            joined = joinPublicParty(playerClient, request.getGame());
+            joined = joinPublicParty(playerClient, request);
         if (joined.getCurrentParty().getMembers().size() >= 2)
             joined.scheduleMatchStart();
         return joined;

@@ -25,7 +25,9 @@ public class SectorCard extends Card {
     /**
      * Instantiates an empty sector card.
      */
-    public SectorCard() {
+    @SuppressWarnings("unused")
+    private SectorCard() {
+        // JAXB handled
     }
 
     /**

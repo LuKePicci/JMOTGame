@@ -49,4 +49,9 @@ public class PartyViewModel extends ViewModel {
             this.players.add(new PlayerViewModel(pl, members.get(pl)));
     }
 
+    @SuppressWarnings("unused")
+    private PartyViewModel() {
+        // JAXB handled
+    }
+
 }

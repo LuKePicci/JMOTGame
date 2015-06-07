@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg_30;
 
+
 public class TurnController {
 
     private Turn turn;
@@ -19,5 +20,4 @@ public class TurnController {
     public void playRuleModifier(ItemCard item) {
         throw new UnsupportedOperationException();
     }
-
 }

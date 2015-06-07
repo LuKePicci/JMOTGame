@@ -1,9 +1,6 @@
 package it.polimi.ingsw.cg_30;
 
-import java.util.Map;
-
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "Request")
@@ -11,9 +8,8 @@ public class JoinRequest extends RequestModel {
 
     private static final long serialVersionUID = -4330706792605351579L;
 
-    @XmlElementWrapper(name = "Informations")
-    @XmlElement(name = "Info")
-    private Map<String, Object> joinInfo;
+    @XmlElement(name = "NickName")
+    private String nickName;
 
     @XmlElement(name = "Game")
     private Game myGame;
@@ -30,22 +26,23 @@ public class JoinRequest extends RequestModel {
         super();
     }
 
-    public JoinRequest(Game g) {
-        this(g, false, null);
+    public JoinRequest(String nick, Game g) {
+        this(nick, g, false, null);
     }
 
-    public JoinRequest(Game g, boolean privateParty, String name) {
+    public JoinRequest(String nick, Game g, boolean privateParty, String name) {
+        this.nickName = nick;
         this.myGame = g;
         this.isPrivate = privateParty;
         this.partyName = name;
     }
 
-    public Map<String, Object> getJoinInfo() {
-        return this.joinInfo;
+    public String getNick() {
+        return this.nickName;
     }
 
-    public Object putJoinInfo(String key, Object value) {
-        return this.joinInfo.put(key, value);
+    public void setNick(String nick) {
+        this.nickName = nick;
     }
 
     public Game getGame() {
@@ -62,10 +59,6 @@ public class JoinRequest extends RequestModel {
 
     public boolean isPrivate() {
         return this.isPrivate;
-    }
-
-    public Object getInfoByName(String infoName) {
-        return this.joinInfo.get(infoName);
     }
 
     @Override

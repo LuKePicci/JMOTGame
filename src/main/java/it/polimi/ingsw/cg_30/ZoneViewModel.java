@@ -21,6 +21,11 @@ public class ZoneViewModel extends ViewModel {
         this.sectorsMap = z.getMap();
     }
 
+    @SuppressWarnings("unused")
+    private ZoneViewModel() {
+        // JAXB handled
+    }
+
     public ZoneViewModel setPlayerLocation(Sector s) {
         this.playerLocation = s;
         return this;

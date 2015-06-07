@@ -44,6 +44,11 @@ public abstract class Message implements Serializable {
         return this.requestContent;
     }
 
+    @XmlElement(name = "View")
+    public ViewModel getRawView() {
+        return this.publishedContent;
+    }
+
     protected void setRawRequest(RequestModel content) {
         this.requestContent = content;
     }

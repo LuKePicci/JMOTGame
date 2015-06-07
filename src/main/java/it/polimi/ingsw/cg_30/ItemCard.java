@@ -29,6 +29,7 @@ public class ItemCard extends Card {
     /**
      * Instantiates an empty item card (JAXB needings)
      */
+    @SuppressWarnings("unused")
     private ItemCard() {
         // JAXB handled
     }

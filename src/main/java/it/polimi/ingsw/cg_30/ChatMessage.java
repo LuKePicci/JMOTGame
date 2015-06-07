@@ -8,6 +8,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class ChatMessage extends Message {
 
+    private static final long serialVersionUID = -5935094401281777663L;
+
     @SuppressWarnings("unused")
     private ChatMessage() {
         // local attributes initialization by JAXB
@@ -18,12 +20,25 @@ public class ChatMessage extends Message {
         super.requestContent = request;
     }
 
-    public ChatRequest getContent() {
+    public ChatMessage(ChatViewModel model) {
+        super(MessageType.CHAT_MESSAGE);
+        super.publishedContent = model;
+    }
+
+    public ChatRequest getRequest() {
         return (ChatRequest) super.getRawRequest();
     }
 
-    protected void setContent(ChatRequest content) {
+    protected void setRequest(ChatRequest content) {
         super.setRawRequest(content);
+    }
+
+    public ChatViewModel getPublishedContent() {
+        return (ChatViewModel) this.publishedContent;
+    }
+
+    protected void setPublishedContent(ChatViewModel model) {
+        this.publishedContent = model;
     }
 
 }

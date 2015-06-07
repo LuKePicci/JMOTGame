@@ -10,7 +10,7 @@ import org.junit.Test;
 public class TestMessageController {
     @Test
     public void shouldDeliverJoinMessage() {
-        final Message testMsg = new JoinMessage(new JoinRequest(
+        final Message testMsg = new JoinMessage(new JoinRequest("Player",
                 new EftaiosGame()));
         MessageController mc = new MessageController(
                 TestPartyController.newMockAp()) {
@@ -24,13 +24,13 @@ public class TestMessageController {
 
     @Test
     public void shouldReuseUuidToken() {
-        final Message testMsg = new JoinMessage(new JoinRequest(
+        final Message testMsg = new JoinMessage(new JoinRequest("Player",
                 new EftaiosGame()));
         MessageController mc = new MessageController(
                 TestPartyController.newMockAp());
         mc.dispatchIncoming(testMsg);
 
-        JoinRequest req = new JoinRequest(new EftaiosGame());
+        JoinRequest req = new JoinRequest("Player", new EftaiosGame());
         req.myID = mc.getAcceptPlayer().getUUID();
         final Message testMsg2 = new JoinMessage(req);
         MessageController otherMc = new MessageController(
@@ -45,13 +45,13 @@ public class TestMessageController {
 
     @Test
     public void shouldNotReuseUuidToken() {
-        final Message testMsg = new JoinMessage(new JoinRequest(
+        final Message testMsg = new JoinMessage(new JoinRequest("Player",
                 new EftaiosGame()));
         MessageController mc = new MessageController(
                 TestPartyController.newMockAp());
         mc.dispatchIncoming(testMsg);
 
-        JoinRequest req = new JoinRequest(new EftaiosGame());
+        JoinRequest req = new JoinRequest("Player", new EftaiosGame());
         req.myID = UUID.randomUUID();
         final Message testMsg2 = new JoinMessage(req);
         MessageController otherMc = new MessageController(
@@ -66,7 +66,8 @@ public class TestMessageController {
 
     @Test
     public void shouldDeliverChatMessage() {
-        final Message testMsg = new ChatMessage(new ChatRequest("TEST_MESSAGE"));
+        final Message testMsg = new ChatMessage(new ChatRequest("TEST_MESSAGE",
+                ChatVisibility.PUBLIC, null));
         MessageController mc = new MessageController(
                 TestPartyController.newMockAp()) {
             @Override
