@@ -90,6 +90,12 @@ public class Zone extends GameTable<Sector> implements IViewable, Serializable {
         playersLocation.put(who, where);
     }
 
+    private boolean canVisit(Sector s) {
+        return s != null && s.getType() != SectorType.EMPTY
+                && s.getType() != SectorType.HUMANS_START
+                && s.getType() != SectorType.ALIENS_START;
+    }
+
     /**
      * Gets all the sectors, whose distance is not higher than maxSteps,
      * reachable from the sector "from" (canonical BFS).
@@ -118,8 +124,7 @@ public class Zone extends GameTable<Sector> implements IViewable, Serializable {
                 for (HexCubeDirections dir : HexCubeDirections.values()) {
                     neighbor = this.sectorsMap
                             .get(var.getPoint().neighbor(dir));
-                    if (neighbor == null)
-                        // neighbor not existing in this zone
+                    if (this.canVisit(neighbor))
                         continue;
                     if (!visited.contains(neighbor)) {
                         visited.add(neighbor);
