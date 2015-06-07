@@ -45,4 +45,11 @@ public class ActionRequest extends RequestModel implements Serializable {
         return this.item;
     }
 
+    // TODO metodo da eliminare (inserito solo come utlity per il testing))
+    public ActionRequest(ActionType type, HexPoint target, Item item) {
+        this.type = type;
+        this.target = target;
+        this.item = item;
+    }
+
 }

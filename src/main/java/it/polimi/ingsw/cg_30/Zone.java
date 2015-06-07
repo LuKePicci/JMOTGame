@@ -150,4 +150,9 @@ public class Zone extends GameTable<Sector> implements Serializable {
         return pl;
     }
 
+    // TODO metodo da eliminare (inserito solo come utlity per il testing))
+    public Zone() {
+        this.playersLocation = new HashMap<Player, Sector>();
+        this.sectorsMap = new HashMap<HexPoint, Sector>();
+    }
 }

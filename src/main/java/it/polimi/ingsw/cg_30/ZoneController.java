@@ -58,4 +58,9 @@ public class ZoneController {
         return currentZone;
     }
 
+    // TODO metodo da eliminare (inserito solo come utlity per il testing))
+    public ZoneController(Zone zone) {
+        this.currentZone = zone;
+    }
+
 }

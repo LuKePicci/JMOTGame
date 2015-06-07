@@ -19,7 +19,9 @@ public class MatchController {
         this.partyController = partyController;
         this.match = new Match();
         this.turnController = new TurnController();
-        this.zoneController = null;// TODO implementare correttamente
+        Zone zone = new Zone();
+        this.zoneController = new ZoneController(zone);
+        // TODO implementare correttamente
     }
 
     // TODO questa implementazione è una bozza, necessita di completamento

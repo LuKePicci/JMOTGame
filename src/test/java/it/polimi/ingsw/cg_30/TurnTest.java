@@ -13,9 +13,12 @@ public class TurnTest {
         assertEquals(false, turn.getCanAttack());
         assertEquals(true, turn.getMustMove());
         assertEquals(1, turn.getMaxSteps(), 0);
-        assertEquals(false, turn.getSilenceForced());
-        assertEquals(false, turn.getMustDiscard());
         assertEquals(player, turn.getCurrentPlayer());
+        assertEquals(false, turn.getMustDiscard());
+        assertEquals(false, turn.getSilenceForced());
+        assertEquals(false, turn.getIsSecDangerous());
+        assertEquals(0, turn.getHumanKilled(), 0);
+        assertEquals(null, turn.getDrawnCard());
     }
 
     @Test
@@ -30,6 +33,15 @@ public class TurnTest {
         assertEquals(true, turn.getMustDiscard());
         turn.setMaxSteps(2);
         assertEquals(2, turn.getMaxSteps(), 0);
+        /*
+         * mustMove turn.setMustMove(); assertEquals(true, turn.getMustMove());
+         * 
+         * setissecdang assertEquals(true, turn.getMustDiscard());
+         * 
+         * change assertEquals(true, turn.getMustDiscard());
+         * 
+         * setdraw assertEquals(true, turn.getMustDiscard());
+         */
     }
 
     @Test

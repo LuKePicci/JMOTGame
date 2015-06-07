@@ -23,7 +23,6 @@ public class PlayerTest {
                 PlayerCharacter.THE_CAPTAIN);
         Player ex2 = new Player("tizio", 1, es);
         assertEquals(es, ex2.getIdentity());
-
     }
 
 }
