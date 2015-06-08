@@ -80,6 +80,14 @@ public class StackedDeck<C extends Card> extends Deck<C> {
         return ex;
     }
 
+    // WORK IN PROGRESS
+    public static StackedDeck<PlayerCard> newStackedDeckPlayer() {
+        StackedDeck<PlayerCard> ex = new StackedDeck<PlayerCard>();
+        ex.cards.push(new PlayerCard(PlayerRace.HUMAN,
+                PlayerCharacter.THE_SOLDIER));
+        return ex;
+    }
+
     /**
      * Shuffle the card collection.
      */

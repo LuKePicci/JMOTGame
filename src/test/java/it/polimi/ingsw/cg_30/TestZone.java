@@ -27,8 +27,7 @@ public class TestZone {
         this.testZone = zf.newMap();
     }
 
-    // TODO fixare il seguente test
-    // @Test
+    @Test
     public void shouldFindSectorNeighbors() {
         Sector f09 = testZone.getMap().get(HexPoint.fromOffset(5, 8));
         Set<Sector> targets = this.testZone.reachableTargets(f09, 1);

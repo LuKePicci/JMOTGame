@@ -52,7 +52,7 @@ public class AttackTest {
         };
         PlayerCard alien = new PlayerCard(PlayerRace.ALIEN, null);
         PlayerCard human = new PlayerCard(PlayerRace.HUMAN, null);
-        Party party = new Party("test", null, false);
+        Party party = new Party("test", new EftaiosGame(), false);
         PartyController partyController = PartyController.createNewParty(party);
 
         party.addToParty(UUID.randomUUID(), "player1");
@@ -84,21 +84,38 @@ public class AttackTest {
     }
 
     // alieno attacca settore con alieno
-    // @Test
+    @Test
     public void AlienAttacksAlien() {
         // preparo il terreno
         MatchController matchController = new MatchController() {
             @Override
             public void initMatch(PartyController partyController) {
+
                 this.partyController = partyController;
                 this.match = new Match();
                 this.turnController = new TurnController();
                 Zone zone = new Zone();
+
                 this.zoneController = new ZoneController(zone);
+
             }
         };
-        matchController.initMatch(null);
         PlayerCard alien = new PlayerCard(PlayerRace.ALIEN, null);
+        PlayerCard human = new PlayerCard(PlayerRace.HUMAN, null);
+        Party party = new Party("test", null, false);
+        PartyController partyController = PartyController.createNewParty(party);
+
+        party.addToParty(UUID.randomUUID(), "player1");
+        party.addToParty(UUID.randomUUID(), "player2");
+        List<Player> players = new ArrayList<Player>(party.getMembers()
+                .keySet());
+        for (Player player : players) {
+            player.setIdentity(alien);
+        }
+        // ciclo da sistemare!!!
+
+        matchController.initMatch(partyController);
+
         Player player1 = new Player("pl1", 1, alien);
         Player player2 = new Player("pl2", 2, alien);
         Turn turn = new Turn(player1);

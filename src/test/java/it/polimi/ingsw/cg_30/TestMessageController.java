@@ -22,7 +22,7 @@ public class TestMessageController {
         mc.dispatchIncoming(testMsg);
     }
 
-    // @Test
+    @Test
     public void shouldReuseUuidToken() {
         final Message testMsg = new JoinMessage(new JoinRequest("Player",
                 new EftaiosGame()));
@@ -43,7 +43,7 @@ public class TestMessageController {
                 .getAcceptPlayer().getUUID()));
     }
 
-    // @Test
+    @Test
     public void shouldNotReuseUuidToken() {
         final Message testMsg = new JoinMessage(new JoinRequest("Player",
                 new EftaiosGame()));
