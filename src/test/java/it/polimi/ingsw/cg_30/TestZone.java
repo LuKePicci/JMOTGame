@@ -31,5 +31,9 @@ public class TestZone {
         Sector f09 = testZone.getMap().get(HexPoint.fromOffset(5, 8));
         Set<Sector> targets = this.testZone.reachableTargets(f09, 1);
         assertEquals(6, targets.size());
+
+        Sector a09 = testZone.getMap().get(HexPoint.fromOffset(0, 8));
+        targets = this.testZone.reachableTargets(a09, 3);
+        assertEquals(15, targets.size());
     }
 }

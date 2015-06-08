@@ -124,7 +124,7 @@ public class Zone extends GameTable<Sector> implements IViewable, Serializable {
                 for (HexCubeDirections dir : HexCubeDirections.values()) {
                     neighbor = this.sectorsMap
                             .get(var.getPoint().neighbor(dir));
-                    if (this.canVisit(neighbor))
+                    if (!this.canVisit(neighbor))
                         continue;
                     if (!visited.contains(neighbor)) {
                         visited.add(neighbor);
