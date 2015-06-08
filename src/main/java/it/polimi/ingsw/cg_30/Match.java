@@ -12,13 +12,13 @@ public class Match {
     private int turnCount;
 
     /** The items deck. */
-    private StackedDeck itemsDeck;
+    private StackedDeck<ItemCard> itemsDeck;
 
     /** The hatches deck. */
-    private StackedDeck hatchesDeck;
+    private StackedDeck<HatchCard> hatchesDeck;
 
     /** The sectors deck. */
-    private StackedDeck sectorsDeck;
+    private StackedDeck<SectorCard> sectorsDeck;
 
     /** The dead player. */
     private Set<Player> deadPlayer;
@@ -54,7 +54,7 @@ public class Match {
      *
      * @return the items deck
      */
-    public StackedDeck getItemsDeck() {
+    public StackedDeck<ItemCard> getItemsDeck() {
         return itemsDeck;
     }
 
@@ -63,7 +63,7 @@ public class Match {
      *
      * @return the hatches deck
      */
-    public StackedDeck getHatchesDeck() {
+    public StackedDeck<HatchCard> getHatchesDeck() {
         return hatchesDeck;
     }
 
@@ -72,7 +72,7 @@ public class Match {
      *
      * @return the sectors deck
      */
-    public StackedDeck getSectorsDeck() {
+    public StackedDeck<SectorCard> getSectorsDeck() {
         return sectorsDeck;
     }
 

@@ -5,7 +5,7 @@ package it.polimi.ingsw.cg_30;
  */
 public class DiscardCard extends ActionController {
 
-    private SpareDeck spareDeck;
+    private SpareDeck<ItemCard> spareDeck;
     private Item item;
 
     @Override

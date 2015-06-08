@@ -7,7 +7,7 @@ import java.util.Set;
  */
 public class UseCard extends ActionController {
 
-    private SpareDeck spareDeck;
+    private SpareDeck<ItemCard> spareDeck;
     private Item item;
 
     @Override

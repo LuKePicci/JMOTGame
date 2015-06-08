@@ -10,6 +10,11 @@ public class TurnController {
     /** The turn. */
     private Turn turn;
 
+    // TODO metodo implementato per il testing
+    public void setTurn(Turn turn) {
+        this.turn = turn;
+    }
+
     /**
      * Gets the turn.
      *
@@ -46,8 +51,8 @@ public class TurnController {
         for (Player nextPlayer : playerList) {
             if (nextPlayer.getIndex() == 1) {
                 turn = new Turn(nextPlayer);
-        return turn;
-    }
+                return turn;
+            }
         }
         return null;
     }

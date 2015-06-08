@@ -79,7 +79,7 @@ public class PartyController implements Serializable {
         return createNewParty(newParty);
     }
 
-    private static PartyController createNewParty(Party p) {
+    protected static PartyController createNewParty(Party p) {
         PartyController newPc = new PartyController(p);
         parties.put(p, newPc);
         return newPc;
@@ -134,7 +134,7 @@ public class PartyController implements Serializable {
 
     private void startNewMatch() {
         this.currentMatch = new MatchController();
-        this.currentMatch.initMatch();
+        this.currentMatch.initMatch(this);
     }
 
     private void scheduleMatchStart() {

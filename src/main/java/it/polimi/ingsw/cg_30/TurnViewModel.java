@@ -38,6 +38,7 @@ public class TurnViewModel extends ViewModel {
         this.silenceForced = t.getSilenceForced();
     }
 
+    @SuppressWarnings("unused")
     private TurnViewModel() {
         // JAXB handled
     }

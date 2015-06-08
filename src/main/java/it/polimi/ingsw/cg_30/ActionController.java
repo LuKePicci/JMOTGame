@@ -48,7 +48,7 @@ public abstract class ActionController {
     // controllo la presenza del sibolo oggetto sulla carta settore pescata
     protected void hasObject(SectorCard drawnCard) {
         if (drawnCard.hasObjectSymbol()) {
-            ItemCard icard = new ItemCard();
+            ItemCard icard;
             // il mazzo item è l'unico che potrebbe terminare le carte
             try {
                 icard = (ItemCard) matchController.getMatch().getItemsDeck()

@@ -7,6 +7,11 @@ import java.util.Set;
  */
 public class Attack extends ActionController {
 
+    public Attack() {
+        // necessario per istanziare l'azione
+    }
+
+    // TODO verificare: prob questo costruttore non funziona bene
     // costruttore ad uso di UseCard
     public Attack(MatchController matchController) {
         this.matchController = matchController;

@@ -150,7 +150,7 @@ public class StackedDeck<C extends Card> extends Deck<C> {
      *
      * @return the bucket
      */
-    public Set<Card> getBucket() {
+    public Set<C> getBucket() {
         return bucket;
     }
 

@@ -77,8 +77,8 @@ public class MessageController {
      *             if the player is not joined to a party
      */
     private boolean isMyTurn() throws NullPointerException {
-        Player me = this.myParty.getCurrentMatch().getCurrentTurn()
-                .getCurrentPlayer();
+        Player me = this.myParty.getCurrentMatch().getTurnController()
+                .getTurn().getCurrentPlayer();
         return this.myAP.getUUID().equals(
                 this.myParty.getCurrentParty().getMembers().get(me));
 

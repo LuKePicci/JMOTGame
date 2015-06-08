@@ -19,7 +19,7 @@ public class ActionRequest extends RequestModel implements Serializable {
     @XmlElement(name = "ActionItem")
     private Item item;
 
-    public ActionRequest() {
+    private ActionRequest() {
         // JAXB handled
         super();
     }

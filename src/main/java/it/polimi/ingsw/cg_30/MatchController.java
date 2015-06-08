@@ -5,35 +5,26 @@ import java.util.Set;
 
 public class MatchController {
 
-    private TurnController turnController;
-    private PartyController partyController;
-    private ZoneController zoneController;
-    private Match match;
+    protected TurnController turnController;
+    protected PartyController partyController;
+    protected ZoneController zoneController;
+    protected Match match;
     private final int MAX_TURN = 39;
 
-    public MatchController() {
-    }
-
-    // TODO questa implementazione è una bozza, necessita di revisione
-    public MatchController(PartyController partyController) {
+    // TODO questa implementazione è una bozza, necessita di completamento
+    public void initMatch(PartyController partyController) {
+        // TODO call init methods on every sub-controller
         this.partyController = partyController;
         this.match = new Match();
         this.turnController = new TurnController();
         Zone zone = new Zone();
         this.zoneController = new ZoneController(zone);
-        // TODO implementare correttamente
-    }
-
-    // TODO questa implementazione è una bozza, necessita di completamento
-    private void initMatch() {
-        // TODO call init methods on every sub-controller
         turnController.firstTurn(this);
-
     }
 
     public TurnController getTurnController() {
         return turnController;
-            }
+    }
 
     public PartyController getPartyController() {
         return partyController;
@@ -53,9 +44,8 @@ public class MatchController {
 
         // verifico eventuale presenza carta difesa
         if (PlayerRace.HUMAN.equals(killedPlayer.getIdentity().getRace())) {
-            for (Card card : killedPlayer.getItemsDeck().getCards()) {
-                ItemCard icard = (ItemCard) card;
-                if (Item.DEFENSE.equals(icard.getItem())) {
+            for (ItemCard card : killedPlayer.getItemsDeck().getCards()) {
+                if (Item.DEFENSE.equals(card.getItem())) {
                     match.getItemsDeck().putIntoBucket(card);
                     // TODO avviso dell'uso della carta DIFESA
                     // il giocatore è salvo
@@ -72,7 +62,7 @@ public class MatchController {
         // sulla sua identità e l'uccisore del fatto che ha ucciso
 
         // scarta le carte del giocatore
-        for (Card card : killedPlayer.getItemsDeck().getCards()) {
+        for (ItemCard card : killedPlayer.getItemsDeck().getCards()) {
             match.getItemsDeck().putIntoBucket(card);
             killedPlayer.getItemsDeck().getCards().remove(card);
         }

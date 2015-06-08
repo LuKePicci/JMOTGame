@@ -34,8 +34,8 @@ public class DrawCard extends ActionController {
     @Override
     public void processAction() {
         {
-            SectorCard drawnCard = (SectorCard) matchController.getMatch()
-                    .getSectorsDeck().pickAndThrow();
+            SectorCard drawnCard = matchController.getMatch().getSectorsDeck()
+                    .pickAndThrow();
             matchController.getTurnController().getTurn()
                     .setIsSecDangerous(false);
             matchController.getTurnController().getTurn().setCanAttack(false);
