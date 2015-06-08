@@ -8,6 +8,9 @@ import java.util.Stack;
 
 /**
  * The Class StackedDeck.
+ *
+ * @param <C>
+ *            the generic type
  */
 public class StackedDeck<C extends Card> extends Deck<C> {
 
@@ -28,7 +31,7 @@ public class StackedDeck<C extends Card> extends Deck<C> {
     /**
      * Stacked deck hatch.
      *
-     * @return the stacked deck
+     * @return the stacked deck of HatchCard
      */
     public static StackedDeck<HatchCard> newStackedDeckHatch() {
         StackedDeck<HatchCard> ex = new StackedDeck<HatchCard>();
@@ -42,7 +45,7 @@ public class StackedDeck<C extends Card> extends Deck<C> {
     /**
      * Stacked deck sector.
      *
-     * @return the stacked deck
+     * @return the stacked deck of SectorCard
      */
     public static StackedDeck<SectorCard> newStackedDeckSector() {
         StackedDeck<SectorCard> ex = new StackedDeck<SectorCard>();
@@ -63,7 +66,7 @@ public class StackedDeck<C extends Card> extends Deck<C> {
     /**
      * Stacked deck item.
      *
-     * @return the stacked deck
+     * @return the stacked deck of ItemCard
      */
     public static StackedDeck<ItemCard> newStackedDeckItem() {
         StackedDeck<ItemCard> ex = new StackedDeck<ItemCard>();
@@ -80,11 +83,29 @@ public class StackedDeck<C extends Card> extends Deck<C> {
         return ex;
     }
 
-    // WORK IN PROGRESS
+    /**
+     * New stacked deck player.
+     *
+     * @return the stacked deck of PlayerCard
+     */
     public static StackedDeck<PlayerCard> newStackedDeckPlayer() {
         StackedDeck<PlayerCard> ex = new StackedDeck<PlayerCard>();
         ex.cards.push(new PlayerCard(PlayerRace.HUMAN,
                 PlayerCharacter.THE_SOLDIER));
+        ex.cards.push(new PlayerCard(PlayerRace.ALIEN,
+                PlayerCharacter.THE_FOURTH_ALIEN));
+        ex.cards.push(new PlayerCard(PlayerRace.HUMAN,
+                PlayerCharacter.THE_PSYCHOLOGIST));
+        ex.cards.push(new PlayerCard(PlayerRace.ALIEN,
+                PlayerCharacter.THE_THIRD_ALIEN));
+        ex.cards.push(new PlayerCard(PlayerRace.HUMAN,
+                PlayerCharacter.THE_PILOT));
+        ex.cards.push(new PlayerCard(PlayerRace.ALIEN,
+                PlayerCharacter.THE_SECOND_ALIEN));
+        ex.cards.push(new PlayerCard(PlayerRace.HUMAN,
+                PlayerCharacter.THE_CAPTAIN));
+        ex.cards.push(new PlayerCard(PlayerRace.ALIEN,
+                PlayerCharacter.THE_FIRST_ALIEN));
         return ex;
     }
 
