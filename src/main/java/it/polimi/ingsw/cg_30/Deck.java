@@ -8,18 +8,18 @@ import java.util.Set;
 /**
  * The Class Deck.
  */
-public abstract class Deck implements Serializable {
+public abstract class Deck<C extends Card> implements IViewable, Serializable {
 
     private static final long serialVersionUID = -555545505649022630L;
 
     /** The bucket. */
-    protected Set<Card> bucket;
+    protected Set<C> bucket;
 
     /**
      * Instantiates a new deck.
      */
     protected Deck() {
-        this.bucket = new HashSet<Card>();
+        this.bucket = new HashSet<C>();
     }
 
     /**
@@ -27,7 +27,7 @@ public abstract class Deck implements Serializable {
      *
      * @return the card collection
      */
-    public abstract Collection getCardCollection();
+    public abstract Collection<C> getCardCollection();
 
     /**
      * Recycle.
@@ -40,8 +40,13 @@ public abstract class Deck implements Serializable {
      * @param c
      *            the card that will be put into bucket
      */
-    public void putIntoBucket(Card c) {
+    public void putIntoBucket(C c) {
         this.bucket.add(c);
+    }
+
+    @Override
+    public ViewModel getViewModel() {
+        return new DeckViewModel<C>(this);
     }
 
 }

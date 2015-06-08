@@ -9,6 +9,7 @@ public class SectorCard extends Card {
 
     /** The event. */
     private SectorEvent event;
+    private boolean objectSymbol;
 
     /**
      * Instantiates a new sector card.
@@ -16,8 +17,17 @@ public class SectorCard extends Card {
      * @param event
      *            the event
      */
-    public SectorCard(SectorEvent event) {
+    public SectorCard(SectorEvent event, boolean objectSymbol) {
         this.event = event;
+        this.objectSymbol = objectSymbol;
+    }
+
+    /**
+     * Instantiates an empty sector card.
+     */
+    @SuppressWarnings("unused")
+    private SectorCard() {
+        // JAXB handled
     }
 
     /**
@@ -27,6 +37,10 @@ public class SectorCard extends Card {
      */
     public SectorEvent getEvent() {
         return event;
+    }
+
+    public boolean hasObjectSymbol() {
+        return objectSymbol;
     }
 
 }

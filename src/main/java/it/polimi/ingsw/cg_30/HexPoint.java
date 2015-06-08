@@ -26,6 +26,7 @@ public class HexPoint extends Point implements Serializable {
     /**
      * Instantiates a new hex point.
      */
+    @SuppressWarnings("unused")
     private HexPoint() {
         // JAXB handled
     }
@@ -83,11 +84,12 @@ public class HexPoint extends Point implements Serializable {
     }
 
     /**
-     * Neighbor.
+     * Returns an {@code HexPoint} that represents a neighbor of this instance
+     * in the given direction
      *
      * @param dir
-     *            the dir
-     * @return the hex point
+     *            the direction to explore
+     * @return the neighbor {@code HexPoint} in given direction
      */
     public HexPoint neighbor(HexCubeDirections dir) {
         return new HexPoint(this.getCubicX() + dir.getAddX(), this.getCubicY()
@@ -99,7 +101,6 @@ public class HexPoint extends Point implements Serializable {
      *
      * @return the cubic x
      */
-
     public int getCubicX() {
         return cubicX;
     }

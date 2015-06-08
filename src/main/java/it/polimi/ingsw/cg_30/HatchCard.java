@@ -22,6 +22,14 @@ public class HatchCard extends Card {
     }
 
     /**
+     * Instantiates an empty hatch card.
+     */
+    @SuppressWarnings("unused")
+    private HatchCard() {
+        // JAXB handled
+    }
+
+    /**
      * Gets the chance.
      *
      * @return the chance

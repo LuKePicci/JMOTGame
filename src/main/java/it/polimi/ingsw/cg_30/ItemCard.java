@@ -1,14 +1,19 @@
 package it.polimi.ingsw.cg_30;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * The Class ItemCard.
  */
+@XmlRootElement(name = "Card")
 public class ItemCard extends Card {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 5619363213836716836L;
 
-    /** The item. */
+    /** The item on this card. */
+    @XmlElement(name = "Item")
     private Item item;
 
     /**
@@ -19,6 +24,14 @@ public class ItemCard extends Card {
      */
     public ItemCard(Item item) {
         this.item = item;
+    }
+
+    /**
+     * Instantiates an empty item card (JAXB needings)
+     */
+    @SuppressWarnings("unused")
+    private ItemCard() {
+        // JAXB handled
     }
 
     /**

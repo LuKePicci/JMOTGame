@@ -16,16 +16,16 @@ public class JoinMessage extends Message {
     }
 
     public JoinMessage(JoinRequest request) {
-        super(MessageType.PARTY_MESSAGE);
-        this.content = request;
+        super(MessageType.JOIN_MESSAGE);
+        this.requestContent = request;
     }
 
     public JoinRequest getContent() {
-        return (JoinRequest) super.getRawContent();
+        return (JoinRequest) super.getRawRequest();
     }
 
     protected void setContent(JoinRequest content) {
-        super.setRawContent(content);
+        super.setRawRequest(content);
     }
 
 }

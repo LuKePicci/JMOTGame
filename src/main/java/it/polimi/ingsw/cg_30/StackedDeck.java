@@ -3,34 +3,38 @@ package it.polimi.ingsw.cg_30;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EmptyStackException;
+import java.util.Set;
 import java.util.Stack;
 
 /**
  * The Class StackedDeck.
+ *
+ * @param <C>
+ *            the generic type
  */
-public class StackedDeck extends Deck {
+public class StackedDeck<C extends Card> extends Deck<C> {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = -7122684108628884837L;
 
     /** The cards. */
-    private Stack<Card> cards;
+    private Stack<C> cards;
 
     /**
      * Instantiates a new stacked deck.
      */
     private StackedDeck() {
         super();
-        this.cards = new Stack<Card>();
+        this.cards = new Stack<C>();
     }
 
     /**
      * Stacked deck hatch.
      *
-     * @return the stacked deck
+     * @return the stacked deck of HatchCard
      */
-    public static StackedDeck newStackedDeckHatch() {
-        StackedDeck ex = new StackedDeck();
+    public static StackedDeck<HatchCard> newStackedDeckHatch() {
+        StackedDeck<HatchCard> ex = new StackedDeck<HatchCard>();
         for (int i = 0; i < 3; i++) {
             ex.cards.push(new HatchCard(HatchChance.FREE));
             ex.cards.push(new HatchCard(HatchChance.LOCKED));
@@ -41,16 +45,20 @@ public class StackedDeck extends Deck {
     /**
      * Stacked deck sector.
      *
-     * @return the stacked deck
+     * @return the stacked deck of SectorCard
      */
-    public static StackedDeck newStackedDeckSector() {
-        StackedDeck ex = new StackedDeck();
+    public static StackedDeck<SectorCard> newStackedDeckSector() {
+        StackedDeck<SectorCard> ex = new StackedDeck<SectorCard>();
         for (int i = 0; i < 5; i++) {
-            ex.cards.push(new SectorCard(SectorEvent.SILENCE));
+            ex.cards.push(new SectorCard(SectorEvent.SILENCE, false));
         }
-        for (int i = 0; i < 10; i++) {
-            ex.cards.push(new SectorCard(SectorEvent.NOISE_ANY));
-            ex.cards.push(new SectorCard(SectorEvent.NOISE_YOUR));
+        for (int i = 0; i < 4; i++) {
+            ex.cards.push(new SectorCard(SectorEvent.NOISE_ANY, true));
+            ex.cards.push(new SectorCard(SectorEvent.NOISE_YOUR, true));
+        }
+        for (int i = 0; i < 6; i++) {
+            ex.cards.push(new SectorCard(SectorEvent.NOISE_ANY, false));
+            ex.cards.push(new SectorCard(SectorEvent.NOISE_YOUR, false));
         }
         return ex;
     }
@@ -58,10 +66,10 @@ public class StackedDeck extends Deck {
     /**
      * Stacked deck item.
      *
-     * @return the stacked deck
+     * @return the stacked deck of ItemCard
      */
-    public static StackedDeck newStackedDeckItem() {
-        StackedDeck ex = new StackedDeck();
+    public static StackedDeck<ItemCard> newStackedDeckItem() {
+        StackedDeck<ItemCard> ex = new StackedDeck<ItemCard>();
         ex.cards.push(new ItemCard(Item.DEFENSE));
         for (int i = 0; i < 2; i++) {
             ex.cards.push(new ItemCard(Item.ADRENALINE));
@@ -76,6 +84,32 @@ public class StackedDeck extends Deck {
     }
 
     /**
+     * New stacked deck player.
+     *
+     * @return the stacked deck of PlayerCard
+     */
+    public static StackedDeck<PlayerCard> newStackedDeckPlayer() {
+        StackedDeck<PlayerCard> ex = new StackedDeck<PlayerCard>();
+        ex.cards.push(new PlayerCard(PlayerRace.HUMAN,
+                PlayerCharacter.THE_SOLDIER));
+        ex.cards.push(new PlayerCard(PlayerRace.ALIEN,
+                PlayerCharacter.THE_FOURTH_ALIEN));
+        ex.cards.push(new PlayerCard(PlayerRace.HUMAN,
+                PlayerCharacter.THE_PSYCHOLOGIST));
+        ex.cards.push(new PlayerCard(PlayerRace.ALIEN,
+                PlayerCharacter.THE_THIRD_ALIEN));
+        ex.cards.push(new PlayerCard(PlayerRace.HUMAN,
+                PlayerCharacter.THE_PILOT));
+        ex.cards.push(new PlayerCard(PlayerRace.ALIEN,
+                PlayerCharacter.THE_SECOND_ALIEN));
+        ex.cards.push(new PlayerCard(PlayerRace.HUMAN,
+                PlayerCharacter.THE_CAPTAIN));
+        ex.cards.push(new PlayerCard(PlayerRace.ALIEN,
+                PlayerCharacter.THE_FIRST_ALIEN));
+        return ex;
+    }
+
+    /**
      * Shuffle the card collection.
      */
     public void shuffle() {
@@ -84,7 +118,7 @@ public class StackedDeck extends Deck {
 
     /**
      * Picks a card from the deck and throws an exception if both deck and
-     * bucket are empy.
+     * bucket are empty.
      *
      * @return the card
      * @throws EmptyStackException
@@ -93,7 +127,7 @@ public class StackedDeck extends Deck {
      *             empty the second exception is thrown. This exception must be
      *             managed by the method which called pickCard
      */
-    public Card pickCard() throws EmptyStackException {
+    public C pickCard() throws EmptyStackException {
         try {
             return this.cards.pop();
 
@@ -113,8 +147,8 @@ public class StackedDeck extends Deck {
      *             card so it throws the exception. This exception must be
      *             managed by the method which called pickAndThrow
      */
-    public Card pickAndThrow() throws EmptyStackException {
-        Card c = pickCard();
+    public C pickAndThrow() throws EmptyStackException {
+        C c = pickCard();
         this.putIntoBucket(c);
         return c;
     }
@@ -125,7 +159,7 @@ public class StackedDeck extends Deck {
      * @return the card collection
      */
     @Override
-    public Collection<Card> getCardCollection() {
+    public Collection<C> getCardCollection() {
         return cards;
     }
 
@@ -139,4 +173,14 @@ public class StackedDeck extends Deck {
         this.shuffle();
         this.bucket.clear();
     }
+
+    /**
+     * Gets the bucket.
+     *
+     * @return the bucket
+     */
+    public Set<C> getBucket() {
+        return bucket;
+    }
+
 }

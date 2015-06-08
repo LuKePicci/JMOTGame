@@ -1,16 +1,23 @@
 package it.polimi.ingsw.cg_30;
 
 public class PlayerCard extends Card {
+
+    private static final long serialVersionUID = 7504696064744265687L;
+
     private PlayerRace race;
+    private PlayerCharacter character;
 
-    private Character character;
-
-    public PlayerRace getRace() {
-        throw new UnsupportedOperationException();
+    public PlayerCard(PlayerRace race, PlayerCharacter character) {
+        this.race = race;
+        this.character = character;
     }
 
-    public Character getCharacter() {
-        throw new UnsupportedOperationException();
+    public PlayerRace getRace() {
+        return race;
+    }
+
+    public PlayerCharacter getCharacter() {
+        return character;
     }
 
 }

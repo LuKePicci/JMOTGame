@@ -16,6 +16,9 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 public class AcceptSocketPlayer extends AcceptPlayer implements Runnable {
+
+    private static final long serialVersionUID = -5365149375010707737L;
+
     private final transient Socket mySoc;
     private final transient DataInputStream din;
     private final transient DataOutputStream dout;
@@ -85,10 +88,11 @@ public class AcceptSocketPlayer extends AcceptPlayer implements Runnable {
 
     @Override
     public final void run() {
+        this.ping();
         while (this.mySoc.isConnected() && !this.mySoc.isClosed()
                 && !Thread.interrupted()) {
             try {
-                this.mc.deliver(receiveMessage());
+                this.mc.dispatchIncoming(receiveMessage());
             } catch (IOException e) {
                 try {
                     this.mySoc.close();
@@ -98,6 +102,9 @@ public class AcceptSocketPlayer extends AcceptPlayer implements Runnable {
 
                 System.out.println("Socket " + this.mySoc.hashCode()
                         + " closed because of " + e.toString());
+            } catch (Exception e) {
+                System.out
+                        .println("Failed to decode user message, see log for details.");
             }
         }
     }

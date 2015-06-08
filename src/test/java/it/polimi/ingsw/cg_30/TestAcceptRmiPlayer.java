@@ -53,7 +53,8 @@ public class TestAcceptRmiPlayer implements IRmiClient {
 
     @Test
     public void shouldReceiveMessage() {
-        Message toSend = new ChatMessage(new ChatRequest(TEST_MESSAGE_TEXT));
+        Message toSend = new ChatMessage(new ChatRequest(TEST_MESSAGE_TEXT,
+                ChatVisibility.PUBLIC, null));
         try {
             acceptStub.toServer(toSend);
         } catch (RemoteException e) {
@@ -65,13 +66,13 @@ public class TestAcceptRmiPlayer implements IRmiClient {
     public void shouldSendMessage() throws RemoteException {
         this.rmiAcceptServer = new AcceptRmiPlayer(clientSkel);
         this.rmiAcceptServer.sendMessage(new ChatMessage(new ChatRequest(
-                TEST_MESSAGE_TEXT)));
+                TEST_MESSAGE_TEXT, ChatVisibility.PUBLIC, null)));
     }
 
     @Override
     public void toClient(Message msg) throws RemoteException {
         ChatMessage unboxedMessage = (ChatMessage) msg;
 
-        assertEquals(TEST_MESSAGE_TEXT, unboxedMessage.getContent().getText());
+        assertEquals(TEST_MESSAGE_TEXT, unboxedMessage.getRequest().getText());
     }
 }

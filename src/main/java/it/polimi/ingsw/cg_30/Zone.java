@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlRootElement(name = "Zone")
 @XmlAccessorType(XmlAccessType.NONE)
-public class Zone extends GameTable<Sector> implements Serializable {
+public class Zone extends GameTable<Sector> implements IViewable, Serializable {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = -2636229005380853458L;
@@ -35,10 +35,7 @@ public class Zone extends GameTable<Sector> implements Serializable {
     private String mapName;
 
     /** The players location. */
-    public Map<Player, Sector> playersLocation;
-
-    /** The hatches status. */
-    private List<Boolean> hatchesStatus = new ArrayList<Boolean>();
+    private Map<Player, Sector> playersLocation;
 
     /**
      * Gets the map.
@@ -59,8 +56,19 @@ public class Zone extends GameTable<Sector> implements Serializable {
     }
 
     /**
+     * Gets the players location.
+     *
+     * @return the players location
+     */
+    public Map<Player, Sector> getPlayersLocation() {
+        return this.playersLocation;
+    }
+
+    /**
      * Gets the sector of a particular player.
      *
+     * @param player
+     *            the player
      * @return the sector where player is located
      */
     @Override
@@ -71,18 +79,32 @@ public class Zone extends GameTable<Sector> implements Serializable {
     /**
      * Moves player "who" in sector "where". This method does not check the
      * legality of the movement.
+     *
+     * @param who
+     *            the who
+     * @param where
+     *            the where
      */
     @Override
     public void movePlayer(Player who, Sector where) {
         playersLocation.put(who, where);
     }
 
+    private boolean canVisit(Sector s) {
+        return s != null && s.getType() != SectorType.EMPTY
+                && s.getType() != SectorType.HUMANS_START
+                && s.getType() != SectorType.ALIENS_START;
+    }
+
     /**
      * Gets all the sectors, whose distance is not higher than maxSteps,
-     * reachable from the sector "from".
+     * reachable from the sector "from" (canonical BFS).
      * 
+     * @param from
+     *            the from
+     * @param maxSteps
+     *            the max steps
      * @return the set of reachable sectors
-     * 
      */
     @Override
     public Set<Sector> reachableTargets(Sector from, Integer maxSteps) {
@@ -102,28 +124,26 @@ public class Zone extends GameTable<Sector> implements Serializable {
                 for (HexCubeDirections dir : HexCubeDirections.values()) {
                     neighbor = this.sectorsMap
                             .get(var.getPoint().neighbor(dir));
-                    if (neighbor == null)
-                        // neighbor not existing in this zone
+                    if (!this.canVisit(neighbor))
                         continue;
                     if (!visited.contains(neighbor)) {
                         visited.add(neighbor);
                         fringes.get(k).add(neighbor);
                     }
                 }
-
         }
         visited.remove(from);
         return visited;
     }
 
     /**
-     * Gets all the players in sector sec.
+     * Gets a collection of all players in sector sec.
      *
      * @param sec
      *            the sector to be checked
      * @return the players in sector sec
      */
-    public Iterable<Player> getPlayersInSector(Sector sec) {
+    public Set<Player> getPlayersInSector(Sector sec) {
         Set<Player> pl = new HashSet<Player>();
         if (playersLocation.containsValue(sec)) {
             for (Player ex : playersLocation.keySet()) {
@@ -135,42 +155,15 @@ public class Zone extends GameTable<Sector> implements Serializable {
         return pl;
     }
 
-    /**
-     * Locks hatch whose number is hatchNumber.
-     *
-     * @param hatchNumber
-     *            the number of the hatch that have to be locked
-     */
-    public void lockHatch(int hatchNumber) {
-        this.hatchesStatus.set(hatchNumber, true);
+    @Override
+    public ViewModel getViewModel() {
+
+        return new ZoneViewModel(this);
     }
 
-    /**
-     * Checks if the hatch number "hatchNumber" is locked.
-     *
-     * @param hatchNumber
-     *            the number of the hatch to be checked
-     */
-    public void isHatchLocked(int hatchNumber) {
-        this.hatchesStatus.get(hatchNumber);
+    // TODO metodo da eliminare (inserito solo come utlity per il testing))
+    public Zone() {
+        this.playersLocation = new HashMap<Player, Sector>();
+        this.sectorsMap = new HashMap<HexPoint, Sector>();
     }
-
-    /**
-     * No more hatches.
-     *
-     * @return true if all hatches are locked, false otherwise
-     */
-    public boolean noMoreHatches() {
-        int g = 0;
-        for (Boolean st : hatchesStatus) {
-            if (st) {
-                g++;
-            }
-        }
-        if (g == hatchesStatus.size()) {
-            return true;
-        } else
-            return false;
-    }
-
 }

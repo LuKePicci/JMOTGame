@@ -15,15 +15,15 @@ public class ActionMessage extends Message {
 
     public ActionMessage(ActionRequest request) {
         super(MessageType.ACTION_MESSAGE);
-        this.content = request;
+        this.requestContent = request;
     }
 
     public ActionRequest getContent() {
-        return (ActionRequest) super.getRawContent();
+        return (ActionRequest) super.getRawRequest();
     }
 
     protected void setContent(ActionRequest content) {
-        super.setRawContent(content);
+        super.setRawRequest(content);
     }
 
 }
