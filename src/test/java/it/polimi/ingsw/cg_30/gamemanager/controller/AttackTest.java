@@ -5,11 +5,6 @@ import it.polimi.ingsw.cg_30.exchange.messaging.ActionRequest;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.HexPoint;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerRace;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Sector;
-import it.polimi.ingsw.cg_30.gamemanager.controller.ActionType;
-import it.polimi.ingsw.cg_30.gamemanager.controller.MatchController;
-import it.polimi.ingsw.cg_30.gamemanager.controller.PartyController;
-import it.polimi.ingsw.cg_30.gamemanager.controller.TurnController;
-import it.polimi.ingsw.cg_30.gamemanager.controller.ZoneController;
 import it.polimi.ingsw.cg_30.gamemanager.model.EftaiosGame;
 import it.polimi.ingsw.cg_30.gamemanager.model.Match;
 import it.polimi.ingsw.cg_30.gamemanager.model.Party;
@@ -18,6 +13,8 @@ import it.polimi.ingsw.cg_30.gamemanager.model.PlayerCard;
 import it.polimi.ingsw.cg_30.gamemanager.model.Turn;
 import it.polimi.ingsw.cg_30.gamemanager.model.Zone;
 
+import java.io.FileNotFoundException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -51,7 +48,8 @@ public class AttackTest {
 
     // alieno attacca settore vuoto
     @Test
-    public void AlienAttacksNoone() {
+    public void AlienAttacksNoone() throws FileNotFoundException,
+            URISyntaxException {
         // preparo il terreno
         MatchController matchController = new MatchController() {
             @Override
@@ -101,7 +99,8 @@ public class AttackTest {
 
     // alieno attacca settore con alieno
     @Test
-    public void AlienAttacksAlien() {
+    public void AlienAttacksAlien() throws FileNotFoundException,
+            URISyntaxException {
         // preparo il terreno
         MatchController matchController = new MatchController() {
             @Override
@@ -130,8 +129,8 @@ public class AttackTest {
 
         matchController.initMatch(partyController);
 
-        Player player1 = new Player("pl1", 1, alien);
-        Player player2 = new Player("pl2", 2, alien);
+        Player player1 = players.get(0);
+        Player player2 = players.get(1);
         Turn turn = new Turn(player1);
         matchController.getTurnController().setTurn(turn);
         matchController.getTurnController().getTurn().setMustMove();
@@ -157,7 +156,8 @@ public class AttackTest {
 
     // alieno attacca settore con umano indifeso
     @Test
-    public void AlienAttacksUndefendedHuman() {
+    public void AlienAttacksUndefendedHuman() throws FileNotFoundException,
+            URISyntaxException {
         // preparo il terreno
         MatchController matchController = new MatchController() {
             @Override
@@ -186,8 +186,8 @@ public class AttackTest {
         players.get(1).setIdentity(human);
 
         matchController.initMatch(partyController);
-        Player player1 = new Player("pl1", 1, alien);
-        Player player4 = new Player("pl4", 4, human);
+        Player player1 = players.get(0);
+        Player player4 = players.get(1);
         Turn turn = new Turn(player1);
         matchController.getTurnController().setTurn(turn);
         matchController.getTurnController().getTurn().setMustMove();

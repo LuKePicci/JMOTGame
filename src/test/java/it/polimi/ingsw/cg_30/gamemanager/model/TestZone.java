@@ -6,14 +6,9 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.HexPoint;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Sector;
 import it.polimi.ingsw.cg_30.gamemanager.controller.TemplateZoneFactory;
 import it.polimi.ingsw.cg_30.gamemanager.controller.ZoneFactory;
-import it.polimi.ingsw.cg_30.gamemanager.model.Player;
-import it.polimi.ingsw.cg_30.gamemanager.model.Zone;
 
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Set;
 
 import org.junit.Before;
@@ -27,9 +22,7 @@ public class TestZone {
 
     @Before
     public void initZone() throws URISyntaxException, FileNotFoundException {
-        URL resourceUrl = getClass().getResource("/" + TEST_MAP + ".xml");
-        Path resourcePath = Paths.get(resourceUrl.toURI());
-        ZoneFactory zf = new TemplateZoneFactory(resourcePath);
+        ZoneFactory zf = new TemplateZoneFactory(TEST_MAP);
         this.testZone = zf.newMap();
     }
 

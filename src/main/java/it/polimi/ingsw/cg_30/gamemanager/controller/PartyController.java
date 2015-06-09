@@ -141,8 +141,14 @@ public class PartyController implements Serializable {
     }
 
     private void startNewMatch() {
-        this.currentMatch = new MatchController();
-        this.currentMatch.initMatch(this);
+        try {
+            this.currentMatch = new MatchController();
+            this.currentMatch.initMatch(this);
+        } catch (Exception ex) {
+            this.currentMatch = null;
+            // notifico del mancato avvio della partita
+
+        }
     }
 
     private void scheduleMatchStart() {
