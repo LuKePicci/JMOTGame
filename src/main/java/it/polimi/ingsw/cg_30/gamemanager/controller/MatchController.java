@@ -172,13 +172,10 @@ public class MatchController {
             sayYouLose(match.getDeadPlayer());
         }
 
-        // NON CI SONO PIÙ SCIALUPPE DISPONIBILI
-        else if (zoneController.noMoreHatches()) {
-            partialVictory();
-        }
-
-        // TURNO 39 FINITO (conto partendo da 1)
-        else if (match.getTurnCount() == (MAX_TURN + 1)) {
+        // NON CI SONO PIÙ SCIALUPPE DISPONIBILI o TURNO 39 FINITO (conto
+        // partendo da 1)
+        else if (zoneController.noMoreHatches()
+                || match.getTurnCount() == (MAX_TURN + 1)) {
             partialVictory();
         }
 

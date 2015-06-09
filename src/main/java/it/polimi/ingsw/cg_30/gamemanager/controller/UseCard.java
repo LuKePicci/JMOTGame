@@ -46,24 +46,19 @@ public class UseCard extends ActionController {
             return false;
         } else {
             // verifico che player umano possieda la carta
-            if ((findItemCardByItem(item) != null)
-                    && (matchController.getTurnController().getTurn()
-                            .getDrawnCard() == null)) {
-                if (Item.DEFENSE.equals(item)) {// non posso attivare la carta
-                                                // difesa
-                    return false;
-                } else if ((Item.ADRENALINE.equals(item))
-                        && (matchController.getTurnController().getTurn()
-                                .getMustMove() == false)) {
-                    return false; // va usata prima di muoversi
-                } else if (Item.SEDATIVES.equals(item)
-                        && (matchController.getTurnController().getTurn()
-                                .getMustMove() == false)) {
-                    return false;// va usata prima di muoversi
-                }
-                return true;
-            } else
-                return false;
+            return findItemCardByItem(item) != null
+                    && matchController.getTurnController().getTurn()
+                            .getDrawnCard() == null
+                    && !(Item.DEFENSE.equals(item)// non posso attivare la carta
+                                                  // difesa
+                            || (Item.ADRENALINE.equals(item))
+                            && !(matchController.getTurnController().getTurn()
+                                    .getMustMove()) // va usata prima di
+                                                    // muoversi
+                    || Item.SEDATIVES.equals(item)
+                            && !(matchController.getTurnController().getTurn()
+                                    .getMustMove())); // va usata prima di
+                                                      // muoversi
         }
     }
 

@@ -228,14 +228,10 @@ public class HexPoint extends Point implements Serializable {
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
+        if (obj == null || getClass() != obj.getClass())
             return false;
         HexPoint other = (HexPoint) obj;
-        if (cubicX != other.cubicX)
-            return false;
-        if (cubicY != other.cubicY)
+        if (cubicX != other.cubicX || cubicY != other.cubicY)
             return false;
         return true;
     }

@@ -133,7 +133,7 @@ public class StackedDeck<C extends Card> extends Deck<C> {
      *             empty the second exception is thrown. This exception must be
      *             managed by the method which called pickCard
      */
-    public C pickCard() throws EmptyStackException {
+    public C pickCard() {
         try {
             return this.cards.pop();
 
@@ -153,7 +153,7 @@ public class StackedDeck<C extends Card> extends Deck<C> {
      *             card so it throws the exception. This exception must be
      *             managed by the method which called pickAndThrow
      */
-    public C pickAndThrow() throws EmptyStackException {
+    public C pickAndThrow() {
         C c = pickCard();
         this.putIntoBucket(c);
         return c;

@@ -85,12 +85,11 @@ public class MessageController {
      * @throws NullPointerException
      *             if the player is not joined to a party
      */
-    private boolean isMyTurn() throws NullPointerException {
+    private boolean isMyTurn() {
         Player me = this.myParty.getCurrentMatch().getTurnController()
                 .getTurn().getCurrentPlayer();
         return this.myAP.getUUID().equals(
                 this.myParty.getCurrentParty().getMembers().get(me));
-
     }
 
     /**
@@ -113,8 +112,7 @@ public class MessageController {
      * @throws IllegalArgumentException
      *             thrown if reuse request contains an unknown UUID
      */
-    private PartyController reuseId(UUID usedId)
-            throws IllegalArgumentException {
+    private PartyController reuseId(UUID usedId) {
         if (this.myAP.getUUID().equals(usedId))
             return this.myParty;
 

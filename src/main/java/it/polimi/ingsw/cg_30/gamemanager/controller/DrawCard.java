@@ -23,13 +23,10 @@ public class DrawCard extends ActionController {
      */
     @Override
     public boolean isValid() {// funzione utile solo per l'alieno
-        if ((SectorType.DANGEROUS.equals(matchController.getZoneController()
-                .getCurrentZone().getCell(player).getType()))
-                && (matchController.getTurnController().getTurn()
-                        .getIsSecDangerous() == true)) {
-            return true;
-        } else
-            return false;
+        return ((SectorType.DANGEROUS
+                .equals(matchController.getZoneController().getCurrentZone()
+                        .getCell(player).getType())) && (matchController
+                .getTurnController().getTurn().getIsSecDangerous()));
     }
 
     /**

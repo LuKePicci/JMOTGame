@@ -12,11 +12,9 @@ public class NoiseAny extends ActionController {
      */
     @Override
     public boolean isValid() {
-        if (matchController.getZoneController().getCurrentZone().getMap()
-                .containsKey(req.getActionTarget())) {
-            return true;
-        } else
-            return false;
+        return (matchController.getZoneController().getCurrentZone().getMap()
+                .containsKey(req.getActionTarget()));
+        // TODO controllare che dranbwcard sia !=null
     }
 
     /**
