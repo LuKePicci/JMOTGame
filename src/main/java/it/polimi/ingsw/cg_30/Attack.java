@@ -28,11 +28,8 @@ public class Attack extends ActionController {
     public boolean isValid() { // funzione ad uso esclusivo dell'alieno
         // TODO non controllo se è il turno del giocatore, lo devo fare prima.
         // se arrivo qui sono già nel turno del giocatore
-        if ((matchController.getTurnController().getTurn().getCanAttack() == true)
-                && (matchController.getTurnController().getTurn().getMustMove() == false))
-            return true;
-        else
-            return false;
+        return ((matchController.getTurnController().getTurn().getCanAttack()) && !(matchController
+                .getTurnController().getTurn().getMustMove()));
     }
 
     /**
