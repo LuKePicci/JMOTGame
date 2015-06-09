@@ -4,7 +4,10 @@ import it.polimi.ingsw.cg_30.gamemanager.model.Zone;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -14,11 +17,19 @@ public class TemplateZoneFactory extends ZoneFactory {
 
     private File zoneTemplate;
 
-    public TemplateZoneFactory(Path templatePath) throws FileNotFoundException {
-        zoneTemplate = templatePath.toFile();
+    public TemplateZoneFactory(String mapName) throws FileNotFoundException,
+            URISyntaxException {
+        URL resourceUrl = getClass().getResource("/" + mapName + ".xml");
+        if (resourceUrl == null)
+            throw new FileNotFoundException();
+        Path resourcePath;
+
+        resourcePath = Paths.get(resourceUrl.toURI());
+        zoneTemplate = resourcePath.toFile();
         if (!zoneTemplate.exists()) {
             throw new FileNotFoundException();
         }
+
     }
 
     @Override

@@ -6,8 +6,9 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.ItemCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerRace;
 import it.polimi.ingsw.cg_30.gamemanager.model.Match;
 import it.polimi.ingsw.cg_30.gamemanager.model.Player;
-import it.polimi.ingsw.cg_30.gamemanager.model.Zone;
 
+import java.io.FileNotFoundException;
+import java.net.URISyntaxException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,14 +21,20 @@ public class MatchController {
     private final int MAX_TURN = 39;
 
     // TODO questa implementazione è una bozza, necessita di completamento
-    public void initMatch(PartyController partyController) {
+    public void initMatch(PartyController partyController)
+            throws FileNotFoundException, URISyntaxException {
         // TODO call init methods on every sub-controller
         this.partyController = partyController;
         this.match = new Match();
         this.turnController = new TurnController();
-        Zone zone = new Zone();
-        this.zoneController = new ZoneController(zone);
-        turnController.firstTurn(this);
+        // assegnare turn ad un turno
+        EftaiosGame g = (EftaiosGame) partyController.getCurrentParty()
+                .getGame();
+        ZoneFactory zf = new TemplateZoneFactory(g.getMapName());
+        this.zoneController = new ZoneController(zf);
+
+        // dopo aver assegnato
+        turnController.firstTurn(null);
     }
 
     public TurnController getTurnController() {

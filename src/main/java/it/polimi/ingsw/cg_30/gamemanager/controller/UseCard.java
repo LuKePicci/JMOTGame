@@ -68,6 +68,7 @@ public class UseCard extends ActionController {
     @Override
     public void processAction() {
         ItemCard card = findItemCardByItem(item);
+        // TODO avvisa sulla carta utilizzata
         if (Item.ATTACK.equals(item)) {
             Attack attack = new Attack(matchController);
             attack.processAction();
