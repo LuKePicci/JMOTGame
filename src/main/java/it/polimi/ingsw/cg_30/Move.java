@@ -37,15 +37,11 @@ public class Move extends ActionController {
                 // TODO è possibile che i seguenti test non siano necessari a
                 // seconda che reachableTargets ritorni o meno i settori start e
                 // sciluppa
-                if ((!SectorType.ALIENS_START.equals(target.getType()))
-                        && (!SectorType.HUMANS_START.equals(target.getType()))) {
-                    if (PlayerRace.HUMAN.equals(player.getIdentity())) {
-                        return true; // gli umani posso andare sulle scialuppe
-                    } else if (!SectorType.ESCAPE_HATCH
-                            .equals(target.getType())) {
-                        return true;
-                    }
-                }
+                return ((!SectorType.ALIENS_START.equals(target.getType()))
+                        && (!SectorType.HUMANS_START.equals(target.getType())) && (PlayerRace.HUMAN
+                        .equals(player.getIdentity()) || !SectorType.ESCAPE_HATCH
+                        .equals(target.getType())));
+                // gli umani posso andare sulle scialuppe
             }
         }
         return false;
@@ -86,11 +82,11 @@ public class Move extends ActionController {
                                              // attaccare
             if ((PlayerRace.HUMAN.equals(player.getIdentity().getRace()))
                     && (matchController.getTurnController().getTurn()
-                        .getSilenceForced() == false)) {
+                            .getSilenceForced() == false)) {
                 // l'umano deve pescare (salvo uso di sedativi)
                 DrawCard forcedDraw = new DrawCard(matchController);
                 forcedDraw.processAction();
-        }
+            }
         } else
             // TODO ritorna ActionMessage per settore non pericoloso
             ;
