@@ -2,16 +2,23 @@ package it.polimi.ingsw.cg_30.gamemanager.model;
 
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorEvent;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * The Class SectorCard.
  */
+@XmlRootElement(name = "Card")
 public class SectorCard extends Card {
 
     private static final long serialVersionUID = 5211772687967011728L;
 
     /** The event. */
+    @XmlElement(name = "Event")
     private SectorEvent event;
-    private boolean objectSymbol;
+
+    @XmlElement(name = "AttachedItem")
+    private boolean attachedItem;
 
     /**
      * Instantiates a new sector card.
@@ -19,9 +26,9 @@ public class SectorCard extends Card {
      * @param event
      *            the event
      */
-    public SectorCard(SectorEvent event, boolean objectSymbol) {
+    public SectorCard(SectorEvent event, boolean attachedItem) {
         this.event = event;
-        this.objectSymbol = objectSymbol;
+        this.attachedItem = attachedItem;
     }
 
     /**
@@ -42,7 +49,7 @@ public class SectorCard extends Card {
     }
 
     public boolean hasObjectSymbol() {
-        return objectSymbol;
+        return attachedItem;
     }
 
 }
