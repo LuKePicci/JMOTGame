@@ -1,7 +1,5 @@
 package it.polimi.ingsw.cg_30.exchange.viewmodels;
 
-import it.polimi.ingsw.cg_30.gamemanager.model.Cell;
-
 import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlAccessType;

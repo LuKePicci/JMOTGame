@@ -1,6 +1,4 @@
-package it.polimi.ingsw.cg_30.gamemanager.model;
-
-import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorEvent;
+package it.polimi.ingsw.cg_30.exchange.viewmodels;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -27,6 +25,7 @@ public class SectorCard extends Card {
      *            the event
      */
     public SectorCard(SectorEvent event, boolean attachedItem) {
+        this();
         this.event = event;
         this.attachedItem = attachedItem;
     }
@@ -34,9 +33,9 @@ public class SectorCard extends Card {
     /**
      * Instantiates an empty sector card.
      */
-    @SuppressWarnings("unused")
     private SectorCard() {
         // JAXB handled
+        super(CardType.SECTOR);
     }
 
     /**

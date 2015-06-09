@@ -1,7 +1,5 @@
 package it.polimi.ingsw.cg_30.exchange.messaging;
 
-import it.polimi.ingsw.cg_30.gamemanager.controller.MessageController;
-
 import java.util.Collection;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -24,7 +22,7 @@ public class PartyRequest extends RequestModel {
     }
 
     @Override
-    public void process(MessageController mc) {
+    public void process(IDelivery mc) {
         mc.deliver(this);
     }
 

@@ -6,10 +6,10 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import it.polimi.ingsw.cg_30.exchange.messaging.JoinRequest;
 import it.polimi.ingsw.cg_30.exchange.messaging.Message;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.EftaiosGame;
 import it.polimi.ingsw.cg_30.gamemanager.controller.MatchController;
 import it.polimi.ingsw.cg_30.gamemanager.controller.MessageController;
 import it.polimi.ingsw.cg_30.gamemanager.controller.PartyController;
-import it.polimi.ingsw.cg_30.gamemanager.model.EftaiosGame;
 import it.polimi.ingsw.cg_30.gamemanager.network.AcceptPlayer;
 
 import java.io.IOException;

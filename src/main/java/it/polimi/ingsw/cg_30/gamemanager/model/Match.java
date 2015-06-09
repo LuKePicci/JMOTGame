@@ -1,5 +1,9 @@
 package it.polimi.ingsw.cg_30.gamemanager.model;
 
+import it.polimi.ingsw.cg_30.exchange.viewmodels.HatchCard;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.ItemCard;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorCard;
+
 import java.util.HashSet;
 import java.util.Set;
 

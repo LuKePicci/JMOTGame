@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg_30.gamemanager.model;
 
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerRace;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.TurnViewModel;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewModel;
 

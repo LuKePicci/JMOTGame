@@ -1,11 +1,11 @@
 package it.polimi.ingsw.cg_30.gamemanager.controller;
 
 import it.polimi.ingsw.cg_30.exchange.messaging.ActionRequest;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.HatchCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.HatchChance;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerRace;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Sector;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorType;
-import it.polimi.ingsw.cg_30.gamemanager.model.HatchCard;
 
 import java.util.Set;
 

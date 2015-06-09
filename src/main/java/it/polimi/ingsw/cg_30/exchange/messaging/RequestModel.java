@@ -1,7 +1,5 @@
 package it.polimi.ingsw.cg_30.exchange.messaging;
 
-import it.polimi.ingsw.cg_30.gamemanager.controller.MessageController;
-
 import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
@@ -41,5 +39,5 @@ public abstract class RequestModel implements Serializable {
         return this.myID;
     }
 
-    public abstract void process(MessageController mc);
+    public abstract void process(IDelivery mc);
 }

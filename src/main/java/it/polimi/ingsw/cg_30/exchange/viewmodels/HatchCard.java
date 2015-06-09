@@ -1,6 +1,4 @@
-package it.polimi.ingsw.cg_30.gamemanager.model;
-
-import it.polimi.ingsw.cg_30.exchange.viewmodels.HatchChance;
+package it.polimi.ingsw.cg_30.exchange.viewmodels;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -25,15 +23,16 @@ public class HatchCard extends Card {
      *            the chance
      */
     public HatchCard(HatchChance chance) {
+        this();
         this.chance = chance;
     }
 
     /**
      * Instantiates an empty hatch card.
      */
-    @SuppressWarnings("unused")
     private HatchCard() {
         // JAXB handled
+        super(CardType.HATCH);
     }
 
     /**

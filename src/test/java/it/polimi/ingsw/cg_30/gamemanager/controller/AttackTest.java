@@ -2,7 +2,9 @@ package it.polimi.ingsw.cg_30.gamemanager.controller;
 
 import static org.junit.Assert.assertTrue;
 import it.polimi.ingsw.cg_30.exchange.messaging.ActionRequest;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.EftaiosGame;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.HexPoint;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerRace;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Sector;
 import it.polimi.ingsw.cg_30.gamemanager.controller.ActionType;
@@ -10,11 +12,9 @@ import it.polimi.ingsw.cg_30.gamemanager.controller.MatchController;
 import it.polimi.ingsw.cg_30.gamemanager.controller.PartyController;
 import it.polimi.ingsw.cg_30.gamemanager.controller.TurnController;
 import it.polimi.ingsw.cg_30.gamemanager.controller.ZoneController;
-import it.polimi.ingsw.cg_30.gamemanager.model.EftaiosGame;
 import it.polimi.ingsw.cg_30.gamemanager.model.Match;
 import it.polimi.ingsw.cg_30.gamemanager.model.Party;
 import it.polimi.ingsw.cg_30.gamemanager.model.Player;
-import it.polimi.ingsw.cg_30.gamemanager.model.PlayerCard;
 import it.polimi.ingsw.cg_30.gamemanager.model.Turn;
 import it.polimi.ingsw.cg_30.gamemanager.model.Zone;
 

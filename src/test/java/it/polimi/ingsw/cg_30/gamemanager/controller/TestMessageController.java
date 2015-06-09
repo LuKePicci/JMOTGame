@@ -12,7 +12,7 @@ import it.polimi.ingsw.cg_30.exchange.messaging.JoinRequest;
 import it.polimi.ingsw.cg_30.exchange.messaging.Message;
 import it.polimi.ingsw.cg_30.exchange.messaging.PartyMessage;
 import it.polimi.ingsw.cg_30.exchange.messaging.PartyRequest;
-import it.polimi.ingsw.cg_30.gamemanager.model.EftaiosGame;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.EftaiosGame;
 
 import java.util.UUID;
 

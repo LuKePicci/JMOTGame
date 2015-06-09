@@ -11,7 +11,8 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-class PlayerViewModel {
+@XmlRootElement(name = "Player")
+class PlayerViewModel extends ViewModel {
 
     @XmlElement(name = "PlayerIndex")
     int index;
@@ -26,11 +27,18 @@ class PlayerViewModel {
     UUID playerId;
 
     public PlayerViewModel(Player pl, UUID id) {
+        this();
         this.index = pl.getIndex();
         this.name = pl.getName();
         this.kills = pl.getKillsCount();
         this.playerId = id;
     }
+
+    private PlayerViewModel() {
+        // JAXB handled
+        super(ViewType.PLAYER);
+    }
+
 }
 
 @XmlRootElement(name = "Party")
@@ -43,6 +51,7 @@ public class PartyViewModel extends ViewModel {
     List<PlayerViewModel> players;
 
     public PartyViewModel(Party p) {
+        this();
 
         this.partyName = p.getName();
 
@@ -52,9 +61,9 @@ public class PartyViewModel extends ViewModel {
             this.players.add(new PlayerViewModel(pl, members.get(pl)));
     }
 
-    @SuppressWarnings("unused")
     private PartyViewModel() {
         // JAXB handled
+        super(ViewType.PARTY);
     }
 
 }

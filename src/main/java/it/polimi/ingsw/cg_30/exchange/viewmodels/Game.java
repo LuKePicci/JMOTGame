@@ -1,6 +1,4 @@
-package it.polimi.ingsw.cg_30.gamemanager.model;
-
-import it.polimi.ingsw.cg_30.exchange.viewmodels.GameType;
+package it.polimi.ingsw.cg_30.exchange.viewmodels;
 
 import java.io.Serializable;
 

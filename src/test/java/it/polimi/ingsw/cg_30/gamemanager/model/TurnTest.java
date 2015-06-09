@@ -1,12 +1,12 @@
 package it.polimi.ingsw.cg_30.gamemanager.model;
 
 import static org.junit.Assert.assertEquals;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerCharacter;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerRace;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorEvent;
 import it.polimi.ingsw.cg_30.gamemanager.model.Player;
-import it.polimi.ingsw.cg_30.gamemanager.model.PlayerCard;
-import it.polimi.ingsw.cg_30.gamemanager.model.SectorCard;
 import it.polimi.ingsw.cg_30.gamemanager.model.Turn;
 
 import org.junit.Test;

@@ -8,6 +8,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class ActionMessage extends Message {
 
+    private static final long serialVersionUID = 3321144385453012463L;
+
     @SuppressWarnings("unused")
     private ActionMessage() {
         // local attributes initialization by JAXB

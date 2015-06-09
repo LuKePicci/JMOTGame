@@ -1,8 +1,8 @@
 package it.polimi.ingsw.cg_30.gamemanager.controller;
 
+import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorEvent;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorType;
-import it.polimi.ingsw.cg_30.gamemanager.model.SectorCard;
 
 /**
  * The Class DrawCard.

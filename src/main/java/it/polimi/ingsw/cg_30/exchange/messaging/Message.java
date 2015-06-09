@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlSeeAlso({ ActionMessage.class, ChatMessage.class, PartyMessage.class,
         JoinMessage.class })
-public abstract class Message implements Serializable {
+public class Message implements Serializable {
 
     private static final long serialVersionUID = -7712280460808337633L;
 
@@ -22,6 +22,11 @@ public abstract class Message implements Serializable {
     protected RequestModel requestContent;
 
     protected ViewModel publishedContent;
+
+    public Message(ViewModel pub) {
+        this(MessageType.VIEW_MESSAGE);
+        this.publishedContent = pub;
+    }
 
     protected Message(MessageType t) {
         this.msgType = t;

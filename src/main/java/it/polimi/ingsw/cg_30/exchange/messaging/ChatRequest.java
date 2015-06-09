@@ -1,7 +1,5 @@
 package it.polimi.ingsw.cg_30.exchange.messaging;
 
-import it.polimi.ingsw.cg_30.gamemanager.controller.MessageController;
-
 import java.util.UUID;
 
 import javax.xml.bind.annotation.XmlAttribute;
@@ -57,7 +55,7 @@ public class ChatRequest extends RequestModel {
     }
 
     @Override
-    public void process(MessageController mc) {
+    public void process(IDelivery mc) {
         mc.deliver(this);
     }
 

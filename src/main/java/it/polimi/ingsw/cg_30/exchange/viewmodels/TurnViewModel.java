@@ -33,6 +33,7 @@ public class TurnViewModel extends ViewModel {
      *            the t
      */
     public TurnViewModel(Turn t) {
+        this();
         this.canAttack = t.getCanAttack();
         this.maxSteps = t.getMaxSteps();
         this.mustDiscard = t.getMustDiscard();
@@ -40,9 +41,9 @@ public class TurnViewModel extends ViewModel {
         this.silenceForced = t.getSilenceForced();
     }
 
-    @SuppressWarnings("unused")
     private TurnViewModel() {
         // JAXB handled
+        super(ViewType.TURN);
     }
 
     /**

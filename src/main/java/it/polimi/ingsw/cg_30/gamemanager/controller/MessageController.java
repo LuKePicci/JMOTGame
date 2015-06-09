@@ -2,6 +2,7 @@ package it.polimi.ingsw.cg_30.gamemanager.controller;
 
 import it.polimi.ingsw.cg_30.exchange.messaging.ActionRequest;
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatRequest;
+import it.polimi.ingsw.cg_30.exchange.messaging.IDelivery;
 import it.polimi.ingsw.cg_30.exchange.messaging.JoinRequest;
 import it.polimi.ingsw.cg_30.exchange.messaging.Message;
 import it.polimi.ingsw.cg_30.exchange.messaging.PartyRequest;
@@ -15,7 +16,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class MessageController {
+public class MessageController implements IDelivery {
 
     protected static final Set<UUID> usedIds = new HashSet<UUID>();
     protected static final Map<UUID, MessageController> connectedClients = new ConcurrentHashMap<UUID, MessageController>();

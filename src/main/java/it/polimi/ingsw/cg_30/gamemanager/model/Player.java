@@ -1,5 +1,7 @@
 package it.polimi.ingsw.cg_30.gamemanager.model;
 
+import it.polimi.ingsw.cg_30.exchange.viewmodels.ItemCard;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerCharacter;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerRace;
 

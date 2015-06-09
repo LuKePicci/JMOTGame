@@ -1,6 +1,4 @@
-package it.polimi.ingsw.cg_30.gamemanager.model;
-
-import it.polimi.ingsw.cg_30.exchange.viewmodels.Item;
+package it.polimi.ingsw.cg_30.exchange.viewmodels;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -25,15 +23,16 @@ public class ItemCard extends Card {
      *            the item
      */
     public ItemCard(Item item) {
+        this();
         this.item = item;
     }
 
     /**
      * Instantiates an empty item card (JAXB needings)
      */
-    @SuppressWarnings("unused")
     private ItemCard() {
         // JAXB handled
+        super(CardType.ITEM);
     }
 
     /**

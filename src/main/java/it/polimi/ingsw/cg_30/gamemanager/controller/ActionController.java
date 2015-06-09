@@ -1,11 +1,11 @@
 package it.polimi.ingsw.cg_30.gamemanager.controller;
 
 import it.polimi.ingsw.cg_30.exchange.messaging.ActionRequest;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.Card;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Item;
-import it.polimi.ingsw.cg_30.gamemanager.model.Card;
-import it.polimi.ingsw.cg_30.gamemanager.model.ItemCard;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.ItemCard;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorCard;
 import it.polimi.ingsw.cg_30.gamemanager.model.Player;
-import it.polimi.ingsw.cg_30.gamemanager.model.SectorCard;
 
 import java.util.EmptyStackException;
 

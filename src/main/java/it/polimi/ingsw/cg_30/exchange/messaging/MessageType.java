@@ -12,5 +12,7 @@ public enum MessageType {
     /** The party message. */
     PARTY_MESSAGE,
     /** The join message. */
-    JOIN_MESSAGE;
+    JOIN_MESSAGE,
+    /** The view model message. */
+    VIEW_MESSAGE;
 }

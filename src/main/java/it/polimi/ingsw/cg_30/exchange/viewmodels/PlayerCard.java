@@ -1,7 +1,4 @@
-package it.polimi.ingsw.cg_30.gamemanager.model;
-
-import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerCharacter;
-import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerRace;
+package it.polimi.ingsw.cg_30.exchange.viewmodels;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -18,8 +15,14 @@ public class PlayerCard extends Card {
     private PlayerCharacter character;
 
     public PlayerCard(PlayerRace race, PlayerCharacter character) {
+        this();
         this.race = race;
         this.character = character;
+    }
+
+    private PlayerCard() {
+        // JAXB handled
+        super(CardType.PLAYER);
     }
 
     public PlayerRace getRace() {

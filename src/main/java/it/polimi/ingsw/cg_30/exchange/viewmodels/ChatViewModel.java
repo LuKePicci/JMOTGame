@@ -18,12 +18,13 @@ public class ChatViewModel extends ViewModel {
     @XmlAttribute(name = "Audience")
     private ChatVisibility audience;
 
-    @SuppressWarnings("unused")
     private ChatViewModel() {
         // JAXB handled
+        super(ViewType.ZONE);
     }
 
     public ChatViewModel(String textMessage, String from, ChatVisibility target) {
+        this();
         this.text = textMessage;
         this.senderNick = from;
         this.audience = target;

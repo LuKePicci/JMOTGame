@@ -3,12 +3,12 @@ package it.polimi.ingsw.cg_30.gamemanager.model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.Card;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.HatchCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.HatchChance;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.ItemCard;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorEvent;
-import it.polimi.ingsw.cg_30.gamemanager.model.Card;
-import it.polimi.ingsw.cg_30.gamemanager.model.HatchCard;
-import it.polimi.ingsw.cg_30.gamemanager.model.ItemCard;
-import it.polimi.ingsw.cg_30.gamemanager.model.SectorCard;
 import it.polimi.ingsw.cg_30.gamemanager.model.StackedDeck;
 
 import java.util.HashSet;

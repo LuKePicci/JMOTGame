@@ -1,9 +1,14 @@
 package it.polimi.ingsw.cg_30.gamemanager.model;
 
+import it.polimi.ingsw.cg_30.exchange.viewmodels.Card;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.HatchCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.HatchChance;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Item;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.ItemCard;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerCharacter;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerRace;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorEvent;
 
 import java.util.Collection;
