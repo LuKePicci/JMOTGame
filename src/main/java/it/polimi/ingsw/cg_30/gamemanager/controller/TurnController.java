@@ -3,6 +3,7 @@ package it.polimi.ingsw.cg_30.gamemanager.controller;
 import it.polimi.ingsw.cg_30.gamemanager.model.Player;
 import it.polimi.ingsw.cg_30.gamemanager.model.Turn;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -27,6 +28,14 @@ public class TurnController {
         return turn;
     }
 
+    public void firstTurn(List<Player> playerList) {
+        for (Player nextPlayer : playerList) {
+            if (nextPlayer.getIndex() == 1) {
+                this.turn = new Turn(nextPlayer);
+            }
+        }
+    }
+
     /**
      * Gets the players of this party.
      *
@@ -40,24 +49,6 @@ public class TurnController {
                 .getCurrentParty().getMembers().keySet();// set con tutti i
                                                          // player del party
         return playerList;
-    }
-
-    /**
-     * Assigns the turn to the first player.
-     *
-     * @param matchController
-     *            the match controller
-     * @return the turn
-     */
-    public Turn firstTurn(MatchController matchController) {
-        Set<Player> playerList = getPartyPlayers(matchController);
-        for (Player nextPlayer : playerList) {
-            if (nextPlayer.getIndex() == 1) {
-                turn = new Turn(nextPlayer);
-                return turn;
-            }
-        }
-        return null;
     }
 
     /**

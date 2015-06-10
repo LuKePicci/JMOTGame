@@ -1,21 +1,33 @@
 package it.polimi.ingsw.cg_30.gamemanager.controller;
 
 import it.polimi.ingsw.cg_30.exchange.viewmodels.HexPoint;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerRace;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Sector;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorType;
+import it.polimi.ingsw.cg_30.gamemanager.model.Player;
 import it.polimi.ingsw.cg_30.gamemanager.model.Zone;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+/**
+ * The Class ZoneController.
+ */
 public class ZoneController {
 
+    /** The current zone. */
     private Zone currentZone;
 
+    /** The hatches. */
     private Map<HexPoint, Sector> hatches = new HashMap<HexPoint, Sector>();
 
+    /** The humans start. */
     private Sector aliensStart, humansStart;
 
+    /**
+     * Instantiates a new zone controller.
+     */
     public ZoneController() {
         this(new RandomZoneFactory());
     }
@@ -73,8 +85,23 @@ public class ZoneController {
         return this.hatches.size() == 0;
     }
 
+    /**
+     * Gets the current zone.
+     *
+     * @return the current zone
+     */
     public Zone getCurrentZone() {
         return currentZone;
+    }
+
+    public void placePlayers(List<Player> players) {
+        for (Player player : players) {
+            if (PlayerRace.ALIEN.equals(player.getIdentity().getRace())) {
+                currentZone.movePlayer(player, aliensStart);
+            } else {
+                currentZone.movePlayer(player, humansStart);
+            }
+        }
     }
 
     // TODO metodo da eliminare (inserito solo come utlity per il testing))

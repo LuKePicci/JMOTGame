@@ -4,13 +4,18 @@ import it.polimi.ingsw.cg_30.exchange.messaging.ActionRequest;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.EftaiosGame;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Item;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ItemCard;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerRace;
 import it.polimi.ingsw.cg_30.gamemanager.model.Match;
 import it.polimi.ingsw.cg_30.gamemanager.model.Player;
+import it.polimi.ingsw.cg_30.gamemanager.model.StackedDeck;
 
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class MatchController {
@@ -21,21 +26,50 @@ public class MatchController {
     protected Match match;
     private final int MAX_TURN = 39;
 
-    // TODO questa implementazione è una bozza, necessita di completamento
+    // lista dei giocatori del party
+    public List<Player> obtainPartyPlayers() {
+        List<Player> playerList = new ArrayList<Player>(partyController
+                .getCurrentParty().getMembers().keySet());
+        return playerList;
+    }
+
+    private void modelSender() {
+        // TODO implementare
+    }
+
+    // assegno i ruoli (alieno/umano)
+    private void establishRoles(PartyController partyController) {
+        List<Player> players = obtainPartyPlayers();
+        Collections.shuffle(players);
+        StackedDeck<PlayerCard> playerCardDeck = StackedDeck
+                .newStackedDeckPlayer();
+        for (Player player : players) {
+            player.setIdentity(playerCardDeck.pickCard());
+        }
+    }
+
+    private void assignFirstTurn(PartyController partyController) {
+        // TODO implementare
+    }
+
     public void initMatch(PartyController partyController)
             throws FileNotFoundException, URISyntaxException {
-        // TODO call init methods on every sub-controller
         this.partyController = partyController;
         this.match = new Match();
         this.turnController = new TurnController();
-        // assegnare turn ad un turno
-        EftaiosGame g = (EftaiosGame) partyController.getCurrentParty()
+
+        // preparo mappa
+        EftaiosGame game = (EftaiosGame) partyController.getCurrentParty()
                 .getGame();
-        ZoneFactory zf = new TemplateZoneFactory(g.getMapName());
+        ZoneFactory zf = new TemplateZoneFactory(game.getMapName());
         this.zoneController = new ZoneController(zf);
 
-        // dopo aver assegnato
-        turnController.firstTurn(null);
+        establishRoles(partyController); // assegno i ruoli
+        List<Player> playerList = obtainPartyPlayers();
+        zoneController.placePlayers(playerList); // posiziono i players
+        turnController.firstTurn(playerList); // preparo primo turno
+        // inivio model
+        modelSender();
     }
 
     public TurnController getTurnController() {
