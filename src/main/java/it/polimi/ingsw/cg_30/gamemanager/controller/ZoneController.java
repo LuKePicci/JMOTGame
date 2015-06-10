@@ -94,6 +94,12 @@ public class ZoneController {
         return currentZone;
     }
 
+    /**
+     * Place players.
+     *
+     * @param players
+     *            the players
+     */
     public void placePlayers(List<Player> players) {
         for (Player player : players) {
             if (PlayerRace.ALIEN.equals(player.getIdentity().getRace())) {
@@ -102,6 +108,15 @@ public class ZoneController {
                 currentZone.movePlayer(player, humansStart);
             }
         }
+    }
+
+    /**
+     * Gets the humans start.
+     *
+     * @return the humans start sector
+     */
+    public Sector getHumansStart() {
+        return humansStart;
     }
 
     // TODO metodo da eliminare (inserito solo come utlity per il testing))

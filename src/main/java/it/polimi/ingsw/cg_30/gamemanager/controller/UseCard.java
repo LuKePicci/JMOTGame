@@ -1,6 +1,10 @@
 package it.polimi.ingsw.cg_30.gamemanager.controller;
 
 import it.polimi.ingsw.cg_30.exchange.messaging.ActionRequest;
+import it.polimi.ingsw.cg_30.exchange.messaging.ChatMessage;
+import it.polimi.ingsw.cg_30.exchange.messaging.ChatVisibility;
+import it.polimi.ingsw.cg_30.exchange.messaging.Message;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.ChatViewModel;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Item;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ItemCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerRace;
@@ -68,47 +72,86 @@ public class UseCard extends ActionController {
     @Override
     public void processAction() {
         ItemCard card = findItemCardByItem(item);
-        // TODO avvisa sulla carta utilizzata
+
         if (Item.ATTACK.equals(item)) {
+            // TODO eventuale invio del viewModel della carta usata
+            notifyInChatByCurrentPlayer("ATTACK CARD");
             Attack attack = new Attack(matchController);
             attack.processAction();
             matchController.getMatch().getItemsDeck().putIntoBucket(card);
+
         } else if (Item.TELEPORT.equals(item)) {
-            // Sector target = funzioneCheRitornaLeCoordinateDelSettoreUmani
-            // TODO target deve essere il settore di partenza degli umani;
+            // TODO eventuale invio del viewModel della carta usata
+            notifyInChatByCurrentPlayer("TELEPORT CARD");
             matchController
                     .getZoneController()
                     .getCurrentZone()
                     .movePlayer(
                             player,
                             matchController.getZoneController()
-                                    .getCurrentZone().getMap()
-                                    .get(this.req.getActionTarget()));
+                                    .getHumansStart());
+            updateMapView();
+
         } else if (Item.ADRENALINE.equals(item)) {
+            // TODO eventuale invio del viewModel della carta usata
+            notifyInChatByCurrentPlayer("ADRENALINE CARD");
             matchController.getTurnController().getTurn().setMaxSteps(2);
+
         } else if (Item.SEDATIVES.equals(item)) {
+            // TODO eventuale invio del viewModel della carta usata
+            notifyInChatByCurrentPlayer("SEDATIVES CARD");
             matchController.getTurnController().getTurn()
                     .setSilenceForced(true);
+
         } else if (Item.SPOTLIGHT.equals(item)) {
-            // identifico i settori
-            Sector start = matchController.getZoneController().getCurrentZone()
-                    .getMap().get(this.req.getActionTarget());
-            Set<Sector> borderSectors = matchController.getZoneController()
-                    .getCurrentZone().reachableTargets(start, 1);// settori
-                                                                 // confinanti
-            borderSectors.add(start);
-            for (Sector sec : borderSectors) {
-                Set<Player> watchedPlayers = matchController
-                        .getZoneController().getCurrentZone()
-                        .getPlayersInSector(sec);
-                // TODO avvisa tutti che nel settore sec si trovano i players
-                // watchedPlayers (ma non terminare il metodo)
-            }
+            // TODO eventuale invio del viewModel della carta usata
+            notifyInChatByCurrentPlayer("SPOTLIGHT CARD");
+            spotlightLogic();
         }
+
         // scarto la carta oggetto utilizzata
         matchController.getMatch().getItemsDeck().putIntoBucket(card);
         spareDeck.getCards().remove(card);
         // elimino l'eventuale obbligo di scartare
         matchController.getTurnController().getTurn().setMustDiscard(false);
+        updateCardsView();
+
     }
+
+    private void spotlightLogic() {
+        // identifico i settori
+        Sector start = matchController.getZoneController().getCurrentZone()
+                .getMap().get(this.req.getActionTarget());
+        Set<Sector> borderSectors = matchController.getZoneController()
+                .getCurrentZone().reachableTargets(start, 1);// settori
+                                                             // confinanti
+        borderSectors.add(start);
+        for (Sector sec : borderSectors) {
+            Set<Player> watchedPlayers = matchController.getZoneController()
+                    .getCurrentZone().getPlayersInSector(sec);
+            for (Player player : watchedPlayers) {
+                notifyInChatByCurrentPlayerByServer("The player "
+                        + player.getName() + " is in the sector "
+                        + sec.toString());
+            }
+        }
+    }
+
+    private void notifyInChatByCurrentPlayerByServer(String what) {
+        matchController.getPartyController().sendMessageToParty(
+                new ChatMessage(new ChatViewModel(what, "Server",
+                        ChatVisibility.PARTY)));
+    }
+
+    private void updateMapView() {
+        MessageController
+                .getPlayerHandler(
+                        matchController.getPartyController().getCurrentParty()
+                                .getPlayerUUID(player))
+                .getAcceptPlayer()
+                .sendMessage(
+                        new Message(matchController.getZoneController()
+                                .getCurrentZone().getViewModel()));
+    }
+
 }

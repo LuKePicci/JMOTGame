@@ -179,6 +179,7 @@ public class MatchController {
                     partyController.sendMessageToParty(new ChatMessage(
                             new ChatViewModel("DEFENSE CARD", killedPlayer
                                     .getName(), ChatVisibility.PARTY)));
+                    // TODO eventuale invio del viewModel della carta usata
                     MessageController
                             .getPlayerHandler(
                                     partyController.getCurrentParty()
@@ -206,7 +207,9 @@ public class MatchController {
                 .sendMessage(
                         new ChatMessage(new ChatViewModel("You are dead",
                                 "Server", ChatVisibility.PLAYER)));
-        for (Player otherPlayer : obtainPartyPlayers()) {
+        List<Player> others = obtainPartyPlayers();
+        others.remove(turnController.getTurn().getCurrentPlayer());
+        for (Player otherPlayer : others) {
             MessageController
                     .getPlayerHandler(
                             partyController.getCurrentParty().getPlayerUUID(
@@ -404,6 +407,18 @@ public class MatchController {
             act.initAction(this, req);
             if (act.isValid())
                 act.processAction();
+            else
+                MessageController
+                        .getPlayerHandler(
+                                partyController.getCurrentParty()
+                                        .getPlayerUUID(
+                                                turnController.getTurn()
+                                                        .getCurrentPlayer()))
+                        .getAcceptPlayer()
+                        .sendMessage(
+                                new ChatMessage(new ChatViewModel(
+                                        "Sorry, you can't do this", "Server",
+                                        ChatVisibility.PLAYER)));
         } catch (InstantiationException | IllegalAccessException e) {
             // TODO Log this exception
             System.out

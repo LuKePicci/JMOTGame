@@ -1,12 +1,18 @@
 package it.polimi.ingsw.cg_30.gamemanager.controller;
 
 import it.polimi.ingsw.cg_30.exchange.messaging.ActionRequest;
+import it.polimi.ingsw.cg_30.exchange.messaging.ChatMessage;
+import it.polimi.ingsw.cg_30.exchange.messaging.ChatVisibility;
+import it.polimi.ingsw.cg_30.exchange.messaging.Message;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.ChatViewModel;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.HatchCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.HatchChance;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerRace;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Sector;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorType;
+import it.polimi.ingsw.cg_30.gamemanager.model.Player;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -67,11 +73,84 @@ public class Move extends ActionController {
         if (SectorType.ESCAPE_HATCH.equals(target.getType())) {
             HatchCard drawnCard = matchController.getMatch().getHatchesDeck()
                     .pickAndThrow();
-            // TODO notifica quale carta è stata pescata
             if (HatchChance.FREE.equals(drawnCard.getChance())) {
                 matchController.getMatch().getRescuedPlayer().add(player);
-                // TODO notifica che il giocatore si è salvato
-                // verifico se la partita è finita
+                matchController.getPartyController().sendMessageToParty(
+                        new ChatMessage(new ChatViewModel("GREEN HATCH CARD",
+                                "Server", ChatVisibility.PARTY)));
+                // TODO eventuale invio del viewModel della carta pescata
+                MessageController
+                        .getPlayerHandler(
+                                matchController
+                                        .getPartyController()
+                                        .getCurrentParty()
+                                        .getPlayerUUID(
+                                                matchController
+                                                        .getTurnController()
+                                                        .getTurn()
+                                                        .getCurrentPlayer()))
+                        .getAcceptPlayer()
+                        .sendMessage(
+                                new ChatMessage(new ChatViewModel(
+                                        "YOU ARE SAVED NOW", "Server",
+                                        ChatVisibility.PLAYER)));
+                List<Player> others = obtainPartyPlayers();
+                others.remove(matchController.getTurnController().getTurn()
+                        .getCurrentPlayer());
+                for (Player otherPlayer : others) {
+                    MessageController
+                            .getPlayerHandler(
+                                    matchController.getPartyController()
+                                            .getCurrentParty()
+                                            .getPlayerUUID(otherPlayer))
+                            .getAcceptPlayer()
+                            .sendMessage(
+                                    new ChatMessage(new ChatViewModel(
+                                            matchController.getTurnController()
+                                                    .getTurn()
+                                                    .getCurrentPlayer()
+                                                    + " HAS ESCAPED", "Server",
+                                            ChatVisibility.PLAYER)));
+                }
+                matchController.checkEndGame();
+            } else {
+                matchController.getPartyController().sendMessageToParty(
+                        new ChatMessage(new ChatViewModel("RED HATCH CARD",
+                                "Server", ChatVisibility.PARTY)));
+                // TODO eventuale invio del viewModel della carta pescata
+                MessageController
+                        .getPlayerHandler(
+                                matchController
+                                        .getPartyController()
+                                        .getCurrentParty()
+                                        .getPlayerUUID(
+                                                matchController
+                                                        .getTurnController()
+                                                        .getTurn()
+                                                        .getCurrentPlayer()))
+                        .getAcceptPlayer()
+                        .sendMessage(
+                                new ChatMessage(new ChatViewModel(
+                                        "YOU CAN'T USE THIS HATCH", "Server",
+                                        ChatVisibility.PLAYER)));
+                List<Player> others = obtainPartyPlayers();
+                others.remove(matchController.getTurnController().getTurn()
+                        .getCurrentPlayer());
+                for (Player otherPlayer : others) {
+                    MessageController
+                            .getPlayerHandler(
+                                    matchController.getPartyController()
+                                            .getCurrentParty()
+                                            .getPlayerUUID(otherPlayer))
+                            .getAcceptPlayer()
+                            .sendMessage(
+                                    new ChatMessage(new ChatViewModel(
+                                            matchController.getTurnController()
+                                                    .getTurn()
+                                                    .getCurrentPlayer()
+                                                    + " HAS NOT ESCAPED",
+                                            "Server", ChatVisibility.PLAYER)));
+                }
                 matchController.checkEndGame();
             }
             try {
@@ -83,6 +162,10 @@ public class Move extends ActionController {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
+            // aggiorno la mappa
+            matchController.getPartyController().sendMessageToParty(
+                    new Message(matchController.getZoneController()
+                            .getCurrentZone().getViewModel()));
         } else if (SectorType.DANGEROUS.equals(target.getType())) {
             matchController.getTurnController().getTurn()
                     .setIsSecDangerous(true);// l'alieno dovrà o pescare o
@@ -95,7 +178,7 @@ public class Move extends ActionController {
                 forcedDraw.processAction();
             }
         } else
-            // TODO ritorna ActionMessage per settore non pericoloso
+            // settore non pericoloso (bianco), non faccio nulla
             ;
     }
 }

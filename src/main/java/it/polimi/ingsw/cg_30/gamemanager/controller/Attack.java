@@ -1,5 +1,8 @@
 package it.polimi.ingsw.cg_30.gamemanager.controller;
 
+import it.polimi.ingsw.cg_30.exchange.messaging.ChatMessage;
+import it.polimi.ingsw.cg_30.exchange.messaging.ChatVisibility;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.ChatViewModel;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerRace;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Sector;
 import it.polimi.ingsw.cg_30.gamemanager.model.Player;
@@ -11,12 +14,22 @@ import java.util.Set;
  */
 public class Attack extends ActionController {
 
+    /**
+     * Instantiates a new attack.
+     *
+     */
     public Attack() {
         // necessario per istanziare l'azione
     }
 
     // TODO verificare: prob questo costruttore non funziona bene
     // costruttore ad uso di UseCard
+    /**
+     * Instantiates a new attack.
+     *
+     * @param matchController
+     *            the match controller
+     */
     public Attack(MatchController matchController) {
         this.matchController = matchController;
         this.player = matchController.getTurnController().getTurn()
@@ -34,7 +47,6 @@ public class Attack extends ActionController {
         // se arrivo qui sono già nel turno del giocatore
         return ((matchController.getTurnController().getTurn().getCanAttack()) && !(matchController
                 .getTurnController().getTurn().getMustMove()));
-
     }
 
     /**
@@ -42,9 +54,16 @@ public class Attack extends ActionController {
      */
     @Override
     public void processAction() {
-        // prendo l'elenco dei giocatori morti
         Sector sec = matchController.getZoneController().getCurrentZone()
                 .getCell(player);
+        // notifico l'attacco
+        matchController.getPartyController().sendMessageToParty(
+                new ChatMessage(new ChatViewModel(
+                        "ATTACK in " + sec.toString(), matchController
+                                .getTurnController().getTurn()
+                                .getCurrentPlayer().getName(),
+                        ChatVisibility.PARTY)));
+        // prendo l'elenco dei giocatori morti
         Set<Player> dead = matchController.getZoneController().getCurrentZone()
                 .getPlayersInSector(sec);
         dead.remove(player); // devo evitare di uccidere player
@@ -70,7 +89,6 @@ public class Attack extends ActionController {
         matchController.getTurnController().getTurn().setIsSecDangerous(false);
         // verifico se la partita è finita
         matchController.checkEndGame();
-        // TODO invio l'ActionMessage
     }
 
 }

@@ -30,11 +30,7 @@ public class DiscardCard extends ActionController {
     @Override
     public boolean isValid() {// ipotizzo che si possa scartare una carta solo
                               // se si hanno più di 3 carte in mano
-        if ((matchController.getTurnController().getTurn().getMustDiscard() == true)
-                && (findItemCardByItem(item) != null)) {
-            return true;
-        }
-        return false;
+        return ((matchController.getTurnController().getTurn().getMustDiscard()) && (findItemCardByItem(item) != null));
     }
 
     /**
@@ -48,7 +44,8 @@ public class DiscardCard extends ActionController {
         spareDeck.getCards().remove(card);
         // elimino l'obbligo di scartare
         matchController.getTurnController().getTurn().setMustDiscard(false);
-
+        notifyInChatByCurrentPlayer("CARD DISCARDED");
+        updateCardsView();
     }
 
 }

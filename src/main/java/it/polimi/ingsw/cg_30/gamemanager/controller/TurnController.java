@@ -1,5 +1,8 @@
 package it.polimi.ingsw.cg_30.gamemanager.controller;
 
+import it.polimi.ingsw.cg_30.exchange.messaging.ChatMessage;
+import it.polimi.ingsw.cg_30.exchange.messaging.ChatVisibility;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.ChatViewModel;
 import it.polimi.ingsw.cg_30.gamemanager.model.Player;
 import it.polimi.ingsw.cg_30.gamemanager.model.Turn;
 
@@ -83,7 +86,10 @@ public class TurnController {
                     // qui passo il turno a nextPlayer
                     turn = new Turn(nextPlayer);
                     matchController.checkEndGame();
-                    // TODO comunico il passaggio del turno
+                    matchController.getPartyController().sendMessageToParty(
+                            new ChatMessage(new ChatViewModel(nextPlayer
+                                    .getName() + "'s turn", "Server",
+                                    ChatVisibility.PARTY)));
                 }
             }
         }
