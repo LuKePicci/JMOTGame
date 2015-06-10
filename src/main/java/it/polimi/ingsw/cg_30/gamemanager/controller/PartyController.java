@@ -1,8 +1,11 @@
 package it.polimi.ingsw.cg_30.gamemanager.controller;
 
+import it.polimi.ingsw.cg_30.exchange.messaging.ChatMessage;
+import it.polimi.ingsw.cg_30.exchange.messaging.ChatVisibility;
 import it.polimi.ingsw.cg_30.exchange.messaging.JoinRequest;
 import it.polimi.ingsw.cg_30.exchange.messaging.Message;
 import it.polimi.ingsw.cg_30.exchange.messaging.PartyRequest;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.ChatViewModel;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.EftaiosGame;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Game;
 import it.polimi.ingsw.cg_30.gamemanager.model.Party;
@@ -146,8 +149,9 @@ public class PartyController implements Serializable {
             this.currentMatch.initMatch(this);
         } catch (Exception ex) {
             this.currentMatch = null;
-            // notifico del mancato avvio della partita
-
+            this.sendMessageToParty(new ChatMessage(new ChatViewModel(
+                    "Unable to initialize a new game", "Server",
+                    ChatVisibility.PARTY)));
         }
     }
 
