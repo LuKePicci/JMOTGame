@@ -227,7 +227,9 @@ public class Turn implements IViewable {
 
     @Override
     public ViewModel getViewModel() {
-        return new TurnViewModel(this);
+        return new TurnViewModel(this.getCanAttack(), this.getMaxSteps(),
+                this.getMustDiscard(), this.getMustMove(),
+                this.getSilenceForced());
     }
 
 }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg_30.gamemanager.controller;
 
 import it.polimi.ingsw.cg_30.exchange.messaging.ActionRequest;
+import it.polimi.ingsw.cg_30.exchange.messaging.ActionType;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Card;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Item;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ItemCard;
@@ -8,12 +9,25 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorCard;
 import it.polimi.ingsw.cg_30.gamemanager.model.Player;
 
 import java.util.EmptyStackException;
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class ActionController {
+
+    private static Map<ActionType, Class> strategies = new HashMap<ActionType, Class>();
 
     protected MatchController matchController;
     protected ActionRequest req;
     protected Player player;
+
+    static {
+        strategies.put(ActionType.ATTACK, Attack.class);
+        strategies.put(ActionType.DISCARD_CARD, DiscardCard.class);
+        strategies.put(ActionType.MOVE, Move.class);
+        strategies.put(ActionType.NOISE_ANY, NoiseAny.class);
+        strategies.put(ActionType.TURN_OVER, TurnOver.class);
+        strategies.put(ActionType.USE_ITEM, UseCard.class);
+    }
 
     public void initAction(MatchController match, ActionRequest request) {
         this.req = request;
@@ -24,7 +38,8 @@ public abstract class ActionController {
     public static ActionController getStrategy(ActionRequest request)
             throws InstantiationException, IllegalAccessException {
 
-        return request.getActionType().getController();
+        return (ActionController) strategies.get(request.getActionType())
+                .newInstance();
     }
 
     /*
@@ -58,8 +73,7 @@ public abstract class ActionController {
             ItemCard icard;
             // il mazzo item è l'unico che potrebbe terminare le carte
             try {
-                icard = (ItemCard) matchController.getMatch().getItemsDeck()
-                        .pickCard();
+                icard = matchController.getMatch().getItemsDeck().pickCard();
             } catch (EmptyStackException e) {
                 // TODO informa il giocatore che non ci son più carte
                 // oggetto

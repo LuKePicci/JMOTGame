@@ -165,7 +165,7 @@ public class Zone extends GameTable<Sector> implements IViewable, Serializable {
     @Override
     public ViewModel getViewModel() {
 
-        return new ZoneViewModel(this);
+        return new ZoneViewModel(this.getMap());
     }
 
     // TODO metodo da eliminare (inserito solo come utlity per il testing))

@@ -1,7 +1,5 @@
 package it.polimi.ingsw.cg_30.exchange.viewmodels;
 
-import it.polimi.ingsw.cg_30.gamemanager.model.Turn;
-
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -32,13 +30,14 @@ public class TurnViewModel extends ViewModel {
      * @param t
      *            the t
      */
-    public TurnViewModel(Turn t) {
+    public TurnViewModel(boolean attack, int steps, boolean discard,
+            boolean move, boolean silence) {
         this();
-        this.canAttack = t.getCanAttack();
-        this.maxSteps = t.getMaxSteps();
-        this.mustDiscard = t.getMustDiscard();
-        this.mustMove = t.getMustMove();
-        this.silenceForced = t.getSilenceForced();
+        this.canAttack = attack;
+        this.maxSteps = steps;
+        this.mustDiscard = discard;
+        this.mustMove = move;
+        this.silenceForced = silence;
     }
 
     private TurnViewModel() {

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.cg_30.exchange.viewmodels;
 
 import it.polimi.ingsw.cg_30.gamemanager.model.XmlZoneMapAdapter;
-import it.polimi.ingsw.cg_30.gamemanager.model.Zone;
 
 import java.util.Map;
 
@@ -20,9 +19,9 @@ public class ZoneViewModel extends ViewModel {
     @XmlElement(name = "MyLocation")
     private Sector playerLocation;
 
-    public ZoneViewModel(Zone z) {
+    public ZoneViewModel(Map<HexPoint, Sector> map) {
         this();
-        this.sectorsMap = z.getMap();
+        this.sectorsMap = map;
     }
 
     private ZoneViewModel() {

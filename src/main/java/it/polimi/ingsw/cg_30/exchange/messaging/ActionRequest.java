@@ -2,7 +2,6 @@ package it.polimi.ingsw.cg_30.exchange.messaging;
 
 import it.polimi.ingsw.cg_30.exchange.viewmodels.HexPoint;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Item;
-import it.polimi.ingsw.cg_30.gamemanager.controller.ActionType;
 
 import java.io.Serializable;
 
@@ -23,6 +22,7 @@ public class ActionRequest extends RequestModel implements Serializable {
     @XmlElement(name = "ActionItem")
     private Item item;
 
+    @SuppressWarnings("unused")
     private ActionRequest() {
         // JAXB handled
         super();

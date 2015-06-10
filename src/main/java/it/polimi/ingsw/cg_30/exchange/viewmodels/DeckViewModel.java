@@ -1,8 +1,5 @@
 package it.polimi.ingsw.cg_30.exchange.viewmodels;
 
-import it.polimi.ingsw.cg_30.gamemanager.model.Deck;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -14,9 +11,9 @@ public class DeckViewModel<C extends Card> extends ViewModel {
     @XmlElement(name = "Cards")
     List<C> cards;
 
-    public DeckViewModel(Deck<C> d) {
+    public DeckViewModel(List<C> d) {
         this();
-        this.cards = new ArrayList<C>(d.getCardCollection());
+        this.cards = d;
     }
 
     private DeckViewModel() {

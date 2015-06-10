@@ -5,6 +5,7 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.DeckViewModel;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewModel;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -50,7 +51,7 @@ public abstract class Deck<C extends Card> implements IViewable, Serializable {
 
     @Override
     public ViewModel getViewModel() {
-        return new DeckViewModel<C>(this);
+        return new DeckViewModel<C>(new ArrayList<C>(this.getCardCollection()));
     }
 
 }

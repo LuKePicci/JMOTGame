@@ -5,7 +5,9 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.PartyViewModel;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewModel;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -150,7 +152,10 @@ public class Party implements IViewable, Serializable {
      */
     @Override
     public ViewModel getViewModel() {
-        return new PartyViewModel(this);
-    }
+        List<ViewModel> pvmList = new ArrayList<ViewModel>();
+        for (Player p : this.getMembers().keySet())
+            pvmList.add(p.getViewModel());
 
+        return new PartyViewModel(this.getName(), pvmList);
+    }
 }
