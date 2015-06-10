@@ -23,22 +23,40 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * The Class MatchController.
+ */
 public class MatchController {
 
+    /** The turn controller. */
     protected TurnController turnController;
+
+    /** The party controller. */
     protected PartyController partyController;
+
+    /** The zone controller. */
     protected ZoneController zoneController;
+
+    /** The match. */
     protected Match match;
+
+    /** The max turn. */
     private final int MAX_TURN = 39;
 
-    // lista dei giocatori del party
+    /**
+     * Obtain party players.
+     *
+     * @return the list of players of the current party
+     */
     public List<Player> obtainPartyPlayers() {
         List<Player> playerList = new ArrayList<Player>(partyController
                 .getCurrentParty().getMembers().keySet());
         return playerList;
     }
 
-    // invio i ViewModels della partita
+    /**
+     * Sends all the model needed in order to star a new match.
+     */
     private void modelSender() {
         // mappa
         partyController.sendMessageToParty(new Message(zoneController
@@ -60,7 +78,9 @@ public class MatchController {
                 "Game started", "Server", ChatVisibility.PARTY)));
     }
 
-    // assegno i ruoli (alieno/umano)
+    /**
+     * Establishes the role of each player.
+     */
     private void establishRoles() {
         List<Player> players = obtainPartyPlayers();
         Collections.shuffle(players);
@@ -71,7 +91,16 @@ public class MatchController {
         }
     }
 
-    // avvio la partita preparando il necessario
+    /**
+     * Initializes the match.
+     *
+     * @param partyController
+     *            the party controller
+     * @throws FileNotFoundException
+     *             the file not found exception
+     * @throws URISyntaxException
+     *             the URI syntax exception
+     */
     public void initMatch(PartyController partyController)
             throws FileNotFoundException, URISyntaxException {
         this.partyController = partyController;
@@ -96,22 +125,48 @@ public class MatchController {
                         + "'s turn", "Server", ChatVisibility.PARTY)));
     }
 
+    /**
+     * Gets the turn controller.
+     *
+     * @return the turn controller
+     */
     public TurnController getTurnController() {
         return turnController;
     }
 
+    /**
+     * Gets the party controller.
+     *
+     * @return the party controller
+     */
     public PartyController getPartyController() {
         return partyController;
     }
 
+    /**
+     * Gets the zone controller.
+     *
+     * @return the zone controller
+     */
     public ZoneController getZoneController() {
         return zoneController;
     }
 
+    /**
+     * Gets the match.
+     *
+     * @return the match
+     */
     public Match getMatch() {
         return match;
     }
 
+    /**
+     * Kills the player "killedPlayer".
+     *
+     * @param killedPlayer
+     *            the player to be killed
+     */
     public void killed(Player killedPlayer) {
         // non posso rimuovere un player da party altrimenti incorro in problemi
         // successivamente in fase di notifiche/ripristino server
@@ -121,8 +176,17 @@ public class MatchController {
             for (ItemCard card : killedPlayer.getItemsDeck().getCards()) {
                 if (Item.DEFENSE.equals(card.getItem())) {
                     match.getItemsDeck().putIntoBucket(card);
-                    // TODO avviso dell'uso della carta DIFESA
-                    // il giocatore è salvo
+                    partyController.sendMessageToParty(new ChatMessage(
+                            new ChatViewModel("DEFENSE CARD", killedPlayer
+                                    .getName(), ChatVisibility.PARTY)));
+                    MessageController
+                            .getPlayerHandler(
+                                    partyController.getCurrentParty()
+                                            .getPlayerUUID(killedPlayer))
+                            .getAcceptPlayer()
+                            .sendMessage(
+                                    new Message(killedPlayer.getItemsDeck()
+                                            .getViewModel()));
                     turnController.getTurn().changeHumanKilled(-1);
                     turnController.getTurn().getCurrentPlayer()
                             .decrementKillsCount();
@@ -132,19 +196,60 @@ public class MatchController {
         }
         // inserisce il player tra i morti
         match.getDeadPlayer().add(killedPlayer);
-        // TODO avvisa quel giocatore che è morto, informa gli altri players
-        // sulla sua identità e l'uccisore del fatto che ha ucciso
+        // avvisa che quel giocatore che è morto, informa gli altri players
+        // sulla sua identità
+        MessageController
+                .getPlayerHandler(
+                        partyController.getCurrentParty().getPlayerUUID(
+                                killedPlayer))
+                .getAcceptPlayer()
+                .sendMessage(
+                        new ChatMessage(new ChatViewModel("You are dead",
+                                "Server", ChatVisibility.PLAYER)));
+        for (Player otherPlayer : obtainPartyPlayers()) {
+            MessageController
+                    .getPlayerHandler(
+                            partyController.getCurrentParty().getPlayerUUID(
+                                    otherPlayer))
+                    .getAcceptPlayer()
+                    .sendMessage(
+                            new ChatMessage(new ChatViewModel("The "
+                                    + killedPlayer.getIdentity().getRace()
+                                            .toString() + " "
+                                    + killedPlayer.getName() + " is dead",
+                                    "Server", ChatVisibility.PLAYER)));
+        }
 
         // scarta le carte del giocatore
         for (ItemCard card : killedPlayer.getItemsDeck().getCards()) {
             match.getItemsDeck().putIntoBucket(card);
             killedPlayer.getItemsDeck().getCards().remove(card);
         }
+        MessageController
+                .getPlayerHandler(
+                        partyController.getCurrentParty().getPlayerUUID(
+                                killedPlayer))
+                .getAcceptPlayer()
+                .sendMessage(
+                        new Message(killedPlayer.getItemsDeck().getViewModel()));
         // faccio sparire il giocatore dalla mappa
         zoneController.getCurrentZone().movePlayer(killedPlayer, null);
+        MessageController
+                .getPlayerHandler(
+                        partyController.getCurrentParty().getPlayerUUID(
+                                killedPlayer))
+                .getAcceptPlayer()
+                .sendMessage(
+                        new Message(zoneController.getCurrentZone()
+                                .getViewModel()));
         // l'incremento del contatore uccisione lo faccio in Attack
     }
 
+    /**
+     * Gets the human players.
+     *
+     * @return the human players
+     */
     private Set<Player> getHumanPlayers() {
         Set<Player> humanPlayers = new HashSet<Player>();
         Set<Player> playerList = turnController.getPartyPlayers(this);
@@ -156,6 +261,11 @@ public class MatchController {
         return humanPlayers;
     }
 
+    /**
+     * Gets the alien players.
+     *
+     * @return the alien players
+     */
     private Set<Player> getAlienPlayers() {
         Set<Player> alienPlayers = new HashSet<Player>();
         Set<Player> playerList = turnController.getPartyPlayers(this);
@@ -179,14 +289,48 @@ public class MatchController {
         sayYouLose(playerList);
     }
 
+    /**
+     * Say the players losers lost this match.
+     *
+     * @param losers
+     *            the losers
+     */
     private void sayYouLose(Set<Player> losers) {
-        // TODO informa loser che la partita è finita e hanno perso
+        for (Player loser : losers) {
+            MessageController
+                    .getPlayerHandler(
+                            partyController.getCurrentParty().getPlayerUUID(
+                                    loser))
+                    .getAcceptPlayer()
+                    .sendMessage(
+                            new Message(new ChatViewModel(
+                                    "GAME OVER\nYOU LOSE", "Server",
+                                    ChatVisibility.PLAYER)));
+        }
     }
 
-    private void sayYouWin(Set<Player> winner) {
-        // TODO informa winners che la partita è finita e hanno vinto
+    /**
+     * Say the players winners won this match.
+     *
+     * @param winners
+     *            the winners
+     */
+    private void sayYouWin(Set<Player> winners) {
+        for (Player winner : winners) {
+            MessageController
+                    .getPlayerHandler(
+                            partyController.getCurrentParty().getPlayerUUID(
+                                    winner))
+                    .getAcceptPlayer()
+                    .sendMessage(
+                            new Message(new ChatViewModel("GAME OVER\nYOU WIN",
+                                    "Server", ChatVisibility.PLAYER)));
+        }
     }
 
+    /**
+     * Checks if the game has come to its end.
+     */
     public void checkEndGame() {
         Set<Player> playerList = turnController.getPartyPlayers(this);
         int playerNumber = playerList.size();
@@ -247,6 +391,12 @@ public class MatchController {
 
     }
 
+    /**
+     * Process thw action request.
+     *
+     * @param req
+     *            the action request
+     */
     public synchronized void processActionRequest(ActionRequest req) {
         ActionController act;
         try {
