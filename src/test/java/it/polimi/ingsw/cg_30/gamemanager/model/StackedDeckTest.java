@@ -9,7 +9,6 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.HatchChance;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ItemCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorEvent;
-import it.polimi.ingsw.cg_30.gamemanager.model.StackedDeck;
 
 import java.util.HashSet;
 import java.util.Set;
