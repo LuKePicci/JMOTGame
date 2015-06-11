@@ -1,9 +1,10 @@
 package it.polimi.ingsw.cg_30.gamemanager.network;
 
 import it.polimi.ingsw.cg_30.exchange.messaging.Message;
+import it.polimi.ingsw.cg_30.exchange.network.IAcceptRmiPlayer;
+import it.polimi.ingsw.cg_30.exchange.network.IRmiClient;
 
 import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.Date;
 import java.util.UUID;
 
@@ -19,7 +20,6 @@ public class AcceptRmiPlayer extends AcceptPlayer implements IAcceptRmiPlayer {
     public AcceptRmiPlayer(IRmiClient client, UUID rmiSessionId)
             throws RemoteException {
         super(rmiSessionId);
-        UnicastRemoteObject.exportObject(this, 0);
         this.rmiClient = client;
     }
 

@@ -5,10 +5,10 @@ import it.polimi.ingsw.cg_30.exchange.messaging.ChatMessage;
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatRequest;
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatVisibility;
 import it.polimi.ingsw.cg_30.exchange.messaging.Message;
+import it.polimi.ingsw.cg_30.exchange.network.IAcceptRmiPlayer;
+import it.polimi.ingsw.cg_30.exchange.network.IRmiAcceptance;
+import it.polimi.ingsw.cg_30.exchange.network.IRmiClient;
 import it.polimi.ingsw.cg_30.gamemanager.network.AcceptRmiPlayer;
-import it.polimi.ingsw.cg_30.gamemanager.network.IAcceptRmiPlayer;
-import it.polimi.ingsw.cg_30.gamemanager.network.IRmiAcceptance;
-import it.polimi.ingsw.cg_30.gamemanager.network.IRmiClient;
 import it.polimi.ingsw.cg_30.gamemanager.network.RmiAcceptance;
 
 import java.rmi.NotBoundException;
