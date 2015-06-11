@@ -20,7 +20,7 @@ public class ChatViewModel extends ViewModel {
 
     private ChatViewModel() {
         // JAXB handled
-        super(ViewType.ZONE);
+        super(ViewType.CHAT);
     }
 
     public ChatViewModel(String textMessage, String from, ChatVisibility target) {

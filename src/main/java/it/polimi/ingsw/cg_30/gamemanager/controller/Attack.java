@@ -51,6 +51,8 @@ public class Attack extends ActionController {
      */
     @Override
     public void processAction() {
+        int killsCountPrecedent = matchController.getTurnController().getTurn()
+                .getCurrentPlayer().getKillsCount();
         Sector sec = matchController.getZoneController().getCurrentZone()
                 .getCell(player);
         // notifico l'attacco
@@ -77,7 +79,7 @@ public class Attack extends ActionController {
         }
         // notifico l'alieno se può muoversi di tre passi
         if (PlayerRace.ALIEN.equals(player.getIdentity().getRace())
-                && player.getKillsCount() == 1) {
+                && player.getKillsCount() > 0 && killsCountPrecedent == 0) {
             notifyCurrentPlayerByServer("NOW YOU CAN CROSS THREE SECTORS DURING YOUR MOVEMENT");
         }
         // impedisco di attaccare di nuovo

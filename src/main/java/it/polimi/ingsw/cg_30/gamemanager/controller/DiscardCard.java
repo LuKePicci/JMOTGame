@@ -45,7 +45,7 @@ public class DiscardCard extends ActionController {
         // elimino l'obbligo di scartare
         matchController.getTurnController().getTurn().setMustDiscard(false);
         notifyInChatByCurrentPlayer("CARD DISCARDED");
-        updateCardsView();
+        updateDeckView();
     }
 
 }

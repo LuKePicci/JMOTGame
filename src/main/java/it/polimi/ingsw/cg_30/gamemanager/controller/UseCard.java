@@ -100,7 +100,7 @@ public class UseCard extends ActionController {
         spareDeck.getCards().remove(card);
         // elimino l'eventuale obbligo di scartare
         matchController.getTurnController().getTurn().setMustDiscard(false);
-        updateCardsView();
+        updateDeckView();
     }
 
     private void teleportLogic() {
@@ -126,7 +126,7 @@ public class UseCard extends ActionController {
                     .getCurrentZone().getPlayersInSector(sec);
             for (Player player : watchedPlayers) {
                 notifyInChatByServer("The player " + player.getName()
-                        + " is in sector " + sec.toString());
+                        + " is in sector " + sec.getPoint().toString());
             }
         }
     }

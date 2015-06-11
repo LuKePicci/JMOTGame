@@ -123,7 +123,7 @@ public abstract class ActionController {
             notifyCurrentPlayerByServer("You have just picked a "
                     + icard.getItem().toString() + " card");
             showCardToCurrentPlayer(icard);
-            updateCardsView();
+            updateDeckView();
             if (player.getItemsDeck().getCards().size() > 3) {
                 matchController.getTurnController().getTurn()
                         .setMustDiscard(true);
@@ -230,9 +230,9 @@ public abstract class ActionController {
     }
 
     /**
-     * Updates cards view for the current player.
+     * Updates deck view for the current player.
      */
-    protected void updateCardsView() {
+    protected void updateDeckView() {
         MessageController
                 .getPlayerHandler(
                         matchController

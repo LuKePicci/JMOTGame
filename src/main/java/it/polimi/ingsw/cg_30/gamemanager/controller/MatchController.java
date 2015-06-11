@@ -175,18 +175,10 @@ public class MatchController {
             for (ItemCard card : killedPlayer.getItemsDeck().getCards()) {
                 if (Item.DEFENSE.equals(card.getItem())) {
                     match.getItemsDeck().putIntoBucket(card);
-                    partyController.sendMessageToParty(new ChatMessage(
-                            new ChatViewModel("DEFENSE CARD", killedPlayer
-                                    .getName(), ChatVisibility.PARTY)));
+                    notifyPartyFromPlayer(killedPlayer, "DEFENSE CARD");
                     showCardToParty(card);
-                    MessageController
-                            .getPlayerHandler(
-                                    partyController.getCurrentParty()
-                                            .getPlayerUUID(killedPlayer))
-                            .getAcceptPlayer()
-                            .sendMessage(
-                                    new Message(killedPlayer.getItemsDeck()
-                                            .getViewModel()));
+                    killedPlayer.getItemsDeck().getCards().remove(card);
+                    updateDeckView(killedPlayer);
                     turnController.getTurn().changeHumanKilled(-1);
                     turnController.getTurn().getCurrentPlayer()
                             .decrementKillsCount();
@@ -213,7 +205,7 @@ public class MatchController {
             match.getItemsDeck().putIntoBucket(card);
             killedPlayer.getItemsDeck().getCards().remove(card);
         }
-        updateCardsView(killedPlayer);
+        updateDeckView(killedPlayer);
         // faccio sparire il giocatore dalla mappa
         zoneController.getCurrentZone().movePlayer(killedPlayer, null);
         updateMapView(killedPlayer);
@@ -405,7 +397,7 @@ public class MatchController {
      * @param about
      *            the string to notify
      */
-    private void notifyAPlayerAbout(Player player, String about) {
+    protected void notifyAPlayerAbout(Player player, String about) {
         MessageController
                 .getPlayerHandler(
                         partyController.getCurrentParty().getPlayerUUID(player))
@@ -415,20 +407,25 @@ public class MatchController {
                                 ChatVisibility.PLAYER)));
     }
 
+    protected void notifyPartyFromPlayer(Player player, String what) {
+        partyController.sendMessageToParty(new ChatMessage(new ChatViewModel(
+                what, player.getName(), ChatVisibility.PARTY)));
+    }
+
     /**
      * Shows the card received to the party.
      *
      * @param card
      *            the card to notify
      */
-    private void showCardToParty(Card card) {
+    protected void showCardToParty(Card card) {
         partyController.sendMessageToParty(new Message(card));
     }
 
     /**
      * Updates cards view for the player.
      */
-    private void updateCardsView(Player player) {
+    protected void updateDeckView(Player player) {
         MessageController
                 .getPlayerHandler(
                         partyController.getCurrentParty().getPlayerUUID(player))
@@ -439,7 +436,7 @@ public class MatchController {
     /**
      * Updates map view for the player.
      */
-    private void updateMapView(Player player) {
+    protected void updateMapView(Player player) {
         MessageController
                 .getPlayerHandler(
                         partyController.getCurrentParty().getPlayerUUID(player))
