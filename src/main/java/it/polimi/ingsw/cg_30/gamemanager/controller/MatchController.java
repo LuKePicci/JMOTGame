@@ -4,6 +4,7 @@ import it.polimi.ingsw.cg_30.exchange.messaging.ActionRequest;
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatMessage;
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatVisibility;
 import it.polimi.ingsw.cg_30.exchange.messaging.Message;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.Card;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ChatViewModel;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.EftaiosGame;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Item;
@@ -168,8 +169,6 @@ public class MatchController {
      *            the player to be killed
      */
     public void killed(Player killedPlayer) {
-        // non posso rimuovere un player da party altrimenti incorro in problemi
-        // successivamente in fase di notifiche/ripristino server
 
         // verifico eventuale presenza carta difesa
         if (PlayerRace.HUMAN.equals(killedPlayer.getIdentity().getRace())) {
@@ -179,7 +178,7 @@ public class MatchController {
                     partyController.sendMessageToParty(new ChatMessage(
                             new ChatViewModel("DEFENSE CARD", killedPlayer
                                     .getName(), ChatVisibility.PARTY)));
-                    // TODO eventuale invio del viewModel della carta usata
+                    showCardToParty(card);
                     MessageController
                             .getPlayerHandler(
                                     partyController.getCurrentParty()
@@ -195,56 +194,29 @@ public class MatchController {
                 }
             }
         }
+
         // inserisce il player tra i morti
         match.getDeadPlayer().add(killedPlayer);
-        // avvisa che quel giocatore che è morto, informa gli altri players
-        // sulla sua identità
-        MessageController
-                .getPlayerHandler(
-                        partyController.getCurrentParty().getPlayerUUID(
-                                killedPlayer))
-                .getAcceptPlayer()
-                .sendMessage(
-                        new ChatMessage(new ChatViewModel("You are dead",
-                                "Server", ChatVisibility.PLAYER)));
-        List<Player> others = obtainPartyPlayers();
-        others.remove(turnController.getTurn().getCurrentPlayer());
-        for (Player otherPlayer : others) {
-            MessageController
-                    .getPlayerHandler(
-                            partyController.getCurrentParty().getPlayerUUID(
-                                    otherPlayer))
-                    .getAcceptPlayer()
-                    .sendMessage(
-                            new ChatMessage(new ChatViewModel("The "
-                                    + killedPlayer.getIdentity().getRace()
-                                            .toString() + " "
-                                    + killedPlayer.getName() + " is dead",
-                                    "Server", ChatVisibility.PLAYER)));
-        }
+        // avvisa che quel giocatore che è morto
+        notifyAPlayerAbout(killedPlayer, "You are dead");
+        // informa gli altri players sulla sua identità
 
+        List<Player> others = obtainPartyPlayers();
+        others.remove(killedPlayer);
+        for (Player otherPlayer : others) {
+            notifyAPlayerAbout(otherPlayer, "The "
+                    + killedPlayer.getIdentity().getRace().toString() + " "
+                    + killedPlayer.getName() + " is dead");
+        }
         // scarta le carte del giocatore
         for (ItemCard card : killedPlayer.getItemsDeck().getCards()) {
             match.getItemsDeck().putIntoBucket(card);
             killedPlayer.getItemsDeck().getCards().remove(card);
         }
-        MessageController
-                .getPlayerHandler(
-                        partyController.getCurrentParty().getPlayerUUID(
-                                killedPlayer))
-                .getAcceptPlayer()
-                .sendMessage(
-                        new Message(killedPlayer.getItemsDeck().getViewModel()));
+        updateCardsView(killedPlayer);
         // faccio sparire il giocatore dalla mappa
         zoneController.getCurrentZone().movePlayer(killedPlayer, null);
-        MessageController
-                .getPlayerHandler(
-                        partyController.getCurrentParty().getPlayerUUID(
-                                killedPlayer))
-                .getAcceptPlayer()
-                .sendMessage(
-                        new Message(zoneController.getCurrentZone()
-                                .getViewModel()));
+        updateMapView(killedPlayer);
         // l'incremento del contatore uccisione lo faccio in Attack
     }
 
@@ -424,6 +396,57 @@ public class MatchController {
             System.out
                     .println("Failed to instanciate a controller for requested action.");
         }
+    }
+
+    /**
+     * Notifies the string received to the player received using server as
+     * sender.
+     *
+     * @param about
+     *            the string to notify
+     */
+    private void notifyAPlayerAbout(Player player, String about) {
+        MessageController
+                .getPlayerHandler(
+                        partyController.getCurrentParty().getPlayerUUID(player))
+                .getAcceptPlayer()
+                .sendMessage(
+                        new ChatMessage(new ChatViewModel(about, "Server",
+                                ChatVisibility.PLAYER)));
+    }
+
+    /**
+     * Shows the card received to the party.
+     *
+     * @param card
+     *            the card to notify
+     */
+    private void showCardToParty(Card card) {
+        partyController.sendMessageToParty(new Message(card));
+    }
+
+    /**
+     * Updates cards view for the player.
+     */
+    private void updateCardsView(Player player) {
+        MessageController
+                .getPlayerHandler(
+                        partyController.getCurrentParty().getPlayerUUID(player))
+                .getAcceptPlayer()
+                .sendMessage(new Message(player.getItemsDeck().getViewModel()));
+    }
+
+    /**
+     * Updates map view for the player.
+     */
+    private void updateMapView(Player player) {
+        MessageController
+                .getPlayerHandler(
+                        partyController.getCurrentParty().getPlayerUUID(player))
+                .getAcceptPlayer()
+                .sendMessage(
+                        new Message(zoneController.getCurrentZone()
+                                .getViewModel()));
     }
 
 }

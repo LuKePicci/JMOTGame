@@ -1,10 +1,7 @@
 package it.polimi.ingsw.cg_30.gamemanager.controller;
 
 import it.polimi.ingsw.cg_30.exchange.messaging.ActionRequest;
-import it.polimi.ingsw.cg_30.exchange.messaging.ChatMessage;
-import it.polimi.ingsw.cg_30.exchange.messaging.ChatVisibility;
 import it.polimi.ingsw.cg_30.exchange.messaging.Message;
-import it.polimi.ingsw.cg_30.exchange.viewmodels.ChatViewModel;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.HatchCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.HatchChance;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerRace;
@@ -73,83 +70,33 @@ public class Move extends ActionController {
         if (SectorType.ESCAPE_HATCH.equals(target.getType())) {
             HatchCard drawnCard = matchController.getMatch().getHatchesDeck()
                     .pickAndThrow();
+            // invio la carta
+            showCardToParty(drawnCard);
             if (HatchChance.FREE.equals(drawnCard.getChance())) {
                 matchController.getMatch().getRescuedPlayer().add(player);
-                matchController.getPartyController().sendMessageToParty(
-                        new ChatMessage(new ChatViewModel("GREEN HATCH CARD",
-                                "Server", ChatVisibility.PARTY)));
-                // TODO eventuale invio del viewModel della carta pescata
-                MessageController
-                        .getPlayerHandler(
-                                matchController
-                                        .getPartyController()
-                                        .getCurrentParty()
-                                        .getPlayerUUID(
-                                                matchController
-                                                        .getTurnController()
-                                                        .getTurn()
-                                                        .getCurrentPlayer()))
-                        .getAcceptPlayer()
-                        .sendMessage(
-                                new ChatMessage(new ChatViewModel(
-                                        "YOU ARE SAVED NOW", "Server",
-                                        ChatVisibility.PLAYER)));
+                notifyInChatByServer("GREEN HATCH CAR");
+                notifyCurrentPlayerByServer("YOU ARE SAFE NOW");
                 List<Player> others = obtainPartyPlayers();
                 others.remove(matchController.getTurnController().getTurn()
                         .getCurrentPlayer());
                 for (Player otherPlayer : others) {
-                    MessageController
-                            .getPlayerHandler(
-                                    matchController.getPartyController()
-                                            .getCurrentParty()
-                                            .getPlayerUUID(otherPlayer))
-                            .getAcceptPlayer()
-                            .sendMessage(
-                                    new ChatMessage(new ChatViewModel(
-                                            matchController.getTurnController()
-                                                    .getTurn()
-                                                    .getCurrentPlayer()
-                                                    + " HAS ESCAPED", "Server",
-                                            ChatVisibility.PLAYER)));
+                    notifyAPlayerAbout(otherPlayer, matchController
+                            .getTurnController().getTurn().getCurrentPlayer()
+                            .getName()
+                            + " HAS ESCAPED");
                 }
                 matchController.checkEndGame();
             } else {
-                matchController.getPartyController().sendMessageToParty(
-                        new ChatMessage(new ChatViewModel("RED HATCH CARD",
-                                "Server", ChatVisibility.PARTY)));
-                // TODO eventuale invio del viewModel della carta pescata
-                MessageController
-                        .getPlayerHandler(
-                                matchController
-                                        .getPartyController()
-                                        .getCurrentParty()
-                                        .getPlayerUUID(
-                                                matchController
-                                                        .getTurnController()
-                                                        .getTurn()
-                                                        .getCurrentPlayer()))
-                        .getAcceptPlayer()
-                        .sendMessage(
-                                new ChatMessage(new ChatViewModel(
-                                        "YOU CAN'T USE THIS HATCH", "Server",
-                                        ChatVisibility.PLAYER)));
+                notifyInChatByServer("RED HATCH CARD");
+                notifyCurrentPlayerByServer("YOU CAN'T USE THIS HATCH");
                 List<Player> others = obtainPartyPlayers();
                 others.remove(matchController.getTurnController().getTurn()
                         .getCurrentPlayer());
                 for (Player otherPlayer : others) {
-                    MessageController
-                            .getPlayerHandler(
-                                    matchController.getPartyController()
-                                            .getCurrentParty()
-                                            .getPlayerUUID(otherPlayer))
-                            .getAcceptPlayer()
-                            .sendMessage(
-                                    new ChatMessage(new ChatViewModel(
-                                            matchController.getTurnController()
-                                                    .getTurn()
-                                                    .getCurrentPlayer()
-                                                    + " HAS NOT ESCAPED",
-                                            "Server", ChatVisibility.PLAYER)));
+                    notifyAPlayerAbout(otherPlayer, matchController
+                            .getTurnController().getTurn().getCurrentPlayer()
+                            .getName()
+                            + " HAS NOT ESCAPED");
                 }
                 matchController.checkEndGame();
             }

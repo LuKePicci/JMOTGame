@@ -1,8 +1,5 @@
 package it.polimi.ingsw.cg_30.gamemanager.controller;
 
-import it.polimi.ingsw.cg_30.exchange.messaging.ChatMessage;
-import it.polimi.ingsw.cg_30.exchange.messaging.ChatVisibility;
-import it.polimi.ingsw.cg_30.exchange.viewmodels.ChatViewModel;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerRace;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Sector;
 import it.polimi.ingsw.cg_30.gamemanager.model.Player;
@@ -57,12 +54,7 @@ public class Attack extends ActionController {
         Sector sec = matchController.getZoneController().getCurrentZone()
                 .getCell(player);
         // notifico l'attacco
-        matchController.getPartyController().sendMessageToParty(
-                new ChatMessage(new ChatViewModel(
-                        "ATTACK in " + sec.toString(), matchController
-                                .getTurnController().getTurn()
-                                .getCurrentPlayer().getName(),
-                        ChatVisibility.PARTY)));
+        notifyInChatByCurrentPlayer("ATTACK in " + sec.toString());
         // prendo l'elenco dei giocatori morti
         Set<Player> dead = matchController.getZoneController().getCurrentZone()
                 .getPlayersInSector(sec);
@@ -82,6 +74,11 @@ public class Attack extends ActionController {
                 player.incrementKillsCount();
             }
             matchController.killed(kp);
+        }
+        // notifico l'alieno se può muoversi di tre passi
+        if (PlayerRace.ALIEN.equals(player.getIdentity().getRace())
+                && player.getKillsCount() == 1) {
+            notifyCurrentPlayerByServer("NOW YOU CAN CROSS THREE SECTORS DURING YOUR MOVEMENT");
         }
         // impedisco di attaccare di nuovo
         matchController.getTurnController().getTurn().setCanAttack(false);

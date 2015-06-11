@@ -1,10 +1,6 @@
 package it.polimi.ingsw.cg_30.gamemanager.controller;
 
 import it.polimi.ingsw.cg_30.exchange.messaging.ActionRequest;
-import it.polimi.ingsw.cg_30.exchange.messaging.ChatMessage;
-import it.polimi.ingsw.cg_30.exchange.messaging.ChatVisibility;
-import it.polimi.ingsw.cg_30.exchange.messaging.Message;
-import it.polimi.ingsw.cg_30.exchange.viewmodels.ChatViewModel;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Item;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ItemCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerRace;
@@ -72,39 +68,29 @@ public class UseCard extends ActionController {
     @Override
     public void processAction() {
         ItemCard card = findItemCardByItem(item);
+        showCardToParty(card);
 
         if (Item.ATTACK.equals(item)) {
-            // TODO eventuale invio del viewModel della carta usata
             notifyInChatByCurrentPlayer("ATTACK CARD");
             Attack attack = new Attack(matchController);
             attack.processAction();
             matchController.getMatch().getItemsDeck().putIntoBucket(card);
 
         } else if (Item.TELEPORT.equals(item)) {
-            // TODO eventuale invio del viewModel della carta usata
             notifyInChatByCurrentPlayer("TELEPORT CARD");
-            matchController
-                    .getZoneController()
-                    .getCurrentZone()
-                    .movePlayer(
-                            player,
-                            matchController.getZoneController()
-                                    .getHumansStart());
+            teleportLogic();
             updateMapView();
 
         } else if (Item.ADRENALINE.equals(item)) {
-            // TODO eventuale invio del viewModel della carta usata
             notifyInChatByCurrentPlayer("ADRENALINE CARD");
             matchController.getTurnController().getTurn().setMaxSteps(2);
 
         } else if (Item.SEDATIVES.equals(item)) {
-            // TODO eventuale invio del viewModel della carta usata
             notifyInChatByCurrentPlayer("SEDATIVES CARD");
             matchController.getTurnController().getTurn()
                     .setSilenceForced(true);
 
         } else if (Item.SPOTLIGHT.equals(item)) {
-            // TODO eventuale invio del viewModel della carta usata
             notifyInChatByCurrentPlayer("SPOTLIGHT CARD");
             spotlightLogic();
         }
@@ -115,7 +101,16 @@ public class UseCard extends ActionController {
         // elimino l'eventuale obbligo di scartare
         matchController.getTurnController().getTurn().setMustDiscard(false);
         updateCardsView();
+    }
 
+    private void teleportLogic() {
+        matchController
+                .getZoneController()
+                .getCurrentZone()
+                .movePlayer(
+                        matchController.getTurnController().getTurn()
+                                .getCurrentPlayer(),
+                        matchController.getZoneController().getHumansStart());
     }
 
     private void spotlightLogic() {
@@ -130,28 +125,10 @@ public class UseCard extends ActionController {
             Set<Player> watchedPlayers = matchController.getZoneController()
                     .getCurrentZone().getPlayersInSector(sec);
             for (Player player : watchedPlayers) {
-                notifyInChatByCurrentPlayerByServer("The player "
-                        + player.getName() + " is in the sector "
-                        + sec.toString());
+                notifyInChatByServer("The player " + player.getName()
+                        + " is in sector " + sec.toString());
             }
         }
-    }
-
-    private void notifyInChatByCurrentPlayerByServer(String what) {
-        matchController.getPartyController().sendMessageToParty(
-                new ChatMessage(new ChatViewModel(what, "Server",
-                        ChatVisibility.PARTY)));
-    }
-
-    private void updateMapView() {
-        MessageController
-                .getPlayerHandler(
-                        matchController.getPartyController().getCurrentParty()
-                                .getPlayerUUID(player))
-                .getAcceptPlayer()
-                .sendMessage(
-                        new Message(matchController.getZoneController()
-                                .getCurrentZone().getViewModel()));
     }
 
 }

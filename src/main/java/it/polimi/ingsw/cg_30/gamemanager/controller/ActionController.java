@@ -29,7 +29,7 @@ public abstract class ActionController {
     protected Player player;
 
     /**
-     * Inits the action.
+     * Initializes the action.
      *
      * @param match
      *            the match
@@ -71,6 +71,15 @@ public abstract class ActionController {
      */
     public abstract void processAction();
 
+    /**
+     * Obtain party players list.
+     *
+     * @return the list of players of the current party
+     */
+    public List<Player> obtainPartyPlayers() {
+        return matchController.obtainPartyPlayers();
+    }
+
     // cerco tra le carte in mano a player se c'è quella del tipo richiesto
     // la ritorno se c'è; ritorno null altrimenti
     /**
@@ -91,12 +100,11 @@ public abstract class ActionController {
         return null;
     }
 
-    // controllo la presenza del sibolo oggetto sulla carta settore pescata
     /**
-     * Checks for object.
+     * Checks for object symbol on the sector card.
      *
      * @param drawnCard
-     *            the drawn card
+     *            the sector card to check
      */
     protected void hasObject(SectorCard drawnCard) {
         if (drawnCard.hasObjectSymbol()) {
@@ -107,105 +115,155 @@ public abstract class ActionController {
                         .pickCard();
             } catch (EmptyStackException e) {
                 // informa il giocatore che non ci son più carte oggetto
-                MessageController
-                        .getPlayerHandler(
-                                matchController
-                                        .getPartyController()
-                                        .getCurrentParty()
-                                        .getPlayerUUID(
-                                                matchController
-                                                        .getTurnController()
-                                                        .getTurn()
-                                                        .getCurrentPlayer()))
-                        .getAcceptPlayer()
-                        .sendMessage(
-                                new ChatMessage(new ChatViewModel(
-                                        "NO ITEM CARDS AVAILABLE", "Server",
-                                        ChatVisibility.PLAYER)));
+                notifyCurrentPlayerByServer("NO ITEM CARDS AVAILABLE");
                 return;
             }
             player.getItemsDeck().getCards().add(icard);
             // notifica il giocatore sulla carta pescata
-            MessageController
-                    .getPlayerHandler(
-                            matchController
-                                    .getPartyController()
-                                    .getCurrentParty()
-                                    .getPlayerUUID(
-                                            matchController.getTurnController()
-                                                    .getTurn()
-                                                    .getCurrentPlayer()))
-                    .getAcceptPlayer()
-                    .sendMessage(
-                            new ChatMessage(new ChatViewModel(
-                                    "You have just picked a "
-                                            + icard.getItem().toString()
-                                            + " card", "Server",
-                                    ChatVisibility.PLAYER)));
-            MessageController
-                    .getPlayerHandler(
-                            matchController.getPartyController()
-                                    .getCurrentParty().getPlayerUUID(player))
-                    .getAcceptPlayer()
-                    .sendMessage(
-                            new Message(matchController.getTurnController()
-                                    .getTurn().getCurrentPlayer()
-                                    .getItemsDeck().getViewModel()));
+            notifyCurrentPlayerByServer("You have just picked a "
+                    + icard.getItem().toString() + " card");
+            showCardToCurrentPlayer(icard);
+            updateCardsView();
             if (player.getItemsDeck().getCards().size() > 3) {
                 matchController.getTurnController().getTurn()
                         .setMustDiscard(true);
-                MessageController
-                        .getPlayerHandler(
-                                matchController
-                                        .getPartyController()
-                                        .getCurrentParty()
-                                        .getPlayerUUID(
-                                                matchController
-                                                        .getTurnController()
-                                                        .getTurn()
-                                                        .getCurrentPlayer()))
-                        .getAcceptPlayer()
-                        .sendMessage(
-                                new ChatMessage(
-                                        new ChatViewModel(
-                                                "You must use or discard at least one card in this turn",
-                                                "Server", ChatVisibility.PLAYER)));
+                notifyCurrentPlayerByServer("You must use or discard at least one card in this turn");
             }
         }
     }
 
-    /**
-     * Obtain party players.
-     *
-     * @return the list of players of the current party
-     */
-    public List<Player> obtainPartyPlayers() {
-        return matchController.obtainPartyPlayers();
-    }
+    // NOTIFICATION METHODS
 
     /**
-     * Notifies in the chat the string received.
+     * Notifies the string received to the party chat using the current player
+     * as sender.
      *
-     * @param card
-     *            the string to be notified
+     * @param what
+     *            the string to notify
      */
-    protected void notifyInChatByCurrentPlayer(String card) {
+    protected void notifyInChatByCurrentPlayer(String what) {
         matchController.getPartyController().sendMessageToParty(
-                new ChatMessage(new ChatViewModel(card, matchController
+                new ChatMessage(new ChatViewModel(what, matchController
                         .getTurnController().getTurn().getCurrentPlayer()
                         .getName(), ChatVisibility.PARTY)));
     }
 
-    protected void updateCardsView() {
+    /**
+     * Notifies the string received to the party chat using server as sender.
+     *
+     * @param what
+     *            the string to notify
+     */
+    protected void notifyInChatByServer(String what) {
+        matchController.getPartyController().sendMessageToParty(
+                new ChatMessage(new ChatViewModel(what, "Server",
+                        ChatVisibility.PARTY)));
+    }
+
+    /**
+     * Notifies the string received to the current player chat using server as
+     * sender.
+     *
+     * @param what
+     *            the string to notify
+     */
+    protected void notifyCurrentPlayerByServer(String what) {
+        MessageController
+                .getPlayerHandler(
+                        matchController
+                                .getPartyController()
+                                .getCurrentParty()
+                                .getPlayerUUID(
+                                        matchController.getTurnController()
+                                                .getTurn().getCurrentPlayer()))
+                .getAcceptPlayer()
+                .sendMessage(
+                        new ChatMessage(new ChatViewModel(what, "Server",
+                                ChatVisibility.PLAYER)));
+    }
+
+    /**
+     * Notifies the string received to the player received using server as
+     * sender.
+     *
+     * @param about
+     *            the string to notify
+     */
+    protected void notifyAPlayerAbout(Player player, String about) {
         MessageController
                 .getPlayerHandler(
                         matchController.getPartyController().getCurrentParty()
                                 .getPlayerUUID(player))
                 .getAcceptPlayer()
                 .sendMessage(
+                        new ChatMessage(new ChatViewModel(about, "Server",
+                                ChatVisibility.PLAYER)));
+    }
+
+    /**
+     * Shows the card received to the party.
+     *
+     * @param card
+     *            the card to notify
+     */
+    protected void showCardToParty(Card card) {
+        matchController.getPartyController().sendMessageToParty(
+                new Message(card));
+    }
+
+    /**
+     * Shows the card received to the current player.
+     *
+     * @param card
+     *            the card to notify
+     */
+    protected void showCardToCurrentPlayer(Card card) {
+        MessageController
+                .getPlayerHandler(
+                        matchController
+                                .getPartyController()
+                                .getCurrentParty()
+                                .getPlayerUUID(
+                                        matchController.getTurnController()
+                                                .getTurn().getCurrentPlayer()))
+                .getAcceptPlayer().sendMessage(new Message(card));
+    }
+
+    /**
+     * Updates cards view for the current player.
+     */
+    protected void updateCardsView() {
+        MessageController
+                .getPlayerHandler(
+                        matchController
+                                .getPartyController()
+                                .getCurrentParty()
+                                .getPlayerUUID(
+                                        matchController.getTurnController()
+                                                .getTurn().getCurrentPlayer()))
+                .getAcceptPlayer()
+                .sendMessage(
                         new Message(matchController.getTurnController()
                                 .getTurn().getCurrentPlayer().getItemsDeck()
                                 .getViewModel()));
+    }
+
+    /**
+     * Updates map view for the current player.
+     */
+    protected void updateMapView() {
+        MessageController
+                .getPlayerHandler(
+                        matchController
+                                .getPartyController()
+                                .getCurrentParty()
+                                .getPlayerUUID(
+                                        matchController.getTurnController()
+                                                .getTurn().getCurrentPlayer()))
+                .getAcceptPlayer()
+                .sendMessage(
+                        new Message(matchController.getZoneController()
+                                .getCurrentZone().getViewModel()));
     }
 
 }

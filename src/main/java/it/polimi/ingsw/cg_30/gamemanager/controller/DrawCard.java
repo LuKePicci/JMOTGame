@@ -1,8 +1,5 @@
 package it.polimi.ingsw.cg_30.gamemanager.controller;
 
-import it.polimi.ingsw.cg_30.exchange.messaging.ChatMessage;
-import it.polimi.ingsw.cg_30.exchange.messaging.ChatVisibility;
-import it.polimi.ingsw.cg_30.exchange.viewmodels.ChatViewModel;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorEvent;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorType;
@@ -43,55 +40,27 @@ public class DrawCard extends ActionController {
             matchController.getTurnController().getTurn()
                     .setIsSecDangerous(false);
             matchController.getTurnController().getTurn().setCanAttack(false);
+            showCardToCurrentPlayer(drawnCard);
             if (SectorEvent.SILENCE.equals(drawnCard.getEvent())) {
-                // TODO eventuale invio del viewModel della carta pescata
-                matchController.getPartyController().sendMessageToParty(
-                        new ChatMessage(new ChatViewModel("SILENCE",
-                                matchController.getTurnController().getTurn()
-                                        .getCurrentPlayer().getName(),
-                                ChatVisibility.PARTY)));
+                notifyInChatByCurrentPlayer("SILENCE");
             } else {
                 if (SectorEvent.NOISE_YOUR.equals(drawnCard.getEvent())) {
-                    // TODO eventuale invio del viewModel della carta pescata
-                    matchController
-                            .getPartyController()
-                            .sendMessageToParty(
-                                    new ChatMessage(
-                                            new ChatViewModel(
-                                                    "NOISE in sector "
-                                                            + matchController
-                                                                    .getZoneController()
-                                                                    .getCurrentZone()
-                                                                    .getCell(
-                                                                            player)
-                                                                    .toString(),
-                                                    matchController
-                                                            .getTurnController()
-                                                            .getTurn()
-                                                            .getCurrentPlayer()
-                                                            .getName(),
-                                                    ChatVisibility.PARTY)));
+                    notifyInChatByCurrentPlayer("NOISE in sector "
+                            + matchController
+                                    .getZoneController()
+                                    .getCurrentZone()
+                                    .getCell(
+                                            matchController.getTurnController()
+                                                    .getTurn()
+                                                    .getCurrentPlayer())
+                                    .toString());
                     hasObject(drawnCard);
                 } else if (SectorEvent.NOISE_ANY.equals(drawnCard.getEvent())) {
                     // salvo in turno la carta pescata in modo da portela avere
                     // anche nell'action NoiseAny
                     matchController.getTurnController().getTurn()
                             .setDrawnCard(drawnCard);
-                    MessageController
-                            .getPlayerHandler(
-                                    matchController
-                                            .getPartyController()
-                                            .getCurrentParty()
-                                            .getPlayerUUID(
-                                                    matchController
-                                                            .getTurnController()
-                                                            .getTurn()
-                                                            .getCurrentPlayer()))
-                            .getAcceptPlayer()
-                            .sendMessage(
-                                    new ChatMessage(new ChatViewModel(
-                                            "CHOOSE WHERE TO MAKE THE NOISE",
-                                            "Server", ChatVisibility.PLAYER)));
+                    notifyCurrentPlayerByServer("CHOOSE WHERE TO MAKE THE NOISE");
                 }
             }
         }
