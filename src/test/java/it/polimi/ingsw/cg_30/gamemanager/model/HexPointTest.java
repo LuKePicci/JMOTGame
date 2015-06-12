@@ -10,7 +10,7 @@ import org.junit.Test;
 public class HexPointTest {
 
     @Test
-    public void HexPointCubicTest() {
+    public void hexPointCubicTest() {
         HexPoint ex = HexPoint.fromCubic(3, -1);
         assertEquals(3, ex.getCubicX(), 0);
         assertEquals(-1, ex.getCubicY(), 0);
@@ -18,14 +18,14 @@ public class HexPointTest {
     }
 
     @Test
-    public void HexPointAxialTest() {
+    public void hexPointAxialTest() {
         HexPoint ex = HexPoint.fromAxial(3, -1);
         assertEquals(3, ex.getAxialX(), 0);
         assertEquals(-1, ex.getAxialY(), 0);
     }
 
     @Test
-    public void HexPointOffsetTest() {
+    public void hexPointOffsetTest() {
         HexPoint ex = HexPoint.fromOffset(3, -1);
         assertEquals(3, ex.getX(), 0);
         assertEquals(-1, ex.getY(), 0);

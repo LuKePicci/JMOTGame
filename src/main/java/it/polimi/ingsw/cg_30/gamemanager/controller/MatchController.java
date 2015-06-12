@@ -175,9 +175,9 @@ public class MatchController {
             for (ItemCard card : killedPlayer.getItemsDeck().getCards()) {
                 if (Item.DEFENSE.equals(card.getItem())) {
                     match.getItemsDeck().putIntoBucket(card);
+                    killedPlayer.getItemsDeck().getCards().remove(card);
                     notifyPartyFromPlayer(killedPlayer, "DEFENSE CARD");
                     showCardToParty(card);
-                    killedPlayer.getItemsDeck().getCards().remove(card);
                     updateDeckView(killedPlayer);
                     turnController.getTurn().changeHumanKilled(-1);
                     turnController.getTurn().getCurrentPlayer()

@@ -2,14 +2,13 @@ package it.polimi.ingsw.cg_30.gamemanager.model;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import it.polimi.ingsw.cg_30.gamemanager.model.Match;
 
 import org.junit.Test;
 
 public class MatchTest {
 
     @Test
-    public void MatchGettersTest() {
+    public void matchGettersTest() {
         Match match = new Match();
         assertEquals(1, match.getTurnCount(), 0);
         assertEquals(12, match.getItemsDeck().getCardCollection().size(), 0);

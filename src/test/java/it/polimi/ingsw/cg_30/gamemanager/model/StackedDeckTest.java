@@ -59,19 +59,19 @@ public class StackedDeckTest {
     }
 
     @Test
-    public void StackedDeckHatchTest() {
+    public void stackedDeckHatchTest() {
         StackedDeck<HatchCard> ex = StackedDeck.newStackedDeckHatch();
         assertEquals(6, ex.getCardCollection().size());
     }
 
     @Test
-    public void StackedDeckSectorTest() {
+    public void stackedDeckSectorTest() {
         StackedDeck<SectorCard> ex = StackedDeck.newStackedDeckSector();
         assertEquals(25, ex.getCardCollection().size());
     }
 
     @Test
-    public void StackedDeckItemTest() {
+    public void stackedDeckItemTest() {
         StackedDeck<ItemCard> ex = StackedDeck.newStackedDeckItem();
         assertEquals(12, ex.getCardCollection().size());
 

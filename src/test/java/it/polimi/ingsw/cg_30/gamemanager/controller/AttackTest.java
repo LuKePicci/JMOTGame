@@ -27,15 +27,88 @@ import org.junit.Test;
 
 public class AttackTest {
 
-    /*
-     * PlayerCard alien = new PlayerCard(PlayerRace.ALIEN, null);
-     * 
-     * PlayerCard human = new PlayerCard(PlayerRace.HUMAN, null);
-     */
+    // non si è ancora mosso
+    @Test
+    public void notMovedYet() throws FileNotFoundException, URISyntaxException {
+        MatchController matchController = new MatchController() {
+            @Override
+            public void initMatch(PartyController partyController) {
+                this.partyController = partyController;
+                this.match = new Match();
+                this.turnController = new TurnController();
+                Zone zone = new Zone();
+                this.zoneController = new ZoneController(zone);
+            }
+        };
+
+        PlayerCard alien = new PlayerCard(PlayerRace.ALIEN, null);
+        Party party = new Party("test", new EftaiosGame(), false);
+        PartyController partyController = PartyController.createNewParty(party);
+        party.addToParty(UUID.randomUUID(), "player1");
+        List<Player> players = new ArrayList<Player>(party.getMembers()
+                .keySet());
+        Player player1 = players.get(0);
+        player1.setIdentity(alien);
+
+        matchController.initMatch(partyController);
+        Turn turn = new Turn(player1);
+        matchController.getTurnController().setTurn(turn);
+        HexPoint point = new HexPoint(1, 1);
+        Sector sec = new Sector(null, point);
+        matchController.getZoneController().getCurrentZone()
+                .movePlayer(player1, sec);
+        ActionRequest action = new ActionRequest(ActionType.ATTACK, null, null);
+        // eseguo l'azione
+        Attack atk = new Attack();
+        atk.initAction(matchController, action);
+        // verifico gli esiti
+        assertFalse(atk.isValid());
+    }
+
+    // ha già attaccato
+    @Test
+    public void alreadyAttacked() throws FileNotFoundException,
+            URISyntaxException {
+        MatchController matchController = new MatchController() {
+            @Override
+            public void initMatch(PartyController partyController) {
+                this.partyController = partyController;
+                this.match = new Match();
+                this.turnController = new TurnController();
+                Zone zone = new Zone();
+                this.zoneController = new ZoneController(zone);
+            }
+        };
+
+        PlayerCard alien = new PlayerCard(PlayerRace.ALIEN, null);
+        Party party = new Party("test", new EftaiosGame(), false);
+        PartyController partyController = PartyController.createNewParty(party);
+        party.addToParty(UUID.randomUUID(), "player1");
+        List<Player> players = new ArrayList<Player>(party.getMembers()
+                .keySet());
+        Player player1 = players.get(0);
+        player1.setIdentity(alien);
+
+        matchController.initMatch(partyController);
+        Turn turn = new Turn(player1);
+        matchController.getTurnController().setTurn(turn);
+        matchController.getTurnController().getTurn().setMustMove();
+        matchController.getTurnController().getTurn().setCanAttack(false);
+        HexPoint point = new HexPoint(1, 1);
+        Sector sec = new Sector(null, point);
+        matchController.getZoneController().getCurrentZone()
+                .movePlayer(player1, sec);
+        ActionRequest action = new ActionRequest(ActionType.ATTACK, null, null);
+        // eseguo l'azione
+        Attack atk = new Attack();
+        atk.initAction(matchController, action);
+        // verifico gli esiti
+        assertFalse(atk.isValid());
+    }
 
     // alieno attacca settore vuoto
     @Test
-    public void AlienAttacksNoone() throws FileNotFoundException,
+    public void alienAttacksNoone() throws FileNotFoundException,
             URISyntaxException {
         MatchController matchController = new MatchController() {
             @Override
@@ -92,7 +165,7 @@ public class AttackTest {
 
     // alieno attacca settore con alieno
     @Test
-    public void AlienAttacksAlien() throws FileNotFoundException,
+    public void alienAttacksAlien() throws FileNotFoundException,
             URISyntaxException {
         // preparo il terreno
         MatchController matchController = new MatchController() {
@@ -180,7 +253,7 @@ public class AttackTest {
 
     // alieno attacca settore con umano indifeso
     @Test
-    public void AlienAttacksUndefendedHuman() throws FileNotFoundException,
+    public void alienAttacksUndefendedHuman() throws FileNotFoundException,
             URISyntaxException {
         // preparo il terreno
         MatchController matchController = new MatchController() {
@@ -269,7 +342,7 @@ public class AttackTest {
 
     // alieno attacca settore con umano con carta difesa
     @Test
-    public void AlienAttacksDefendedHuman() throws FileNotFoundException,
+    public void alienAttacksDefendedHuman() throws FileNotFoundException,
             URISyntaxException {
         // preparo il terreno
         MatchController matchController = new MatchController() {
@@ -359,13 +432,13 @@ public class AttackTest {
         assertTrue(matchController.getMatch().getItemsDeck().getBucket()
                 .contains(defenseCard));
         assertTrue(matchController.getMatch().getItemsDeck().getBucket().size() == 1);
-        assertFalse(player1.getItemsDeck().getCards().contains(defenseCard));
+        assertFalse(player2.getItemsDeck().getCards().contains(defenseCard));
 
     }
 
     // alieno attacca settore con bersagli multipli
     @Test
-    public void AlienAttacksMultipleTargets() throws FileNotFoundException,
+    public void alienAttacksMultipleTargets() throws FileNotFoundException,
             URISyntaxException {
         // preparo il terreno
         MatchController matchController = new MatchController() {
@@ -427,9 +500,10 @@ public class AttackTest {
         player4.setIdentity(human);// umano indifeso
         player5.setIdentity(human);// umano altrove
         player6.setIdentity(human);// umano difeso
-        ItemCard defenseCard = new ItemCard(Item.DEFENSE);
-        player3.getItemsDeck().getCards().add(defenseCard);
-        player6.getItemsDeck().getCards().add(defenseCard);
+        ItemCard defenseCard1 = new ItemCard(Item.DEFENSE);
+        ItemCard defenseCard2 = new ItemCard(Item.DEFENSE);
+        player3.getItemsDeck().getCards().add(defenseCard1);
+        player6.getItemsDeck().getCards().add(defenseCard2);
 
         matchController.initMatch(partyController);
 
@@ -491,15 +565,17 @@ public class AttackTest {
                 .contains(player6));
         assertTrue(matchController.getMatch().getDeadPlayer().size() == 3);
         assertTrue(matchController.getMatch().getItemsDeck().getBucket()
-                .contains(defenseCard));
-        assertTrue(matchController.getMatch().getItemsDeck().getBucket().size() == 1);
-        assertTrue(player3.getItemsDeck().getCards().contains(defenseCard));
-        assertFalse(player6.getItemsDeck().getCards().contains(defenseCard));
+                .contains(defenseCard1));
+        assertTrue(matchController.getMatch().getItemsDeck().getBucket()
+                .contains(defenseCard2));
+        assertTrue(matchController.getMatch().getItemsDeck().getBucket().size() == 2);
+        assertFalse(player3.getItemsDeck().getCards().contains(defenseCard1));
+        assertFalse(player6.getItemsDeck().getCards().contains(defenseCard2));
     }
 
     // alieno tenta invano di attaccare prima di muoversi
     @Test
-    public void AlienAttacksBeforeMoving() throws FileNotFoundException,
+    public void alienAttacksBeforeMoving() throws FileNotFoundException,
             URISyntaxException {
         // preparo il terreno
         MatchController matchController = new MatchController() {
@@ -539,7 +615,7 @@ public class AttackTest {
 
     // umano tenta invano di attaccare prima di muoversi
     @Test
-    public void HumanAttacksBeforeMoving() throws FileNotFoundException,
+    public void humanAttacksBeforeMoving() throws FileNotFoundException,
             URISyntaxException {
         // preparo il terreno
         MatchController matchController = new MatchController() {
@@ -579,7 +655,7 @@ public class AttackTest {
 
     // umano tenta invano di attaccare dopo il movimento
     @Test
-    public void HumanAttacksAfterMoving() throws FileNotFoundException,
+    public void humanAttacksAfterMoving() throws FileNotFoundException,
             URISyntaxException {
         // preparo il terreno
         MatchController matchController = new MatchController() {
@@ -616,6 +692,184 @@ public class AttackTest {
         atk.initAction(matchController, action);
         // verifico gli esiti
         assertFalse(atk.isValid());
+    }
+
+    // alieno che ha già ucciso umani
+    @Test
+    public void killerAlienAttacksHuman() throws FileNotFoundException,
+            URISyntaxException {
+        // preparo il terreno
+        MatchController matchController = new MatchController() {
+            @Override
+            public void initMatch(PartyController partyController) {
+                this.partyController = partyController;
+                this.match = new Match();
+                this.turnController = new TurnController();
+                Zone zone = new Zone();
+                this.zoneController = new ZoneController(zone);
+            }
+
+            @Override
+            public void checkEndGame() {
+            }
+
+            @Override
+            protected void notifyPartyFromPlayer(Player player, String what) {
+            }
+
+            @Override
+            protected void showCardToParty(Card card) {
+            }
+
+            @Override
+            protected void updateDeckView(Player player) {
+            }
+
+            @Override
+            protected void notifyAPlayerAbout(Player player, String about) {
+            }
+
+            @Override
+            protected void updateMapView(Player player) {
+            }
+        };
+
+        PlayerCard alien = new PlayerCard(PlayerRace.ALIEN, null);
+        PlayerCard human = new PlayerCard(PlayerRace.HUMAN, null);
+        Party party = new Party("test", new EftaiosGame(), false);
+        PartyController partyController = PartyController.createNewParty(party);
+        party.addToParty(UUID.randomUUID(), "player1");
+        party.addToParty(UUID.randomUUID(), "player2");
+        List<Player> players = new ArrayList<Player>(party.getMembers()
+                .keySet());
+        Player player1 = players.get(0);
+        Player player2 = players.get(1);
+        player1.setIdentity(alien);
+        player2.setIdentity(human);
+
+        matchController.initMatch(partyController);
+
+        Turn turn = new Turn(player1);
+        matchController.getTurnController().setTurn(turn);
+        matchController.getTurnController().getTurn().setMustMove();
+        HexPoint point = new HexPoint(1, 1);
+        Sector sec = new Sector(null, point);
+        matchController.getZoneController().getCurrentZone()
+                .movePlayer(player1, sec);
+        matchController.getZoneController().getCurrentZone()
+                .movePlayer(player2, sec);
+        player1.incrementKillsCount();
+        ActionRequest action = new ActionRequest(ActionType.ATTACK, null, null);
+        // eseguo l'azione
+        Attack atk = new Attack() {
+            @Override
+            protected void notifyInChatByCurrentPlayer(String what) {
+            }
+
+            @Override
+            protected void notifyCurrentPlayerByServer(String what) {
+            }
+        };
+        atk.initAction(matchController, action);
+        if (atk.isValid())
+            atk.processAction();
+        // verifico gli esiti
+        assertTrue(player1.getKillsCount() == 2);
+        assertTrue(matchController.getZoneController().getCurrentZone()
+                .getCell(player1).equals(sec));
+        assertTrue(matchController.getTurnController().getTurn().getCanAttack() == false);
+        assertTrue(matchController.getZoneController().getCurrentZone()
+                .getCell(player2) == null);
+        assertTrue(matchController.getMatch().getDeadPlayer().contains(player2));
+        assertTrue(matchController.getMatch().getDeadPlayer().size() == 1);
+    }
+
+    // umano che uccide alieno
+    @Test
+    public void humanAttacksAlien() throws FileNotFoundException,
+            URISyntaxException {
+        // preparo il terreno
+        MatchController matchController = new MatchController() {
+            @Override
+            public void initMatch(PartyController partyController) {
+                this.partyController = partyController;
+                this.match = new Match();
+                this.turnController = new TurnController();
+                Zone zone = new Zone();
+                this.zoneController = new ZoneController(zone);
+            }
+
+            @Override
+            public void checkEndGame() {
+            }
+
+            @Override
+            protected void notifyPartyFromPlayer(Player player, String what) {
+            }
+
+            @Override
+            protected void showCardToParty(Card card) {
+            }
+
+            @Override
+            protected void updateDeckView(Player player) {
+            }
+
+            @Override
+            protected void notifyAPlayerAbout(Player player, String about) {
+            }
+
+            @Override
+            protected void updateMapView(Player player) {
+            }
+        };
+
+        PlayerCard alien = new PlayerCard(PlayerRace.ALIEN, null);
+        PlayerCard human = new PlayerCard(PlayerRace.HUMAN, null);
+        Party party = new Party("test", new EftaiosGame(), false);
+        PartyController partyController = PartyController.createNewParty(party);
+        party.addToParty(UUID.randomUUID(), "player1");
+        party.addToParty(UUID.randomUUID(), "player2");
+        List<Player> players = new ArrayList<Player>(party.getMembers()
+                .keySet());
+        Player player1 = players.get(0);
+        Player player2 = players.get(1);
+        player1.setIdentity(human);
+        player2.setIdentity(alien);
+
+        matchController.initMatch(partyController);
+
+        Turn turn = new Turn(player1);
+        matchController.getTurnController().setTurn(turn);
+        matchController.getTurnController().getTurn().setMustMove();
+        HexPoint point = new HexPoint(1, 1);
+        Sector sec = new Sector(null, point);
+        matchController.getZoneController().getCurrentZone()
+                .movePlayer(player1, sec);
+        matchController.getZoneController().getCurrentZone()
+                .movePlayer(player2, sec);
+        ActionRequest action = new ActionRequest(ActionType.ATTACK, null, null);
+        // eseguo l'azione
+        Attack atk = new Attack() {
+            @Override
+            protected void notifyInChatByCurrentPlayer(String what) {
+            }
+
+            @Override
+            protected void notifyCurrentPlayerByServer(String what) {
+            }
+        };
+        atk.initAction(matchController, action);
+        // non eseguo il controllo
+        atk.processAction();
+        // verifico gli esiti
+        assertTrue(player1.getKillsCount() == 1);
+        assertTrue(matchController.getZoneController().getCurrentZone()
+                .getCell(player1).equals(sec));
+        assertTrue(matchController.getZoneController().getCurrentZone()
+                .getCell(player2) == null);
+        assertTrue(matchController.getMatch().getDeadPlayer().contains(player2));
+        assertTrue(matchController.getMatch().getDeadPlayer().size() == 1);
     }
 
 }
