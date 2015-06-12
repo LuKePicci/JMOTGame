@@ -262,7 +262,7 @@ public class MatchController {
      * @param losers
      *            the losers
      */
-    private void sayYouLose(Set<Player> losers) {
+    protected void sayYouLose(Set<Player> losers) {
         for (Player loser : losers) {
             MessageController
                     .getPlayerHandler(
@@ -282,7 +282,7 @@ public class MatchController {
      * @param winners
      *            the winners
      */
-    private void sayYouWin(Set<Player> winners) {
+    protected void sayYouWin(Set<Player> winners) {
         for (Player winner : winners) {
             MessageController
                     .getPlayerHandler(
@@ -349,10 +349,10 @@ public class MatchController {
             sayYouLose(match.getDeadPlayer());
         }
 
-        // NON CI SONO PIÙ SCIALUPPE DISPONIBILI o TURNO 39 FINITO (conto
-        // partendo da 1)
-        else if (zoneController.noMoreHatches()
-                || match.getTurnCount() == (MAX_TURN + 1)) {
+        // TURNO 39 FINITO (conto partendo da 1) o NON CI SONO PIÙ SCIALUPPE
+        // DISPONIBILI
+        else if (match.getTurnCount() == (MAX_TURN + 1)
+                || zoneController.noMoreHatches()) {
             partialVictory();
         }
 
@@ -445,5 +445,9 @@ public class MatchController {
                         new Message(zoneController.getCurrentZone()
                                 .getViewModel()));
     }
+
+    // Aggiunti solo per il testing
+    protected Set<Player> vincitori = new HashSet<Player>();
+    protected Set<Player> perdenti = new HashSet<Player>();
 
 }

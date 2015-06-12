@@ -9,6 +9,9 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorType;
  */
 public class DrawCard extends ActionController {
 
+    public DrawCard() {
+    }
+
     // costruttore usato da Move
     public DrawCard(MatchController matchController) {
         this.matchController = matchController;

@@ -15,7 +15,10 @@ import java.util.Set;
  */
 public class UseCard extends ActionController {
 
+    /** The spare deck. */
     private SpareDeck<ItemCard> spareDeck;
+
+    /** The item. */
     private Item item;
 
     @Override
@@ -103,6 +106,9 @@ public class UseCard extends ActionController {
         updateDeckView();
     }
 
+    /**
+     * Logic of the ItemCard Teleport.
+     */
     private void teleportLogic() {
         matchController
                 .getZoneController()
@@ -113,6 +119,9 @@ public class UseCard extends ActionController {
                         matchController.getZoneController().getHumansStart());
     }
 
+    /**
+     * Logic of the ItemCard Teleport Spotlight.
+     */
     private void spotlightLogic() {
         // identifico i settori
         Sector start = matchController.getZoneController().getCurrentZone()

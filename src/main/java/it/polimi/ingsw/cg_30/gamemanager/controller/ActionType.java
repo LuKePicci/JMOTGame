@@ -3,7 +3,7 @@ package it.polimi.ingsw.cg_30.gamemanager.controller;
 public enum ActionType {
     MOVE(Move.class), ATTACK(Attack.class), TURN_OVER(TurnOver.class), USE_ITEM(
             UseCard.class), NOISE_ANY(NoiseAny.class), DISCARD_CARD(
-            DiscardCard.class);
+            DiscardCard.class), DRAW_CARD(DrawCard.class);
 
     private Class controllerClass;
 

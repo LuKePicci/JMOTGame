@@ -502,7 +502,9 @@ public class AttackTest {
         player6.setIdentity(human);// umano difeso
         ItemCard defenseCard1 = new ItemCard(Item.DEFENSE);
         ItemCard defenseCard2 = new ItemCard(Item.DEFENSE);
+        ItemCard spotlightCard = new ItemCard(Item.SPOTLIGHT);
         player3.getItemsDeck().getCards().add(defenseCard1);
+        player4.getItemsDeck().getCards().add(spotlightCard);
         player6.getItemsDeck().getCards().add(defenseCard2);
 
         matchController.initMatch(partyController);
@@ -568,8 +570,9 @@ public class AttackTest {
                 .contains(defenseCard1));
         assertTrue(matchController.getMatch().getItemsDeck().getBucket()
                 .contains(defenseCard2));
-        assertTrue(matchController.getMatch().getItemsDeck().getBucket().size() == 2);
+        assertTrue(matchController.getMatch().getItemsDeck().getBucket().size() == 3);
         assertFalse(player3.getItemsDeck().getCards().contains(defenseCard1));
+        assertFalse(player4.getItemsDeck().getCards().contains(spotlightCard));
         assertFalse(player6.getItemsDeck().getCards().contains(defenseCard2));
     }
 
@@ -784,7 +787,7 @@ public class AttackTest {
         assertTrue(matchController.getMatch().getDeadPlayer().size() == 1);
     }
 
-    // umano che uccide alieno
+    // umano attacca alieno
     @Test
     public void humanAttacksAlien() throws FileNotFoundException,
             URISyntaxException {
@@ -864,6 +867,94 @@ public class AttackTest {
         atk.processAction();
         // verifico gli esiti
         assertTrue(player1.getKillsCount() == 1);
+        assertTrue(matchController.getZoneController().getCurrentZone()
+                .getCell(player1).equals(sec));
+        assertTrue(matchController.getZoneController().getCurrentZone()
+                .getCell(player2) == null);
+        assertTrue(matchController.getMatch().getDeadPlayer().contains(player2));
+        assertTrue(matchController.getMatch().getDeadPlayer().size() == 1);
+    }
+
+    // umano attacca umano
+    @Test
+    public void humanAttacksHuman() throws FileNotFoundException,
+            URISyntaxException {
+        // preparo il terreno
+        MatchController matchController = new MatchController() {
+            @Override
+            public void initMatch(PartyController partyController) {
+                this.partyController = partyController;
+                this.match = new Match();
+                this.turnController = new TurnController();
+                Zone zone = new Zone();
+                this.zoneController = new ZoneController(zone);
+            }
+
+            @Override
+            public void checkEndGame() {
+            }
+
+            @Override
+            protected void notifyPartyFromPlayer(Player player, String what) {
+            }
+
+            @Override
+            protected void showCardToParty(Card card) {
+            }
+
+            @Override
+            protected void updateDeckView(Player player) {
+            }
+
+            @Override
+            protected void notifyAPlayerAbout(Player player, String about) {
+            }
+
+            @Override
+            protected void updateMapView(Player player) {
+            }
+        };
+
+        PlayerCard alien = new PlayerCard(PlayerRace.ALIEN, null);
+        PlayerCard human = new PlayerCard(PlayerRace.HUMAN, null);
+        Party party = new Party("test", new EftaiosGame(), false);
+        PartyController partyController = PartyController.createNewParty(party);
+        party.addToParty(UUID.randomUUID(), "player1");
+        party.addToParty(UUID.randomUUID(), "player2");
+        List<Player> players = new ArrayList<Player>(party.getMembers()
+                .keySet());
+        Player player1 = players.get(0);
+        Player player2 = players.get(1);
+        player1.setIdentity(human);
+        player2.setIdentity(human);
+
+        matchController.initMatch(partyController);
+
+        Turn turn = new Turn(player1);
+        matchController.getTurnController().setTurn(turn);
+        matchController.getTurnController().getTurn().setMustMove();
+        HexPoint point = new HexPoint(1, 1);
+        Sector sec = new Sector(null, point);
+        matchController.getZoneController().getCurrentZone()
+                .movePlayer(player1, sec);
+        matchController.getZoneController().getCurrentZone()
+                .movePlayer(player2, sec);
+        ActionRequest action = new ActionRequest(ActionType.ATTACK, null, null);
+        // eseguo l'azione
+        Attack atk = new Attack() {
+            @Override
+            protected void notifyInChatByCurrentPlayer(String what) {
+            }
+
+            @Override
+            protected void notifyCurrentPlayerByServer(String what) {
+            }
+        };
+        atk.initAction(matchController, action);
+        // non eseguo il controllo
+        atk.processAction();
+        // verifico gli esiti
+        assertTrue(player1.getKillsCount() == 0);
         assertTrue(matchController.getZoneController().getCurrentZone()
                 .getCell(player1).equals(sec));
         assertTrue(matchController.getZoneController().getCurrentZone()
