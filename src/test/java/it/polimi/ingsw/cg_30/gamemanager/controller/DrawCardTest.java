@@ -15,7 +15,6 @@ import it.polimi.ingsw.cg_30.gamemanager.model.Match;
 import it.polimi.ingsw.cg_30.gamemanager.model.Party;
 import it.polimi.ingsw.cg_30.gamemanager.model.Player;
 import it.polimi.ingsw.cg_30.gamemanager.model.Turn;
-import it.polimi.ingsw.cg_30.gamemanager.model.Zone;
 import it.polimi.ingsw.cg_30.gamemanager.network.DisconnectedException;
 
 import java.io.FileNotFoundException;
@@ -31,7 +30,7 @@ public class DrawCardTest {
     // settore non pericoloso e isSecDangerous a false
     @Test
     public void notDangerousSector() throws FileNotFoundException,
-            URISyntaxException {
+            URISyntaxException, DisconnectedException {
 
         MatchController matchController = new MatchController() {
             @Override
@@ -92,7 +91,8 @@ public class DrawCardTest {
     // settore non pericoloso ma isSecDangerous è true
     @Test
     public void notDangerousSectorButFlagIsDanTrue()
-            throws FileNotFoundException, URISyntaxException {
+            throws FileNotFoundException, URISyntaxException,
+            DisconnectedException {
 
         MatchController matchController = new MatchController() {
             @Override
@@ -213,7 +213,8 @@ public class DrawCardTest {
 
     // procedo normalmente (isVaid() ritorna true)
     @Test
-    public void allGood() throws FileNotFoundException, URISyntaxException {
+    public void allGood() throws FileNotFoundException, URISyntaxException,
+            DisconnectedException {
         MatchController matchController = new MatchController() {
             @Override
             public void initMatch(PartyController partyController)
@@ -256,7 +257,7 @@ public class DrawCardTest {
 
             @Override
             protected void notifyCurrentPlayerByServer(String what) {
-    }
+            }
 
             @Override
             protected void updateDeckView() {

@@ -1,69 +1,113 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Zone Name="Zone">
+<Zone Name="galilei">
     <Contents>
+        <Entry>
+            <Location X="0" CharX="A" Y="1"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
         <Entry>
             <Location X="0" CharX="A" Y="2"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
             <Location X="0" CharX="A" Y="3"/>
-            <Sector Type="DANGEROUS"/>
+            <Sector Type="SECURE"/>
         </Entry>
         <Entry>
             <Location X="0" CharX="A" Y="4"/>
-            <Sector Type="DANGEROUS"/>
+            <Sector Type="SECURE"/>
         </Entry>
         <Entry>
             <Location X="0" CharX="A" Y="5"/>
-            <Sector Type="DANGEROUS"/>
-        </Entry>
-        <Entry>
-            <Location X="0" CharX="A" Y="6"/>
-            <Sector Type="DANGEROUS"/>
-        </Entry>
-        <Entry>
-            <Location X="0" CharX="A" Y="7"/>
             <Sector Type="SECURE"/>
         </Entry>
         <Entry>
             <Location X="0" CharX="A" Y="8"/>
-            <Sector Type="DANGEROUS"/>
+            <Sector Type="SECURE"/>
         </Entry>
         <Entry>
             <Location X="0" CharX="A" Y="9"/>
-            <Sector Type="DANGEROUS"/>
+            <Sector Type="SECURE"/>
         </Entry>
         <Entry>
             <Location X="0" CharX="A" Y="10"/>
-            <Sector Type="DANGEROUS"/>
+            <Sector Type="SECURE"/>
         </Entry>
         <Entry>
             <Location X="0" CharX="A" Y="11"/>
+            <Sector Type="SECURE"/>
+        </Entry>
+        <Entry>
+            <Location X="0" CharX="A" Y="12"/>
+            <Sector Type="SECURE"/>
+        </Entry>
+        <Entry>
+            <Location X="0" CharX="A" Y="13"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
+            <Location X="1" CharX="B" Y="0"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
             <Location X="1" CharX="B" Y="1"/>
+            <Sector Type="ESCAPE_HATCH"/>
+        </Entry>
+        <Entry>
+            <Location X="1" CharX="B" Y="2"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
             <Location X="1" CharX="B" Y="3"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
+            <Location X="1" CharX="B" Y="4"/>
             <Sector Type="SECURE"/>
+        </Entry>
+        <Entry>
+            <Location X="1" CharX="B" Y="5"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
+            <Location X="1" CharX="B" Y="7"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
+            <Location X="1" CharX="B" Y="8"/>
+            <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
             <Location X="1" CharX="B" Y="9"/>
-            <Sector Type="ESCAPE_HATCH"/>
+            <Sector Type="SECURE"/>
         </Entry>
         <Entry>
             <Location X="1" CharX="B" Y="10"/>
-            <Sector Type="SECURE"/>
+            <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
             <Location X="1" CharX="B" Y="11"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
+            <Location X="1" CharX="B" Y="12"/>
+            <Sector Type="ESCAPE_HATCH"/>
+        </Entry>
+        <Entry>
+            <Location X="1" CharX="B" Y="13"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
+            <Location X="2" CharX="C" Y="0"/>
+            <Sector Type="SECURE"/>
+        </Entry>
+        <Entry>
             <Location X="2" CharX="C" Y="1"/>
             <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
+            <Sector Type="DANGEROUS"/>
+            <Location X="2" CharX="C" Y="2"/>
         </Entry>
         <Entry>
             <Location X="2" CharX="C" Y="3"/>
@@ -98,11 +142,19 @@
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
+            <Location X="2" CharX="C" Y="11"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
             <Location X="2" CharX="C" Y="12"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
-            <Location X="3" CharX="D" Y="0"/>
+            <Location X="2" CharX="C" Y="13"/>
+            <Sector Type="SECURE"/>
+        </Entry>
+        <Entry>
+            <Location X="3" CharX="D" Y="1"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
@@ -110,19 +162,47 @@
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
-            <Location X="3" CharX="D" Y="6"/>
+            <Location X="3" CharX="D" Y="4"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
+            <Location X="3" CharX="D" Y="7"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
+            <Location X="3" CharX="D" Y="8"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
+            <Location X="3" CharX="D" Y="9"/>
             <Sector Type="SECURE"/>
+        </Entry>
+        <Entry>
+            <Location X="3" CharX="D" Y="10"/>
+            <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
             <Location X="3" CharX="D" Y="11"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
-            <Location X="4" CharX="E" Y="0"/>
+            <Location X="3" CharX="D" Y="12"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
+            <Location X="3" CharX="D" Y="13"/>
+            <Sector Type="SECURE"/>
+        </Entry>
+        <Entry>
+            <Location X="4" CharX="E" Y="1"/>
+            <Sector Type="SECURE"/>
+        </Entry>
+        <Entry>
             <Location X="4" CharX="E" Y="2"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
+            <Location X="4" CharX="E" Y="3"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
@@ -131,10 +211,6 @@
         </Entry>
         <Entry>
             <Location X="4" CharX="E" Y="5"/>
-            <Sector Type="DANGEROUS"/>
-        </Entry>
-        <Entry>
-            <Location X="4" CharX="E" Y="6"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
@@ -150,15 +226,27 @@
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
+            <Location X="4" CharX="E" Y="10"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
             <Location X="4" CharX="E" Y="11"/>
+            <Sector Type="SECURE"/>
+        </Entry>
+        <Entry>
+            <Location X="4" CharX="E" Y="12"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
             <Location X="5" CharX="F" Y="0"/>
-            <Sector Type="ESCAPE_HATCH"/>
+            <Sector Type="SECURE"/>
         </Entry>
         <Entry>
             <Location X="5" CharX="F" Y="1"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
+            <Location X="5" CharX="F" Y="2"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
@@ -166,19 +254,51 @@
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
-            <Location X="5" CharX="F" Y="9"/>
+            <Location X="5" CharX="F" Y="4"/>
             <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
+            <Location X="5" CharX="F" Y="5"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
+            <Location X="5" CharX="F" Y="6"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
+            <Location X="5" CharX="F" Y="7"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
+            <Sector Type="DANGEROUS"/>
+            <Location X="5" CharX="F" Y="8"/>
+        </Entry>
+        <Entry>
+            <Location X="5" CharX="F" Y="9"/>
+            <Sector Type="SECURE"/>
         </Entry>
         <Entry>
             <Location X="5" CharX="F" Y="10"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
+            <Location X="6" CharX="G" Y="0"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
             <Location X="6" CharX="G" Y="1"/>
-            <Sector Type="SECURE"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
+            <Location X="6" CharX="G" Y="2"/>
+            <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
             <Location X="6" CharX="G" Y="3"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
+            <Location X="6" CharX="G" Y="4"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
@@ -187,7 +307,7 @@
         </Entry>
         <Entry>
             <Location X="6" CharX="G" Y="6"/>
-            <Sector Type="DANGEROUS"/>
+            <Sector Type="SECURE"/>
         </Entry>
         <Entry>
             <Location X="6" CharX="G" Y="7"/>
@@ -199,47 +319,71 @@
         </Entry>
         <Entry>
             <Location X="6" CharX="G" Y="9"/>
-            <Sector Type="SECURE"/>
+            <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
             <Location X="6" CharX="G" Y="10"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
+            <Location X="6" CharX="G" Y="11"/>
+            <Sector Type="SECURE"/>
+        </Entry>
+        <Entry>
             <Location X="6" CharX="G" Y="12"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
+            <Location X="6" CharX="G" Y="13"/>
+            <Sector Type="SECURE"/>
+        </Entry>
+        <Entry>
+            <Location X="7" CharX="H" Y="0"/>
+            <Sector Type="SECURE"/>
+        </Entry>
+        <Entry>
             <Location X="7" CharX="H" Y="1"/>
-            <Sector Type="DANGEROUS"/>
+            <Sector Type="SECURE"/>
         </Entry>
         <Entry>
             <Location X="7" CharX="H" Y="2"/>
+            <Sector Type="SECURE"/>
+        </Entry>
+        <Entry>
+            <Location X="7" CharX="H" Y="3"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
-            <Location X="7" CharX="H" Y="4"/>
-            <Sector Type="SECURE"/>
+            <Location X="7" CharX="H" Y="5"/>
+            <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
             <Location X="7" CharX="H" Y="6"/>
             <Sector Type="SECURE"/>
         </Entry>
         <Entry>
+            <Location X="7" CharX="H" Y="7"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
             <Location X="7" CharX="H" Y="8"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
-            <Location X="7" CharX="H" Y="10"/>
-            <Sector Type="DANGEROUS"/>
-        </Entry>
-        <Entry>
             <Location X="7" CharX="H" Y="11"/>
-            <Sector Type="SECURE"/>
+            <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
             <Location X="7" CharX="H" Y="12"/>
             <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
+            <Location X="7" CharX="H" Y="13"/>
+            <Sector Type="SECURE"/>
+        </Entry>
+        <Entry>
+            <Location X="8" CharX="I" Y="0"/>
+            <Sector Type="SECURE"/>
         </Entry>
         <Entry>
             <Location X="8" CharX="I" Y="1"/>
@@ -247,6 +391,10 @@
         </Entry>
         <Entry>
             <Location X="8" CharX="I" Y="2"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
+            <Location X="8" CharX="I" Y="3"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
@@ -262,19 +410,31 @@
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
+            <Location X="8" CharX="I" Y="8"/>
+            <Sector Type="SECURE"/>
+        </Entry>
+        <Entry>
             <Location X="8" CharX="I" Y="9"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
-            <Location X="8" CharX="I" Y="11"/>
+            <Location X="8" CharX="I" Y="10"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
+            <Location X="8" CharX="I" Y="12"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
             <Location X="8" CharX="I" Y="13"/>
-            <Sector Type="DANGEROUS"/>
+            <Sector Type="SECURE"/>
         </Entry>
         <Entry>
             <Location X="9" CharX="J" Y="0"/>
+            <Sector Type="SECURE"/>
+        </Entry>
+        <Entry>
+            <Location X="9" CharX="J" Y="1"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
@@ -286,6 +446,10 @@
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
+            <Location X="9" CharX="J" Y="4"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
             <Location X="9" CharX="J" Y="5"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
@@ -294,27 +458,51 @@
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
+            <Location X="9" CharX="J" Y="8"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
             <Location X="9" CharX="J" Y="9"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
-            <Location X="9" CharX="J" Y="13"/>
+            <Location X="9" CharX="J" Y="10"/>
             <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
+            <Location X="9" CharX="J" Y="12"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
+            <Location X="9" CharX="J" Y="13"/>
+            <Sector Type="SECURE"/>
         </Entry>
         <Entry>
             <Location X="10" CharX="K" Y="0"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
-            <Location X="10" CharX="K" Y="2"/>
+            <Location X="10" CharX="K" Y="1"/>
             <Sector Type="SECURE"/>
         </Entry>
         <Entry>
-            <Location X="10" CharX="K" Y="3"/>
+            <Location X="10" CharX="K" Y="2"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
+            <Sector Type="DANGEROUS"/>
+            <Location X="10" CharX="K" Y="3"/>
+        </Entry>
+        <Entry>
+            <Location X="10" CharX="K" Y="4"/>
+            <Sector Type="SECURE"/>
+        </Entry>
+        <Entry>
             <Location X="10" CharX="K" Y="5"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
+            <Location X="10" CharX="K" Y="7"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
@@ -323,26 +511,34 @@
         </Entry>
         <Entry>
             <Location X="10" CharX="K" Y="9"/>
-            <Sector Type="SECURE"/>
-        </Entry>
-        <Entry>
-            <Location X="10" CharX="K" Y="10"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
-            <Location X="10" CharX="K" Y="12"/>
+            <Location X="10" CharX="K" Y="10"/>
+            <Sector Type="SECURE"/>
+        </Entry>
+        <Entry>
+            <Location X="10" CharX="K" Y="11"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
             <Location X="10" CharX="K" Y="13"/>
-            <Sector Type="SECURE"/>
+            <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
             <Location X="11" CharX="L" Y="0"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
+            <Location X="11" CharX="L" Y="1"/>
+            <Sector Type="SECURE"/>
+        </Entry>
+        <Entry>
             <Location X="11" CharX="L" Y="2"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
+            <Location X="11" CharX="L" Y="3"/>
             <Sector Type="SECURE"/>
         </Entry>
         <Entry>
@@ -359,19 +555,27 @@
         </Entry>
         <Entry>
             <Location X="11" CharX="L" Y="8"/>
+            <Sector Type="SECURE"/>
+        </Entry>
+        <Entry>
+            <Location X="11" CharX="L" Y="9"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
             <Location X="11" CharX="L" Y="10"/>
-            <Sector Type="DANGEROUS"/>
+            <Sector Type="SECURE"/>
         </Entry>
         <Entry>
             <Location X="11" CharX="L" Y="11"/>
-            <Sector Type="SECURE"/>
+            <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
             <Location X="11" CharX="L" Y="12"/>
             <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
+            <Location X="11" CharX="L" Y="13"/>
+            <Sector Type="SECURE"/>
         </Entry>
         <Entry>
             <Location X="12" CharX="M" Y="0"/>
@@ -379,6 +583,10 @@
         </Entry>
         <Entry>
             <Location X="12" CharX="M" Y="1"/>
+            <Sector Type="SECURE"/>
+        </Entry>
+        <Entry>
+            <Location X="12" CharX="M" Y="2"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
@@ -390,7 +598,11 @@
             <Sector Type="SECURE"/>
         </Entry>
         <Entry>
+            <Sector Type="DANGEROUS"/>
             <Location X="12" CharX="M" Y="5"/>
+        </Entry>
+        <Entry>
+            <Location X="12" CharX="M" Y="7"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
@@ -398,12 +610,24 @@
             <Sector Type="SECURE"/>
         </Entry>
         <Entry>
+            <Location X="12" CharX="M" Y="9"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
             <Location X="12" CharX="M" Y="10"/>
+            <Sector Type="SECURE"/>
+        </Entry>
+        <Entry>
+            <Location X="12" CharX="M" Y="11"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
+            <Location X="12" CharX="M" Y="12"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
             <Location X="12" CharX="M" Y="13"/>
-            <Sector Type="SECURE"/>
+            <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
             <Location X="13" CharX="N" Y="0"/>
@@ -411,10 +635,18 @@
         </Entry>
         <Entry>
             <Location X="13" CharX="N" Y="1"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
+            <Location X="13" CharX="N" Y="2"/>
             <Sector Type="SECURE"/>
         </Entry>
         <Entry>
             <Location X="13" CharX="N" Y="3"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
+            <Location X="13" CharX="N" Y="4"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
@@ -426,32 +658,40 @@
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
+            <Location X="13" CharX="N" Y="8"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
             <Location X="13" CharX="N" Y="9"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
             <Location X="13" CharX="N" Y="10"/>
-            <Sector Type="SECURE"/>
+            <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
             <Location X="13" CharX="N" Y="11"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
-            <Location X="13" CharX="N" Y="13"/>
+            <Location X="13" CharX="N" Y="12"/>
             <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
+            <Location X="13" CharX="N" Y="13"/>
+            <Sector Type="SECURE"/>
         </Entry>
         <Entry>
             <Location X="14" CharX="O" Y="1"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
-            <Location X="14" CharX="O" Y="2"/>
+            <Location X="14" CharX="O" Y="4"/>
             <Sector Type="SECURE"/>
         </Entry>
         <Entry>
-            <Location X="14" CharX="O" Y="4"/>
-            <Sector Type="SECURE"/>
+            <Location X="14" CharX="O" Y="5"/>
+            <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
             <Location X="14" CharX="O" Y="6"/>
@@ -466,11 +706,19 @@
             <Sector Type="SECURE"/>
         </Entry>
         <Entry>
+            <Sector Type="DANGEROUS"/>
             <Location X="14" CharX="O" Y="9"/>
+        </Entry>
+        <Entry>
+            <Location X="14" CharX="O" Y="10"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
             <Location X="14" CharX="O" Y="11"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
+            <Location X="14" CharX="O" Y="12"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
@@ -479,7 +727,7 @@
         </Entry>
         <Entry>
             <Location X="15" CharX="P" Y="0"/>
-            <Sector Type="ESCAPE_HATCH"/>
+            <Sector Type="SECURE"/>
         </Entry>
         <Entry>
             <Location X="15" CharX="P" Y="1"/>
@@ -487,10 +735,26 @@
         </Entry>
         <Entry>
             <Location X="15" CharX="P" Y="2"/>
-            <Sector Type="DANGEROUS"/>
+            <Sector Type="SECURE"/>
+        </Entry>
+        <Entry>
+            <Location X="15" CharX="P" Y="3"/>
+            <Sector Type="SECURE"/>
         </Entry>
         <Entry>
             <Location X="15" CharX="P" Y="4"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
+            <Location X="15" CharX="P" Y="5"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
+            <Location X="15" CharX="P" Y="6"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
+            <Location X="15" CharX="P" Y="7"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
@@ -498,7 +762,19 @@
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
+            <Location X="15" CharX="P" Y="9"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
             <Location X="15" CharX="P" Y="10"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
+            <Location X="15" CharX="P" Y="11"/>
+            <Sector Type="SECURE"/>
+        </Entry>
+        <Entry>
+            <Location X="15" CharX="P" Y="12"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
@@ -507,11 +783,11 @@
         </Entry>
         <Entry>
             <Location X="16" CharX="Q" Y="0"/>
-            <Sector Type="DANGEROUS"/>
+            <Sector Type="SECURE"/>
         </Entry>
         <Entry>
             <Location X="16" CharX="Q" Y="1"/>
-            <Sector Type="SECURE"/>
+            <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
             <Location X="16" CharX="Q" Y="2"/>
@@ -519,11 +795,15 @@
         </Entry>
         <Entry>
             <Location X="16" CharX="Q" Y="3"/>
+            <Sector Type="SECURE"/>
+        </Entry>
+        <Entry>
+            <Location X="16" CharX="Q" Y="4"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
             <Location X="16" CharX="Q" Y="5"/>
-            <Sector Type="DANGEROUS"/>
+            <Sector Type="SECURE"/>
         </Entry>
         <Entry>
             <Location X="16" CharX="Q" Y="6"/>
@@ -534,11 +814,23 @@
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
+            <Sector Type="DANGEROUS"/>
             <Location X="16" CharX="Q" Y="8"/>
+        </Entry>
+        <Entry>
+            <Location X="16" CharX="Q" Y="9"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
             <Location X="16" CharX="Q" Y="10"/>
+            <Sector Type="SECURE"/>
+        </Entry>
+        <Entry>
+            <Location X="16" CharX="Q" Y="11"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
+            <Location X="16" CharX="Q" Y="12"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
@@ -547,6 +839,10 @@
         </Entry>
         <Entry>
             <Location X="17" CharX="R" Y="0"/>
+            <Sector Type="SECURE"/>
+        </Entry>
+        <Entry>
+            <Location X="17" CharX="R" Y="1"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
@@ -555,26 +851,34 @@
         </Entry>
         <Entry>
             <Location X="17" CharX="R" Y="3"/>
-            <Sector Type="DANGEROUS"/>
-        </Entry>
-        <Entry>
-            <Location X="17" CharX="R" Y="4"/>
             <Sector Type="SECURE"/>
         </Entry>
         <Entry>
-            <Location X="17" CharX="R" Y="9"/>
+            <Location X="17" CharX="R" Y="4"/>
             <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
+            <Location X="17" CharX="R" Y="5"/>
+            <Sector Type="SECURE"/>
+        </Entry>
+        <Entry>
+            <Location X="17" CharX="R" Y="6"/>
+            <Sector Type="SECURE"/>
+        </Entry>
+        <Entry>
+            <Location X="17" CharX="R" Y="7"/>
+            <Sector Type="SECURE"/>
+        </Entry>
+        <Entry>
+            <Location X="17" CharX="R" Y="8"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
+            <Location X="17" CharX="R" Y="11"/>
+            <Sector Type="SECURE"/>
         </Entry>
         <Entry>
             <Location X="17" CharX="R" Y="12"/>
-            <Sector Type="DANGEROUS"/>
-        </Entry>
-        <Entry>
-            <Location X="17" CharX="R" Y="13"/>
-            <Sector Type="DANGEROUS"/>
-        </Entry>
-        <Entry>
-            <Location X="18" CharX="S" Y="0"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
@@ -606,7 +910,7 @@
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
-            <Location X="18" CharX="S" Y="9"/>
+            <Location X="18" CharX="S" Y="11"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
@@ -614,19 +918,23 @@
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
-            <Location X="18" CharX="S" Y="13"/>
-            <Sector Type="DANGEROUS"/>
-        </Entry>
-        <Entry>
-            <Location X="19" CharX="T" Y="0"/>
-            <Sector Type="DANGEROUS"/>
-        </Entry>
-        <Entry>
             <Location X="19" CharX="T" Y="1"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
-            <Location X="19" CharX="T" Y="8"/>
+            <Sector Type="DANGEROUS"/>
+            <Location X="19" CharX="T" Y="4"/>
+        </Entry>
+        <Entry>
+            <Location X="19" CharX="T" Y="5"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
+            <Location X="19" CharX="T" Y="6"/>
+            <Sector Type="SECURE"/>
+        </Entry>
+        <Entry>
+            <Location X="19" CharX="T" Y="7"/>
             <Sector Type="SECURE"/>
         </Entry>
         <Entry>
@@ -638,11 +946,19 @@
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
-            <Location X="19" CharX="T" Y="13"/>
+            <Location X="19" CharX="T" Y="12"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
+            <Location X="19" CharX="T" Y="13"/>
+            <Sector Type="SECURE"/>
+        </Entry>
+        <Entry>
             <Location X="20" CharX="U" Y="0"/>
+            <Sector Type="SECURE"/>
+        </Entry>
+        <Entry>
+            <Location X="20" CharX="U" Y="1"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
@@ -654,8 +970,24 @@
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
-            <Location X="20" CharX="U" Y="7"/>
+            <Location X="20" CharX="U" Y="4"/>
             <Sector Type="SECURE"/>
+        </Entry>
+        <Entry>
+            <Location X="20" CharX="U" Y="5"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
+            <Location X="20" CharX="U" Y="6"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
+            <Location X="20" CharX="U" Y="7"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
+            <Location X="20" CharX="U" Y="8"/>
+            <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
             <Location X="20" CharX="U" Y="9"/>
@@ -667,6 +999,10 @@
         </Entry>
         <Entry>
             <Location X="20" CharX="U" Y="11"/>
+            <Sector Type="SECURE"/>
+        </Entry>
+        <Entry>
+            <Location X="20" CharX="U" Y="12"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
@@ -679,7 +1015,7 @@
         </Entry>
         <Entry>
             <Location X="21" CharX="V" Y="1"/>
-            <Sector Type="DANGEROUS"/>
+            <Sector Type="ESCAPE_HATCH"/>
         </Entry>
         <Entry>
             <Location X="21" CharX="V" Y="2"/>
@@ -690,44 +1026,60 @@
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
-            <Location X="21" CharX="V" Y="6"/>
-            <Sector Type="SECURE"/>
+            <Location X="21" CharX="V" Y="4"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
+            <Sector Type="DANGEROUS"/>
+            <Location X="21" CharX="V" Y="5"/>
         </Entry>
         <Entry>
             <Location X="21" CharX="V" Y="7"/>
+            <Sector Type="SECURE"/>
+        </Entry>
+        <Entry>
+            <Location X="21" CharX="V" Y="8"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
+            <Location X="21" CharX="V" Y="9"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
             <Location X="21" CharX="V" Y="10"/>
-            <Sector Type="ESCAPE_HATCH"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
+            <Location X="21" CharX="V" Y="11"/>
+            <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
             <Location X="21" CharX="V" Y="12"/>
+            <Sector Type="ESCAPE_HATCH"/>
+        </Entry>
+        <Entry>
+            <Location X="21" CharX="V" Y="13"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
+            <Location X="22" CharX="W" Y="1"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
         <Entry>
             <Location X="22" CharX="W" Y="2"/>
-            <Sector Type="DANGEROUS"/>
+            <Sector Type="SECURE"/>
         </Entry>
         <Entry>
             <Location X="22" CharX="W" Y="3"/>
-            <Sector Type="DANGEROUS"/>
+            <Sector Type="SECURE"/>
         </Entry>
         <Entry>
             <Location X="22" CharX="W" Y="4"/>
-            <Sector Type="DANGEROUS"/>
+            <Sector Type="SECURE"/>
         </Entry>
         <Entry>
             <Location X="22" CharX="W" Y="5"/>
-            <Sector Type="DANGEROUS"/>
-        </Entry>
-        <Entry>
-            <Location X="22" CharX="W" Y="6"/>
-            <Sector Type="DANGEROUS"/>
-        </Entry>
-        <Entry>
-            <Location X="22" CharX="W" Y="7"/>
-            <Sector Type="DANGEROUS"/>
+            <Sector Type="SECURE"/>
         </Entry>
         <Entry>
             <Location X="22" CharX="W" Y="8"/>
@@ -735,18 +1087,22 @@
         </Entry>
         <Entry>
             <Location X="22" CharX="W" Y="9"/>
-            <Sector Type="DANGEROUS"/>
+            <Sector Type="SECURE"/>
         </Entry>
         <Entry>
             <Location X="22" CharX="W" Y="10"/>
-            <Sector Type="DANGEROUS"/>
+            <Sector Type="SECURE"/>
         </Entry>
         <Entry>
             <Location X="22" CharX="W" Y="11"/>
-            <Sector Type="DANGEROUS"/>
+            <Sector Type="SECURE"/>
         </Entry>
         <Entry>
             <Location X="22" CharX="W" Y="12"/>
+            <Sector Type="DANGEROUS"/>
+        </Entry>
+        <Entry>
+            <Location X="22" CharX="W" Y="13"/>
             <Sector Type="DANGEROUS"/>
         </Entry>
     </Contents>
