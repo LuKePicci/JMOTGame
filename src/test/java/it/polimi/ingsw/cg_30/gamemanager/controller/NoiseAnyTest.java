@@ -14,6 +14,8 @@ import it.polimi.ingsw.cg_30.gamemanager.model.Match;
 import it.polimi.ingsw.cg_30.gamemanager.model.Party;
 import it.polimi.ingsw.cg_30.gamemanager.model.Player;
 import it.polimi.ingsw.cg_30.gamemanager.model.Turn;
+import it.polimi.ingsw.cg_30.gamemanager.model.Zone;
+import it.polimi.ingsw.cg_30.gamemanager.network.DisconnectedException;
 
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
@@ -27,7 +29,8 @@ public class NoiseAnyTest {
 
     // settore non sulla mappa
     @Test
-    public void wrongSector() throws FileNotFoundException, URISyntaxException {
+    public void wrongSector() throws FileNotFoundException, URISyntaxException,
+            DisconnectedException {
         MatchController matchController = new MatchController() {
             @Override
             public void initMatch(PartyController partyController)
@@ -73,7 +76,8 @@ public class NoiseAnyTest {
 
     // non ha pescato una carta
     @Test
-    public void notCard() throws FileNotFoundException, URISyntaxException {
+    public void notCard() throws FileNotFoundException, URISyntaxException,
+            DisconnectedException {
         MatchController matchController = new MatchController() {
             @Override
             public void initMatch(PartyController partyController)

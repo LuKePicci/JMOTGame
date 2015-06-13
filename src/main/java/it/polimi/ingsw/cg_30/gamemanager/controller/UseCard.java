@@ -8,6 +8,7 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerRace;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Sector;
 import it.polimi.ingsw.cg_30.gamemanager.model.Player;
 import it.polimi.ingsw.cg_30.gamemanager.model.SpareDeck;
+import it.polimi.ingsw.cg_30.gamemanager.network.DisconnectedException;
 
 import java.util.Set;
 
@@ -68,9 +69,11 @@ public class UseCard extends ActionController {
 
     /**
      * Executes the action.
+     * 
+     * @throws DisconnectedException
      */
     @Override
-    public void processAction() {
+    public void processAction() throws DisconnectedException {
         ItemCard card = findItemCardByItem(item);
         showCardToParty(card);
 

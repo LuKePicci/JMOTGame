@@ -24,15 +24,19 @@ public class AcceptRmiPlayer extends AcceptPlayer implements IAcceptRmiPlayer {
     }
 
     @Override
-    public void sendMessage(Message msg) {
-        this.sndMessage = msg;
+    public void sendMessage(Message msg) throws DisconnectedException {
+        if (this.hasLostConnection)
+            throw new DisconnectedException(new Date());
+
         try {
+            this.sndMessage = msg;
             this.rmiClient.toClient(this.sndMessage);
         } catch (RemoteException e) {
             System.out.println(String.format(
                     "%s : Message sending failure to %s", e.getMessage(),
                     this.sessionId));
-            e.printStackTrace();
+            this.hasLostConnection = true;
+            throw new DisconnectedException(new Date());
         }
     }
 

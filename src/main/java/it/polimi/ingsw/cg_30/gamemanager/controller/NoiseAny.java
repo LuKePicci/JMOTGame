@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg_30.gamemanager.controller;
 
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Sector;
+import it.polimi.ingsw.cg_30.gamemanager.network.DisconnectedException;
 
 /**
  * The Class NoiseAny.
@@ -21,9 +22,11 @@ public class NoiseAny extends ActionController {
 
     /**
      * Executes the action.
+     * 
+     * @throws DisconnectedException
      */
     @Override
-    public void processAction() {
+    public void processAction() throws DisconnectedException {
         Sector sec = matchController.getZoneController().getCurrentZone()
                 .getMap().get(this.req.getActionTarget());
         notifyInChatByCurrentPlayer("NOISE in sector " + sec.toString());

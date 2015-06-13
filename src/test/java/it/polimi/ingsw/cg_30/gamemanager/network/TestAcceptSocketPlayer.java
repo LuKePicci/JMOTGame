@@ -10,7 +10,6 @@ import it.polimi.ingsw.cg_30.exchange.messaging.JoinMessage;
 import it.polimi.ingsw.cg_30.exchange.messaging.JoinRequest;
 import it.polimi.ingsw.cg_30.exchange.messaging.RequestModel;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.EftaiosGame;
-import it.polimi.ingsw.cg_30.gamemanager.network.AcceptSocketPlayer;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -135,7 +134,7 @@ public class TestAcceptSocketPlayer extends Thread {
     }
 
     @Test
-    public void shouldSendMessage() {
+    public void shouldSendMessage() throws DisconnectedException {
         try {
             Socket client = new Socket("127.0.0.1", sckTest.localPort);
             try {

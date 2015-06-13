@@ -14,6 +14,7 @@ import it.polimi.ingsw.cg_30.gamemanager.model.Party;
 import it.polimi.ingsw.cg_30.gamemanager.model.Player;
 import it.polimi.ingsw.cg_30.gamemanager.model.Turn;
 import it.polimi.ingsw.cg_30.gamemanager.model.Zone;
+import it.polimi.ingsw.cg_30.gamemanager.network.DisconnectedException;
 
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
@@ -27,7 +28,8 @@ public class DiscardCardTest {
 
     // non ha più di tre carte
     @Test
-    public void cantDiscard() throws FileNotFoundException, URISyntaxException {
+    public void cantDiscard() throws FileNotFoundException, URISyntaxException,
+            DisconnectedException {
         MatchController matchController = new MatchController() {
             @Override
             public void initMatch(PartyController partyController) {
@@ -69,7 +71,7 @@ public class DiscardCardTest {
     // tenta di scartare una carta che non ha
     @Test
     public void discardCardNotOwn() throws FileNotFoundException,
-            URISyntaxException {
+            URISyntaxException, DisconnectedException {
         MatchController matchController = new MatchController() {
             @Override
             public void initMatch(PartyController partyController) {
@@ -120,7 +122,7 @@ public class DiscardCardTest {
     // scarta correttamente
     @Test
     public void discardCardProperly() throws FileNotFoundException,
-            URISyntaxException {
+            URISyntaxException, DisconnectedException {
         MatchController matchController = new MatchController() {
             @Override
             public void initMatch(PartyController partyController) {

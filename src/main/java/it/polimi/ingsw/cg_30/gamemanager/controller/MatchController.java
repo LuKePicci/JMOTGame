@@ -15,6 +15,7 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewModel;
 import it.polimi.ingsw.cg_30.gamemanager.model.Match;
 import it.polimi.ingsw.cg_30.gamemanager.model.Player;
 import it.polimi.ingsw.cg_30.gamemanager.model.StackedDeck;
+import it.polimi.ingsw.cg_30.gamemanager.network.DisconnectedException;
 
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
@@ -57,6 +58,8 @@ public class MatchController {
 
     /**
      * Sends all the model needed in order to star a new match.
+     * 
+     * @throws DisconnectedException
      */
     private void modelSender() {
         // mappa
@@ -68,11 +71,15 @@ public class MatchController {
         // carte dei players
         for (Player player : obtainPartyPlayers()) {
             ViewModel model = player.getItemsDeck().getViewModel();
-            MessageController
-                    .getPlayerHandler(
-                            partyController.getCurrentParty().getPlayerUUID(
-                                    player)).getAcceptPlayer()
-                    .sendMessage(new Message(model));
+            try {
+                MessageController
+                        .getPlayerHandler(
+                                partyController.getCurrentParty()
+                                        .getPlayerUUID(player))
+                        .getAcceptPlayer().sendMessage(new Message(model));
+            } catch (DisconnectedException e) {
+                // This player will not be able to play until he reconnects.
+            }
         }
         // chat
         partyController.sendMessageToParty(new ChatMessage(new ChatViewModel(
@@ -119,7 +126,7 @@ public class MatchController {
         zoneController.placePlayers(playerList); // posiziono i players
         turnController.firstTurn(playerList); // preparo primo turno
         // inivio model
-        modelSender();
+        this.modelSender();
         // informo il primo player
         partyController.sendMessageToParty(new ChatMessage(new ChatViewModel(
                 turnController.getTurn().getCurrentPlayer().getName()
@@ -167,6 +174,7 @@ public class MatchController {
      *
      * @param killedPlayer
      *            the player to be killed
+     * @throws DisconnectedException
      */
     public void killed(Player killedPlayer) {
 
@@ -178,7 +186,12 @@ public class MatchController {
                     killedPlayer.getItemsDeck().getCards().remove(card);
                     notifyPartyFromPlayer(killedPlayer, "DEFENSE CARD");
                     showCardToParty(card);
-                    updateDeckView(killedPlayer);
+                    try {
+                        updateDeckView(killedPlayer);
+                    } catch (DisconnectedException e) {
+                        // do not push this model, will be retrieved manually on
+                        // reconnect
+                    }
                     turnController.getTurn().changeHumanKilled(-1);
                     turnController.getTurn().getCurrentPlayer()
                             .decrementKillsCount();
@@ -205,10 +218,18 @@ public class MatchController {
             match.getItemsDeck().putIntoBucket(card);
             killedPlayer.getItemsDeck().getCards().remove(card);
         }
-        updateDeckView(killedPlayer);
+        try {
+            updateDeckView(killedPlayer);
+        } catch (DisconnectedException e) {
+            // do not push this model, will be retrieved manually on reconnect
+        }
         // faccio sparire il giocatore dalla mappa
         zoneController.getCurrentZone().movePlayer(killedPlayer, null);
-        updateMapView(killedPlayer);
+        try {
+            updateMapView(killedPlayer);
+        } catch (DisconnectedException e) {
+            // do not push this model, will be retrieved manually on reconnect
+        }
         // l'incremento del contatore uccisione lo faccio in Attack
     }
 
@@ -261,18 +282,23 @@ public class MatchController {
      *
      * @param losers
      *            the losers
+     * @throws DisconnectedException
      */
     protected void sayYouLose(Set<Player> losers) {
         for (Player loser : losers) {
-            MessageController
-                    .getPlayerHandler(
-                            partyController.getCurrentParty().getPlayerUUID(
-                                    loser))
-                    .getAcceptPlayer()
-                    .sendMessage(
-                            new Message(new ChatViewModel(
-                                    "GAME OVER\nYOU LOSE", "Server",
-                                    ChatVisibility.PLAYER)));
+            try {
+                MessageController
+                        .getPlayerHandler(
+                                partyController.getCurrentParty()
+                                        .getPlayerUUID(loser))
+                        .getAcceptPlayer()
+                        .sendMessage(
+                                new Message(new ChatViewModel(
+                                        "GAME OVER\nYOU LOSE", "Server",
+                                        ChatVisibility.PLAYER)));
+            } catch (DisconnectedException e) {
+                // this player won't know that he lost
+            }
         }
     }
 
@@ -284,14 +310,19 @@ public class MatchController {
      */
     protected void sayYouWin(Set<Player> winners) {
         for (Player winner : winners) {
-            MessageController
-                    .getPlayerHandler(
-                            partyController.getCurrentParty().getPlayerUUID(
-                                    winner))
-                    .getAcceptPlayer()
-                    .sendMessage(
-                            new Message(new ChatViewModel("GAME OVER\nYOU WIN",
-                                    "Server", ChatVisibility.PLAYER)));
+            try {
+                MessageController
+                        .getPlayerHandler(
+                                partyController.getCurrentParty()
+                                        .getPlayerUUID(winner))
+                        .getAcceptPlayer()
+                        .sendMessage(
+                                new Message(new ChatViewModel(
+                                        "GAME OVER\nYOU WIN", "Server",
+                                        ChatVisibility.PLAYER)));
+            } catch (DisconnectedException e) {
+                // this player won't know that he won
+            }
         }
     }
 
@@ -363,8 +394,10 @@ public class MatchController {
      *
      * @param req
      *            the action request
+     * @throws DisconnectedException
      */
-    public synchronized void processActionRequest(ActionRequest req) {
+    public synchronized void processActionRequest(ActionRequest req)
+            throws DisconnectedException {
         ActionController act;
         try {
             act = ActionController.getStrategy(req);
@@ -398,13 +431,18 @@ public class MatchController {
      *            the string to notify
      */
     protected void notifyAPlayerAbout(Player player, String about) {
-        MessageController
-                .getPlayerHandler(
-                        partyController.getCurrentParty().getPlayerUUID(player))
-                .getAcceptPlayer()
-                .sendMessage(
-                        new ChatMessage(new ChatViewModel(about, "Server",
-                                ChatVisibility.PLAYER)));
+        try {
+            MessageController
+                    .getPlayerHandler(
+                            partyController.getCurrentParty().getPlayerUUID(
+                                    player))
+                    .getAcceptPlayer()
+                    .sendMessage(
+                            new ChatMessage(new ChatViewModel(about, "Server",
+                                    ChatVisibility.PLAYER)));
+        } catch (DisconnectedException e) {
+            // TODO Enqueue this notification for later dispatch
+        }
     }
 
     protected void notifyPartyFromPlayer(Player player, String what) {
@@ -424,8 +462,10 @@ public class MatchController {
 
     /**
      * Updates cards view for the player.
+     * 
+     * @throws DisconnectedException
      */
-    protected void updateDeckView(Player player) {
+    protected void updateDeckView(Player player) throws DisconnectedException {
         MessageController
                 .getPlayerHandler(
                         partyController.getCurrentParty().getPlayerUUID(player))
@@ -435,8 +475,10 @@ public class MatchController {
 
     /**
      * Updates map view for the player.
+     * 
+     * @throws DisconnectedException
      */
-    protected void updateMapView(Player player) {
+    protected void updateMapView(Player player) throws DisconnectedException {
         MessageController
                 .getPlayerHandler(
                         partyController.getCurrentParty().getPlayerUUID(player))

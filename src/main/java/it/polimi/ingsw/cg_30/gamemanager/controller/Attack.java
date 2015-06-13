@@ -3,6 +3,7 @@ package it.polimi.ingsw.cg_30.gamemanager.controller;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerRace;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Sector;
 import it.polimi.ingsw.cg_30.gamemanager.model.Player;
+import it.polimi.ingsw.cg_30.gamemanager.network.DisconnectedException;
 
 import java.util.Set;
 
@@ -24,9 +25,11 @@ public class Attack extends ActionController {
 
     /**
      * Executes the action.
+     * 
+     * @throws DisconnectedException
      */
     @Override
-    public void processAction() {
+    public void processAction() throws DisconnectedException {
         int killsCountPrecedent = matchController.getTurnController().getTurn()
                 .getCurrentPlayer().getKillsCount();
         Sector sec = matchController.getZoneController().getCurrentZone()

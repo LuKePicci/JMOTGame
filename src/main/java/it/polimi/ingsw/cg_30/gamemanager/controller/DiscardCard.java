@@ -4,6 +4,7 @@ import it.polimi.ingsw.cg_30.exchange.messaging.ActionRequest;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Item;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ItemCard;
 import it.polimi.ingsw.cg_30.gamemanager.model.SpareDeck;
+import it.polimi.ingsw.cg_30.gamemanager.network.DisconnectedException;
 
 /**
  * The Class DiscardCard.
@@ -36,9 +37,11 @@ public class DiscardCard extends ActionController {
 
     /**
      * Executes the action.
+     * 
+     * @throws DisconnectedException
      */
     @Override
-    public void processAction() {
+    public void processAction() throws DisconnectedException {
         ItemCard card = findItemCardByItem(item);
         // scarto la carta oggetto
         matchController.getMatch().getItemsDeck().putIntoBucket(card);

@@ -15,6 +15,8 @@ import it.polimi.ingsw.cg_30.gamemanager.model.Match;
 import it.polimi.ingsw.cg_30.gamemanager.model.Party;
 import it.polimi.ingsw.cg_30.gamemanager.model.Player;
 import it.polimi.ingsw.cg_30.gamemanager.model.Turn;
+import it.polimi.ingsw.cg_30.gamemanager.model.Zone;
+import it.polimi.ingsw.cg_30.gamemanager.network.DisconnectedException;
 
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
@@ -150,8 +152,8 @@ public class DrawCardTest {
 
     // settore pericoloso ma isSecDangerous è false
     @Test
-    public void dangerousSectorButFlagIsDanFalse()
-            throws FileNotFoundException, URISyntaxException {
+    public void drawCardTest() throws FileNotFoundException,
+            URISyntaxException, DisconnectedException {
 
         MatchController matchController = new MatchController() {
             @Override
@@ -254,7 +256,7 @@ public class DrawCardTest {
 
             @Override
             protected void notifyCurrentPlayerByServer(String what) {
-            }
+    }
 
             @Override
             protected void updateDeckView() {

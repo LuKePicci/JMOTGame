@@ -11,6 +11,7 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.Item;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ItemCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorCard;
 import it.polimi.ingsw.cg_30.gamemanager.model.Player;
+import it.polimi.ingsw.cg_30.gamemanager.network.DisconnectedException;
 
 import java.util.EmptyStackException;
 import java.util.HashMap;
@@ -84,8 +85,10 @@ public abstract class ActionController {
 
     /**
      * Process action.
+     * 
+     * @throws DisconnectedException
      */
-    public abstract void processAction();
+    public abstract void processAction() throws DisconnectedException;
 
     /**
      * Obtain party players list.
@@ -121,8 +124,9 @@ public abstract class ActionController {
      *
      * @param drawnCard
      *            the sector card to check
+     * @throws DisconnectedException
      */
-    protected void hasObject(SectorCard drawnCard) {
+    protected void hasObject(SectorCard drawnCard) throws DisconnectedException {
         if (drawnCard.hasObjectSymbol()) {
             ItemCard icard;
             // il mazzo item è l'unico che potrebbe terminare le carte
@@ -130,7 +134,7 @@ public abstract class ActionController {
                 icard = matchController.getMatch().getItemsDeck().pickCard();
             } catch (EmptyStackException e) {
                 // informa il giocatore che non ci son più carte oggetto
-                notifyCurrentPlayerByServer("NO ITEM CARDS AVAILABLE");
+                notifyCurrentPlayerByServer("No more cards int he item deck.");
                 return;
             }
             player.getItemsDeck().getCards().add(icard);
@@ -181,8 +185,10 @@ public abstract class ActionController {
      *
      * @param what
      *            the string to notify
+     * @throws DisconnectedException
      */
-    protected void notifyCurrentPlayerByServer(String what) {
+    protected void notifyCurrentPlayerByServer(String what)
+            throws DisconnectedException {
         MessageController
                 .getPlayerHandler(
                         matchController
@@ -203,8 +209,10 @@ public abstract class ActionController {
      *
      * @param about
      *            the string to notify
+     * @throws DisconnectedException
      */
-    protected void notifyAPlayerAbout(Player player, String about) {
+    protected void notifyAPlayerAbout(Player player, String about)
+            throws DisconnectedException {
         MessageController
                 .getPlayerHandler(
                         matchController.getPartyController().getCurrentParty()
@@ -231,8 +239,10 @@ public abstract class ActionController {
      *
      * @param card
      *            the card to notify
+     * @throws DisconnectedException
      */
-    protected void showCardToCurrentPlayer(Card card) {
+    protected void showCardToCurrentPlayer(Card card)
+            throws DisconnectedException {
         MessageController
                 .getPlayerHandler(
                         matchController
@@ -246,8 +256,10 @@ public abstract class ActionController {
 
     /**
      * Updates deck view for the current player.
+     * 
+     * @throws DisconnectedException
      */
-    protected void updateDeckView() {
+    protected void updateDeckView() throws DisconnectedException {
         MessageController
                 .getPlayerHandler(
                         matchController
@@ -265,8 +277,10 @@ public abstract class ActionController {
 
     /**
      * Updates map view for the current player.
+     * 
+     * @throws DisconnectedException
      */
-    protected void updateMapView() {
+    protected void updateMapView() throws DisconnectedException {
         MessageController
                 .getPlayerHandler(
                         matchController

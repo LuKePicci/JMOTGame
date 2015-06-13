@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg_30.gamemanager.controller;
 
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatMessage;
+import it.polimi.ingsw.cg_30.exchange.messaging.ChatRequest;
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatVisibility;
 import it.polimi.ingsw.cg_30.exchange.messaging.JoinRequest;
 import it.polimi.ingsw.cg_30.exchange.messaging.Message;
@@ -10,6 +11,7 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.EftaiosGame;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Game;
 import it.polimi.ingsw.cg_30.gamemanager.model.Party;
 import it.polimi.ingsw.cg_30.gamemanager.model.Player;
+import it.polimi.ingsw.cg_30.gamemanager.network.DisconnectedException;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -122,8 +124,24 @@ public class PartyController implements Serializable {
 
     public void sendMessageToParty(Message message) {
         for (UUID memberId : this.currentParty.getMembers().values()) {
-            MessageController.connectedClients.get(memberId).getAcceptPlayer()
-                    .sendMessage(message);
+
+            try {
+                if (MessageController.connectedClients.get(memberId)
+                        .getAcceptPlayer().connectionLost())
+                    continue;
+
+                MessageController.connectedClients.get(memberId)
+                        .getAcceptPlayer().sendMessage(message);
+
+            } catch (DisconnectedException e) {
+                // this member will not receive the message
+                ChatRequest offlineNotification = new ChatRequest(
+                        "I'm offline", ChatVisibility.PARTY, null);
+                offlineNotification.setSender(memberId);
+                ChatController.sendToParty(
+                        new ChatMessage(offlineNotification), this);
+            }
+
         }
     }
 

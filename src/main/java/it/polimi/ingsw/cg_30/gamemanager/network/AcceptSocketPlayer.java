@@ -13,8 +13,6 @@ import javax.xml.bind.DatatypeConverter;
 
 public class AcceptSocketPlayer extends AcceptPlayer implements Runnable {
 
-    private static final long serialVersionUID = -5365149375010707737L;
-
     private final transient Socket mySoc;
     private final transient DataInputStream din;
     private final transient DataOutputStream dout;
@@ -74,14 +72,9 @@ public class AcceptSocketPlayer extends AcceptPlayer implements Runnable {
             try {
                 this.mc.dispatchIncoming(receiveMessage());
             } catch (IOException e) {
-                try {
-                    this.mySoc.close();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
 
-                System.out.println("Player socket " + this.mySoc.hashCode()
-                        + " closed because of " + e.toString());
+                this.disconnect(e);
+
             } catch (Exception e) {
                 System.out
                         .println("Failed to decode user message, see log for details.");
@@ -90,7 +83,10 @@ public class AcceptSocketPlayer extends AcceptPlayer implements Runnable {
     }
 
     @Override
-    public void sendMessage(Message message) {
+    public void sendMessage(Message message) throws DisconnectedException {
+        if (this.connectionLost())
+            throw new DisconnectedException(new Date());
+
         try {
             // Marshall, encode and send Message objects to output stream
             String clearXml = Message.msgToXML(message);
@@ -101,12 +97,8 @@ public class AcceptSocketPlayer extends AcceptPlayer implements Runnable {
             this.dout.flush();
             this.lastSentData = dataToSend;
         } catch (IOException e) {
-            try {
-                this.mySoc.close();
-            } catch (IOException e1) {
-            }
-            System.out.println("Socket " + this.mySoc.hashCode()
-                    + " closed because of " + e.toString());
+            this.disconnect(e);
+            throw new DisconnectedException(new Date());
         }
     }
 
@@ -119,5 +111,18 @@ public class AcceptSocketPlayer extends AcceptPlayer implements Runnable {
                 DatatypeConverter.parseBase64Binary(encoded));
 
         return Message.msgFromXML(decodedXml);
+    }
+
+    private void disconnect(Exception reason) {
+        try {
+            this.mySoc.close();
+            System.out.println("Player socket " + this.mySoc.hashCode()
+                    + " closed because of " + reason.toString());
+        } catch (IOException e1) {
+            System.out.println("Socket " + this.mySoc.hashCode()
+                    + " already closed");
+        }
+
+        this.hasLostConnection = true;
     }
 }
