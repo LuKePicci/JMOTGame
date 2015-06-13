@@ -168,7 +168,7 @@ public class Zone extends GameTable<Sector> implements IViewable, Serializable {
         return new ZoneViewModel(this.getMap());
     }
 
-    // TODO metodo da eliminare (inserito solo come utlity per il testing))
+    // Metodo implementato per fini di testing
     public Zone() {
         this.playersLocation = new HashMap<Player, Sector>();
         this.sectorsMap = new HashMap<HexPoint, Sector>();

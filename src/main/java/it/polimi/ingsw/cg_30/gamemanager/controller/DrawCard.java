@@ -9,16 +9,6 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorType;
  */
 public class DrawCard extends ActionController {
 
-    public DrawCard() {
-    }
-
-    // costruttore usato da Move
-    public DrawCard(MatchController matchController) {
-        this.matchController = matchController;
-        this.player = matchController.getTurnController().getTurn()
-                .getCurrentPlayer();
-    }
-
     /**
      * Checks the legality of this action.
      * 
@@ -26,10 +16,10 @@ public class DrawCard extends ActionController {
      */
     @Override
     public boolean isValid() {// funzione utile solo per l'alieno
-        return ((SectorType.DANGEROUS
-                .equals(matchController.getZoneController().getCurrentZone()
-                        .getCell(player).getType())) && (matchController
-                .getTurnController().getTurn().getIsSecDangerous()));
+        return SectorType.DANGEROUS.equals(matchController.getZoneController()
+                .getCurrentZone().getCell(player).getType())
+                && matchController.getTurnController().getTurn()
+                        .getIsSecDangerous();
     }
 
     /**
@@ -37,35 +27,29 @@ public class DrawCard extends ActionController {
      */
     @Override
     public void processAction() {
-        {
-            SectorCard drawnCard = matchController.getMatch().getSectorsDeck()
-                    .pickAndThrow();
+        SectorCard drawnCard = matchController.getMatch().getSectorsDeck()
+                .pickAndThrow();
+        matchController.getTurnController().getTurn().setIsSecDangerous(false);
+        matchController.getTurnController().getTurn().setCanAttack(false);
+        showCardToCurrentPlayer(drawnCard);
+        if (SectorEvent.SILENCE.equals(drawnCard.getEvent())) {
+            notifyInChatByCurrentPlayer("SILENCE");
+        } else if (SectorEvent.NOISE_YOUR.equals(drawnCard.getEvent())) {
+            notifyInChatByCurrentPlayer("NOISE in sector "
+                    + matchController
+                            .getZoneController()
+                            .getCurrentZone()
+                            .getCell(
+                                    matchController.getTurnController()
+                                            .getTurn().getCurrentPlayer())
+                            .toString());
+            hasObject(drawnCard);
+        } else {// caso NoiseAny
+            // salvo in turno la carta pescata in modo da portela avere
+            // anche nell'action NoiseAny
             matchController.getTurnController().getTurn()
-                    .setIsSecDangerous(false);
-            matchController.getTurnController().getTurn().setCanAttack(false);
-            showCardToCurrentPlayer(drawnCard);
-            if (SectorEvent.SILENCE.equals(drawnCard.getEvent())) {
-                notifyInChatByCurrentPlayer("SILENCE");
-            } else {
-                if (SectorEvent.NOISE_YOUR.equals(drawnCard.getEvent())) {
-                    notifyInChatByCurrentPlayer("NOISE in sector "
-                            + matchController
-                                    .getZoneController()
-                                    .getCurrentZone()
-                                    .getCell(
-                                            matchController.getTurnController()
-                                                    .getTurn()
-                                                    .getCurrentPlayer())
-                                    .toString());
-                    hasObject(drawnCard);
-                } else if (SectorEvent.NOISE_ANY.equals(drawnCard.getEvent())) {
-                    // salvo in turno la carta pescata in modo da portela avere
-                    // anche nell'action NoiseAny
-                    matchController.getTurnController().getTurn()
-                            .setDrawnCard(drawnCard);
-                    notifyCurrentPlayerByServer("CHOOSE WHERE TO MAKE THE NOISE");
-                }
-            }
+                    .setDrawnCard(drawnCard);
+            notifyCurrentPlayerByServer("CHOOSE WHERE TO MAKE THE NOISE");
         }
     }
 

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg_30.gamemanager.controller;
 
 import it.polimi.ingsw.cg_30.exchange.messaging.ActionRequest;
+import it.polimi.ingsw.cg_30.exchange.messaging.ActionType;
 import it.polimi.ingsw.cg_30.exchange.messaging.Message;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.HatchCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.HatchChance;
@@ -121,7 +122,10 @@ public class Move extends ActionController {
                     && (matchController.getTurnController().getTurn()
                             .getSilenceForced() == false)) {
                 // l'umano deve pescare (salvo uso di sedativi)
-                DrawCard forcedDraw = new DrawCard(matchController);
+                DrawCard forcedDraw = new DrawCard();
+                ActionRequest forcedRequest = new ActionRequest(
+                        ActionType.DRAW_CARD, null, null);
+                forcedDraw.initAction(matchController, forcedRequest);
                 forcedDraw.processAction();
             }
         } else

@@ -15,12 +15,12 @@ public class TurnOver extends ActionController {
         // player deve essersi mosso, non deve avere 4 carte in mano, deve aver
         // risolto gli effetti legati al settore pericoloso (rumore ed eventuale
         // pesca della carta oggetto)
-        return (!(matchController.getTurnController().getTurn().getMustMove())
-                && !(matchController.getTurnController().getTurn()
-                        .getMustDiscard())
-                && !(matchController.getTurnController().getTurn()
-                        .getIsSecDangerous()) && (matchController
-                .getTurnController().getTurn().getDrawnCard() == null));
+        return !matchController.getTurnController().getTurn().getMustMove()
+                && !matchController.getTurnController().getTurn()
+                        .getMustDiscard()
+                && !matchController.getTurnController().getTurn()
+                        .getIsSecDangerous()
+                && matchController.getTurnController().getTurn().getDrawnCard() == null;
     }
 
     /**

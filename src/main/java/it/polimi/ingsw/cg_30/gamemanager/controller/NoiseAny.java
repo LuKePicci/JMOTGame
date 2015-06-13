@@ -14,9 +14,9 @@ public class NoiseAny extends ActionController {
      */
     @Override
     public boolean isValid() {
-        return (matchController.getTurnController().getTurn().getDrawnCard() != null)
-                && (matchController.getZoneController().getCurrentZone()
-                        .getMap().containsKey(req.getActionTarget()));
+        return matchController.getTurnController().getTurn().getDrawnCard() != null
+                && matchController.getZoneController().getCurrentZone()
+                        .getMap().containsKey(req.getActionTarget());
     }
 
     /**

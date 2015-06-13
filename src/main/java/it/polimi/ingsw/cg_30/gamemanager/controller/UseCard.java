@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg_30.gamemanager.controller;
 
 import it.polimi.ingsw.cg_30.exchange.messaging.ActionRequest;
+import it.polimi.ingsw.cg_30.exchange.messaging.ActionType;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Item;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ItemCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerRace;
@@ -75,8 +76,11 @@ public class UseCard extends ActionController {
 
         if (Item.ATTACK.equals(item)) {
             notifyInChatByCurrentPlayer("ATTACK CARD");
-            Attack attack = new Attack(matchController);
-            attack.processAction();
+            Attack forcedAttack = new Attack();
+            ActionRequest forcedRequest = new ActionRequest(ActionType.ATTACK,
+                    null, null);
+            forcedAttack.initAction(matchController, forcedRequest);
+            forcedAttack.processAction();
             matchController.getMatch().getItemsDeck().putIntoBucket(card);
 
         } else if (Item.TELEPORT.equals(item)) {
