@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg_30.gamemanager.controller;
 
 import it.polimi.ingsw.cg_30.exchange.messaging.ActionRequest;
+import it.polimi.ingsw.cg_30.exchange.messaging.ActionType;
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatMessage;
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatVisibility;
 import it.polimi.ingsw.cg_30.exchange.messaging.Message;
@@ -12,12 +13,16 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorCard;
 import it.polimi.ingsw.cg_30.gamemanager.model.Player;
 
 import java.util.EmptyStackException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * The Class ActionController.
  */
 public abstract class ActionController {
+
+    private static Map<ActionType, Class> strategies = new HashMap<ActionType, Class>();
 
     /** The match controller. */
     protected MatchController matchController;
@@ -27,6 +32,16 @@ public abstract class ActionController {
 
     /** The player. */
     protected Player player;
+
+    static {
+        strategies.put(ActionType.ATTACK, Attack.class);
+        strategies.put(ActionType.DISCARD_CARD, DiscardCard.class);
+        strategies.put(ActionType.MOVE, Move.class);
+        strategies.put(ActionType.NOISE_ANY, NoiseAny.class);
+        strategies.put(ActionType.TURN_OVER, TurnOver.class);
+        strategies.put(ActionType.USE_ITEM, UseCard.class);
+        strategies.put(ActionType.DRAW_CARD, DrawCard.class);
+    }
 
     /**
      * Initializes the action.
@@ -56,7 +71,8 @@ public abstract class ActionController {
     public static ActionController getStrategy(ActionRequest request)
             throws InstantiationException, IllegalAccessException {
 
-        return request.getActionType().getController();
+        return (ActionController) strategies.get(request.getActionType())
+                .newInstance();
     }
 
     /**
@@ -111,8 +127,7 @@ public abstract class ActionController {
             ItemCard icard;
             // il mazzo item è l'unico che potrebbe terminare le carte
             try {
-                icard = (ItemCard) matchController.getMatch().getItemsDeck()
-                        .pickCard();
+                icard = matchController.getMatch().getItemsDeck().pickCard();
             } catch (EmptyStackException e) {
                 // informa il giocatore che non ci son più carte oggetto
                 notifyCurrentPlayerByServer("NO ITEM CARDS AVAILABLE");

@@ -5,17 +5,11 @@ import it.polimi.ingsw.cg_30.exchange.messaging.Message;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.StringReader;
-import java.io.StringWriter;
 import java.net.Socket;
 import java.util.Date;
 import java.util.UUID;
 
 import javax.xml.bind.DatatypeConverter;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
 
 public class AcceptSocketPlayer extends AcceptPlayer implements Runnable {
 
@@ -24,8 +18,6 @@ public class AcceptSocketPlayer extends AcceptPlayer implements Runnable {
     private final transient Socket mySoc;
     private final transient DataInputStream din;
     private final transient DataOutputStream dout;
-    private final transient Marshaller messageMarshaller;
-    private final transient Unmarshaller messageUnmarshaller;
 
     private String lastSentData = null;
 
@@ -55,20 +47,6 @@ public class AcceptSocketPlayer extends AcceptPlayer implements Runnable {
             this.dout = tempDout;
         }
 
-        Marshaller msl = null;
-        Unmarshaller unmsl = null;
-        try {
-            JAXBContext ctx;
-            ctx = JAXBContext.newInstance(Message.class);
-            msl = ctx.createMarshaller();
-            msl.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            unmsl = ctx.createUnmarshaller();
-        } catch (JAXBException e) {
-            e.printStackTrace();
-        } finally {
-            this.messageMarshaller = msl;
-            this.messageUnmarshaller = unmsl;
-        }
     }
 
     @Override
@@ -102,7 +80,7 @@ public class AcceptSocketPlayer extends AcceptPlayer implements Runnable {
                     e1.printStackTrace();
                 }
 
-                System.out.println("Socket " + this.mySoc.hashCode()
+                System.out.println("Player socket " + this.mySoc.hashCode()
                         + " closed because of " + e.toString());
             } catch (Exception e) {
                 System.out
@@ -115,7 +93,7 @@ public class AcceptSocketPlayer extends AcceptPlayer implements Runnable {
     public void sendMessage(Message message) {
         try {
             // Marshall, encode and send Message objects to output stream
-            String clearXml = this.msgToXML(message);
+            String clearXml = Message.msgToXML(message);
             String dataToSend = DatatypeConverter.printBase64Binary(clearXml
                     .getBytes());
 
@@ -140,28 +118,6 @@ public class AcceptSocketPlayer extends AcceptPlayer implements Runnable {
         String decodedXml = new String(
                 DatatypeConverter.parseBase64Binary(encoded));
 
-        return this.msgFromXML(decodedXml);
-    }
-
-    private String msgToXML(Message msg) {
-        StringWriter sw = new StringWriter();
-        try {
-            messageMarshaller.marshal(msg, sw);
-        } catch (JAXBException e) {
-            e.printStackTrace();
-        }
-        return sw.toString();
-    }
-
-    private Message msgFromXML(String xml) {
-        Message msg = null;
-        try {
-            msg = (Message) this.messageUnmarshaller
-                    .unmarshal(new StringReader(xml));
-
-        } catch (JAXBException e) {
-            e.printStackTrace();
-        }
-        return msg;
+        return Message.msgFromXML(decodedXml);
     }
 }

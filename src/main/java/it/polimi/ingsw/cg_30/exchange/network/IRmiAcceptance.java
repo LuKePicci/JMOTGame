@@ -1,4 +1,4 @@
-package it.polimi.ingsw.cg_30.gamemanager.network;
+package it.polimi.ingsw.cg_30.exchange.network;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

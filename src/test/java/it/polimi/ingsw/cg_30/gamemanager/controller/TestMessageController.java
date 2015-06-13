@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import it.polimi.ingsw.cg_30.exchange.messaging.ActionMessage;
 import it.polimi.ingsw.cg_30.exchange.messaging.ActionRequest;
+import it.polimi.ingsw.cg_30.exchange.messaging.ActionType;
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatMessage;
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatRequest;
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatVisibility;

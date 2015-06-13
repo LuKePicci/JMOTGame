@@ -2,6 +2,7 @@ package it.polimi.ingsw.cg_30.gamemanager.controller;
 
 import static org.junit.Assert.assertFalse;
 import it.polimi.ingsw.cg_30.exchange.messaging.ActionRequest;
+import it.polimi.ingsw.cg_30.exchange.messaging.ActionType;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.EftaiosGame;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.HexPoint;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerCard;

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.cg_30.gamemanager.model;
+package it.polimi.ingsw.cg_30.exchange.viewmodels;
 
 import static org.junit.Assert.assertEquals;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.HexPoint;

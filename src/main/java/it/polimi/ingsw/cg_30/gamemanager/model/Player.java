@@ -4,6 +4,8 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.ItemCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerCharacter;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerRace;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerViewModel;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewModel;
 
 import java.io.Serializable;
 
@@ -11,7 +13,7 @@ import java.io.Serializable;
 /**
  * The Class Player.
  */
-public class Player implements Serializable {
+public class Player implements IViewable, Serializable {
 
     /** The name. */
     private String name;
@@ -161,6 +163,12 @@ public class Player implements Serializable {
      */
     public void decrementKillsCount() {
         killsCount--;
+    }
+
+    @Override
+    public ViewModel getViewModel() {
+        return new PlayerViewModel(this.getIndex(), this.getName(),
+                this.getKillsCount());
     }
 
 }
