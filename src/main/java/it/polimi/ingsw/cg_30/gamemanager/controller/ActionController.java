@@ -191,12 +191,8 @@ public abstract class ActionController {
             throws DisconnectedException {
         MessageController
                 .getPlayerHandler(
-                        matchController
-                                .getPartyController()
-                                .getCurrentParty()
-                                .getPlayerUUID(
-                                        matchController.getTurnController()
-                                                .getTurn().getCurrentPlayer()))
+                        matchController.getPartyController().getCurrentParty()
+                                .getPlayerUUID(player))
                 .getAcceptPlayer()
                 .sendMessage(
                         new ChatMessage(new ChatViewModel(what, "Server",
@@ -245,13 +241,9 @@ public abstract class ActionController {
             throws DisconnectedException {
         MessageController
                 .getPlayerHandler(
-                        matchController
-                                .getPartyController()
-                                .getCurrentParty()
-                                .getPlayerUUID(
-                                        matchController.getTurnController()
-                                                .getTurn().getCurrentPlayer()))
-                .getAcceptPlayer().sendMessage(new Message(card));
+                        matchController.getPartyController().getCurrentParty()
+                                .getPlayerUUID(player)).getAcceptPlayer()
+                .sendMessage(new Message(card));
     }
 
     /**
@@ -262,17 +254,9 @@ public abstract class ActionController {
     protected void updateDeckView() throws DisconnectedException {
         MessageController
                 .getPlayerHandler(
-                        matchController
-                                .getPartyController()
-                                .getCurrentParty()
-                                .getPlayerUUID(
-                                        matchController.getTurnController()
-                                                .getTurn().getCurrentPlayer()))
-                .getAcceptPlayer()
-                .sendMessage(
-                        new Message(matchController.getTurnController()
-                                .getTurn().getCurrentPlayer().getItemsDeck()
-                                .getViewModel()));
+                        matchController.getPartyController().getCurrentParty()
+                                .getPlayerUUID(player)).getAcceptPlayer()
+                .sendMessage(new Message(player.getItemsDeck().getViewModel()));
     }
 
     /**
@@ -283,12 +267,8 @@ public abstract class ActionController {
     protected void updateMapView() throws DisconnectedException {
         MessageController
                 .getPlayerHandler(
-                        matchController
-                                .getPartyController()
-                                .getCurrentParty()
-                                .getPlayerUUID(
-                                        matchController.getTurnController()
-                                                .getTurn().getCurrentPlayer()))
+                        matchController.getPartyController().getCurrentParty()
+                                .getPlayerUUID(player))
                 .getAcceptPlayer()
                 .sendMessage(
                         new Message(matchController.getZoneController()

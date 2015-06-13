@@ -82,8 +82,9 @@ public class TurnController {
                                                   // i player siano nell'ordine
                                                   // index (vedi attributi
                                                   // Player)
-                if (nextPlayer.getIndex() == index) {
-                    // qui passo il turno a nextPlayer
+                if (nextPlayer.getIndex() == index
+                        && checkIfPlayerIsOnline(nextPlayer, matchController)) {
+                    // passo il turno a nextPlayer
                     turn = new Turn(nextPlayer);
                     matchController.checkEndGame();
                     matchController.getPartyController().sendMessageToParty(
@@ -95,4 +96,14 @@ public class TurnController {
         }
         // qui non ci dovrei mai arrivare
     }
+
+    private boolean checkIfPlayerIsOnline(Player player,
+            MatchController matchController) {
+        return MessageController
+                .getPlayerHandler(
+                        matchController.getPartyController().getCurrentParty()
+                                .getPlayerUUID(player)).getAcceptPlayer()
+                .connectionLost();
+    }
+
 }
