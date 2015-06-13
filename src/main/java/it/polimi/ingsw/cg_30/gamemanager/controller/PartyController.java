@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg_30.gamemanager.controller;
 
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatMessage;
+import it.polimi.ingsw.cg_30.exchange.messaging.ChatRequest;
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatVisibility;
 import it.polimi.ingsw.cg_30.exchange.messaging.JoinRequest;
 import it.polimi.ingsw.cg_30.exchange.messaging.Message;
@@ -125,10 +126,20 @@ public class PartyController implements Serializable {
         for (UUID memberId : this.currentParty.getMembers().values()) {
 
             try {
+                if (MessageController.connectedClients.get(memberId)
+                        .getAcceptPlayer().connectionLost())
+                    continue;
+
                 MessageController.connectedClients.get(memberId)
                         .getAcceptPlayer().sendMessage(message);
+
             } catch (DisconnectedException e) {
                 // this member will not receive the message
+                ChatRequest offlineNotification = new ChatRequest(
+                        "I'm offline", ChatVisibility.PARTY, null);
+                offlineNotification.setSender(memberId);
+                ChatController.sendToParty(
+                        new ChatMessage(offlineNotification), this);
             }
 
         }
