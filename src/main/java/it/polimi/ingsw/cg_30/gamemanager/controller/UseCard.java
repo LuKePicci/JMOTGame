@@ -44,8 +44,6 @@ public class UseCard extends ActionController {
      */
     @Override
     public boolean isValid() {
-        // TODO non controllo se è il turno del giocatore, lo devo fare prima.
-        // se arrivo qui sono già nel turno del giocatore
         // verifico che player sia umano e non alieno
         if (PlayerRace.ALIEN.equals(player.getIdentity().getRace())) {
             return false;

@@ -25,6 +25,7 @@ public class Move extends ActionController {
     @Override
     public void initAction(MatchController matchController,
             ActionRequest request) {
+        super.initAction(matchController, request);
         this.target = matchController.getZoneController().getCurrentZone()
                 .getMap().get(request.getActionTarget());
     }
@@ -36,8 +37,6 @@ public class Move extends ActionController {
      */
     @Override
     public boolean isValid() {
-        // TODO non controllo se è il turno del giocatore, lo devo fare prima.
-        // se arrivo qui sono già nel turno del giocatore
         if (matchController.getTurnController().getTurn().getMustMove()) {
             int maxSteps = matchController.getTurnController().getTurn()
                     .getMaxSteps();
@@ -131,8 +130,7 @@ public class Move extends ActionController {
                 forcedDraw.initAction(matchController, forcedRequest);
                 forcedDraw.processAction();
             }
-        } else
-            // settore non pericoloso (bianco), non faccio nulla
-            ;
+        }
+        // settore non pericoloso (bianco), non faccio nulla
     }
 }
