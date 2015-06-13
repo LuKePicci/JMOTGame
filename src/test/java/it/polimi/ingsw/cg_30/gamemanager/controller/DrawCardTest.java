@@ -52,7 +52,9 @@ public class DrawCardTest {
                 .keySet());
         Player player1 = players.get(0);
         player1.setIdentity(alien);
+
         matchController.initMatch(partyController);
+
         Turn turn = new Turn(player1);
         matchController.getTurnController().setTurn(turn);
         HexPoint point = new HexPoint(0, 7);

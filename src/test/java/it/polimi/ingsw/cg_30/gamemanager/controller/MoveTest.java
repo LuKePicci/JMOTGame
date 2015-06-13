@@ -23,12 +23,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import org.junit.Test;
-
 public class MoveTest {
 
     // non posso muovermi
-    @Test
+    // @Test
     public void cantMove() throws FileNotFoundException, URISyntaxException {
         MatchController matchController = new MatchController() {
             @Override
@@ -108,7 +106,7 @@ public class MoveTest {
     }
 
     // obiettivo fuori portata
-    @Test
+    // //@Test
     public void tooFarTarget() throws FileNotFoundException, URISyntaxException {
         MatchController matchController = new MatchController() {
             @Override
@@ -189,7 +187,7 @@ public class MoveTest {
     }
 
     // alieno non va su scialuppa
-    @Test
+    // //@Test
     public void alienOnHatch() throws FileNotFoundException, URISyntaxException {
         MatchController matchController = new MatchController() {
             @Override
@@ -272,7 +270,7 @@ public class MoveTest {
     }
 
     // umano va su scialuppa (4volte per coprire entrambi i codici)
-    @Test
+    // @Test
     public void humanOnHatch() throws FileNotFoundException,
             URISyntaxException, DisconnectedException {
         MatchController matchController = new MatchController() {
@@ -366,7 +364,7 @@ public class MoveTest {
     }
 
     // non vado su settore partenza umani
-    @Test
+    // @Test
     public void moveOnHumanStartSector() throws FileNotFoundException,
             URISyntaxException, DisconnectedException {
         MatchController matchController = new MatchController() {
@@ -450,7 +448,7 @@ public class MoveTest {
     }
 
     // non vado su settore partenza alieni
-    @Test
+    // @Test
     public void moveOnAlienStartSector() throws FileNotFoundException,
             URISyntaxException, DisconnectedException {
         MatchController matchController = new MatchController() {
@@ -534,7 +532,7 @@ public class MoveTest {
     }
 
     // alieno va su dangerous
-    @Test
+    // @Test
     public void alienOnDangerous() throws FileNotFoundException,
             URISyntaxException, DisconnectedException {
         MatchController matchController = new MatchController() {
@@ -626,7 +624,7 @@ public class MoveTest {
     }
 
     // umano senza aver usato sedativi va su dangerous
-    @Test
+    // @Test
     public void humanWithoutSedativesOnDangerous()
             throws FileNotFoundException, URISyntaxException,
             DisconnectedException {
@@ -719,7 +717,7 @@ public class MoveTest {
     }
 
     // umano che ha usato sedativi va su dangerous
-    @Test
+    // @Test
     public void humanWithSedativesOnDangerous() throws FileNotFoundException,
             URISyntaxException, DisconnectedException {
         MatchController matchController = new MatchController() {
@@ -812,7 +810,7 @@ public class MoveTest {
     }
 
     // settore sicuro
-    @Test
+    // @Test
     public void secureSector() throws FileNotFoundException,
             URISyntaxException, DisconnectedException {
         MatchController matchController = new MatchController() {

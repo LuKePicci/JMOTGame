@@ -10,6 +10,7 @@ import it.polimi.ingsw.cg_30.gamemanager.model.Player;
 import it.polimi.ingsw.cg_30.gamemanager.model.SpareDeck;
 import it.polimi.ingsw.cg_30.gamemanager.network.DisconnectedException;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -23,8 +24,12 @@ public class UseCard extends ActionController {
     /** The item. */
     private Item item;
 
+    // solo per testing
+    protected Set<Player> watched = new HashSet<Player>();
+
     @Override
-    public void initAction(MatchController match, ActionRequest request) {
+    public void initAction(MatchController matchController,
+            ActionRequest request) {
         super.initAction(matchController, request);
         this.spareDeck = matchController.getTurnController().getTurn()
                 .getCurrentPlayer().getItemsDeck();
