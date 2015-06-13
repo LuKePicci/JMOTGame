@@ -10,6 +10,7 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.EftaiosGame;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Game;
 import it.polimi.ingsw.cg_30.gamemanager.model.Party;
 import it.polimi.ingsw.cg_30.gamemanager.model.Player;
+import it.polimi.ingsw.cg_30.gamemanager.network.DisconnectedException;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -122,8 +123,14 @@ public class PartyController implements Serializable {
 
     public void sendMessageToParty(Message message) {
         for (UUID memberId : this.currentParty.getMembers().values()) {
-            MessageController.connectedClients.get(memberId).getAcceptPlayer()
-                    .sendMessage(message);
+
+            try {
+                MessageController.connectedClients.get(memberId)
+                        .getAcceptPlayer().sendMessage(message);
+            } catch (DisconnectedException e) {
+                // this member will not receive the message
+            }
+
         }
     }
 

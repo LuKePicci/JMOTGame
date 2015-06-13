@@ -9,11 +9,11 @@ import java.util.UUID;
 
 public abstract class AcceptPlayer {
 
-    private static final long serialVersionUID = -7240265207942528345L;
-
     protected UUID sessionId;
     protected transient MessageController mc = new MessageController(this);
     protected Date lastMessage;
+
+    protected boolean hasLostConnection = false;
 
     protected AcceptPlayer(UUID sid) {
         this.sessionId = sid;
@@ -31,10 +31,15 @@ public abstract class AcceptPlayer {
         this.sessionId = newId;
     }
 
-    public abstract void sendMessage(Message message);
+    public abstract void sendMessage(Message message)
+            throws DisconnectedException;
 
     protected abstract Message receiveMessage() throws IOException;
 
     public abstract void ping();
+
+    public boolean connectionLost() {
+        return this.hasLostConnection;
+    }
 
 }

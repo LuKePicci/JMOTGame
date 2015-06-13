@@ -8,8 +8,6 @@ import it.polimi.ingsw.cg_30.exchange.messaging.Message;
 import it.polimi.ingsw.cg_30.exchange.network.IAcceptRmiPlayer;
 import it.polimi.ingsw.cg_30.exchange.network.IRmiAcceptance;
 import it.polimi.ingsw.cg_30.exchange.network.IRmiClient;
-import it.polimi.ingsw.cg_30.gamemanager.network.AcceptRmiPlayer;
-import it.polimi.ingsw.cg_30.gamemanager.network.RmiAcceptance;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -72,7 +70,8 @@ public class TestAcceptRmiPlayer implements IRmiClient {
     }
 
     @Test
-    public void shouldSendMessage() throws RemoteException {
+    public void shouldSendMessage() throws RemoteException,
+            DisconnectedException {
         this.rmiAcceptServer = new AcceptRmiPlayer(clientSkel);
         this.rmiAcceptServer.sendMessage(new ChatMessage(new ChatRequest(
                 TEST_MESSAGE_TEXT, ChatVisibility.PUBLIC, null)));

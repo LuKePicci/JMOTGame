@@ -17,6 +17,7 @@ import it.polimi.ingsw.cg_30.gamemanager.model.Party;
 import it.polimi.ingsw.cg_30.gamemanager.model.Player;
 import it.polimi.ingsw.cg_30.gamemanager.model.Turn;
 import it.polimi.ingsw.cg_30.gamemanager.model.Zone;
+import it.polimi.ingsw.cg_30.gamemanager.network.DisconnectedException;
 
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
@@ -110,7 +111,7 @@ public class AttackTest {
     // alieno attacca settore vuoto
     @Test
     public void alienAttacksNoone() throws FileNotFoundException,
-            URISyntaxException {
+            URISyntaxException, DisconnectedException {
         MatchController matchController = new MatchController() {
             @Override
             public void initMatch(PartyController partyController) {
@@ -167,7 +168,7 @@ public class AttackTest {
     // alieno attacca settore con alieno
     @Test
     public void alienAttacksAlien() throws FileNotFoundException,
-            URISyntaxException {
+            URISyntaxException, DisconnectedException {
         // preparo il terreno
         MatchController matchController = new MatchController() {
             @Override
@@ -255,7 +256,7 @@ public class AttackTest {
     // alieno attacca settore con umano indifeso
     @Test
     public void alienAttacksUndefendedHuman() throws FileNotFoundException,
-            URISyntaxException {
+            URISyntaxException, DisconnectedException {
         // preparo il terreno
         MatchController matchController = new MatchController() {
             @Override
@@ -344,7 +345,7 @@ public class AttackTest {
     // alieno attacca settore con umano con carta difesa
     @Test
     public void alienAttacksDefendedHuman() throws FileNotFoundException,
-            URISyntaxException {
+            URISyntaxException, DisconnectedException {
         // preparo il terreno
         MatchController matchController = new MatchController() {
             @Override
@@ -440,7 +441,7 @@ public class AttackTest {
     // alieno attacca settore con bersagli multipli
     @Test
     public void alienAttacksMultipleTargets() throws FileNotFoundException,
-            URISyntaxException {
+            URISyntaxException, DisconnectedException {
         // preparo il terreno
         MatchController matchController = new MatchController() {
             @Override
@@ -701,7 +702,7 @@ public class AttackTest {
     // alieno che ha già ucciso umani
     @Test
     public void killerAlienAttacksHuman() throws FileNotFoundException,
-            URISyntaxException {
+            URISyntaxException, DisconnectedException {
         // preparo il terreno
         MatchController matchController = new MatchController() {
             @Override
@@ -791,7 +792,7 @@ public class AttackTest {
     // umano attacca alieno
     @Test
     public void humanAttacksAlien() throws FileNotFoundException,
-            URISyntaxException {
+            URISyntaxException, DisconnectedException {
         // preparo il terreno
         MatchController matchController = new MatchController() {
             @Override
@@ -879,7 +880,7 @@ public class AttackTest {
     // umano attacca umano
     @Test
     public void humanAttacksHuman() throws FileNotFoundException,
-            URISyntaxException {
+            URISyntaxException, DisconnectedException {
         // preparo il terreno
         MatchController matchController = new MatchController() {
             @Override

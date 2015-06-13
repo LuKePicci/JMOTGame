@@ -3,6 +3,7 @@ package it.polimi.ingsw.cg_30.gamemanager.controller;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorEvent;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorType;
+import it.polimi.ingsw.cg_30.gamemanager.network.DisconnectedException;
 
 /**
  * The Class DrawCard.
@@ -34,9 +35,11 @@ public class DrawCard extends ActionController {
 
     /**
      * Executes the action.
+     * 
+     * @throws DisconnectedException
      */
     @Override
-    public void processAction() {
+    public void processAction() throws DisconnectedException {
         {
             SectorCard drawnCard = matchController.getMatch().getSectorsDeck()
                     .pickAndThrow();

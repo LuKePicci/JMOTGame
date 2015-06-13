@@ -9,6 +9,7 @@ import it.polimi.ingsw.cg_30.exchange.messaging.PartyRequest;
 import it.polimi.ingsw.cg_30.exchange.messaging.RequestModel;
 import it.polimi.ingsw.cg_30.gamemanager.model.Player;
 import it.polimi.ingsw.cg_30.gamemanager.network.AcceptPlayer;
+import it.polimi.ingsw.cg_30.gamemanager.network.DisconnectedException;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -46,6 +47,7 @@ public class MessageController implements IDelivery {
         }
     }
 
+    @Override
     public void deliver(JoinRequest req) {
         MessageController.usedIds.add(this.myAP.getUUID());
         MessageController.connectedClients.put(this.myAP.getUUID(), this);
@@ -64,19 +66,27 @@ public class MessageController implements IDelivery {
 
     }
 
+    @Override
     public void deliver(ChatRequest req) {
         req.setSender(this.myAP.getUUID());
         ChatController.processChatRequest(req, this.myParty);
     }
 
+    @Override
     public void deliver(PartyRequest req) {
         this.myParty.processPartyRequest(req);
     }
 
+    @Override
     public void deliver(ActionRequest req) {
         if (this.isJoined() && this.myParty.matchInProgress()
                 && this.isMyTurn())
-            this.myParty.getCurrentMatch().processActionRequest(req);
+            try {
+                this.myParty.getCurrentMatch().processActionRequest(req);
+            } catch (DisconnectedException e) {
+                // the connection to the subscriber has been lost while
+                // performing action
+            }
     }
 
     /**
@@ -145,6 +155,11 @@ public class MessageController implements IDelivery {
 
     public static void sendMessageToAll(Message message) {
         for (MessageController mc : MessageController.connectedClients.values())
-            mc.getAcceptPlayer().sendMessage(message);
+            try {
+                mc.getAcceptPlayer().sendMessage(message);
+            } catch (DisconnectedException e) {
+                // If not handled before, it means at this point the
+                // message can be discarded.
+            }
     }
 }

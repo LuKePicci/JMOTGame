@@ -8,6 +8,7 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerRace;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Sector;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorType;
 import it.polimi.ingsw.cg_30.gamemanager.model.Player;
+import it.polimi.ingsw.cg_30.gamemanager.network.DisconnectedException;
 
 import java.util.List;
 import java.util.Set;
@@ -59,9 +60,11 @@ public class Move extends ActionController {
 
     /**
      * Executes the action.
+     * 
+     * @throws DisconnectedException
      */
     @Override
-    public void processAction() {
+    public void processAction() throws DisconnectedException {
         // sposto il giocatore
         matchController.getZoneController().getCurrentZone()
                 .movePlayer(player, target);
