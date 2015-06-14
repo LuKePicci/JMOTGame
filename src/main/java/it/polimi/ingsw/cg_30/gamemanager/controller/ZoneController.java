@@ -119,9 +119,4 @@ public class ZoneController {
         return humansStart;
     }
 
-    // TODO metodo da eliminare (inserito solo come utlity per il testing))
-    public ZoneController(Zone zone) {
-        this.currentZone = zone;
-    }
-
 }

@@ -10,7 +10,6 @@ import it.polimi.ingsw.cg_30.gamemanager.model.Player;
 import it.polimi.ingsw.cg_30.gamemanager.model.SpareDeck;
 import it.polimi.ingsw.cg_30.gamemanager.network.DisconnectedException;
 
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -18,14 +17,16 @@ import java.util.Set;
  */
 public class UseCard extends ActionController {
 
+    /**
+     * Instance of attack action needed if human uses an attack card
+     */
+    protected Attack forcedAttack = new Attack();
+
     /** The spare deck. */
     private SpareDeck<ItemCard> spareDeck;
 
     /** The item. */
     private Item item;
-
-    // solo per testing
-    protected Set<Player> watched = new HashSet<Player>();
 
     @Override
     public void initAction(MatchController matchController,
@@ -59,23 +60,23 @@ public class UseCard extends ActionController {
                             .getDrawnCard() == null
                     && !(Item.DEFENSE.equals(item)// non posso attivare la carta
                                                   // difesa
-                            || (Item.ADRENALINE.equals(item))
-                            && !(matchController.getTurnController().getTurn()
+                            || (Item.ADRENALINE.equals(item) && !matchController
+                                    .getTurnController().getTurn()
                                     .getMustMove()) // va usata prima di
                                                     // muoversi
-                            || Item.SEDATIVES.equals(item)
-                            && !(matchController.getTurnController().getTurn()
-                                    .getMustMove())// va usata prima di
-                                                   // muoversi
-                    || Item.SPOTLIGHT.equals(item)
-                            && !matchController.getZoneController()
-                                    .getCurrentZone().getMap()
-                                    .containsKey(req.getActionTarget())); // il
-                                                                          // settore
-                                                                          // deve
-                                                                          // essere
-                                                                          // sulla
-                                                                          // mappa
+                            || (Item.SEDATIVES.equals(item) && !matchController
+                                    .getTurnController().getTurn()
+                                    .getMustMove()) // va usata prima di
+                                                    // muoversi
+
+                    || (Item.SPOTLIGHT.equals(item) && !matchController
+                            .getZoneController().getCurrentZone().getMap()
+                            .containsKey(req.getActionTarget()))); // il
+                                                                   // settore
+                                                                   // deve
+                                                                   // essere
+                                                                   // sulla
+                                                                   // mappa
         }
     }
 
@@ -91,7 +92,6 @@ public class UseCard extends ActionController {
 
         if (Item.ATTACK.equals(item)) {
             notifyInChatByCurrentPlayer("ATTACK CARD");
-            Attack forcedAttack = new Attack();
             ActionRequest forcedRequest = new ActionRequest(ActionType.ATTACK,
                     null, null);
             forcedAttack.initAction(matchController, forcedRequest);
@@ -152,8 +152,8 @@ public class UseCard extends ActionController {
         for (Sector sec : borderSectors) {
             Set<Player> watchedPlayers = matchController.getZoneController()
                     .getCurrentZone().getPlayersInSector(sec);
-            for (Player player : watchedPlayers) {
-                notifyInChatByServer("The player " + player.getName()
+            for (Player playerFound : watchedPlayers) {
+                notifyInChatByServer("The player " + playerFound.getName()
                         + " is in sector " + sec.getPoint().toString());
             }
         }

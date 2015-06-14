@@ -16,7 +16,6 @@ import it.polimi.ingsw.cg_30.gamemanager.model.Match;
 import it.polimi.ingsw.cg_30.gamemanager.model.Party;
 import it.polimi.ingsw.cg_30.gamemanager.model.Player;
 import it.polimi.ingsw.cg_30.gamemanager.model.Turn;
-import it.polimi.ingsw.cg_30.gamemanager.model.Zone;
 import it.polimi.ingsw.cg_30.gamemanager.network.DisconnectedException;
 
 import java.io.FileNotFoundException;
@@ -34,12 +33,14 @@ public class AttackTest {
     public void notMovedYet() throws FileNotFoundException, URISyntaxException {
         MatchController matchController = new MatchController() {
             @Override
-            public void initMatch(PartyController partyController) {
+            public void initMatch(PartyController partyController)
+                    throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
                 this.turnController = new TurnController();
-                Zone zone = new Zone();
-                this.zoneController = new ZoneController(zone);
+                ZoneFactory zf = new TemplateZoneFactory(
+                        EftaiosGame.DEFAULT_MAP);
+                this.zoneController = new ZoneController(zf);
             }
         };
 
@@ -73,12 +74,14 @@ public class AttackTest {
             URISyntaxException {
         MatchController matchController = new MatchController() {
             @Override
-            public void initMatch(PartyController partyController) {
+            public void initMatch(PartyController partyController)
+                    throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
                 this.turnController = new TurnController();
-                Zone zone = new Zone();
-                this.zoneController = new ZoneController(zone);
+                ZoneFactory zf = new TemplateZoneFactory(
+                        EftaiosGame.DEFAULT_MAP);
+                this.zoneController = new ZoneController(zf);
             }
         };
 
@@ -114,12 +117,14 @@ public class AttackTest {
             URISyntaxException, DisconnectedException {
         MatchController matchController = new MatchController() {
             @Override
-            public void initMatch(PartyController partyController) {
+            public void initMatch(PartyController partyController)
+                    throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
                 this.turnController = new TurnController();
-                Zone zone = new Zone();
-                this.zoneController = new ZoneController(zone);
+                ZoneFactory zf = new TemplateZoneFactory(
+                        EftaiosGame.DEFAULT_MAP);
+                this.zoneController = new ZoneController(zf);
             }
 
             @Override
@@ -172,12 +177,14 @@ public class AttackTest {
         // preparo il terreno
         MatchController matchController = new MatchController() {
             @Override
-            public void initMatch(PartyController partyController) {
+            public void initMatch(PartyController partyController)
+                    throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
                 this.turnController = new TurnController();
-                Zone zone = new Zone();
-                this.zoneController = new ZoneController(zone);
+                ZoneFactory zf = new TemplateZoneFactory(
+                        EftaiosGame.DEFAULT_MAP);
+                this.zoneController = new ZoneController(zf);
             }
 
             @Override
@@ -260,12 +267,14 @@ public class AttackTest {
         // preparo il terreno
         MatchController matchController = new MatchController() {
             @Override
-            public void initMatch(PartyController partyController) {
+            public void initMatch(PartyController partyController)
+                    throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
                 this.turnController = new TurnController();
-                Zone zone = new Zone();
-                this.zoneController = new ZoneController(zone);
+                ZoneFactory zf = new TemplateZoneFactory(
+                        EftaiosGame.DEFAULT_MAP);
+                this.zoneController = new ZoneController(zf);
             }
 
             @Override
@@ -349,12 +358,14 @@ public class AttackTest {
         // preparo il terreno
         MatchController matchController = new MatchController() {
             @Override
-            public void initMatch(PartyController partyController) {
+            public void initMatch(PartyController partyController)
+                    throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
                 this.turnController = new TurnController();
-                Zone zone = new Zone();
-                this.zoneController = new ZoneController(zone);
+                ZoneFactory zf = new TemplateZoneFactory(
+                        EftaiosGame.DEFAULT_MAP);
+                this.zoneController = new ZoneController(zf);
             }
 
             @Override
@@ -445,12 +456,15 @@ public class AttackTest {
         // preparo il terreno
         MatchController matchController = new MatchController() {
             @Override
-            public void initMatch(PartyController partyController) {
+            public void initMatch(PartyController partyController)
+                    throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
                 this.turnController = new TurnController();
-                Zone zone = new Zone();
-                this.zoneController = new ZoneController(zone);
+                ZoneFactory zf = new TemplateZoneFactory(
+                        EftaiosGame.DEFAULT_MAP);
+                this.zoneController = new ZoneController(zf);
+
             }
 
             @Override
@@ -585,12 +599,14 @@ public class AttackTest {
         // preparo il terreno
         MatchController matchController = new MatchController() {
             @Override
-            public void initMatch(PartyController partyController) {
+            public void initMatch(PartyController partyController)
+                    throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
                 this.turnController = new TurnController();
-                Zone zone = new Zone();
-                this.zoneController = new ZoneController(zone);
+                ZoneFactory zf = new TemplateZoneFactory(
+                        EftaiosGame.DEFAULT_MAP);
+                this.zoneController = new ZoneController(zf);
             }
         };
 
@@ -625,12 +641,14 @@ public class AttackTest {
         // preparo il terreno
         MatchController matchController = new MatchController() {
             @Override
-            public void initMatch(PartyController partyController) {
+            public void initMatch(PartyController partyController)
+                    throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
                 this.turnController = new TurnController();
-                Zone zone = new Zone();
-                this.zoneController = new ZoneController(zone);
+                ZoneFactory zf = new TemplateZoneFactory(
+                        EftaiosGame.DEFAULT_MAP);
+                this.zoneController = new ZoneController(zf);
             }
         };
 
@@ -665,12 +683,14 @@ public class AttackTest {
         // preparo il terreno
         MatchController matchController = new MatchController() {
             @Override
-            public void initMatch(PartyController partyController) {
+            public void initMatch(PartyController partyController)
+                    throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
                 this.turnController = new TurnController();
-                Zone zone = new Zone();
-                this.zoneController = new ZoneController(zone);
+                ZoneFactory zf = new TemplateZoneFactory(
+                        EftaiosGame.DEFAULT_MAP);
+                this.zoneController = new ZoneController(zf);
             }
         };
 
@@ -706,12 +726,14 @@ public class AttackTest {
         // preparo il terreno
         MatchController matchController = new MatchController() {
             @Override
-            public void initMatch(PartyController partyController) {
+            public void initMatch(PartyController partyController)
+                    throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
                 this.turnController = new TurnController();
-                Zone zone = new Zone();
-                this.zoneController = new ZoneController(zone);
+                ZoneFactory zf = new TemplateZoneFactory(
+                        EftaiosGame.DEFAULT_MAP);
+                this.zoneController = new ZoneController(zf);
             }
 
             @Override
@@ -796,12 +818,14 @@ public class AttackTest {
         // preparo il terreno
         MatchController matchController = new MatchController() {
             @Override
-            public void initMatch(PartyController partyController) {
+            public void initMatch(PartyController partyController)
+                    throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
                 this.turnController = new TurnController();
-                Zone zone = new Zone();
-                this.zoneController = new ZoneController(zone);
+                ZoneFactory zf = new TemplateZoneFactory(
+                        EftaiosGame.DEFAULT_MAP);
+                this.zoneController = new ZoneController(zf);
             }
 
             @Override
@@ -884,12 +908,14 @@ public class AttackTest {
         // preparo il terreno
         MatchController matchController = new MatchController() {
             @Override
-            public void initMatch(PartyController partyController) {
+            public void initMatch(PartyController partyController)
+                    throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
                 this.turnController = new TurnController();
-                Zone zone = new Zone();
-                this.zoneController = new ZoneController(zone);
+                ZoneFactory zf = new TemplateZoneFactory(
+                        EftaiosGame.DEFAULT_MAP);
+                this.zoneController = new ZoneController(zf);
             }
 
             @Override

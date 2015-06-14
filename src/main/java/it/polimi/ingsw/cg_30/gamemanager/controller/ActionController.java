@@ -48,7 +48,7 @@ public abstract class ActionController {
      * Initializes the action.
      *
      * @param match
-     *            the match
+     *            the match controller
      * @param request
      *            the request
      */
@@ -273,6 +273,12 @@ public abstract class ActionController {
                 .sendMessage(
                         new Message(matchController.getZoneController()
                                 .getCurrentZone().getViewModel()));
+    }
+
+    protected void updateMapToPartyPlayers() {
+        matchController.getPartyController().sendMessageToParty(
+                new Message(matchController.getZoneController()
+                        .getCurrentZone().getViewModel()));
     }
 
 }

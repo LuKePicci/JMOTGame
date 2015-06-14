@@ -13,7 +13,6 @@ import it.polimi.ingsw.cg_30.gamemanager.model.Match;
 import it.polimi.ingsw.cg_30.gamemanager.model.Party;
 import it.polimi.ingsw.cg_30.gamemanager.model.Player;
 import it.polimi.ingsw.cg_30.gamemanager.model.Turn;
-import it.polimi.ingsw.cg_30.gamemanager.model.Zone;
 
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
@@ -31,12 +30,14 @@ public class TurnOverTest {
             URISyntaxException {
         MatchController matchController = new MatchController() {
             @Override
-            public void initMatch(PartyController partyController) {
+            public void initMatch(PartyController partyController)
+                    throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
                 this.turnController = new TurnController();
-                Zone zone = new Zone();
-                this.zoneController = new ZoneController(zone);
+                ZoneFactory zf = new TemplateZoneFactory(
+                        EftaiosGame.DEFAULT_MAP);
+                this.zoneController = new ZoneController(zf);
             }
         };
         PlayerCard alien = new PlayerCard(PlayerRace.ALIEN, null);
@@ -66,12 +67,14 @@ public class TurnOverTest {
             URISyntaxException {
         MatchController matchController = new MatchController() {
             @Override
-            public void initMatch(PartyController partyController) {
+            public void initMatch(PartyController partyController)
+                    throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
                 this.turnController = new TurnController();
-                Zone zone = new Zone();
-                this.zoneController = new ZoneController(zone);
+                ZoneFactory zf = new TemplateZoneFactory(
+                        EftaiosGame.DEFAULT_MAP);
+                this.zoneController = new ZoneController(zf);
             }
         };
         PlayerCard alien = new PlayerCard(PlayerRace.ALIEN, null);
@@ -108,12 +111,14 @@ public class TurnOverTest {
     public void afterAttack() throws FileNotFoundException, URISyntaxException {
         MatchController matchController = new MatchController() {
             @Override
-            public void initMatch(PartyController partyController) {
+            public void initMatch(PartyController partyController)
+                    throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
                 this.turnController = new TurnController();
-                Zone zone = new Zone();
-                this.zoneController = new ZoneController(zone);
+                ZoneFactory zf = new TemplateZoneFactory(
+                        EftaiosGame.DEFAULT_MAP);
+                this.zoneController = new ZoneController(zf);
             }
         };
         PlayerCard alien = new PlayerCard(PlayerRace.ALIEN, null);
@@ -145,12 +150,14 @@ public class TurnOverTest {
             URISyntaxException {
         MatchController matchController = new MatchController() {
             @Override
-            public void initMatch(PartyController partyController) {
+            public void initMatch(PartyController partyController)
+                    throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
                 this.turnController = new TurnController();
-                Zone zone = new Zone();
-                this.zoneController = new ZoneController(zone);
+                ZoneFactory zf = new TemplateZoneFactory(
+                        EftaiosGame.DEFAULT_MAP);
+                this.zoneController = new ZoneController(zf);
             }
         };
         PlayerCard alien = new PlayerCard(PlayerRace.ALIEN, null);
@@ -181,12 +188,14 @@ public class TurnOverTest {
     public void notNoiseYet() throws FileNotFoundException, URISyntaxException {
         MatchController matchController = new MatchController() {
             @Override
-            public void initMatch(PartyController partyController) {
+            public void initMatch(PartyController partyController)
+                    throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
                 this.turnController = new TurnController();
-                Zone zone = new Zone();
-                this.zoneController = new ZoneController(zone);
+                ZoneFactory zf = new TemplateZoneFactory(
+                        EftaiosGame.DEFAULT_MAP);
+                this.zoneController = new ZoneController(zf);
             }
         };
         PlayerCard alien = new PlayerCard(PlayerRace.ALIEN, null);
@@ -219,12 +228,14 @@ public class TurnOverTest {
     public void noiseDone() throws FileNotFoundException, URISyntaxException {
         MatchController matchController = new MatchController() {
             @Override
-            public void initMatch(PartyController partyController) {
+            public void initMatch(PartyController partyController)
+                    throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
                 this.turnController = new TurnController();
-                Zone zone = new Zone();
-                this.zoneController = new ZoneController(zone);
+                ZoneFactory zf = new TemplateZoneFactory(
+                        EftaiosGame.DEFAULT_MAP);
+                this.zoneController = new ZoneController(zf);
             }
         };
         PlayerCard alien = new PlayerCard(PlayerRace.ALIEN, null);
@@ -257,12 +268,14 @@ public class TurnOverTest {
             URISyntaxException {
         MatchController matchController = new MatchController() {
             @Override
-            public void initMatch(PartyController partyController) {
+            public void initMatch(PartyController partyController)
+                    throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
                 this.turnController = new TurnController();
-                Zone zone = new Zone();
-                this.zoneController = new ZoneController(zone);
+                ZoneFactory zf = new TemplateZoneFactory(
+                        EftaiosGame.DEFAULT_MAP);
+                this.zoneController = new ZoneController(zf);
             }
         };
         PlayerCard alien = new PlayerCard(PlayerRace.ALIEN, null);

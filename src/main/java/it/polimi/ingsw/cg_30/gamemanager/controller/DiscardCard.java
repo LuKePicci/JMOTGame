@@ -11,9 +11,20 @@ import it.polimi.ingsw.cg_30.gamemanager.network.DisconnectedException;
  */
 public class DiscardCard extends ActionController {
 
+    /** The spare deck. */
     private SpareDeck<ItemCard> spareDeck;
+
+    /** The item. */
     private Item item;
 
+    /**
+     * Initializes the action.
+     *
+     * @param matchController
+     *            the match controller
+     * @param request
+     *            the request
+     */
     @Override
     public void initAction(MatchController matchController,
             ActionRequest request) {
@@ -37,8 +48,9 @@ public class DiscardCard extends ActionController {
 
     /**
      * Executes the action.
-     * 
+     *
      * @throws DisconnectedException
+     *             the disconnected exception
      */
     @Override
     public void processAction() throws DisconnectedException {

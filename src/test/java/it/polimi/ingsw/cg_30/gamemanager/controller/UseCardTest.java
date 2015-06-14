@@ -22,7 +22,9 @@ import it.polimi.ingsw.cg_30.gamemanager.network.DisconnectedException;
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.junit.Test;
@@ -659,7 +661,7 @@ public class UseCardTest {
     }
 
     // umano che usa attack
-    // @Test
+    @Test
     public void attack() throws FileNotFoundException, URISyntaxException,
             DisconnectedException {
         MatchController matchController = new MatchController() {
@@ -727,6 +729,8 @@ public class UseCardTest {
         Sector sec = new Sector(SectorType.SECURE, point);
         matchController.getZoneController().getCurrentZone()
                 .movePlayer(player1, sec);
+        matchController.getZoneController().getCurrentZone()
+                .movePlayer(player2, sec);
         ActionRequest action = new ActionRequest(ActionType.USE_ITEM, null,
                 Item.ATTACK);
         // eseguo l'azione
@@ -754,6 +758,15 @@ public class UseCardTest {
         };
         uc.initAction(matchController, action);
         assertTrue(uc.isValid());
+        uc.forcedAttack = new Attack() {
+            @Override
+            protected void notifyInChatByCurrentPlayer(String what) {
+            }
+
+            @Override
+            protected void notifyCurrentPlayerByServer(String what) {
+            }
+        };
         uc.processAction();
         // verifico esito
         assertFalse(player1.getItemsDeck().getCards().contains(spotlightCard));
@@ -1043,18 +1056,25 @@ public class UseCardTest {
         matchController.getTurnController().setTurn(turn);
 
         HexPoint point = HexPoint.fromOffset(1, 10);
-        Sector sec = new Sector(SectorType.SECURE, point);
+        Sector sec = matchController.getZoneController().getCurrentZone()
+                .getMap().get(point);
         matchController.getZoneController().getCurrentZone()
                 .movePlayer(player1, sec);
+
         HexPoint point2 = HexPoint.fromOffset(1, 11);
-        Sector sec2 = new Sector(SectorType.DANGEROUS, point2);
+        Sector sec2 = matchController.getZoneController().getCurrentZone()
+                .getMap().get(point2);
         matchController.getZoneController().getCurrentZone()
                 .movePlayer(player2, sec2);
+
         HexPoint point3 = HexPoint.fromOffset(1, 11);
         ActionRequest action = new ActionRequest(ActionType.USE_ITEM, point3,
                 Item.SPOTLIGHT);
         // eseguo l'azione
+        final Set<String> watched = new HashSet<String>();
+
         UseCard uc = new UseCard() {
+
             @Override
             protected void showCardToCurrentPlayer(Card card) {
             }
@@ -1065,7 +1085,11 @@ public class UseCardTest {
 
             @Override
             protected void notifyCurrentPlayerByServer(String what) {
-                watched.add(player);
+            }
+
+            @Override
+            protected void notifyInChatByServer(String what) {
+                watched.add(what);
             }
 
             @Override
@@ -1088,9 +1112,19 @@ public class UseCardTest {
         assertFalse(player1.getItemsDeck().getCards().contains(spotlightCard));
         assertTrue(matchController.getMatch().getItemsDeck().getBucket()
                 .contains(spotlightCard));
-        assertTrue(uc.watched.size() == 2);
-        assertTrue(uc.watched.contains(player1));
-        assertTrue(uc.watched.contains(player2));
+        assertTrue(watched.size() == 2);
+        boolean result = false;
+        for (String s : watched)
+            if (s.contains("player1"))
+                result = true;
+        assertTrue(result);
+        result = false;
+
+        for (String s : watched)
+            if (s.contains("player2"))
+                result = true;
+        assertTrue(result);
+
     }
 
 }

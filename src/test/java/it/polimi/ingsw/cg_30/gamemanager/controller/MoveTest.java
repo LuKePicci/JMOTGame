@@ -159,10 +159,12 @@ public class MoveTest {
 
         matchController.initMatch(partyController);
         List<Player> playersList = new ArrayList<Player>();
-        players.add(player1);
+        playersList.add(player1);
         Turn turn = new Turn(player1);
         matchController.getTurnController().setTurn(turn);
-        HexPoint point = HexPoint.fromOffset(1, 10);
+        HexPoint point = HexPoint.fromOffset(12, 3);
+        // matchController.getZoneController().getCurrentZone().movePlayer(player1,
+        // where);
         matchController.getZoneController().placePlayers(playersList);
         ActionRequest action = new ActionRequest(ActionType.MOVE, point, null);
         // eseguo l'azione
@@ -327,11 +329,13 @@ public class MoveTest {
         Turn turn = new Turn(player1);
         matchController.getTurnController().setTurn(turn);
         HexPoint startPoint = HexPoint.fromOffset(15, 1);
-        Sector sec = new Sector(SectorType.DANGEROUS, startPoint);
+        Sector sec = matchController.getZoneController().getCurrentZone()
+                .getMap().get(startPoint);
         matchController.getZoneController().getCurrentZone()
                 .movePlayer(player1, sec);
         HexPoint point = HexPoint.fromOffset(15, 0);
-        Sector secFinal = new Sector(SectorType.ESCAPE_HATCH, point);
+        Sector secFinal = matchController.getZoneController().getCurrentZone()
+                .getMap().get(point);
         ActionRequest action = new ActionRequest(ActionType.MOVE, point, null);
         // eseguo l'azione
         Move mo = new Move() {
@@ -350,17 +354,32 @@ public class MoveTest {
             @Override
             protected void updateDeckView() {
             }
+
+            @Override
+            protected void showCardToParty(Card card) {
+            }
+
+            @Override
+            protected void notifyInChatByServer(String what) {
+            }
+
+            @Override
+            protected void notifyAPlayerAbout(Player player, String about) {
+            }
+
+            @Override
+            protected void updateMapToPartyPlayers() {
+            }
+
         };
         mo.initAction(matchController, action);
         assertTrue(mo.isValid());
         if (mo.isValid()) {
-            for (int i = 0; i < 4; i++) {
-                mo.processAction();
-            }
+            mo.processAction();
         }
         // verifico esito
         assertTrue(matchController.getMatch().getHatchesDeck().getBucket()
-                .size() == 4);
+                .size() == 1);
         assertTrue(matchController.getZoneController().getCurrentZone()
                 .getCell(player1).equals(secFinal));
     }
@@ -589,11 +608,13 @@ public class MoveTest {
         Turn turn = new Turn(player1);
         matchController.getTurnController().setTurn(turn);
         HexPoint startPoint = HexPoint.fromOffset(11, 5);
-        Sector sec = new Sector(SectorType.ALIENS_START, startPoint);
+        Sector sec = matchController.getZoneController().getCurrentZone()
+                .getMap().get(startPoint);
         matchController.getZoneController().getCurrentZone()
                 .movePlayer(player1, sec);
         HexPoint point = HexPoint.fromOffset(11, 4);
-        Sector secFinal = new Sector(SectorType.DANGEROUS, point);
+        Sector secFinal = matchController.getZoneController().getCurrentZone()
+                .getMap().get(point);
         ActionRequest action = new ActionRequest(ActionType.MOVE, point, null);
         // eseguo l'azione
         Move mo = new Move() {
@@ -682,11 +703,13 @@ public class MoveTest {
         Turn turn = new Turn(player1);
         matchController.getTurnController().setTurn(turn);
         HexPoint startPoint = HexPoint.fromOffset(11, 7);
-        Sector sec = new Sector(SectorType.HUMANS_START, startPoint);
+        Sector sec = matchController.getZoneController().getCurrentZone()
+                .getMap().get(startPoint);
         matchController.getZoneController().getCurrentZone()
                 .movePlayer(player1, sec);
         HexPoint point = HexPoint.fromOffset(11, 8);
-        Sector secFinal = new Sector(SectorType.DANGEROUS, point);
+        Sector secFinal = matchController.getZoneController().getCurrentZone()
+                .getMap().get(point);
         ActionRequest action = new ActionRequest(ActionType.MOVE, point, null);
         // eseguo l'azione
         Move mo = new Move() {
@@ -705,10 +728,20 @@ public class MoveTest {
             @Override
             protected void updateDeckView() {
             }
+
+            @Override
+            protected void updateMapView() throws DisconnectedException {
+            }
         };
         mo.initAction(matchController, action);
         assertTrue(mo.isValid());
         if (mo.isValid()) {
+            mo.forcedDraw = new DrawCard() {
+                @Override
+                public void processAction() {
+                    // see you later
+                }
+            };
             mo.processAction();
         }
         // verifico esito
@@ -775,11 +808,13 @@ public class MoveTest {
         matchController.getTurnController().setTurn(turn);
         matchController.getTurnController().getTurn().setSilenceForced(true);
         HexPoint startPoint = HexPoint.fromOffset(11, 7);
-        Sector sec = new Sector(SectorType.HUMANS_START, startPoint);
+        Sector sec = matchController.getZoneController().getCurrentZone()
+                .getMap().get(startPoint);
         matchController.getZoneController().getCurrentZone()
                 .movePlayer(player1, sec);
         HexPoint point = HexPoint.fromOffset(11, 8);
-        Sector secFinal = new Sector(SectorType.DANGEROUS, point);
+        Sector secFinal = matchController.getZoneController().getCurrentZone()
+                .getMap().get(point);
         ActionRequest action = new ActionRequest(ActionType.MOVE, point, null);
         // eseguo l'azione
         Move mo = new Move() {
@@ -867,11 +902,13 @@ public class MoveTest {
         Turn turn = new Turn(player1);
         matchController.getTurnController().setTurn(turn);
         HexPoint startPoint = HexPoint.fromOffset(10, 12);
-        Sector sec = new Sector(SectorType.DANGEROUS, startPoint);
+        Sector sec = matchController.getZoneController().getCurrentZone()
+                .getMap().get(startPoint);
         matchController.getZoneController().getCurrentZone()
                 .movePlayer(player1, sec);
         HexPoint point = HexPoint.fromOffset(10, 13);
-        Sector secFinal = new Sector(SectorType.SECURE, point);
+        Sector secFinal = matchController.getZoneController().getCurrentZone()
+                .getMap().get(point);
         ActionRequest action = new ActionRequest(ActionType.MOVE, point, null);
         // eseguo l'azione
         Move mo = new Move() {
