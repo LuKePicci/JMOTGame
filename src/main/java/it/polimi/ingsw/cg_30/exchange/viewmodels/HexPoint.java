@@ -39,7 +39,7 @@ public class HexPoint extends Point implements Serializable {
      * @param y
      *            the y
      */
-    public HexPoint(int x, int y) {
+    private HexPoint(int x, int y) {
         this.cubicX = x;
         this.cubicY = y;
     }

@@ -5,15 +5,16 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.EftaiosGame;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.HexPoint;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerRace;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.Sector;
 import it.polimi.ingsw.cg_30.gamemanager.model.Match;
 import it.polimi.ingsw.cg_30.gamemanager.model.Party;
 import it.polimi.ingsw.cg_30.gamemanager.model.Player;
 import it.polimi.ingsw.cg_30.gamemanager.model.Turn;
-import it.polimi.ingsw.cg_30.gamemanager.model.Zone;
 
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -29,12 +30,14 @@ public class MatchControllerTest {
         // preparo il terreno
         MatchController matchController = new MatchController() {
             @Override
-            public void initMatch(PartyController partyController) {
+            public void initMatch(PartyController partyController)
+                    throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
                 this.turnController = new TurnController();
-                Zone zone = new Zone();
-                this.zoneController = new ZoneController(zone);
+                ZoneFactory zf = new TemplateZoneFactory(
+                        EftaiosGame.DEFAULT_MAP);
+                this.zoneController = new ZoneController(zf);
             }
 
             @Override
@@ -106,12 +109,14 @@ public class MatchControllerTest {
         // preparo il terreno
         MatchController matchController = new MatchController() {
             @Override
-            public void initMatch(PartyController partyController) {
+            public void initMatch(PartyController partyController)
+                    throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
                 this.turnController = new TurnController();
-                Zone zone = new Zone();
-                this.zoneController = new ZoneController(zone);
+                ZoneFactory zf = new TemplateZoneFactory(
+                        EftaiosGame.DEFAULT_MAP);
+                this.zoneController = new ZoneController(zf);
             }
 
             @Override
@@ -183,12 +188,14 @@ public class MatchControllerTest {
         // preparo il terreno
         MatchController matchController = new MatchController() {
             @Override
-            public void initMatch(PartyController partyController) {
+            public void initMatch(PartyController partyController)
+                    throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
                 this.turnController = new TurnController();
-                Zone zone = new Zone();
-                this.zoneController = new ZoneController(zone);
+                ZoneFactory zf = new TemplateZoneFactory(
+                        EftaiosGame.DEFAULT_MAP);
+                this.zoneController = new ZoneController(zf);
             }
 
             @Override
@@ -261,12 +268,14 @@ public class MatchControllerTest {
         // preparo il terreno
         MatchController matchController = new MatchController() {
             @Override
-            public void initMatch(PartyController partyController) {
+            public void initMatch(PartyController partyController)
+                    throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
                 this.turnController = new TurnController();
-                Zone zone = new Zone();
-                this.zoneController = new ZoneController(zone);
+                ZoneFactory zf = new TemplateZoneFactory(
+                        EftaiosGame.DEFAULT_MAP);
+                this.zoneController = new ZoneController(zf);
             }
 
             @Override
@@ -337,12 +346,14 @@ public class MatchControllerTest {
         // preparo il terreno
         MatchController matchController = new MatchController() {
             @Override
-            public void initMatch(PartyController partyController) {
+            public void initMatch(PartyController partyController)
+                    throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
                 this.turnController = new TurnController();
-                Zone zone = new Zone();
-                this.zoneController = new ZoneController(zone);
+                ZoneFactory zf = new TemplateZoneFactory(
+                        EftaiosGame.DEFAULT_MAP);
+                this.zoneController = new ZoneController(zf);
             }
 
             @Override
@@ -410,7 +421,7 @@ public class MatchControllerTest {
     }
 
     // non ci sono più scialuppe
-    // @Test
+    @Test
     public void noMoreHatchesAvailable() throws FileNotFoundException,
             URISyntaxException, NotAnHatchException {
         // preparo il terreno
@@ -473,14 +484,21 @@ public class MatchControllerTest {
         matchController.getMatch().getDeadPlayer().add(player4);
         matchController.getMatch().getDeadPlayer().add(player5);
         matchController.getMatch().getRescuedPlayer().add(player6);
-        HexPoint hatch1 = new HexPoint(1, 9);
-        HexPoint hatch2 = new HexPoint(5, 0);
-        HexPoint hatch3 = new HexPoint(15, 0);
-        HexPoint hatch4 = new HexPoint(21, 10);
-        matchController.getZoneController().lockHatch(hatch1);
-        matchController.getZoneController().lockHatch(hatch2);
-        matchController.getZoneController().lockHatch(hatch3);
-        matchController.getZoneController().lockHatch(hatch4);
+
+        Set<HexPoint> hatchesLocation = new HashSet<HexPoint>();
+        for (Sector s : matchController.getZoneController().getCurrentZone()
+                .getMap().values()) {
+            switch (s.getType()) {
+                case ESCAPE_HATCH:
+                    hatchesLocation.add(s.getPoint());
+                    break;
+                default:
+                    continue;
+            }
+        }
+        for (HexPoint loc : hatchesLocation) {
+            matchController.getZoneController().lockHatch(loc);
+        }
         // eseguo l'azione
         matchController.checkEndGame();
         // verifico gli esiti

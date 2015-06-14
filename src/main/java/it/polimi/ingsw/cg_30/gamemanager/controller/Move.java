@@ -2,7 +2,6 @@ package it.polimi.ingsw.cg_30.gamemanager.controller;
 
 import it.polimi.ingsw.cg_30.exchange.messaging.ActionRequest;
 import it.polimi.ingsw.cg_30.exchange.messaging.ActionType;
-import it.polimi.ingsw.cg_30.exchange.messaging.Message;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.HatchCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.HatchChance;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerRace;
@@ -19,12 +18,19 @@ import java.util.Set;
  */
 public class Move extends ActionController {
 
+    /**
+     * Instance of DrawCard action needed if human ends his movement on a
+     * dangerous sector
+     */
+    protected DrawCard forcedDraw = new DrawCard();
+
     /** The target. */
     private Sector target;
 
     @Override
     public void initAction(MatchController matchController,
             ActionRequest request) {
+        super.initAction(matchController, request);
         this.target = matchController.getZoneController().getCurrentZone()
                 .getMap().get(request.getActionTarget());
     }
@@ -36,23 +42,32 @@ public class Move extends ActionController {
      */
     @Override
     public boolean isValid() {
-        // TODO non controllo se è il turno del giocatore, lo devo fare prima.
-        // se arrivo qui sono già nel turno del giocatore
         if (matchController.getTurnController().getTurn().getMustMove()) {
             int maxSteps = matchController.getTurnController().getTurn()
                     .getMaxSteps();
-            Set<Sector> reachableSectors = matchController.getZoneController()
-                    .getCurrentZone().reachableTargets(target, maxSteps);
-            if (reachableSectors.contains(target)) {
+            Set<Sector> reachableSectors = matchController
+                    .getZoneController()
+                    .getCurrentZone()
+                    .reachableTargets(
+                            matchController
+                                    .getZoneController()
+                                    .getCurrentZone()
+                                    .getCell(
+                                            matchController.getTurnController()
+                                                    .getTurn()
+                                                    .getCurrentPlayer()),
+                            maxSteps);
+            if (reachableSectors.contains(this.target)) {
                 // anche se un settore è raggiungibile devo assicurarmi che non
                 // sia (scialuppa/)settore umani/settore alieni
                 // TODO è possibile che i seguenti test non siano necessari a
                 // seconda che reachableTargets ritorni o meno i settori start e
                 // sciluppa
-                return ((!SectorType.ALIENS_START.equals(target.getType()))
-                        && (!SectorType.HUMANS_START.equals(target.getType())) && (PlayerRace.HUMAN
-                        .equals(player.getIdentity()) || !SectorType.ESCAPE_HATCH
-                        .equals(target.getType())));
+                return ((!SectorType.ALIENS_START.equals(this.target.getType()))
+                        && (!SectorType.HUMANS_START.equals(this.target
+                                .getType())) && (PlayerRace.HUMAN
+                        .equals(this.player.getIdentity().getRace()) || !SectorType.ESCAPE_HATCH
+                        .equals(this.target.getType())));
                 // gli umani posso andare sulle scialuppe
             }
         }
@@ -114,25 +129,24 @@ public class Move extends ActionController {
                 e.printStackTrace();
             }
             // aggiorno la mappa
-            matchController.getPartyController().sendMessageToParty(
-                    new Message(matchController.getZoneController()
-                            .getCurrentZone().getViewModel()));
+            updateMapToPartyPlayers();
         } else if (SectorType.DANGEROUS.equals(target.getType())) {
             matchController.getTurnController().getTurn()
                     .setIsSecDangerous(true);// l'alieno dovrà o pescare o
                                              // attaccare
-            if ((PlayerRace.HUMAN.equals(player.getIdentity().getRace()))
-                    && (matchController.getTurnController().getTurn()
-                            .getSilenceForced() == false)) {
-                // l'umano deve pescare (salvo uso di sedativi)
-                DrawCard forcedDraw = new DrawCard();
-                ActionRequest forcedRequest = new ActionRequest(
-                        ActionType.DRAW_CARD, null, null);
-                forcedDraw.initAction(matchController, forcedRequest);
-                forcedDraw.processAction();
+            if (PlayerRace.HUMAN.equals(player.getIdentity().getRace())) {
+                if (matchController.getTurnController().getTurn()
+                        .getSilenceForced() == false) {
+                    // l'umano deve pescare (salvo uso di sedativi)
+                    ActionRequest forcedRequest = new ActionRequest(
+                            ActionType.DRAW_CARD, null, null);
+                    forcedDraw.initAction(matchController, forcedRequest);
+                    forcedDraw.processAction();
+                } else
+                    matchController.getTurnController().getTurn()
+                            .setIsSecDangerous(false);
             }
-        } else
-            // settore non pericoloso (bianco), non faccio nulla
-            ;
+        }
+        // settore non pericoloso (bianco), non faccio nulla
     }
 }

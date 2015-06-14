@@ -8,6 +8,7 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.EftaiosGame;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.HexPoint;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerRace;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.Sector;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorEvent;
 import it.polimi.ingsw.cg_30.gamemanager.model.Match;
@@ -57,7 +58,7 @@ public class NoiseAnyTest {
         matchController.getTurnController().setTurn(turn);
         SectorCard card = new SectorCard(SectorEvent.NOISE_ANY, false);
         matchController.getTurnController().getTurn().setDrawnCard(card);
-        HexPoint point = new HexPoint(0, 0);
+        HexPoint point = HexPoint.fromOffset(0, 0);
         ActionRequest action = new ActionRequest(ActionType.NOISE_ANY, point,
                 null);
         // eseguo l'azione
@@ -102,7 +103,18 @@ public class NoiseAnyTest {
         matchController.initMatch(partyController);
         Turn turn = new Turn(player1);
         matchController.getTurnController().setTurn(turn);
-        HexPoint point = new HexPoint(0, 2);
+        List<HexPoint> secLoc = new ArrayList<HexPoint>();
+        for (Sector s : matchController.getZoneController().getCurrentZone()
+                .getMap().values()) {
+            switch (s.getType()) {
+                case DANGEROUS:
+                    secLoc.add(s.getPoint());
+                    break;
+                default:
+                    continue;
+            }
+        }
+        HexPoint point = secLoc.get(0);
         ActionRequest action = new ActionRequest(ActionType.NOISE_ANY, point,
                 null);
         // eseguo l'azione
@@ -119,7 +131,7 @@ public class NoiseAnyTest {
     }
 
     // tutto ok
-    // @Test
+    @Test
     public void allGood() throws FileNotFoundException, URISyntaxException,
             DisconnectedException {
         MatchController matchController = new MatchController() {
@@ -149,7 +161,19 @@ public class NoiseAnyTest {
         matchController.getTurnController().setTurn(turn);
         SectorCard card = new SectorCard(SectorEvent.NOISE_ANY, false);
         matchController.getTurnController().getTurn().setDrawnCard(card);
-        HexPoint point = new HexPoint(14, 6);
+
+        List<HexPoint> secLoc = new ArrayList<HexPoint>();
+        for (Sector s : matchController.getZoneController().getCurrentZone()
+                .getMap().values()) {
+            switch (s.getType()) {
+                case DANGEROUS:
+                    secLoc.add(s.getPoint());
+                    break;
+                default:
+                    continue;
+            }
+        }
+        HexPoint point = secLoc.get(0);
         ActionRequest action = new ActionRequest(ActionType.NOISE_ANY, point,
                 null);
         // eseguo l'azione

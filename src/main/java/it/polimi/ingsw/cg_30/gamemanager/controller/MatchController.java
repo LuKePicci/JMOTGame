@@ -45,15 +45,18 @@ public class MatchController {
     /** The max turn. */
     private final int MAX_TURN = 39;
 
+    // Aggiunti solo per il testing
+    protected Set<Player> vincitori = new HashSet<Player>();
+    protected Set<Player> perdenti = new HashSet<Player>();
+
     /**
      * Obtain party players.
      *
      * @return the list of players of the current party
      */
     public List<Player> obtainPartyPlayers() {
-        List<Player> playerList = new ArrayList<Player>(partyController
-                .getCurrentParty().getMembers().keySet());
-        return playerList;
+        return new ArrayList<Player>(partyController.getCurrentParty()
+                .getMembers().keySet());
     }
 
     /**
@@ -487,9 +490,5 @@ public class MatchController {
                         new Message(zoneController.getCurrentZone()
                                 .getViewModel()));
     }
-
-    // Aggiunti solo per il testing
-    protected Set<Player> vincitori = new HashSet<Player>();
-    protected Set<Player> perdenti = new HashSet<Player>();
 
 }

@@ -17,7 +17,12 @@ public class TurnController {
     /** The turn. */
     private Turn turn;
 
-    // TODO metodo implementato per il testing
+    /**
+     * Sets the turn (method implemented only for testing purpose).
+     *
+     * @param turn
+     *            the new turn
+     */
     public void setTurn(Turn turn) {
         this.turn = turn;
     }
@@ -31,10 +36,17 @@ public class TurnController {
         return turn;
     }
 
+    /**
+     * First turn.
+     *
+     * @param playerList
+     *            the player list
+     */
     public void firstTurn(List<Player> playerList) {
         for (Player nextPlayer : playerList) {
             if (nextPlayer.getIndex() == 1) {
                 this.turn = new Turn(nextPlayer);
+                return;
             }
         }
     }
@@ -48,10 +60,9 @@ public class TurnController {
      */
     public Set<Player> getPartyPlayers(MatchController matchController) {
         // prendo i membri dal party passando da partyController
-        Set<Player> playerList = matchController.getPartyController()
-                .getCurrentParty().getMembers().keySet();// set con tutti i
-                                                         // player del party
-        return playerList;
+        return matchController.getPartyController().getCurrentParty()
+                .getMembers().keySet();// set con tutti i
+                                       // player del party
     }
 
     /**
@@ -85,25 +96,48 @@ public class TurnController {
                 if (nextPlayer.getIndex() == index
                         && checkIfPlayerIsOnline(nextPlayer, matchController)) {
                     // passo il turno a nextPlayer
-                    turn = new Turn(nextPlayer);
                     matchController.checkEndGame();
-                    matchController.getPartyController().sendMessageToParty(
-                            new ChatMessage(new ChatViewModel(nextPlayer
-                                    .getName() + "'s turn", "Server",
-                                    ChatVisibility.PARTY)));
+                    matchController.getTurnController().setTurn(
+                            new Turn(nextPlayer));
+                    notify(nextPlayer, matchController);
+                    return;
                 }
             }
         }
         // qui non ci dovrei mai arrivare
     }
 
-    private boolean checkIfPlayerIsOnline(Player player,
+    /**
+     * Check if the player is online.
+     *
+     * @param player
+     *            the player
+     * @param matchController
+     *            the match controller
+     * @return true, if the player is online
+     */
+    protected boolean checkIfPlayerIsOnline(Player player,
             MatchController matchController) {
         return MessageController
                 .getPlayerHandler(
                         matchController.getPartyController().getCurrentParty()
                                 .getPlayerUUID(player)).getAcceptPlayer()
                 .connectionLost();
+
+    }
+
+    /**
+     * Notify the new turn to all players.
+     *
+     * @param nextPlayer
+     *            the next player
+     * @param matchController
+     *            the match controller
+     */
+    protected void notify(Player nextPlayer, MatchController matchController) {
+        matchController.getPartyController().sendMessageToParty(
+                new ChatMessage(new ChatViewModel(nextPlayer.getName()
+                        + "'s turn", "Server", ChatVisibility.PARTY)));
     }
 
 }

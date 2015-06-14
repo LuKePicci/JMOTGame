@@ -139,6 +139,7 @@ public class Zone extends GameTable<Sector> implements IViewable, Serializable {
                     }
                 }
         }
+
         visited.remove(from);
         return visited;
     }

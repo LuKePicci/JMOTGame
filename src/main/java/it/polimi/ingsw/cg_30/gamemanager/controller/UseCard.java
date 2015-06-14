@@ -17,6 +17,11 @@ import java.util.Set;
  */
 public class UseCard extends ActionController {
 
+    /**
+     * Instance of attack action needed if human uses an attack card
+     */
+    protected Attack forcedAttack = new Attack();
+
     /** The spare deck. */
     private SpareDeck<ItemCard> spareDeck;
 
@@ -24,7 +29,8 @@ public class UseCard extends ActionController {
     private Item item;
 
     @Override
-    public void initAction(MatchController match, ActionRequest request) {
+    public void initAction(MatchController matchController,
+            ActionRequest request) {
         super.initAction(matchController, request);
         this.spareDeck = matchController.getTurnController().getTurn()
                 .getCurrentPlayer().getItemsDeck();
@@ -44,8 +50,6 @@ public class UseCard extends ActionController {
      */
     @Override
     public boolean isValid() {
-        // TODO non controllo se è il turno del giocatore, lo devo fare prima.
-        // se arrivo qui sono già nel turno del giocatore
         // verifico che player sia umano e non alieno
         if (PlayerRace.ALIEN.equals(player.getIdentity().getRace())) {
             return false;
@@ -56,14 +60,23 @@ public class UseCard extends ActionController {
                             .getDrawnCard() == null
                     && !(Item.DEFENSE.equals(item)// non posso attivare la carta
                                                   // difesa
-                            || (Item.ADRENALINE.equals(item))
-                            && !(matchController.getTurnController().getTurn()
+                            || (Item.ADRENALINE.equals(item) && !matchController
+                                    .getTurnController().getTurn()
                                     .getMustMove()) // va usata prima di
                                                     // muoversi
-                    || Item.SEDATIVES.equals(item)
-                            && !(matchController.getTurnController().getTurn()
-                                    .getMustMove())); // va usata prima di
-                                                      // muoversi
+                            || (Item.SEDATIVES.equals(item) && !matchController
+                                    .getTurnController().getTurn()
+                                    .getMustMove()) // va usata prima di
+                                                    // muoversi
+
+                    || (Item.SPOTLIGHT.equals(item) && !matchController
+                            .getZoneController().getCurrentZone().getMap()
+                            .containsKey(req.getActionTarget()))); // il
+                                                                   // settore
+                                                                   // deve
+                                                                   // essere
+                                                                   // sulla
+                                                                   // mappa
         }
     }
 
@@ -79,7 +92,6 @@ public class UseCard extends ActionController {
 
         if (Item.ATTACK.equals(item)) {
             notifyInChatByCurrentPlayer("ATTACK CARD");
-            Attack forcedAttack = new Attack();
             ActionRequest forcedRequest = new ActionRequest(ActionType.ATTACK,
                     null, null);
             forcedAttack.initAction(matchController, forcedRequest);
@@ -140,8 +152,8 @@ public class UseCard extends ActionController {
         for (Sector sec : borderSectors) {
             Set<Player> watchedPlayers = matchController.getZoneController()
                     .getCurrentZone().getPlayersInSector(sec);
-            for (Player player : watchedPlayers) {
-                notifyInChatByServer("The player " + player.getName()
+            for (Player playerFound : watchedPlayers) {
+                notifyInChatByServer("The player " + playerFound.getName()
                         + " is in sector " + sec.getPoint().toString());
             }
         }

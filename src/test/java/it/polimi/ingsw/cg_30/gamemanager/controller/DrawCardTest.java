@@ -52,10 +52,12 @@ public class DrawCardTest {
                 .keySet());
         Player player1 = players.get(0);
         player1.setIdentity(alien);
+
         matchController.initMatch(partyController);
+
         Turn turn = new Turn(player1);
         matchController.getTurnController().setTurn(turn);
-        HexPoint point = new HexPoint(0, 7);
+        HexPoint point = HexPoint.fromOffset(0, 7);
         Sector sec = new Sector(SectorType.SECURE, point);
         matchController.getZoneController().getCurrentZone()
                 .movePlayer(player1, sec);
@@ -117,7 +119,7 @@ public class DrawCardTest {
         matchController.initMatch(partyController);
         Turn turn = new Turn(player1);
         matchController.getTurnController().setTurn(turn);
-        HexPoint point = new HexPoint(0, 7);
+        HexPoint point = HexPoint.fromOffset(0, 7);
         Sector sec = new Sector(SectorType.SECURE, point);
         matchController.getZoneController().getCurrentZone()
                 .movePlayer(player1, sec);
@@ -178,7 +180,7 @@ public class DrawCardTest {
         matchController.initMatch(partyController);
         Turn turn = new Turn(player1);
         matchController.getTurnController().setTurn(turn);
-        HexPoint point = new HexPoint(0, 2);
+        HexPoint point = HexPoint.fromOffset(0, 2);
         Sector sec = new Sector(SectorType.DANGEROUS, point);
         matchController.getZoneController().getCurrentZone()
                 .movePlayer(player1, sec);
@@ -238,7 +240,7 @@ public class DrawCardTest {
         matchController.initMatch(partyController);
         Turn turn = new Turn(player1);
         matchController.getTurnController().setTurn(turn);
-        HexPoint point = new HexPoint(0, 2);
+        HexPoint point = HexPoint.fromOffset(0, 2);
         Sector sec = new Sector(SectorType.DANGEROUS, point);
         matchController.getZoneController().getCurrentZone()
                 .movePlayer(player1, sec);

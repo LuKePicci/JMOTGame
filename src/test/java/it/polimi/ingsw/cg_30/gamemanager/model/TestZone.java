@@ -50,7 +50,7 @@ public class TestZone {
         Player pl1 = new Player();
         Player pl2 = new Player();
         Zone zone = new Zone();
-        HexPoint point = new HexPoint(3, 4);
+        HexPoint point = HexPoint.fromOffset(3, 4);
         Sector sec = new Sector(null, point);
         zone.movePlayer(pl1, sec);
         zone.movePlayer(pl2, sec);
@@ -58,7 +58,7 @@ public class TestZone {
         assertTrue(players.contains(pl1));
         assertTrue(players.contains(pl2));
         assertEquals(2, players.size(), 0);
-        HexPoint point2 = new HexPoint(1, 2);
+        HexPoint point2 = HexPoint.fromOffset(1, 2);
         Sector sec2 = new Sector(null, point2);
         Set<Player> players2 = zone.getPlayersInSector(sec2);
         assertEquals(0, players2.size(), 0);
