@@ -723,7 +723,7 @@ public class UseCardTest {
 
         Turn turn = new Turn(player1);
         matchController.getTurnController().setTurn(turn);
-        HexPoint point = new HexPoint(1, 10);
+        HexPoint point = HexPoint.fromOffset(1, 10);
         Sector sec = new Sector(SectorType.SECURE, point);
         matchController.getZoneController().getCurrentZone()
                 .movePlayer(player1, sec);
@@ -827,7 +827,7 @@ public class UseCardTest {
 
         Turn turn = new Turn(player1);
         matchController.getTurnController().setTurn(turn);
-        HexPoint point = new HexPoint(1, 10);
+        HexPoint point = HexPoint.fromOffset(1, 10);
         Sector sec = new Sector(SectorType.SECURE, point);
         matchController.getZoneController().getCurrentZone()
                 .movePlayer(player1, sec);
@@ -873,7 +873,7 @@ public class UseCardTest {
     }
 
     // umano che usa spotlight su un settore inesistente
-    // @Test
+    @Test
     public void spotlightNotExist() throws FileNotFoundException,
             URISyntaxException, DisconnectedException {
         MatchController matchController = new MatchController() {
@@ -937,8 +937,8 @@ public class UseCardTest {
 
         Turn turn = new Turn(player1);
         matchController.getTurnController().setTurn(turn);
-        HexPoint notExist = new HexPoint(0, 0);
-        HexPoint point = new HexPoint(1, 10);
+        HexPoint notExist = HexPoint.fromOffset(999, 999);
+        HexPoint point = HexPoint.fromOffset(1, 10);
         Sector sec = new Sector(SectorType.SECURE, point);
         matchController.getZoneController().getCurrentZone()
                 .movePlayer(player1, sec);
@@ -977,7 +977,7 @@ public class UseCardTest {
     }
 
     // umano che usa spotlight (con verifica giocatori ritornati)
-    // @Test
+    @Test
     public void spotlight() throws FileNotFoundException, URISyntaxException,
             DisconnectedException {
         MatchController matchController = new MatchController() {
@@ -1041,15 +1041,16 @@ public class UseCardTest {
 
         Turn turn = new Turn(player1);
         matchController.getTurnController().setTurn(turn);
-        HexPoint point = new HexPoint(1, 10);
+
+        HexPoint point = HexPoint.fromOffset(1, 10);
         Sector sec = new Sector(SectorType.SECURE, point);
         matchController.getZoneController().getCurrentZone()
                 .movePlayer(player1, sec);
-        HexPoint point2 = new HexPoint(1, 11);
+        HexPoint point2 = HexPoint.fromOffset(1, 11);
         Sector sec2 = new Sector(SectorType.DANGEROUS, point2);
         matchController.getZoneController().getCurrentZone()
                 .movePlayer(player2, sec2);
-        HexPoint point3 = new HexPoint(0, 11);
+        HexPoint point3 = HexPoint.fromOffset(1, 11);
         ActionRequest action = new ActionRequest(ActionType.USE_ITEM, point3,
                 Item.SPOTLIGHT);
         // eseguo l'azione

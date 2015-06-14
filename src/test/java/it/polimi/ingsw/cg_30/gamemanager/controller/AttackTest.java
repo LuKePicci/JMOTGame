@@ -55,7 +55,7 @@ public class AttackTest {
         matchController.initMatch(partyController);
         Turn turn = new Turn(player1);
         matchController.getTurnController().setTurn(turn);
-        HexPoint point = new HexPoint(1, 1);
+        HexPoint point = HexPoint.fromOffset(1, 1);
         Sector sec = new Sector(null, point);
         matchController.getZoneController().getCurrentZone()
                 .movePlayer(player1, sec);
@@ -96,7 +96,7 @@ public class AttackTest {
         matchController.getTurnController().setTurn(turn);
         matchController.getTurnController().getTurn().setMustMove();
         matchController.getTurnController().getTurn().setCanAttack(false);
-        HexPoint point = new HexPoint(1, 1);
+        HexPoint point = HexPoint.fromOffset(1, 1);
         Sector sec = new Sector(null, point);
         matchController.getZoneController().getCurrentZone()
                 .movePlayer(player1, sec);
@@ -140,7 +140,7 @@ public class AttackTest {
         Turn turn = new Turn(player1);
         matchController.getTurnController().setTurn(turn);
         matchController.getTurnController().getTurn().setMustMove();
-        HexPoint point = new HexPoint(1, 1);
+        HexPoint point = HexPoint.fromOffset(1, 1);
         Sector sec = new Sector(null, point);
         matchController.getZoneController().getCurrentZone()
                 .movePlayer(player1, sec);
@@ -222,7 +222,7 @@ public class AttackTest {
         Turn turn = new Turn(player1);
         matchController.getTurnController().setTurn(turn);
         matchController.getTurnController().getTurn().setMustMove();
-        HexPoint point = new HexPoint(1, 1);
+        HexPoint point = HexPoint.fromOffset(1, 1);
         Sector sec = new Sector(null, point);
         matchController.getZoneController().getCurrentZone()
                 .movePlayer(player1, sec);
@@ -311,7 +311,7 @@ public class AttackTest {
         Turn turn = new Turn(player1);
         matchController.getTurnController().setTurn(turn);
         matchController.getTurnController().getTurn().setMustMove();
-        HexPoint point = new HexPoint(1, 1);
+        HexPoint point = HexPoint.fromOffset(1, 1);
         Sector sec = new Sector(null, point);
         matchController.getZoneController().getCurrentZone()
                 .movePlayer(player1, sec);
@@ -402,7 +402,7 @@ public class AttackTest {
         Turn turn = new Turn(player1);
         matchController.getTurnController().setTurn(turn);
         matchController.getTurnController().getTurn().setMustMove();
-        HexPoint point = new HexPoint(1, 1);
+        HexPoint point = HexPoint.fromOffset(1, 1);
         Sector sec = new Sector(null, point);
         matchController.getZoneController().getCurrentZone()
                 .movePlayer(player1, sec);
@@ -514,9 +514,9 @@ public class AttackTest {
         Turn turn = new Turn(player1);
         matchController.getTurnController().setTurn(turn);
         matchController.getTurnController().getTurn().setMustMove();
-        HexPoint point = new HexPoint(1, 1);
+        HexPoint point = HexPoint.fromOffset(1, 1);
         Sector sec = new Sector(null, point);
-        HexPoint point2 = new HexPoint(2, 3);
+        HexPoint point2 = HexPoint.fromOffset(2, 3);
         Sector sec2 = new Sector(null, point2);
         matchController.getZoneController().getCurrentZone()
                 .movePlayer(player1, sec);
@@ -606,7 +606,7 @@ public class AttackTest {
         matchController.initMatch(partyController);
         Turn turn = new Turn(player1);
         matchController.getTurnController().setTurn(turn);
-        HexPoint point = new HexPoint(1, 1);
+        HexPoint point = HexPoint.fromOffset(1, 1);
         Sector sec = new Sector(null, point);
         matchController.getZoneController().getCurrentZone()
                 .movePlayer(player1, sec);
@@ -646,7 +646,7 @@ public class AttackTest {
         matchController.initMatch(partyController);
         Turn turn = new Turn(player1);
         matchController.getTurnController().setTurn(turn);
-        HexPoint point = new HexPoint(1, 1);
+        HexPoint point = HexPoint.fromOffset(1, 1);
         Sector sec = new Sector(null, point);
         matchController.getZoneController().getCurrentZone()
                 .movePlayer(player1, sec);
@@ -687,7 +687,7 @@ public class AttackTest {
         Turn turn = new Turn(player1);
         matchController.getTurnController().setTurn(turn);
         matchController.getTurnController().getTurn().setMustMove();
-        HexPoint point = new HexPoint(1, 1);
+        HexPoint point = HexPoint.fromOffset(1, 1);
         Sector sec = new Sector(null, point);
         matchController.getZoneController().getCurrentZone()
                 .movePlayer(player1, sec);
@@ -757,7 +757,7 @@ public class AttackTest {
         Turn turn = new Turn(player1);
         matchController.getTurnController().setTurn(turn);
         matchController.getTurnController().getTurn().setMustMove();
-        HexPoint point = new HexPoint(1, 1);
+        HexPoint point = HexPoint.fromOffset(1, 1);
         Sector sec = new Sector(null, point);
         matchController.getZoneController().getCurrentZone()
                 .movePlayer(player1, sec);
@@ -847,7 +847,7 @@ public class AttackTest {
         Turn turn = new Turn(player1);
         matchController.getTurnController().setTurn(turn);
         matchController.getTurnController().getTurn().setMustMove();
-        HexPoint point = new HexPoint(1, 1);
+        HexPoint point = HexPoint.fromOffset(1, 1);
         Sector sec = new Sector(null, point);
         matchController.getZoneController().getCurrentZone()
                 .movePlayer(player1, sec);
@@ -935,7 +935,7 @@ public class AttackTest {
         Turn turn = new Turn(player1);
         matchController.getTurnController().setTurn(turn);
         matchController.getTurnController().getTurn().setMustMove();
-        HexPoint point = new HexPoint(1, 1);
+        HexPoint point = HexPoint.fromOffset(1, 1);
         Sector sec = new Sector(null, point);
         matchController.getZoneController().getCurrentZone()
                 .movePlayer(player1, sec);

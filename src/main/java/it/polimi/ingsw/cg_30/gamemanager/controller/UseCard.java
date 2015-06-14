@@ -63,10 +63,19 @@ public class UseCard extends ActionController {
                             && !(matchController.getTurnController().getTurn()
                                     .getMustMove()) // va usata prima di
                                                     // muoversi
-                    || Item.SEDATIVES.equals(item)
+                            || Item.SEDATIVES.equals(item)
                             && !(matchController.getTurnController().getTurn()
-                                    .getMustMove())); // va usata prima di
-                                                      // muoversi
+                                    .getMustMove())// va usata prima di
+                                                   // muoversi
+                    || Item.SPOTLIGHT.equals(item)
+                            && !matchController.getZoneController()
+                                    .getCurrentZone().getMap()
+                                    .containsKey(req.getActionTarget())); // il
+                                                                          // settore
+                                                                          // deve
+                                                                          // essere
+                                                                          // sulla
+                                                                          // mappa
         }
     }
 

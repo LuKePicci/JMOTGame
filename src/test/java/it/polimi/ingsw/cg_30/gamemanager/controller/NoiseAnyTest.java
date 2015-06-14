@@ -58,7 +58,7 @@ public class NoiseAnyTest {
         matchController.getTurnController().setTurn(turn);
         SectorCard card = new SectorCard(SectorEvent.NOISE_ANY, false);
         matchController.getTurnController().getTurn().setDrawnCard(card);
-        HexPoint point = new HexPoint(0, 0);
+        HexPoint point = HexPoint.fromOffset(0, 0);
         ActionRequest action = new ActionRequest(ActionType.NOISE_ANY, point,
                 null);
         // eseguo l'azione
