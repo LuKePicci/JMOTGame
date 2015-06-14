@@ -7,9 +7,6 @@ import static org.junit.Assert.assertTrue;
 import it.polimi.ingsw.cg_30.exchange.messaging.JoinRequest;
 import it.polimi.ingsw.cg_30.exchange.messaging.Message;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.EftaiosGame;
-import it.polimi.ingsw.cg_30.gamemanager.controller.MatchController;
-import it.polimi.ingsw.cg_30.gamemanager.controller.MessageController;
-import it.polimi.ingsw.cg_30.gamemanager.controller.PartyController;
 import it.polimi.ingsw.cg_30.gamemanager.network.AcceptPlayer;
 
 import java.io.IOException;
@@ -122,13 +119,13 @@ public class TestPartyController {
         MessageController.connectedClients.put(mockAp.getUUID(), mc);
         PartyController privateJoinedParty = PartyController
                 .processJoinRequest(mockAp.getUUID(), new JoinRequest("Player",
-                        new EftaiosGame(), true, "PrivateParty"));
+                        new EftaiosGame(), "PrivateParty"));
         mockAp = newMockAp();
         mc = new MessageController(mockAp);
         MessageController.usedIds.add(mockAp.getUUID());
         MessageController.connectedClients.put(mockAp.getUUID(), mc);
         privateJoinedParty = PartyController.processJoinRequest(mockAp
-                .getUUID(), new JoinRequest("Player", new EftaiosGame(), true,
+                .getUUID(), new JoinRequest("Player", new EftaiosGame(),
                 "PrivateParty"));
         assertEquals(2, privateJoinedParty.getCurrentParty().getMembers()
                 .size());
@@ -161,14 +158,14 @@ public class TestPartyController {
         MessageController.connectedClients.put(mockAp.getUUID(), mc);
         PartyController privateJoinedParty = PartyController
                 .processJoinRequest(mockAp.getUUID(), new JoinRequest("Player",
-                        new EftaiosGame(), true, "PrivateParty"));
+                        new EftaiosGame(), "PrivateParty"));
         privateJoinedParty.currentMatch = new MatchController();
         mockAp = newMockAp();
         mc = new MessageController(mockAp);
         MessageController.usedIds.add(mockAp.getUUID());
         MessageController.connectedClients.put(mockAp.getUUID(), mc);
         privateJoinedParty = PartyController.processJoinRequest(mockAp
-                .getUUID(), new JoinRequest("Player", new EftaiosGame(), true,
+                .getUUID(), new JoinRequest("Player", new EftaiosGame(),
                 "PrivateParty"));
 
     }

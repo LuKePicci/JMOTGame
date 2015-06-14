@@ -34,4 +34,10 @@ public class ZoneViewModel extends ViewModel {
         return this;
     }
 
+    @Override
+    public String toString() {
+        return "ZoneViewModel { sectorsMap: " + sectorsMap
+                + ", playerLocation: " + playerLocation + " }";
+    }
+
 }

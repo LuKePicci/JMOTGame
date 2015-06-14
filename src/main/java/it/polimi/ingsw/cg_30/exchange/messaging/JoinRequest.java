@@ -32,7 +32,11 @@ public class JoinRequest extends RequestModel {
         this(nick, g, false, null);
     }
 
-    public JoinRequest(String nick, Game g, boolean privateParty, String name) {
+    public JoinRequest(String nick, Game g, String partyName) {
+        this(nick, g, true, partyName);
+    }
+
+    private JoinRequest(String nick, Game g, boolean privateParty, String name) {
         this.nickName = nick;
         this.myGame = g;
         this.isPrivate = privateParty;

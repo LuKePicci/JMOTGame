@@ -57,4 +57,9 @@ public class Sector extends Cell implements Serializable {
     public HexPoint getPoint() {
         return point;
     }
+
+    @Override
+    public String toString() {
+        return "Sector { type: " + type + ", point: " + point + " }";
+    }
 }

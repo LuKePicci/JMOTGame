@@ -6,8 +6,8 @@ import static org.junit.Assert.assertTrue;
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatMessage;
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatRequest;
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatVisibility;
-import it.polimi.ingsw.cg_30.exchange.messaging.JoinMessage;
 import it.polimi.ingsw.cg_30.exchange.messaging.JoinRequest;
+import it.polimi.ingsw.cg_30.exchange.messaging.Message;
 import it.polimi.ingsw.cg_30.exchange.messaging.RequestModel;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.EftaiosGame;
 
@@ -143,7 +143,7 @@ public class TestAcceptSocketPlayer extends Thread {
                 e.printStackTrace();
             }
             String prevSentData = ap.getLastSentData();
-            ap.sendMessage(new JoinMessage(new JoinRequest("Player",
+            ap.sendMessage(new Message(new JoinRequest("Player",
                     new EftaiosGame())));
             assertNotEquals(prevSentData, ap.getLastSentData());
 

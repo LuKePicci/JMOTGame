@@ -33,4 +33,10 @@ public class PlayerCard extends Card {
         return character;
     }
 
+    @Override
+    public String toString() {
+        return "PlayerCard { race: " + race + ", character: " + character
+                + " }";
+    }
+
 }

@@ -40,9 +40,7 @@ public class RmiMessenger extends ClientMessenger implements IRmiClient {
     }
 
     @Override
-    public void toClient(Message msg) throws RemoteException {
-        // TODO Auto-generated method stub
-
+    public void toClient(Message receivedMessage) throws RemoteException {
+        this.receiveMessage(receivedMessage);
     }
-
 }

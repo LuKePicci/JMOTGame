@@ -66,7 +66,6 @@ public class AcceptSocketPlayer extends AcceptPlayer implements Runnable {
 
     @Override
     public final void run() {
-        this.ping();
         while (this.mySoc.isConnected() && !this.mySoc.isClosed()
                 && !Thread.interrupted()) {
             try {

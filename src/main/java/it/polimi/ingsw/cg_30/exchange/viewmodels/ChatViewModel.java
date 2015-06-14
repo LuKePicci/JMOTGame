@@ -42,4 +42,10 @@ public class ChatViewModel extends ViewModel {
         return this.audience;
     }
 
+    @Override
+    public String toString() {
+        return "ChatViewModel { text: " + text + ", senderNick: " + senderNick
+                + ", audience: " + audience + " }";
+    }
+
 }

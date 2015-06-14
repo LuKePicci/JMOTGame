@@ -14,11 +14,12 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
+@XmlRootElement(name = "Message")
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlSeeAlso({ ActionMessage.class, ChatMessage.class, PartyMessage.class,
-        JoinMessage.class })
+@XmlSeeAlso({ ChatMessage.class })
 public class Message implements Serializable {
 
     private static final long serialVersionUID = -7712280460808337633L;
@@ -50,6 +51,11 @@ public class Message implements Serializable {
         }
     }
 
+    public Message(RequestModel req) {
+        this(MessageType.REQUEST_MESSAGE);
+        this.requestContent = req;
+    }
+
     public Message(ViewModel pub) {
         this(MessageType.VIEW_MESSAGE);
         this.publishedContent = pub;
@@ -78,13 +84,17 @@ public class Message implements Serializable {
         return this.requestContent;
     }
 
+    protected void setRawRequest(RequestModel content) {
+        this.requestContent = content;
+    }
+
     @XmlElement(name = "View")
     public ViewModel getRawView() {
         return this.publishedContent;
     }
 
-    protected void setRawRequest(RequestModel content) {
-        this.requestContent = content;
+    protected void setRawView(ViewModel pub) {
+        this.publishedContent = pub;
     }
 
     public static String msgToXML(Message msg) {

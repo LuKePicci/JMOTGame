@@ -28,4 +28,10 @@ public class PartyViewModel extends ViewModel {
         super(ViewType.PARTY);
     }
 
+    @Override
+    public String toString() {
+        return "PartyViewModel { partyName: " + partyName + ", players: "
+                + players + " }";
+    }
+
 }

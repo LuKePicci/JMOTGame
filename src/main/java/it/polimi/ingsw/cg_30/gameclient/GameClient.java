@@ -6,7 +6,7 @@ import it.polimi.ingsw.cg_30.gameclient.view.gui.GuiEngine;
 
 public class GameClient {
 
-    private static ViewEngine currentEngine;
+    private static ViewEngine activeEngine;
 
     public static void main(String[] args) {
         GameClient gc = new GameClient();
@@ -20,16 +20,37 @@ public class GameClient {
                 gc.startGui();
                 break;
         }
+
+        while (!Thread.interrupted()) {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                break;
+            }
+        }
+    }
+
+    public static ViewEngine getActiveEngine() {
+        return GameClient.activeEngine;
     }
 
     private void startGui() {
-        currentEngine = new GuiEngine();
-        currentEngine.runEngine();
-
+        activeEngine = new GuiEngine();
+        this.startEngine();
     }
 
     private void startCli() {
-        currentEngine = new CliEngine();
-        currentEngine.runEngine();
+        activeEngine = new CliEngine();
+        this.startEngine();
+    }
+
+    private void startEngine() {
+        activeEngine.logoonWizard();
+        activeEngine.runEngine();
+    }
+
+    private void switchEngine() {
+        activeEngine = new GuiEngine();
+        activeEngine.runEngine();
     }
 }

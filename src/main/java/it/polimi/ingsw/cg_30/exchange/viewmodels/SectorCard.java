@@ -51,4 +51,10 @@ public class SectorCard extends Card {
         return attachedItem;
     }
 
+    @Override
+    public String toString() {
+        return "SectorCard { event: " + event + ", attachedItem: "
+                + attachedItem + " }";
+    }
+
 }

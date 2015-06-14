@@ -68,7 +68,8 @@ public class PartyController implements Serializable {
         boolean checkPrivate;
         for (Party p : parties.keySet()) {
             pc = parties.get(p);
-            checkPrivate = !p.isPrivate() || p.getName().equals(privateName);
+            checkPrivate = !p.isPrivate()
+                    || p.getName().equalsIgnoreCase(privateName);
             if (p.getGame().sameGame(g)
                     && p.getMembers().size() < p.getGame().getMaxPlayers()
                     && !pc.matchInProgress() && checkPrivate)

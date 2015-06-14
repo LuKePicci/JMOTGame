@@ -27,4 +27,10 @@ public class PlayerViewModel extends ViewModel {
         super(ViewType.PLAYER);
     }
 
+    @Override
+    public String toString() {
+        return "PlayerViewModel { index: " + index + ", name: " + name
+                + ", killsCount: " + killsCount + " }";
+    }
+
 }

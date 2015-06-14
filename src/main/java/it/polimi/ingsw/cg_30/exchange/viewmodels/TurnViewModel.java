@@ -90,4 +90,11 @@ public class TurnViewModel extends ViewModel {
         return silenceForced;
     }
 
+    @Override
+    public String toString() {
+        return "TurnViewModel { maxSteps: " + maxSteps + ", canAttack: "
+                + canAttack + ", mustDiscard: " + mustDiscard + ", mustMove: "
+                + mustMove + ", silenceForced: " + silenceForced + " }";
+    }
+
 }

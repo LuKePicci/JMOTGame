@@ -44,4 +44,9 @@ public class HatchCard extends Card {
         return chance;
     }
 
+    @Override
+    public String toString() {
+        return "HatchCard { chance: " + chance + " }";
+    }
+
 }

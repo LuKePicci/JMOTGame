@@ -236,4 +236,9 @@ public class HexPoint extends Point implements Serializable {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "HexPoint { getX(): " + getX() + ", getY(): " + getY() + " }";
+    }
+
 }

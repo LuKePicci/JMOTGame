@@ -21,4 +21,9 @@ public class DeckViewModel<C extends Card> extends ViewModel {
         super(ViewType.DECK);
     }
 
+    @Override
+    public String toString() {
+        return "DeckViewModel { cards: " + cards + " }";
+    }
+
 }
