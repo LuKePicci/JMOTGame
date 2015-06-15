@@ -1,10 +1,14 @@
 package it.polimi.ingsw.cg_30.gamemanager.controller;
 
+import it.polimi.ingsw.cg_30.exchange.messaging.ActionRequest;
+import it.polimi.ingsw.cg_30.exchange.messaging.ActionType;
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatMessage;
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatVisibility;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ChatViewModel;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.ItemCard;
 import it.polimi.ingsw.cg_30.gamemanager.model.Player;
 import it.polimi.ingsw.cg_30.gamemanager.model.Turn;
+import it.polimi.ingsw.cg_30.gamemanager.network.DisconnectedException;
 
 import java.util.List;
 import java.util.Set;
@@ -16,6 +20,12 @@ public class TurnController {
 
     /** The turn. */
     protected Turn turn;
+
+    /**
+     * Instance of discard card action needed if a player can't end his turn
+     * properly.
+     */
+    protected DiscardCard forcedDiscard = new DiscardCard();
 
     /**
      * Gets the turn.
@@ -69,8 +79,15 @@ public class TurnController {
      *
      * @param matchController
      *            the match controller
+     * @throws DisconnectedException
+     *             the disconnected exception
      */
-    public void nextTurn(MatchController matchController) {
+    public void nextTurn(MatchController matchController)
+            throws DisconnectedException {
+        // in case a player has gone offline and the new turn is called due to a
+        // timer expiration, I must guarantee the player doesn't end his turn
+        // with more than three item card
+        this.checkLegality(matchController);
         Set<Player> playerList = getPartyPlayers(matchController);
         int playerNumber = playerList.size();
         int index = this.turn.getCurrentPlayer().getIndex();
@@ -95,6 +112,29 @@ public class TurnController {
                     return;
                 }
             }
+        }
+    }
+
+    /**
+     * Checks if a player is ending his turn without having solved the
+     * obligation of discarding a card. In case of positive answer, the method
+     * discards a card before ending the player's turn.
+     *
+     * @param matchController
+     *            the match controller
+     * @throws DisconnectedException
+     *             the disconnected exception
+     */
+    private void checkLegality(MatchController matchController)
+            throws DisconnectedException {
+        if (matchController.getTurnController().getTurn().getMustDiscard()) {
+            Object[] playerCards = matchController.getTurnController()
+                    .getTurn().getCurrentPlayer().getItemsDeck().getCards()
+                    .toArray();
+            ActionRequest action = new ActionRequest(ActionType.DISCARD_CARD,
+                    null, ((ItemCard) playerCards[3]).getItem());
+            forcedDiscard.initAction(matchController, action);
+            forcedDiscard.processAction();
         }
     }
 

@@ -33,7 +33,7 @@ public class UseCardTest {
 
     // alieno cerca di usare una carta
     @Test
-    public void alien() throws FileNotFoundException, URISyntaxException,
+    public void alienTest() throws FileNotFoundException, URISyntaxException,
             DisconnectedException {
         MatchController matchController = new MatchController() {
             @Override
@@ -120,8 +120,8 @@ public class UseCardTest {
 
     // umano che usa carta che non ha
     @Test
-    public void unownCard() throws FileNotFoundException, URISyntaxException,
-            DisconnectedException {
+    public void unknownCardTest() throws FileNotFoundException,
+            URISyntaxException, DisconnectedException {
         MatchController matchController = new MatchController() {
             @Override
             public void initMatch(PartyController partyController)
@@ -207,7 +207,7 @@ public class UseCardTest {
 
     // umano che usa adrenaline dopo il movimento
     @Test
-    public void adrenalinePreMovement() throws FileNotFoundException,
+    public void adrenalinePreMovementTest() throws FileNotFoundException,
             URISyntaxException, DisconnectedException {
         MatchController matchController = new MatchController() {
             @Override
@@ -295,7 +295,7 @@ public class UseCardTest {
 
     // umano che usa sedatives dopo il movimento
     @Test
-    public void sedativesPreMovement() throws FileNotFoundException,
+    public void sedativesPreMovementTest() throws FileNotFoundException,
             URISyntaxException, DisconnectedException {
         MatchController matchController = new MatchController() {
             @Override
@@ -383,8 +383,8 @@ public class UseCardTest {
 
     // umano che usa difesa
     @Test
-    public void defenseCard() throws FileNotFoundException, URISyntaxException,
-            DisconnectedException {
+    public void defenseCardTest() throws FileNotFoundException,
+            URISyntaxException, DisconnectedException {
         MatchController matchController = new MatchController() {
             @Override
             public void initMatch(PartyController partyController)
@@ -470,7 +470,7 @@ public class UseCardTest {
 
     // umano che usa adrenaline prima del movimento (verifica attr. turn)
     @Test
-    public void adrenalinePostMovement() throws FileNotFoundException,
+    public void adrenalinePostMovementTest() throws FileNotFoundException,
             URISyntaxException, DisconnectedException {
         MatchController matchController = new MatchController() {
             @Override
@@ -567,7 +567,7 @@ public class UseCardTest {
 
     // umano che usa sedatives prima del movimento (verifica attr. turn)
     @Test
-    public void sedativesPostMovement() throws FileNotFoundException,
+    public void sedativesPostMovementTest() throws FileNotFoundException,
             URISyntaxException, DisconnectedException {
         MatchController matchController = new MatchController() {
             @Override
@@ -665,7 +665,7 @@ public class UseCardTest {
 
     // umano che usa attack
     @Test
-    public void attack() throws FileNotFoundException, URISyntaxException,
+    public void attackTest() throws FileNotFoundException, URISyntaxException,
             DisconnectedException {
         MatchController matchController = new MatchController() {
             @Override
@@ -780,8 +780,8 @@ public class UseCardTest {
 
     // umano che usa teleport (verifica esito spostamento)
     @Test
-    public void teleport() throws FileNotFoundException, URISyntaxException,
-            DisconnectedException {
+    public void teleportTest() throws FileNotFoundException,
+            URISyntaxException, DisconnectedException {
         MatchController matchController = new MatchController() {
             @Override
             public void initMatch(PartyController partyController)
@@ -890,7 +890,7 @@ public class UseCardTest {
 
     // umano che usa spotlight su un settore inesistente
     @Test
-    public void spotlightNotExist() throws FileNotFoundException,
+    public void spotlightNotExistTest() throws FileNotFoundException,
             URISyntaxException, DisconnectedException {
         MatchController matchController = new MatchController() {
             @Override
@@ -994,8 +994,8 @@ public class UseCardTest {
 
     // umano che usa spotlight (con verifica giocatori ritornati)
     @Test
-    public void spotlight() throws FileNotFoundException, URISyntaxException,
-            DisconnectedException {
+    public void spotlightTest() throws FileNotFoundException,
+            URISyntaxException, DisconnectedException {
         MatchController matchController = new MatchController() {
             @Override
             public void initMatch(PartyController partyController)
