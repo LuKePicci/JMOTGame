@@ -1,6 +1,5 @@
 package eftaios.MapTools;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -9,20 +8,36 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.TreeMap;
 
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
+import com.jtattoo.plaf.hifi.HiFiLookAndFeel;
+
+import eftaios.forms.GameView;
+
 public class MapEditor {
 	public Sector[][] sectors;
 
 	public static void main(String[] a) {
+		try {
+			HiFiLookAndFeel.setTheme("Giant-Font");
+			UIManager.setLookAndFeel(new HiFiLookAndFeel());
+		} catch (Exception e) {
+			// use default lookAndFeel
+		}
 		MapEditor me = new MapEditor(new File(a.length > 0 ? a[0] : "map.xml"));
-		me.loadEditor();
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				me.loadEditor();
+			}
+		});
 	}
 
 	private final int DIM_X, DIM_Y;
@@ -40,25 +55,30 @@ public class MapEditor {
 	}
 
 	private void loadEditor() {
+		//
+		// JFrame frame = new JFrame();
+		// frame.setResizable(false);
+		// frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-		JFrame frame = new JFrame();
-		frame.setResizable(false);
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		JPanel mapPanel = new JPanel();
 		mapPanel.setLayout(null);
+		GameView gv = new GameView();
 
 		if (this.xmlFile.isFile())
 			loadMapFromXML(this.xmlFile, mapPanel);
 		else
 			drawBlankMap(mapPanel);
 
-		frame.getContentPane().add(mapPanel).setBackground(Color.BLACK);
-		;
-		frame.setSize(1410, 1040);
-		frame.setLocationRelativeTo(null);
-		;
-		frame.setTitle("EFTAIOS - Map Editor");
-		frame.setVisible(true);
+		// frame.getContentPane().add(mapPanel).setBackground(Color.BLACK);
+		//
+		// frame.setSize(1410, 1040);
+		// frame.setLocationRelativeTo(null);
+		//
+		// frame.setTitle("EFTAIOS - Map Editor");
+		// frame.setVisible(true);
+
+		gv.fillMapPanel(mapPanel);
+		gv.setVisible(true);
 	}
 
 	private void loadMapFromXML(File xmlFile, JPanel mapPanel) {
@@ -145,7 +165,7 @@ public class MapEditor {
 		for (int i = 0; i < DIM_X; i++)
 			for (int j = 0; j < DIM_Y; j++) {
 				if (sectors[i][j] != null
-						&& sectors[i][j].getType() != SectorType.Empty) {
+						&& sectors[i][j].getType() != SectorType.EMPTY) {
 					PairXY current = new PairXY(i, j);
 					sectorMap.put(current,
 							new SectorModel(sectors[i][j].getType()));

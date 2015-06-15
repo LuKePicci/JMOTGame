@@ -1,10 +1,5 @@
 package eftaios.MapTools;
 
 public enum SectorType {
-	Dangerous,
-	Secure,
-	Empty,
-	EscapeHatch,
-	AliensStart,
-	HumansStart	
+	DANGEROUS, SECURE, EMPTY, ESCAPE_HATCH, ALIENS_START, HUMANS_START
 }
