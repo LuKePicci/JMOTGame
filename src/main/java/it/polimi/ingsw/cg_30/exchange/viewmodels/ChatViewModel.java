@@ -9,6 +9,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "Chat")
 public class ChatViewModel extends ViewModel {
 
+    private static final long serialVersionUID = 2792460984430627321L;
+
     @XmlElement(name = "Text")
     private String text;
 

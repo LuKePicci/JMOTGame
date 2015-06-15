@@ -8,6 +8,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "Deck")
 public class DeckViewModel<C extends Card> extends ViewModel {
 
+    private static final long serialVersionUID = -8158974397380721778L;
+
     @XmlElement(name = "Cards")
     List<C> cards;
 

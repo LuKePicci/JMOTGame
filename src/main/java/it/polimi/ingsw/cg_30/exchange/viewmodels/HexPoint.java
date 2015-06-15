@@ -26,7 +26,6 @@ public class HexPoint extends Point implements Serializable {
     /**
      * Instantiates a new hex point.
      */
-    @SuppressWarnings("unused")
     private HexPoint() {
         // JAXB handled
     }

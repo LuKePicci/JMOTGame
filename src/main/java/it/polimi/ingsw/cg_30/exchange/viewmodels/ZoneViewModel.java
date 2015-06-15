@@ -11,6 +11,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @XmlRootElement(name = "Zone")
 public class ZoneViewModel extends ViewModel {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -437562171602695439L;
+
     /** The sectors map. */
     @XmlElement(name = "Contents")
     @XmlJavaTypeAdapter(XmlZoneMapAdapter.class)

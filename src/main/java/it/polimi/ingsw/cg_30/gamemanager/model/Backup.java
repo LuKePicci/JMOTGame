@@ -7,6 +7,8 @@ import java.io.Serializable;
  */
 public class Backup implements Serializable {
 
+    private static final long serialVersionUID = 1507047141267767493L;
+
     /** The active party. */
     private Party activeParty;
 

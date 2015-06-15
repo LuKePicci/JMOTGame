@@ -6,6 +6,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "Player")
 public class PlayerViewModel extends ViewModel {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 3886929209108097282L;
+
     @XmlElement(name = "PlayerIndex")
     int index;
 

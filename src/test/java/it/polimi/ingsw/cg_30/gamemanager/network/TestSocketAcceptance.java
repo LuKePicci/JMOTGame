@@ -2,7 +2,6 @@ package it.polimi.ingsw.cg_30.gamemanager.network;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.util.UUID;
 import java.util.concurrent.Semaphore;
 
 import org.junit.AfterClass;
@@ -51,10 +50,7 @@ public class TestSocketAcceptance {
             e.printStackTrace();
         }
 
-        UUID clientId;
-
         for (int i = 0; i < 10; i++) {
-            clientId = null;
             Socket soc = new Socket("127.0.0.1", server.getRandomPort());
             soc.close();
         }
