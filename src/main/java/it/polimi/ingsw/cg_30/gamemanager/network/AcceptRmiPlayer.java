@@ -28,6 +28,8 @@ public class AcceptRmiPlayer extends AcceptPlayer implements IAcceptRmiPlayer {
         if (this.hasLostConnection)
             throw new DisconnectedException(new Date());
 
+        msg.setSessionId(this.sessionId);
+
         try {
             this.sndMessage = msg;
             this.rmiClient.toClient(this.sndMessage);

@@ -5,6 +5,7 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewModel;
 import java.io.Serializable;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.UUID;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -29,6 +30,8 @@ public class Message implements Serializable {
     private static Unmarshaller messageUnmarshaller;
 
     protected MessageType msgType;
+
+    protected UUID sessionId;
 
     protected RequestModel requestContent;
 
@@ -77,6 +80,15 @@ public class Message implements Serializable {
     @SuppressWarnings("unused")
     private final void setType(MessageType type) {
         this.msgType = type;
+    }
+
+    @XmlElement(name = "UUID")
+    public UUID getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(UUID id) {
+        this.sessionId = id;
     }
 
     @XmlElement(name = "Request")

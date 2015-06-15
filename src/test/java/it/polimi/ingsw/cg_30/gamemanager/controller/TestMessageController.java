@@ -54,7 +54,7 @@ public class TestMessageController {
 
         assertEquals(mc.getAcceptPlayer().getUUID(), otherMc.getAcceptPlayer()
                 .getUUID());
-        assertEquals(otherMc, MessageController.connectedClients.get(mc
+        assertEquals(otherMc, MessageController.getPlayerHandler(mc
                 .getAcceptPlayer().getUUID()));
     }
 
@@ -79,7 +79,7 @@ public class TestMessageController {
 
         assertNotEquals(mc.getAcceptPlayer().getUUID(), otherMc
                 .getAcceptPlayer().getUUID());
-        assertNotEquals(otherMc, MessageController.connectedClients.get(mc
+        assertNotEquals(otherMc, MessageController.getPlayerHandler(mc
                 .getAcceptPlayer().getUUID()));
     }
 

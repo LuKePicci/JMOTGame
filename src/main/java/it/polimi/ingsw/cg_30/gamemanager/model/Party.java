@@ -22,6 +22,9 @@ public class Party implements IViewable, Serializable {
     /** The members map. */
     private Map<Player, UUID> members;
 
+    /** The IDs map. */
+    private Map<UUID, Player> ids;
+
     /** The nicknames mapping to UUID. */
     private Map<String, UUID> nicksToUUID;
 
@@ -52,6 +55,7 @@ public class Party implements IViewable, Serializable {
         this.privateParty = privateParty;
         this.currentGame = g;
         this.members = new HashMap<Player, UUID>();
+        this.ids = new HashMap<UUID, Player>();
         this.nicksToUUID = new HashMap<String, UUID>();
         this.uuidToNickName = new HashMap<UUID, String>();
     }
@@ -93,14 +97,25 @@ public class Party implements IViewable, Serializable {
     }
 
     /**
-     * Gets the player uuid.
+     * Gets the player's uuid.
      *
      * @param p
-     *            the p
-     * @return the player uuid
+     *            the player
+     * @return the given player's uuid
      */
     public UUID getPlayerUUID(Player p) {
         return this.members.get(p);
+    }
+
+    /**
+     * Gets the player by its uuid.
+     *
+     * @param p
+     *            the player's uuid
+     * @return the player with given uuid
+     */
+    public Player getPlayerByUUID(UUID id) {
+        return this.ids.get(id);
     }
 
     /**
@@ -138,7 +153,9 @@ public class Party implements IViewable, Serializable {
         if (nicksToUUID.containsKey(nickName))
             nickName = nickName.concat("-" + clientId.hashCode());
 
-        members.put(new Player(nickName, this.members.size() + 1), clientId);
+        Player newPlayer = new Player(nickName, this.members.size() + 1);
+        members.put(newPlayer, clientId);
+        ids.put(clientId, newPlayer);
         nicksToUUID.put(nickName, clientId);
         uuidToNickName.put(clientId, nickName);
         return this;

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg_30.gameclient.view.cli;
 
+import it.polimi.ingsw.cg_30.exchange.messaging.JoinRequest;
 import it.polimi.ingsw.cg_30.exchange.messaging.RequestModel;
 import it.polimi.ingsw.cg_30.gameclient.network.ClientMessenger;
 import it.polimi.ingsw.cg_30.gameclient.view.RequestComposer;
@@ -134,7 +135,7 @@ public class CliEngine extends ViewEngine {
 
             stkn = new StringTokenizer(stdin.nextLine());
             if (stkn.hasMoreTokens()) {
-                RequestModel requestContent;
+                JoinRequest requestContent;
                 switch (stkn.countTokens()) {
                     case 3:
                         requestContent = new RequestComposer()
@@ -158,6 +159,8 @@ public class CliEngine extends ViewEngine {
                         continue;
                 }
 
+                ClientMessenger.getCurrentMessenger().loadToken(
+                        requestContent.getNick());
                 ClientMessenger.getCurrentMessenger().executeRequestTask(
                         requestContent);
                 break;

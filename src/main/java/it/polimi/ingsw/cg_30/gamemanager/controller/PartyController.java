@@ -110,6 +110,12 @@ public class PartyController implements Serializable {
             joined = joinPrivateParty(playerClient, request);
         else
             joined = joinPublicParty(playerClient, request);
+
+        joined.sendMessageToParty(new ChatMessage(new ChatViewModel(String
+                .format("%s joined the party.", joined.getCurrentParty()
+                        .getNickOfUUID(playerClient)), "Server",
+                ChatVisibility.PARTY)));
+
         if (joined.getCurrentParty().getMembers().size() >= 2)
             joined.scheduleMatchStart();
         return joined;
@@ -127,12 +133,13 @@ public class PartyController implements Serializable {
         for (UUID memberId : this.currentParty.getMembers().values()) {
 
             try {
-                if (MessageController.connectedClients.get(memberId)
-                        .getAcceptPlayer().connectionLost())
+                MessageController mc = MessageController
+                        .getPlayerHandler(memberId);
+
+                if (mc == null || mc.getAcceptPlayer().connectionLost())
                     continue;
 
-                MessageController.connectedClients.get(memberId)
-                        .getAcceptPlayer().sendMessage(message);
+                mc.getAcceptPlayer().sendMessage(message);
 
             } catch (DisconnectedException e) {
                 // this member will not receive the message
@@ -221,5 +228,15 @@ public class PartyController implements Serializable {
 
     public void setStartDelay(long newDelay) {
         this.startDelay = newDelay;
+    }
+
+    public void resumePlayer(UUID playerId) {
+        if (matchInProgress())
+            try {
+                this.currentMatch.modelSender(this.getCurrentParty()
+                        .getPlayerByUUID(playerId));
+            } catch (DisconnectedException e) {
+                // maybe the next time...
+            }
     }
 }

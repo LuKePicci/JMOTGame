@@ -86,6 +86,8 @@ public class AcceptSocketPlayer extends AcceptPlayer implements Runnable {
         if (this.connectionLost())
             throw new DisconnectedException(new Date());
 
+        message.setSessionId(this.sessionId);
+
         try {
             // Marshall, encode and send Message objects to output stream
             String clearXml = Message.msgToXML(message);

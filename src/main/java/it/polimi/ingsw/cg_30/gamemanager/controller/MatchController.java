@@ -67,26 +67,36 @@ public class MatchController {
     private void modelSender() throws DisconnectedException {
         // map
         this.updateMapToPartyPlayers();
-        // players
+
+        // party
         this.partyController.sendMessageToParty(new Message(
                 this.partyController.getCurrentParty().getViewModel()));
+
         // players' cards
         for (Player player : obtainPartyPlayers()) {
-            ViewModel model = player.getItemsDeck().getViewModel();
             try {
-                MessageController
-                        .getPlayerHandler(
-                                this.partyController.getCurrentParty()
-                                        .getPlayerUUID(player))
-                        .getAcceptPlayer().sendMessage(new Message(model));
+                this.updateDeckView(player);
             } catch (DisconnectedException e) {
                 // This player will not be able to play until he reconnects.
             }
         }
+
         // chat
         this.partyController.sendMessageToParty(new ChatMessage(
                 new ChatViewModel("Game started", serverWordText,
                         ChatVisibility.PARTY)));
+    }
+
+    public void modelSender(Player returningPlayer)
+            throws DisconnectedException {
+        // map
+        this.updateMapView(returningPlayer);
+
+        // party
+        this.updatePartyModel(returningPlayer);
+
+        // cards
+        this.updateDeckView(returningPlayer);
     }
 
     /**
@@ -109,11 +119,9 @@ public class MatchController {
         List<Player> players = obtainPartyPlayers();
         for (Player player : players) {
             if (PlayerRace.ALIEN.equals(player.getIdentity().getRace())) {
-                this.notifyAPlayerAbout(player,
-                        "You are an alien, start hunting!");
+                this.notifyAPlayerAbout(player, "You're alien, start hunting!");
             } else {
-                this.notifyAPlayerAbout(player,
-                        "You are a human, start running!");
+                this.notifyAPlayerAbout(player, "You're human, start running!");
             }
         }
     }
@@ -312,21 +320,8 @@ public class MatchController {
      *            the losers
      */
     protected void sayYouLose(Set<Player> losers) {
-        for (Player loser : losers) {
-            try {
-                MessageController
-                        .getPlayerHandler(
-                                this.partyController.getCurrentParty()
-                                        .getPlayerUUID(loser))
-                        .getAcceptPlayer()
-                        .sendMessage(
-                                new Message(new ChatViewModel(
-                                        "GAME OVER\nYOU LOSE", serverWordText,
-                                        ChatVisibility.PLAYER)));
-            } catch (DisconnectedException e) {
-                // this player won't know that he lost
-            }
-        }
+        for (Player loser : losers)
+            this.notifyAPlayerAbout(loser, "GAME OVER\nYOU LOSE");
     }
 
     /**
@@ -336,21 +331,8 @@ public class MatchController {
      *            the winners
      */
     protected void sayYouWin(Set<Player> winners) {
-        for (Player winner : winners) {
-            try {
-                MessageController
-                        .getPlayerHandler(
-                                this.partyController.getCurrentParty()
-                                        .getPlayerUUID(winner))
-                        .getAcceptPlayer()
-                        .sendMessage(
-                                new Message(new ChatViewModel(
-                                        "GAME OVER\nYOU WIN", serverWordText,
-                                        ChatVisibility.PLAYER)));
-            } catch (DisconnectedException e) {
-                // this player won't know that he won
-            }
-        }
+        for (Player winner : winners)
+            this.notifyAPlayerAbout(winner, "GAME OVER\nYOU WIN");
     }
 
     /**
@@ -436,17 +418,9 @@ public class MatchController {
             if (act.isValid())
                 act.processAction();
             else
-                MessageController
-                        .getPlayerHandler(
-                                this.partyController.getCurrentParty()
-                                        .getPlayerUUID(
-                                                turnController.getTurn()
-                                                        .getCurrentPlayer()))
-                        .getAcceptPlayer()
-                        .sendMessage(
-                                new ChatMessage(new ChatViewModel(
-                                        "Sorry, you can't do this",
-                                        serverWordText, ChatVisibility.PLAYER)));
+                this.notifyAPlayerAbout(turnController.getTurn()
+                        .getCurrentPlayer(), "Sorry, you can't do this");
+
         } catch (InstantiationException | IllegalAccessException e) {
             // TODO Log this exception
             System.out
@@ -512,11 +486,8 @@ public class MatchController {
      *             the disconnected exception
      */
     protected void updateDeckView(Player player) throws DisconnectedException {
-        MessageController
-                .getPlayerHandler(
-                        this.partyController.getCurrentParty().getPlayerUUID(
-                                player)).getAcceptPlayer()
-                .sendMessage(new Message(player.getItemsDeck().getViewModel()));
+        this.sendViewModelToAPlayer(player, player.getItemsDeck()
+                .getViewModel());
     }
 
     /**
@@ -532,11 +503,7 @@ public class MatchController {
                 .getCurrentZone().getViewModel();
         viewModel.setPlayerLocation(this.zoneController.getCurrentZone()
                 .getCell(player));
-        MessageController
-                .getPlayerHandler(
-                        this.partyController.getCurrentParty().getPlayerUUID(
-                                player)).getAcceptPlayer()
-                .sendMessage(new Message(viewModel));
+        this.sendViewModelToAPlayer(player, viewModel);
     }
 
     /**
@@ -550,12 +517,27 @@ public class MatchController {
                     .getCurrentZone().getViewModel();
             viewModel.setPlayerLocation(this.zoneController.getCurrentZone()
                     .getCell(playerToNotify));
+            this.sendViewModelToAPlayer(playerToNotify, viewModel);
+        }
+    }
+
+    /**
+     * Updates party view for the player.
+     * 
+     * @throws DisconnectedException
+     */
+    protected void updatePartyModel(Player player) throws DisconnectedException {
+        this.sendViewModelToAPlayer(player, this.partyController
+                .getCurrentParty().getViewModel());
+
+    }
+
+    protected void sendViewModelToAPlayer(Player p, ViewModel content)
+            throws DisconnectedException {
         MessageController
                 .getPlayerHandler(
-                            this.partyController.getCurrentParty()
-                                    .getPlayerUUID(playerToNotify))
-                    .getAcceptPlayer().sendMessage(new Message(viewModel));
-        }
+                        this.partyController.getCurrentParty().getPlayerUUID(p))
+                .getAcceptPlayer().sendMessage(new Message(content));
     }
 
 }

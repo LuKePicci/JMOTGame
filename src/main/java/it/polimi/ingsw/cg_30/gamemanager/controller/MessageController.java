@@ -55,18 +55,19 @@ public class MessageController implements IDelivery {
         MessageController.usedIds.add(this.myAP.getUUID());
         MessageController.connectedClients.put(this.myAP.getUUID(), this);
 
-        if (req.getMyID() == null) {
-            this.myParty = PartyController.processJoinRequest(
-                    this.myAP.getUUID(), req);
-        } else {
+        if (req.getMyID() == null)
+            this.bindToParty(req);
+        else
             try {
-                this.myParty = this.reuseId(req.getMyID());
+                this.reuseId(req.getMyID());
             } catch (IllegalArgumentException ex) {
-                // TODO Log this event
-                System.out.println("User issued an illegal reuse request");
+                this.bindToParty(req);
             }
-        }
+    }
 
+    private void bindToParty(JoinRequest req) {
+        this.myParty = PartyController.processJoinRequest(this.myAP.getUUID(),
+                req);
     }
 
     @Override
@@ -132,9 +133,9 @@ public class MessageController implements IDelivery {
      * @throws IllegalArgumentException
      *             thrown if reuse request contains an unknown UUID
      */
-    private PartyController reuseId(UUID usedId) {
+    private void reuseId(UUID usedId) {
         if (this.myAP.getUUID().equals(usedId))
-            return this.myParty;
+            return;
 
         MessageController oldMc = connectedClients.get(usedId);
 
@@ -144,7 +145,9 @@ public class MessageController implements IDelivery {
             this.myAP.setUUID(usedId);
             connectedClients.remove(unusedId);
             usedIds.remove(unusedId);
-            return oldMc.myParty;
+            this.myParty = oldMc.myParty;
+
+            this.myParty.resumePlayer(usedId);
         } else {
             throw new IllegalArgumentException();
         }
