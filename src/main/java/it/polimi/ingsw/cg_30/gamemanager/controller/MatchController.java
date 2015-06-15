@@ -61,11 +61,12 @@ public class MatchController {
 
     /**
      * Sends all the model needed in order to star a new match.
+     * 
+     * @throws DisconnectedException
      */
-    private void modelSender() {
+    private void modelSender() throws DisconnectedException {
         // map
-        this.partyController.sendMessageToParty(new Message(this.zoneController
-                .getCurrentZone().getViewModel()));
+        this.updateMapToPartyPlayers();
         // players
         this.partyController.sendMessageToParty(new Message(
                 this.partyController.getCurrentParty().getViewModel()));
@@ -108,9 +109,11 @@ public class MatchController {
         List<Player> players = obtainPartyPlayers();
         for (Player player : players) {
             if (PlayerRace.ALIEN.equals(player.getIdentity().getRace())) {
-                notifyAPlayerAbout(player, "You are an alien, start hunting!");
+                this.notifyAPlayerAbout(player,
+                        "You are an alien, start hunting!");
             } else {
-                notifyAPlayerAbout(player, "You are a human, start running!");
+                this.notifyAPlayerAbout(player,
+                        "You are a human, start running!");
             }
         }
     }
@@ -124,9 +127,11 @@ public class MatchController {
      *             the file not found exception
      * @throws URISyntaxException
      *             the URI syntax exception
+     * @throws DisconnectedException
      */
     public void initMatch(PartyController partyController)
-            throws FileNotFoundException, URISyntaxException {
+            throws FileNotFoundException, URISyntaxException,
+            DisconnectedException {
         this.partyController = partyController;
         this.match = new Match();
         this.turnController = new TurnController();
@@ -137,12 +142,12 @@ public class MatchController {
         ZoneFactory zf = new TemplateZoneFactory(game.getMapName());
         this.zoneController = new ZoneController(zf);
 
-        establishRoles(); // roles assignement
+        this.establishRoles(); // roles assignment
         List<Player> playerList = obtainPartyPlayers();
         this.zoneController.placePlayers(playerList); // put players on starts
         this.turnController.firstTurn(playerList); // first turn preparation
         this.modelSender(); // send the models
-        this.sayRoles(); // inform every player abotu his role
+        this.sayRoles(); // inform every player about his role
         // inform the party about the first turn
         this.partyController.sendMessageToParty(new ChatMessage(
                 new ChatViewModel("It's "
@@ -288,13 +293,13 @@ public class MatchController {
     private void partialVictory() {
         Set<Player> playerList = this.turnController.getPartyPlayers(this);
         // aliens won
-        sayYouWin(getAlienPlayers());
+        this.sayYouWin(getAlienPlayers());
         // escaped humans won
-        sayYouWin(match.getRescuedPlayer());
+        this.sayYouWin(match.getRescuedPlayer());
         // remaining humans lost
         playerList.removeAll(getAlienPlayers());
         playerList.removeAll(match.getRescuedPlayer());
-        sayYouLose(playerList);
+        this.sayYouLose(playerList);
     }
 
     /**
@@ -362,49 +367,53 @@ public class MatchController {
         // ALL HUMANS ARE DEAD
         if (deadHumans == humanNumber) {
             // humans lost
-            sayYouLose(getHumanPlayers());
+            this.sayYouLose(getHumanPlayers());
             // aliens won
-            sayYouWin(getAlienPlayers());
+            this.sayYouWin(getAlienPlayers());
+            this.partyController.endMatch();
         }
 
         // ALL HUMANS ARE ESCAPED
         else if (this.match.getRescuedPlayer().size() == humanNumber) {
             // humans won
-            sayYouWin(getHumanPlayers());
+            this.sayYouWin(getHumanPlayers());
             // aliens lost
-            sayYouLose(getAlienPlayers());
+            this.sayYouLose(getAlienPlayers());
+            this.partyController.endMatch();
         }
 
         // ALIENS KILLED THE LAST HUMAN
         else if (((deadHumans + this.match.getRescuedPlayer().size()) == humanNumber)
                 && (this.turnController.getTurn().getHumanKilled() > 0)) {
             // aliens won
-            sayYouWin(getAlienPlayers());
+            this.sayYouWin(getAlienPlayers());
             // escaped humans won
-            sayYouWin(this.match.getRescuedPlayer());
+            this.sayYouWin(this.match.getRescuedPlayer());
             // dead humans lost
             this.match.getDeadPlayer().removeAll(getAlienPlayers());
-            sayYouLose(this.match.getDeadPlayer());
+            this.sayYouLose(this.match.getDeadPlayer());
+            this.partyController.endMatch();
         }
 
         // THE LAST HUMAN ESCAPED
         else if (((deadHumans + this.match.getRescuedPlayer().size()) == humanNumber)
                 && (this.turnController.getTurn().getHumanKilled() == 0)) {
             // aliens lost
-            sayYouLose(getAlienPlayers());
+            this.sayYouLose(getAlienPlayers());
             // escaped humans won
-            sayYouWin(this.match.getRescuedPlayer());
+            this.sayYouWin(this.match.getRescuedPlayer());
             // dead humans lost
             this.match.getDeadPlayer().removeAll(getAlienPlayers());
-            sayYouLose(this.match.getDeadPlayer());
+            this.sayYouLose(this.match.getDeadPlayer());
+            this.partyController.endMatch();
         }
 
         // END OF 39th TURN (count from 1) or NO MORE HATCHES AVAILABLE
         else if (this.match.getTurnCount() == (MAX_TURN + 1)
                 || this.zoneController.noMoreHatches()) {
-            partialVictory();
+            this.partialVictory();
+            this.partyController.endMatch();
         }
-
     }
 
     /**
@@ -525,6 +534,25 @@ public class MatchController {
                         this.partyController.getCurrentParty().getPlayerUUID(
                                 player)).getAcceptPlayer()
                 .sendMessage(new Message(viewModel));
+    }
+
+    /**
+     * Updates map view for all party players.
+     * 
+     * @throws DisconnectedException
+     */
+    protected void updateMapToPartyPlayers() throws DisconnectedException {
+        for (Player playerToNotify : obtainPartyPlayers()) {
+            ZoneViewModel viewModel = (ZoneViewModel) this.zoneController
+                    .getCurrentZone().getViewModel();
+            viewModel.setPlayerLocation(this.zoneController.getCurrentZone()
+                    .getCell(playerToNotify));
+            MessageController
+                    .getPlayerHandler(
+                            this.partyController.getCurrentParty()
+                                    .getPlayerUUID(playerToNotify))
+                    .getAcceptPlayer().sendMessage(new Message(viewModel));
+        }
     }
 
 }

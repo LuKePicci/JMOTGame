@@ -149,6 +149,10 @@ public class PartyController implements Serializable {
         return this.currentMatch;
     }
 
+    public void endMatch() {
+        this.currentMatch = null;
+    }
+
     public boolean matchInProgress() {
         return this.currentMatch != null;
     }

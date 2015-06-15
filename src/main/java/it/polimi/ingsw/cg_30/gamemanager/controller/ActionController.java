@@ -35,6 +35,9 @@ public abstract class ActionController {
     /** The current player. */
     protected Player player;
 
+    /** The server word text. */
+    private String serverWordText = "Server";
+
     static {
         strategies.put(ActionType.ATTACK, Attack.class);
         strategies.put(ActionType.DISCARD_CARD, DiscardCard.class);
@@ -85,32 +88,31 @@ public abstract class ActionController {
     public abstract boolean isValid();
 
     /**
-     * Process action.
+     * Processes action.
      * 
      * @throws DisconnectedException
      */
     public abstract void processAction() throws DisconnectedException;
 
     /**
-     * Obtain party players list.
+     * Obtains party players list.
      *
      * @return the list of players of the current party
      */
     public List<Player> obtainPartyPlayers() {
-        return matchController.obtainPartyPlayers();
+        return this.matchController.obtainPartyPlayers();
     }
 
-    // cerco tra le carte in mano a player se c'è quella del tipo richiesto
-    // la ritorno se c'è; ritorno null altrimenti
     /**
-     * Find item card by item.
+     * Searches among player's cards an item card whose item is "item"; if it
+     * can't find one, return null.
      *
      * @param item
      *            the item
      * @return the item card
      */
     protected ItemCard findItemCardByItem(Item item) {
-        for (Card card : matchController.getTurnController().getTurn()
+        for (Card card : this.matchController.getTurnController().getTurn()
                 .getCurrentPlayer().getItemsDeck().getCards()) {
             ItemCard icard = (ItemCard) card;
             if (item.equals(icard.getItem())) {
@@ -121,7 +123,8 @@ public abstract class ActionController {
     }
 
     /**
-     * Checks for object symbol on the sector card.
+     * Checks for object symbol on the sector card; if there is an object this
+     * method processes it.
      *
      * @param drawnCard
      *            the sector card to check
@@ -130,24 +133,25 @@ public abstract class ActionController {
     protected void hasObject(SectorCard drawnCard) throws DisconnectedException {
         if (drawnCard.hasObjectSymbol()) {
             ItemCard icard;
-            // il mazzo item è l'unico che potrebbe terminare le carte
+            // only the itemDeck could end its cards
             try {
-                icard = matchController.getMatch().getItemsDeck().pickCard();
+                icard = this.matchController.getMatch().getItemsDeck()
+                        .pickCard();
             } catch (EmptyStackException e) {
-                // informa il giocatore che non ci son più carte oggetto
-                notifyCurrentPlayerByServer("No more cards int he item deck.");
+                // informs the player that there are not item card available
+                this.notifyCurrentPlayerByServer("No more cards in the item deck.");
                 return;
             }
-            player.getItemsDeck().getCards().add(icard);
-            // notifica il giocatore sulla carta pescata
-            notifyCurrentPlayerByServer("You have just picked a "
+            this.player.getItemsDeck().getCards().add(icard);
+            // notifies the player about the drawn card
+            this.notifyCurrentPlayerByServer("You have just picked a "
                     + icard.getItem().toString() + " card");
-            showCardToCurrentPlayer(icard);
-            updateDeckView();
-            if (player.getItemsDeck().getCards().size() > 3) {
-                matchController.getTurnController().getTurn()
+            this.showCardToCurrentPlayer(icard);
+            this.updateDeckView();
+            if (this.player.getItemsDeck().getCards().size() > 3) {
+                this.matchController.getTurnController().getTurn()
                         .setMustDiscard(true);
-                notifyCurrentPlayerByServer("You must use or discard at least one card in this turn");
+                this.notifyCurrentPlayerByServer("You must use or discard at least one card in this turn");
             }
         }
     }
@@ -162,8 +166,8 @@ public abstract class ActionController {
      *            the string to notify
      */
     protected void notifyInChatByCurrentPlayer(String what) {
-        matchController.getPartyController().sendMessageToParty(
-                new ChatMessage(new ChatViewModel(what, matchController
+        this.matchController.getPartyController().sendMessageToParty(
+                new ChatMessage(new ChatViewModel(what, this.matchController
                         .getTurnController().getTurn().getCurrentPlayer()
                         .getName(), ChatVisibility.PARTY)));
     }
@@ -175,8 +179,8 @@ public abstract class ActionController {
      *            the string to notify
      */
     protected void notifyInChatByServer(String what) {
-        matchController.getPartyController().sendMessageToParty(
-                new ChatMessage(new ChatViewModel(what, "Server",
+        this.matchController.getPartyController().sendMessageToParty(
+                new ChatMessage(new ChatViewModel(what, serverWordText,
                         ChatVisibility.PARTY)));
     }
 
@@ -192,11 +196,11 @@ public abstract class ActionController {
             throws DisconnectedException {
         MessageController
                 .getPlayerHandler(
-                        matchController.getPartyController().getCurrentParty()
-                                .getPlayerUUID(player))
+                        this.matchController.getPartyController()
+                                .getCurrentParty().getPlayerUUID(player))
                 .getAcceptPlayer()
                 .sendMessage(
-                        new ChatMessage(new ChatViewModel(what, "Server",
+                        new ChatMessage(new ChatViewModel(what, serverWordText,
                                 ChatVisibility.PLAYER)));
     }
 
@@ -212,12 +216,12 @@ public abstract class ActionController {
             throws DisconnectedException {
         MessageController
                 .getPlayerHandler(
-                        matchController.getPartyController().getCurrentParty()
-                                .getPlayerUUID(player))
+                        this.matchController.getPartyController()
+                                .getCurrentParty().getPlayerUUID(player))
                 .getAcceptPlayer()
                 .sendMessage(
-                        new ChatMessage(new ChatViewModel(about, "Server",
-                                ChatVisibility.PLAYER)));
+                        new ChatMessage(new ChatViewModel(about,
+                                serverWordText, ChatVisibility.PLAYER)));
     }
 
     /**
@@ -227,7 +231,7 @@ public abstract class ActionController {
      *            the card to notify
      */
     protected void showCardToParty(Card card) {
-        matchController.getPartyController().sendMessageToParty(
+        this.matchController.getPartyController().sendMessageToParty(
                 new Message(card));
     }
 
@@ -242,9 +246,9 @@ public abstract class ActionController {
             throws DisconnectedException {
         MessageController
                 .getPlayerHandler(
-                        matchController.getPartyController().getCurrentParty()
-                                .getPlayerUUID(player)).getAcceptPlayer()
-                .sendMessage(new Message(card));
+                        this.matchController.getPartyController()
+                                .getCurrentParty().getPlayerUUID(player))
+                .getAcceptPlayer().sendMessage(new Message(card));
     }
 
     /**
@@ -255,8 +259,9 @@ public abstract class ActionController {
     protected void updateDeckView() throws DisconnectedException {
         MessageController
                 .getPlayerHandler(
-                        matchController.getPartyController().getCurrentParty()
-                                .getPlayerUUID(player)).getAcceptPlayer()
+                        this.matchController.getPartyController()
+                                .getCurrentParty().getPlayerUUID(player))
+                .getAcceptPlayer()
                 .sendMessage(new Message(player.getItemsDeck().getViewModel()));
     }
 
@@ -266,15 +271,15 @@ public abstract class ActionController {
      * @throws DisconnectedException
      */
     protected void updateMapView() throws DisconnectedException {
-        ZoneViewModel viewModel = (ZoneViewModel) matchController
+        ZoneViewModel viewModel = (ZoneViewModel) this.matchController
                 .getZoneController().getCurrentZone().getViewModel();
-        viewModel.setPlayerLocation(matchController.getZoneController()
-                .getCurrentZone().getCell(player));
+        viewModel.setPlayerLocation(this.matchController.getZoneController()
+                .getCurrentZone().getCell(this.player));
         MessageController
                 .getPlayerHandler(
-                        matchController.getPartyController().getCurrentParty()
-                                .getPlayerUUID(player)).getAcceptPlayer()
-                .sendMessage(new Message(viewModel));
+                        this.matchController.getPartyController()
+                                .getCurrentParty().getPlayerUUID(this.player))
+                .getAcceptPlayer().sendMessage(new Message(viewModel));
     }
 
     /**
@@ -284,13 +289,14 @@ public abstract class ActionController {
      */
     protected void updateMapToPartyPlayers() throws DisconnectedException {
         for (Player playerToNotify : obtainPartyPlayers()) {
-            ZoneViewModel viewModel = (ZoneViewModel) matchController
+            ZoneViewModel viewModel = (ZoneViewModel) this.matchController
                     .getZoneController().getCurrentZone().getViewModel();
-            viewModel.setPlayerLocation(matchController.getZoneController()
-                    .getCurrentZone().getCell(playerToNotify));
+            viewModel.setPlayerLocation(this.matchController
+                    .getZoneController().getCurrentZone()
+                    .getCell(playerToNotify));
             MessageController
                     .getPlayerHandler(
-                            matchController.getPartyController()
+                            this.matchController.getPartyController()
                                     .getCurrentParty()
                                     .getPlayerUUID(playerToNotify))
                     .getAcceptPlayer().sendMessage(new Message(viewModel));

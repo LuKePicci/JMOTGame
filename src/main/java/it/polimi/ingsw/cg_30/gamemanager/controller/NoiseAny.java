@@ -15,9 +15,10 @@ public class NoiseAny extends ActionController {
      */
     @Override
     public boolean isValid() {
-        return matchController.getTurnController().getTurn().getDrawnCard() != null
-                && matchController.getZoneController().getCurrentZone()
-                        .getMap().containsKey(req.getActionTarget());
+        return this.matchController.getTurnController().getTurn()
+                .getDrawnCard() != null
+                && this.matchController.getZoneController().getCurrentZone()
+                        .getMap().containsKey(this.req.getActionTarget());
     }
 
     /**
@@ -27,12 +28,13 @@ public class NoiseAny extends ActionController {
      */
     @Override
     public void processAction() throws DisconnectedException {
-        Sector sec = matchController.getZoneController().getCurrentZone()
+        Sector sec = this.matchController.getZoneController().getCurrentZone()
                 .getMap().get(this.req.getActionTarget());
-        notifyInChatByCurrentPlayer("NOISE in sector " + sec.toString());
-        hasObject(matchController.getTurnController().getTurn().getDrawnCard());
-        // dopo aver usato la carta la rimuovo da turno così da sbloccare
-        // UseCard e TurnOver
-        matchController.getTurnController().getTurn().setDrawnCard(null);
+        this.notifyInChatByCurrentPlayer("NOISE in sector " + sec.toString());
+        this.hasObject(this.matchController.getTurnController().getTurn()
+                .getDrawnCard());
+        // after using it, the card have to be removed, so UseCard and TurnOver
+        // will be unlocked
+        this.matchController.getTurnController().getTurn().setDrawnCard(null);
     }
 }

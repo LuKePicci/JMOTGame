@@ -2,8 +2,6 @@ package it.polimi.ingsw.cg_30.gamemanager.model;
 
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ItemCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerCard;
-import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerCharacter;
-import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerRace;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerViewModel;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewModel;
 
@@ -60,19 +58,6 @@ public class Player implements IViewable, Serializable {
         this.name = name;
         this.index = index;
         this.identity = identity;
-        this.killsCount = 0;
-        this.itemsDeck = new SpareDeck<ItemCard>();
-    }
-
-    /**
-     * Instantiates a new mock player (for testing).
-     */
-    protected Player() {
-        PlayerCard es = new PlayerCard(PlayerRace.HUMAN,
-                PlayerCharacter.THE_CAPTAIN);
-        this.name = "unknown player";
-        this.index = 0;
-        this.identity = es;
         this.killsCount = 0;
         this.itemsDeck = new SpareDeck<ItemCard>();
     }

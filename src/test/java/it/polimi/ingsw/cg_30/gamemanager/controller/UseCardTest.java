@@ -33,7 +33,8 @@ public class UseCardTest {
 
     // alieno cerca di usare una carta
     @Test
-    public void alien() throws FileNotFoundException, URISyntaxException {
+    public void alien() throws FileNotFoundException, URISyntaxException,
+            DisconnectedException {
         MatchController matchController = new MatchController() {
             @Override
             public void initMatch(PartyController partyController)
@@ -119,7 +120,8 @@ public class UseCardTest {
 
     // umano che usa carta che non ha
     @Test
-    public void unownCard() throws FileNotFoundException, URISyntaxException {
+    public void unownCard() throws FileNotFoundException, URISyntaxException,
+            DisconnectedException {
         MatchController matchController = new MatchController() {
             @Override
             public void initMatch(PartyController partyController)
@@ -206,7 +208,7 @@ public class UseCardTest {
     // umano che usa adrenaline dopo il movimento
     @Test
     public void adrenalinePreMovement() throws FileNotFoundException,
-            URISyntaxException {
+            URISyntaxException, DisconnectedException {
         MatchController matchController = new MatchController() {
             @Override
             public void initMatch(PartyController partyController)
@@ -294,7 +296,7 @@ public class UseCardTest {
     // umano che usa sedatives dopo il movimento
     @Test
     public void sedativesPreMovement() throws FileNotFoundException,
-            URISyntaxException {
+            URISyntaxException, DisconnectedException {
         MatchController matchController = new MatchController() {
             @Override
             public void initMatch(PartyController partyController)
@@ -381,7 +383,8 @@ public class UseCardTest {
 
     // umano che usa difesa
     @Test
-    public void defenseCard() throws FileNotFoundException, URISyntaxException {
+    public void defenseCard() throws FileNotFoundException, URISyntaxException,
+            DisconnectedException {
         MatchController matchController = new MatchController() {
             @Override
             public void initMatch(PartyController partyController)

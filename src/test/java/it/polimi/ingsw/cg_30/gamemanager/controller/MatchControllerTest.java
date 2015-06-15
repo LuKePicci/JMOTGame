@@ -10,6 +10,7 @@ import it.polimi.ingsw.cg_30.gamemanager.model.Match;
 import it.polimi.ingsw.cg_30.gamemanager.model.Party;
 import it.polimi.ingsw.cg_30.gamemanager.model.Player;
 import it.polimi.ingsw.cg_30.gamemanager.model.Turn;
+import it.polimi.ingsw.cg_30.gamemanager.network.DisconnectedException;
 
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
@@ -26,7 +27,7 @@ public class MatchControllerTest {
     // tutti gli umani sono morti
     @Test
     public void allHumansAreDead() throws FileNotFoundException,
-            URISyntaxException {
+            URISyntaxException, DisconnectedException {
         // preparo il terreno
         final Set<Player> vincitori = new HashSet<Player>();
         final Set<Player> perdenti = new HashSet<Player>();
@@ -107,7 +108,7 @@ public class MatchControllerTest {
     // tutti gli umani sono fuggiti
     @Test
     public void allHumansAreEscaped() throws FileNotFoundException,
-            URISyntaxException {
+            URISyntaxException, DisconnectedException {
         final Set<Player> vincitori = new HashSet<Player>();
         final Set<Player> perdenti = new HashSet<Player>();
         // preparo il terreno
@@ -188,7 +189,7 @@ public class MatchControllerTest {
     // gli alieni uccidono l'ultimo umano
     @Test
     public void lastHumanKilled() throws FileNotFoundException,
-            URISyntaxException {
+            URISyntaxException, DisconnectedException {
         // preparo il terreno
         final Set<Player> vincitori = new HashSet<Player>();
         final Set<Player> perdenti = new HashSet<Player>();
@@ -270,7 +271,7 @@ public class MatchControllerTest {
     // l'ultimo umano riesce a fuggire
     @Test
     public void lastHumanEscaped() throws FileNotFoundException,
-            URISyntaxException {
+            URISyntaxException, DisconnectedException {
         // preparo il terreno
         final Set<Player> vincitori = new HashSet<Player>();
         final Set<Player> perdenti = new HashSet<Player>();
@@ -350,7 +351,8 @@ public class MatchControllerTest {
 
     // turno 39 finito
     @Test
-    public void endOf39Turn() throws FileNotFoundException, URISyntaxException {
+    public void endOf39Turn() throws FileNotFoundException, URISyntaxException,
+            DisconnectedException {
         // preparo il terreno
         final Set<Player> vincitori = new HashSet<Player>();
         final Set<Player> perdenti = new HashSet<Player>();
@@ -433,7 +435,7 @@ public class MatchControllerTest {
     // non ci sono più scialuppe
     @Test
     public void noMoreHatchesAvailable() throws FileNotFoundException,
-            URISyntaxException, NotAnHatchException {
+            URISyntaxException, NotAnHatchException, DisconnectedException {
         // preparo il terreno
         final Set<Player> vincitori = new HashSet<Player>();
         final Set<Player> perdenti = new HashSet<Player>();

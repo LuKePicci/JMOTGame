@@ -42,33 +42,24 @@ public class Move extends ActionController {
      */
     @Override
     public boolean isValid() {
-        if (matchController.getTurnController().getTurn().getMustMove()) {
-            int maxSteps = matchController.getTurnController().getTurn()
+        if (this.matchController.getTurnController().getTurn().getMustMove()) {
+            int maxSteps = this.matchController.getTurnController().getTurn()
                     .getMaxSteps();
-            Set<Sector> reachableSectors = matchController
+            Set<Sector> reachableSectors = this.matchController
                     .getZoneController()
                     .getCurrentZone()
                     .reachableTargets(
-                            matchController
-                                    .getZoneController()
-                                    .getCurrentZone()
-                                    .getCell(
-                                            matchController.getTurnController()
-                                                    .getTurn()
-                                                    .getCurrentPlayer()),
-                            maxSteps);
+                            this.matchController.getZoneController()
+                                    .getCurrentZone().getCell(player), maxSteps);
             if (reachableSectors.contains(this.target)) {
-                // anche se un settore è raggiungibile devo assicurarmi che non
-                // sia (scialuppa/)settore umani/settore alieni
-                // TODO è possibile che i seguenti test non siano necessari a
-                // seconda che reachableTargets ritorni o meno i settori start e
-                // sciluppa
+                // even if a sector is reachable I must be sure it is not human
+                // start or alien start (or hatch)
                 return ((!SectorType.ALIENS_START.equals(this.target.getType()))
                         && (!SectorType.HUMANS_START.equals(this.target
                                 .getType())) && (PlayerRace.HUMAN
                         .equals(this.player.getIdentity().getRace()) || !SectorType.ESCAPE_HATCH
                         .equals(this.target.getType())));
-                // gli umani posso andare sulle scialuppe
+                // humans can go to the hatches
             }
         }
         return false;
@@ -81,72 +72,74 @@ public class Move extends ActionController {
      */
     @Override
     public void processAction() throws DisconnectedException {
-        // sposto il giocatore
-        matchController.getZoneController().getCurrentZone()
-                .movePlayer(player, target);
-        // segno che il giocatore ha effettuato uno spostamento
-        matchController.getTurnController().getTurn().setMustMove();
-        if (SectorType.ESCAPE_HATCH.equals(target.getType())) {
-            HatchCard drawnCard = matchController.getMatch().getHatchesDeck()
-                    .pickAndThrow();
-            // invio la carta
+        // move the player
+        this.matchController.getZoneController().getCurrentZone()
+                .movePlayer(player, this.target);
+        // take note that the player has been moved
+        this.matchController.getTurnController().getTurn().setMustMove();
+        if (SectorType.ESCAPE_HATCH.equals(this.target.getType())) {
+            this.notifyInChatByCurrentPlayer("I am in "
+                    + this.target.getPoint().toString());
+            HatchCard drawnCard = this.matchController.getMatch()
+                    .getHatchesDeck().pickAndThrow();
+            // send the card
             showCardToParty(drawnCard);
             if (HatchChance.FREE.equals(drawnCard.getChance())) {
-                matchController.getMatch().getRescuedPlayer().add(player);
-                notifyInChatByServer("GREEN HATCH CAR");
-                notifyCurrentPlayerByServer("YOU ARE SAFE NOW");
+                this.matchController.getMatch().getRescuedPlayer().add(player);
+                this.notifyInChatByServer("GREEN HATCH CAR");
+                this.notifyCurrentPlayerByServer("YOU ARE SAFE NOW");
                 List<Player> others = obtainPartyPlayers();
-                others.remove(matchController.getTurnController().getTurn()
-                        .getCurrentPlayer());
+                others.remove(this.matchController.getTurnController()
+                        .getTurn().getCurrentPlayer());
                 for (Player otherPlayer : others) {
-                    notifyAPlayerAbout(otherPlayer, matchController
+                    this.notifyAPlayerAbout(otherPlayer, this.matchController
                             .getTurnController().getTurn().getCurrentPlayer()
                             .getName()
                             + " HAS ESCAPED");
                 }
-                matchController.checkEndGame();
+                this.matchController.checkEndGame();
             } else {
-                notifyInChatByServer("RED HATCH CARD");
-                notifyCurrentPlayerByServer("YOU CAN'T USE THIS HATCH");
+                this.notifyInChatByServer("RED HATCH CARD");
+                this.notifyCurrentPlayerByServer("YOU CAN'T USE THIS HATCH");
                 List<Player> others = obtainPartyPlayers();
-                others.remove(matchController.getTurnController().getTurn()
-                        .getCurrentPlayer());
+                others.remove(this.matchController.getTurnController()
+                        .getTurn().getCurrentPlayer());
                 for (Player otherPlayer : others) {
-                    notifyAPlayerAbout(otherPlayer, matchController
+                    this.notifyAPlayerAbout(otherPlayer, this.matchController
                             .getTurnController().getTurn().getCurrentPlayer()
                             .getName()
                             + " HAS NOT ESCAPED");
                 }
-                matchController.checkEndGame();
+                this.matchController.checkEndGame();
             }
             try {
-                matchController.getZoneController()
-                        .lockHatch(target.getPoint());
+                this.matchController.getZoneController().lockHatch(
+                        this.target.getPoint());
             } catch (NotAnHatchException e) {
-                // in teoria ho già verificato il tipo di settore e quindi non
-                // dovrebbe mai verificarsi un'eccezione
+                // technically I have already checked the sector, so an
+                // exception should never be thrown
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            // aggiorno la mappa
-            updateMapToPartyPlayers();
-        } else if (SectorType.DANGEROUS.equals(target.getType())) {
-            matchController.getTurnController().getTurn()
-                    .setIsSecDangerous(true);// l'alieno dovrà o pescare o
-                                             // attaccare
+            // update the map
+            this.updateMapToPartyPlayers();
+        } else if (SectorType.DANGEROUS.equals(this.target.getType())) {
+            this.matchController.getTurnController().getTurn()
+                    .setIsSecDangerous(true);// an alien can attack or draw a
+                                             // card
             if (PlayerRace.HUMAN.equals(player.getIdentity().getRace())) {
-                if (matchController.getTurnController().getTurn()
+                if (this.matchController.getTurnController().getTurn()
                         .getSilenceForced() == false) {
-                    // l'umano deve pescare (salvo uso di sedativi)
+                    // a human must draw (except if he used a sedatives card)
                     ActionRequest forcedRequest = new ActionRequest(
                             ActionType.DRAW_CARD, null, null);
-                    forcedDraw.initAction(matchController, forcedRequest);
+                    forcedDraw.initAction(this.matchController, forcedRequest);
                     forcedDraw.processAction();
                 } else
-                    matchController.getTurnController().getTurn()
+                    this.matchController.getTurnController().getTurn()
                             .setIsSecDangerous(false);
             }
         }
-        // settore non pericoloso (bianco), non faccio nulla
+        // the sector is secure (white), nothing have to be done
     }
 }

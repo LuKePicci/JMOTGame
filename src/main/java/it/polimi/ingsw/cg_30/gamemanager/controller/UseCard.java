@@ -37,12 +37,6 @@ public class UseCard extends ActionController {
         this.item = request.getActionItem();
     }
 
-    /*
-     * LEGGIMI cosa presumo di sapere implementando questo metodo: il player ha
-     * un elenco con tutti i tipi di itemCard e può chiedere l'utilizzo di
-     * qualunque carta, sarà isValid che negherà l'uso di una carta se il
-     * giocatore non la possiede o non è in condizione di usarla.
-     */
     /**
      * Checks the legality of this action.
      * 
@@ -50,33 +44,28 @@ public class UseCard extends ActionController {
      */
     @Override
     public boolean isValid() {
-        // verifico che player sia umano e non alieno
-        if (PlayerRace.ALIEN.equals(player.getIdentity().getRace())) {
+        // the player must be human and not alien
+        if (PlayerRace.ALIEN.equals(this.player.getIdentity().getRace())) {
             return false;
         } else {
-            // verifico che player umano possieda la carta
-            return findItemCardByItem(item) != null
-                    && matchController.getTurnController().getTurn()
+            // the human player must own the card he wants to use
+            return findItemCardByItem(this.item) != null
+                    && this.matchController.getTurnController().getTurn()
                             .getDrawnCard() == null
-                    && !(Item.DEFENSE.equals(item)// non posso attivare la carta
-                                                  // difesa
-                            || (Item.ADRENALINE.equals(item) && !matchController
+                    && !(Item.DEFENSE.equals(this.item) // defense card can't be
+                                                        // use manually
+                            || (Item.ADRENALINE.equals(this.item) && !this.matchController
                                     .getTurnController().getTurn()
-                                    .getMustMove()) // va usata prima di
-                                                    // muoversi
-                            || (Item.SEDATIVES.equals(item) && !matchController
+                                    .getMustMove()) // must be used before
+                                                    // moving
+                            || (Item.SEDATIVES.equals(this.item) && !this.matchController
                                     .getTurnController().getTurn()
-                                    .getMustMove()) // va usata prima di
-                                                    // muoversi
-
-                    || (Item.SPOTLIGHT.equals(item) && !matchController
+                                    .getMustMove())// must be used before moving
+                    || (Item.SPOTLIGHT.equals(this.item) && !this.matchController
                             .getZoneController().getCurrentZone().getMap()
-                            .containsKey(req.getActionTarget()))); // il
-                                                                   // settore
-                                                                   // deve
-                                                                   // essere
-                                                                   // sulla
-                                                                   // mappa
+                            .containsKey(req.getActionTarget()))); // the sector
+                                                                   // must be on
+                                                                   // the map
         }
     }
 
@@ -88,72 +77,73 @@ public class UseCard extends ActionController {
     @Override
     public void processAction() throws DisconnectedException {
         ItemCard card = findItemCardByItem(item);
-        showCardToParty(card);
+        this.showCardToParty(card);
 
-        if (Item.ATTACK.equals(item)) {
-            notifyInChatByCurrentPlayer("ATTACK CARD");
+        if (Item.ATTACK.equals(this.item)) {
+            this.notifyInChatByCurrentPlayer("ATTACK CARD");
             ActionRequest forcedRequest = new ActionRequest(ActionType.ATTACK,
                     null, null);
             forcedAttack.initAction(matchController, forcedRequest);
             forcedAttack.processAction();
-            matchController.getMatch().getItemsDeck().putIntoBucket(card);
+            this.matchController.getMatch().getItemsDeck().putIntoBucket(card);
 
         } else if (Item.TELEPORT.equals(item)) {
-            notifyInChatByCurrentPlayer("TELEPORT CARD");
-            teleportLogic();
-            updateMapView();
+            this.notifyInChatByCurrentPlayer("TELEPORT CARD");
+            this.teleportLogic();
+            this.updateMapView();
 
         } else if (Item.ADRENALINE.equals(item)) {
-            notifyInChatByCurrentPlayer("ADRENALINE CARD");
-            matchController.getTurnController().getTurn().setMaxSteps(2);
+            this.notifyInChatByCurrentPlayer("ADRENALINE CARD");
+            this.matchController.getTurnController().getTurn().setMaxSteps(2);
 
         } else if (Item.SEDATIVES.equals(item)) {
-            notifyInChatByCurrentPlayer("SEDATIVES CARD");
-            matchController.getTurnController().getTurn()
+            this.notifyInChatByCurrentPlayer("SEDATIVES CARD");
+            this.matchController.getTurnController().getTurn()
                     .setSilenceForced(true);
 
         } else if (Item.SPOTLIGHT.equals(item)) {
-            notifyInChatByCurrentPlayer("SPOTLIGHT CARD");
-            spotlightLogic();
+            this.notifyInChatByCurrentPlayer("SPOTLIGHT CARD");
+            this.spotlightLogic();
         }
 
-        // scarto la carta oggetto utilizzata
-        matchController.getMatch().getItemsDeck().putIntoBucket(card);
-        spareDeck.getCards().remove(card);
-        // elimino l'eventuale obbligo di scartare
-        matchController.getTurnController().getTurn().setMustDiscard(false);
-        updateDeckView();
+        // discard the used item card
+        this.matchController.getMatch().getItemsDeck().putIntoBucket(card);
+        this.spareDeck.getCards().remove(card);
+        // remove the obliged to discard
+        this.matchController.getTurnController().getTurn()
+                .setMustDiscard(false);
+        this.updateDeckView();
     }
 
     /**
      * Logic of the ItemCard Teleport.
      */
     private void teleportLogic() {
-        matchController
+        this.matchController
                 .getZoneController()
                 .getCurrentZone()
                 .movePlayer(
-                        matchController.getTurnController().getTurn()
-                                .getCurrentPlayer(),
-                        matchController.getZoneController().getHumansStart());
+                        player,
+                        this.matchController.getZoneController()
+                                .getHumansStart());
     }
 
     /**
-     * Logic of the ItemCard Teleport Spotlight.
+     * Logic of the ItemCard Spotlight.
      */
     private void spotlightLogic() {
-        // identifico i settori
-        Sector start = matchController.getZoneController().getCurrentZone()
-                .getMap().get(this.req.getActionTarget());
-        Set<Sector> borderSectors = matchController.getZoneController()
-                .getCurrentZone().reachableTargets(start, 1);// settori
-                                                             // confinanti
+        // identify the sectors
+        Sector start = this.matchController.getZoneController()
+                .getCurrentZone().getMap().get(this.req.getActionTarget());
+        Set<Sector> borderSectors = this.matchController.getZoneController()
+                .getCurrentZone().reachableTargets(start, 1);
         borderSectors.add(start);
         for (Sector sec : borderSectors) {
-            Set<Player> watchedPlayers = matchController.getZoneController()
-                    .getCurrentZone().getPlayersInSector(sec);
+            Set<Player> watchedPlayers = this.matchController
+                    .getZoneController().getCurrentZone()
+                    .getPlayersInSector(sec);
             for (Player playerFound : watchedPlayers) {
-                notifyInChatByServer("The player " + playerFound.getName()
+                this.notifyInChatByServer("The player " + playerFound.getName()
                         + " is in sector " + sec.getPoint().toString());
             }
         }

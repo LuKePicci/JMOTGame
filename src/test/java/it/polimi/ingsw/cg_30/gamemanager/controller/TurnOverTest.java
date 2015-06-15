@@ -13,6 +13,7 @@ import it.polimi.ingsw.cg_30.gamemanager.model.Match;
 import it.polimi.ingsw.cg_30.gamemanager.model.Party;
 import it.polimi.ingsw.cg_30.gamemanager.model.Player;
 import it.polimi.ingsw.cg_30.gamemanager.model.Turn;
+import it.polimi.ingsw.cg_30.gamemanager.network.DisconnectedException;
 
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
@@ -27,7 +28,7 @@ public class TurnOverTest {
     // subito dopo aver iniziato il turno
     @Test
     public void beginningOfTurn() throws FileNotFoundException,
-            URISyntaxException {
+            URISyntaxException, DisconnectedException {
         MatchController matchController = new MatchController() {
             @Override
             public void initMatch(PartyController partyController)
@@ -64,7 +65,7 @@ public class TurnOverTest {
     // subito dopo lo spostamento (su settore non pericoloso)
     @Test
     public void afterSafeMovement() throws FileNotFoundException,
-            URISyntaxException {
+            URISyntaxException, DisconnectedException {
         MatchController matchController = new MatchController() {
             @Override
             public void initMatch(PartyController partyController)
@@ -108,7 +109,8 @@ public class TurnOverTest {
 
     // subito dopo aver attaccato
     @Test
-    public void afterAttack() throws FileNotFoundException, URISyntaxException {
+    public void afterAttack() throws FileNotFoundException, URISyntaxException,
+            DisconnectedException {
         MatchController matchController = new MatchController() {
             @Override
             public void initMatch(PartyController partyController)
@@ -147,7 +149,7 @@ public class TurnOverTest {
     // alieno che si è mosso ma non ha attacato nè pescato
     @Test
     public void afterMovingToDangerousSector() throws FileNotFoundException,
-            URISyntaxException {
+            URISyntaxException, DisconnectedException {
         MatchController matchController = new MatchController() {
             @Override
             public void initMatch(PartyController partyController)
@@ -185,7 +187,8 @@ public class TurnOverTest {
 
     // subito dopo aver pescato ma senza aver risolto l'effetto (noiseAny)
     @Test
-    public void notNoiseYet() throws FileNotFoundException, URISyntaxException {
+    public void notNoiseYet() throws FileNotFoundException, URISyntaxException,
+            DisconnectedException {
         MatchController matchController = new MatchController() {
             @Override
             public void initMatch(PartyController partyController)
@@ -225,7 +228,8 @@ public class TurnOverTest {
 
     // subito dopo aver pescato e aver risolto l'effetto (noiseAny)
     @Test
-    public void noiseDone() throws FileNotFoundException, URISyntaxException {
+    public void noiseDone() throws FileNotFoundException, URISyntaxException,
+            DisconnectedException {
         MatchController matchController = new MatchController() {
             @Override
             public void initMatch(PartyController partyController)
@@ -265,7 +269,7 @@ public class TurnOverTest {
     // avendo carte da scartare
     @Test
     public void haveToDiscard() throws FileNotFoundException,
-            URISyntaxException {
+            URISyntaxException, DisconnectedException {
         MatchController matchController = new MatchController() {
             @Override
             public void initMatch(PartyController partyController)
