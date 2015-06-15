@@ -9,7 +9,6 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewModel;
 
 import java.io.Serializable;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Player.
  */
@@ -21,9 +20,10 @@ public class Player implements IViewable, Serializable {
     /** Player readiness to play. */
     private boolean ready;
 
-    /** The index. */
+    /**
+     * The index. (Index value is between 1 and 8)
+     */
     private int index;
-    // index deve essere compreso tra 1 e 8
 
     /** The identity. */
     private PlayerCard identity;
@@ -102,7 +102,7 @@ public class Player implements IViewable, Serializable {
      * @return the index
      */
     public int getIndex() {
-        return index;
+        return this.index;
     }
 
     /**
@@ -111,7 +111,7 @@ public class Player implements IViewable, Serializable {
      * @return the name
      */
     public String getName() {
-        return name;
+        return this.name;
     }
 
     /**
@@ -120,7 +120,7 @@ public class Player implements IViewable, Serializable {
      * @return the identity
      */
     public PlayerCard getIdentity() {
-        return identity;
+        return this.identity;
     }
 
     /**
@@ -129,7 +129,7 @@ public class Player implements IViewable, Serializable {
      * @return the items deck
      */
     public SpareDeck<ItemCard> getItemsDeck() {
-        return itemsDeck;
+        return this.itemsDeck;
     }
 
     /**
@@ -148,21 +148,21 @@ public class Player implements IViewable, Serializable {
      * @return the kills count
      */
     public int getKillsCount() {
-        return killsCount;
+        return this.killsCount;
     }
 
     /**
-     * Increment kills count.
+     * Increments kills count.
      */
     public void incrementKillsCount() {
-        killsCount++;
+        this.killsCount++;
     }
 
     /**
-     * Decrement kills count.
+     * Decrements kills count.
      */
     public void decrementKillsCount() {
-        killsCount--;
+        this.killsCount--;
     }
 
     @Override

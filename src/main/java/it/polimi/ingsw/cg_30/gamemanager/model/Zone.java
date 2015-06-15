@@ -88,7 +88,7 @@ public class Zone extends GameTable<Sector> implements IViewable, Serializable {
      */
     @Override
     public Sector getCell(Player player) {
-        return playersLocation.get(player);
+        return this.playersLocation.get(player);
     }
 
     /**
@@ -102,7 +102,7 @@ public class Zone extends GameTable<Sector> implements IViewable, Serializable {
      */
     @Override
     public void movePlayer(Player who, Sector where) {
-        playersLocation.put(who, where);
+        this.playersLocation.put(who, where);
     }
 
     /**
@@ -160,11 +160,11 @@ public class Zone extends GameTable<Sector> implements IViewable, Serializable {
     }
 
     /**
-     * Gets a collection of all players in sector sec.
+     * Gets a collection of all players in sector sector.
      *
      * @param sec
      *            the sector to be checked
-     * @return the players in sector sec
+     * @return the players in sector sector
      */
     public Set<Player> getPlayersInSector(Sector sec) {
         Set<Player> pl = new HashSet<Player>();
