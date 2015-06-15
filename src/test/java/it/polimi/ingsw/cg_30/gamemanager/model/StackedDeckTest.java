@@ -7,6 +7,7 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.Card;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.HatchCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.HatchChance;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ItemCard;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorEvent;
 
@@ -74,7 +75,12 @@ public class StackedDeckTest {
     public void stackedDeckItemTest() {
         StackedDeck<ItemCard> ex = StackedDeck.newStackedDeckItem();
         assertEquals(12, ex.getCardCollection().size());
+    }
 
+    @Test
+    public void stackedDeckPlayerTest() {
+        StackedDeck<PlayerCard> ex = StackedDeck.newStackedDeckPlayer();
+        assertEquals(8, ex.getCardCollection().size());
     }
 
     @Test
