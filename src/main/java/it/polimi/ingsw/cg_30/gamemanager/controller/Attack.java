@@ -18,9 +18,12 @@ public class Attack extends ActionController {
      * @return true if the attack is valid
      */
     @Override
-    public boolean isValid() { // funzione ad uso esclusivo dell'alieno
-        return matchController.getTurnController().getTurn().getCanAttack()
-                && !matchController.getTurnController().getTurn().getMustMove();
+    public boolean isValid() {
+        // method to be used only for the alien
+        return this.matchController.getTurnController().getTurn()
+                .getCanAttack()
+                && !this.matchController.getTurnController().getTurn()
+                        .getMustMove();
     }
 
     /**
@@ -30,43 +33,46 @@ public class Attack extends ActionController {
      */
     @Override
     public void processAction() throws DisconnectedException {
-        int killsCountPrecedent = matchController.getTurnController().getTurn()
-                .getCurrentPlayer().getKillsCount();
-        Sector sec = matchController.getZoneController().getCurrentZone()
+        int killsCountPrecedent = this.matchController.getTurnController()
+                .getTurn().getCurrentPlayer().getKillsCount();
+        Sector sec = this.matchController.getZoneController().getCurrentZone()
                 .getCell(player);
-        // notifico l'attacco
-        notifyInChatByCurrentPlayer("ATTACK in " + sec.toString());
-        // prendo l'elenco dei giocatori morti
-        Set<Player> dead = matchController.getZoneController().getCurrentZone()
-                .getPlayersInSector(sec);
-        dead.remove(player); // devo evitare di uccidere player
-        // uccido i giocatori
+        // notify the attack
+        this.notifyInChatByCurrentPlayer("ATTACK in " + sec.toString());
+        // take the list of dead plyers
+        Set<Player> dead = this.matchController.getZoneController()
+                .getCurrentZone().getPlayersInSector(sec);
+        dead.remove(player); // current player must not be killed
+        // kill the players
         for (Player kp : dead) {
-            // se un alieno uccide un umano incremento il contatore
-            if ((PlayerRace.ALIEN.equals(player.getIdentity().getRace()))
+            // if an alien kills a human the counter will be increased
+            if ((PlayerRace.ALIEN.equals(this.player.getIdentity().getRace()))
                     && (PlayerRace.HUMAN.equals(kp.getIdentity().getRace()))) {
-                player.incrementKillsCount();
-                matchController.getTurnController().getTurn()
+                this.player.incrementKillsCount();
+                this.matchController.getTurnController().getTurn()
                         .changeHumanKilled(1);
             }
-            // se un umano uccide un alieno incremento il contatore
-            else if ((PlayerRace.HUMAN.equals(player.getIdentity().getRace()))
+            // if a human kills an alien the counter will be increased
+            else if ((PlayerRace.HUMAN.equals(this.player.getIdentity()
+                    .getRace()))
                     && (PlayerRace.ALIEN.equals(kp.getIdentity().getRace()))) {
-                player.incrementKillsCount();
+                this.player.incrementKillsCount();
             }
-            matchController.killed(kp);
+            this.matchController.killed(kp);
         }
-        // notifico l'alieno se può muoversi di tre passi
-        if (PlayerRace.ALIEN.equals(player.getIdentity().getRace())
-                && player.getKillsCount() > 0 && killsCountPrecedent == 0) {
-            notifyCurrentPlayerByServer("NOW YOU CAN CROSS THREE SECTORS DURING YOUR MOVEMENT");
+        // tell the alien he can now move from one to three steps (if he
+        // actually can)
+        if (PlayerRace.ALIEN.equals(this.player.getIdentity().getRace())
+                && this.player.getKillsCount() > 0 && killsCountPrecedent == 0) {
+            this.notifyCurrentPlayerByServer("FROM NOW YOU CAN CROSS THREE SECTORS DURING YOUR MOVEMENT");
         }
-        // impedisco di attaccare di nuovo
-        matchController.getTurnController().getTurn().setCanAttack(false);
-        // ho risolto gli eventuali effetti del settore pericoloso
-        matchController.getTurnController().getTurn().setIsSecDangerous(false);
-        // verifico se la partita è finita
-        matchController.checkEndGame();
+        // can't attack twice
+        this.matchController.getTurnController().getTurn().setCanAttack(false);
+        // dangerous sector effect solved (if there was)
+        this.matchController.getTurnController().getTurn()
+                .setIsSecDangerous(false);
+        // check if the game is ended
+        this.matchController.checkEndGame();
     }
 
 }

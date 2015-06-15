@@ -24,13 +24,12 @@ public class Match {
     /** The sectors deck. */
     private StackedDeck<SectorCard> sectorsDeck;
 
-    /** The dead player. */
+    /** The dead players. */
     private Set<Player> deadPlayer;
 
-    /** The rescued player. */
+    /** The rescued players. */
     private Set<Player> rescuedPlayer;
 
-    // COSTRUTTORE
     /**
      * Instantiates a new match.
      */
@@ -43,14 +42,13 @@ public class Match {
         this.rescuedPlayer = new HashSet<Player>();
     }
 
-    // getter
     /**
      * Gets the turn count.
      *
      * @return the turn count
      */
     public int getTurnCount() {
-        return turnCount;
+        return this.turnCount;
     }
 
     /**
@@ -59,7 +57,7 @@ public class Match {
      * @return the items deck
      */
     public StackedDeck<ItemCard> getItemsDeck() {
-        return itemsDeck;
+        return this.itemsDeck;
     }
 
     /**
@@ -68,7 +66,7 @@ public class Match {
      * @return the hatches deck
      */
     public StackedDeck<HatchCard> getHatchesDeck() {
-        return hatchesDeck;
+        return this.hatchesDeck;
     }
 
     /**
@@ -77,7 +75,7 @@ public class Match {
      * @return the sectors deck
      */
     public StackedDeck<SectorCard> getSectorsDeck() {
-        return sectorsDeck;
+        return this.sectorsDeck;
     }
 
     /**
@@ -86,7 +84,7 @@ public class Match {
      * @return the dead player
      */
     public Set<Player> getDeadPlayer() {
-        return deadPlayer;
+        return this.deadPlayer;
     }
 
     /**
@@ -98,9 +96,8 @@ public class Match {
         return this.rescuedPlayer;
     }
 
-    // altri metodi
     /**
-     * Increment turn count.
+     * Increments turn count.
      */
     public void incrementTurnCount() {
         this.turnCount++;

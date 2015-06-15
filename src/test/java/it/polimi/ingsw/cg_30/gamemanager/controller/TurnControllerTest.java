@@ -8,6 +8,7 @@ import it.polimi.ingsw.cg_30.gamemanager.model.Match;
 import it.polimi.ingsw.cg_30.gamemanager.model.Party;
 import it.polimi.ingsw.cg_30.gamemanager.model.Player;
 import it.polimi.ingsw.cg_30.gamemanager.model.Turn;
+import it.polimi.ingsw.cg_30.gamemanager.network.DisconnectedException;
 
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
@@ -21,7 +22,7 @@ public class TurnControllerTest {
 
     @Test
     public void firstTurnTest() throws FileNotFoundException,
-            URISyntaxException {
+            URISyntaxException, DisconnectedException {
         MatchController matchController = new MatchController() {
 
             @Override
@@ -78,7 +79,8 @@ public class TurnControllerTest {
 
     // eseguo un giro del party
     @Test
-    public void partyTour() throws FileNotFoundException, URISyntaxException {
+    public void partyTour() throws FileNotFoundException, URISyntaxException,
+            DisconnectedException {
         MatchController matchController = new MatchController() {
             @Override
             public void initMatch(PartyController partyController)
@@ -169,7 +171,8 @@ public class TurnControllerTest {
 
     // tutto ok
     @Test
-    public void allGood() throws FileNotFoundException, URISyntaxException {
+    public void allGood() throws FileNotFoundException, URISyntaxException,
+            DisconnectedException {
         MatchController matchController = new MatchController() {
             @Override
             public void initMatch(PartyController partyController)

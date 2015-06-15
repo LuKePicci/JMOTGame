@@ -11,10 +11,10 @@ import it.polimi.ingsw.cg_30.gamemanager.network.DisconnectedException;
  */
 public class DiscardCard extends ActionController {
 
-    /** The spare deck. */
+    /** The deck of item card of current player. */
     private SpareDeck<ItemCard> spareDeck;
 
-    /** The item. */
+    /** The item to discard. */
     private Item item;
 
     /**
@@ -40,10 +40,12 @@ public class DiscardCard extends ActionController {
      * @return true if player can discard the card
      */
     @Override
-    public boolean isValid() {// ipotizzo che si possa scartare una carta solo
-                              // se si hanno più di 3 carte in mano
-        return matchController.getTurnController().getTurn().getMustDiscard()
-                && findItemCardByItem(item) != null;
+    public boolean isValid() {
+        // hypothesis: a player can discard a card only if he possesses more
+        // than three cards
+        return this.matchController.getTurnController().getTurn()
+                .getMustDiscard()
+                && this.findItemCardByItem(this.item) != null;
     }
 
     /**
@@ -54,14 +56,15 @@ public class DiscardCard extends ActionController {
      */
     @Override
     public void processAction() throws DisconnectedException {
-        ItemCard card = findItemCardByItem(item);
-        // scarto la carta oggetto
-        matchController.getMatch().getItemsDeck().putIntoBucket(card);
-        spareDeck.getCards().remove(card);
-        // elimino l'obbligo di scartare
-        matchController.getTurnController().getTurn().setMustDiscard(false);
-        notifyInChatByCurrentPlayer("CARD DISCARDED");
-        updateDeckView();
+        ItemCard card = findItemCardByItem(this.item);
+        // discard the card
+        this.matchController.getMatch().getItemsDeck().putIntoBucket(card);
+        this.spareDeck.getCards().remove(card);
+        // remove the obliged to discard
+        this.matchController.getTurnController().getTurn()
+                .setMustDiscard(false);
+        this.notifyInChatByCurrentPlayer("CARD DISCARDED");
+        this.updateDeckView();
     }
 
 }

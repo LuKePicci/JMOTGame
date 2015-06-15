@@ -95,7 +95,7 @@ public class StackedDeck<C extends Card> extends Deck<C> {
     }
 
     /**
-     * New stacked deck player.
+     * Stacked deck player.
      *
      * @return the stacked deck of PlayerCard
      */
@@ -121,7 +121,7 @@ public class StackedDeck<C extends Card> extends Deck<C> {
     }
 
     /**
-     * Shuffle the card collection.
+     * Shuffles the card collection.
      */
     public void shuffle() {
         Collections.shuffle(cards);
@@ -149,8 +149,8 @@ public class StackedDeck<C extends Card> extends Deck<C> {
     }
 
     /**
-     * Pick card from deck and throw it into the bucket. If it can't pick a card
-     * the exception is thrown.
+     * Picks card from deck and throws it into the bucket. If it can't pick a
+     * card the exception is thrown.
      *
      * @return the card
      * @throws EmptyStackException
@@ -175,7 +175,7 @@ public class StackedDeck<C extends Card> extends Deck<C> {
     }
 
     /**
-     * Recycle Deck using all cards in bucket.
+     * Recycles deck using all cards in bucket.
      */
     @Override
     protected void recycle() {

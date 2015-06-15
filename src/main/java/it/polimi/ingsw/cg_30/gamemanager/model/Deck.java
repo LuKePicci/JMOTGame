@@ -40,7 +40,7 @@ public abstract class Deck<C extends Card> implements IViewable, Serializable {
     protected abstract void recycle();
 
     /**
-     * Put into bucket.
+     * Puts into bucket.
      *
      * @param c
      *            the card that will be put into bucket

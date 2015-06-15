@@ -2,14 +2,11 @@ package it.polimi.ingsw.cg_30.gamemanager.model;
 
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ItemCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerCard;
-import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerCharacter;
-import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerRace;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerViewModel;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewModel;
 
 import java.io.Serializable;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Player.
  */
@@ -21,9 +18,10 @@ public class Player implements IViewable, Serializable {
     /** Player readiness to play. */
     private boolean ready;
 
-    /** The index. */
+    /**
+     * The index. (Index value is between 1 and 8)
+     */
     private int index;
-    // index deve essere compreso tra 1 e 8
 
     /** The identity. */
     private PlayerCard identity;
@@ -65,19 +63,6 @@ public class Player implements IViewable, Serializable {
     }
 
     /**
-     * Instantiates a new mock player (for testing).
-     */
-    protected Player() {
-        PlayerCard es = new PlayerCard(PlayerRace.HUMAN,
-                PlayerCharacter.THE_CAPTAIN);
-        this.name = "unknown player";
-        this.index = 0;
-        this.identity = es;
-        this.killsCount = 0;
-        this.itemsDeck = new SpareDeck<ItemCard>();
-    }
-
-    /**
      * Checks if is ready to play.
      *
      * @return true, if is ready
@@ -102,7 +87,7 @@ public class Player implements IViewable, Serializable {
      * @return the index
      */
     public int getIndex() {
-        return index;
+        return this.index;
     }
 
     /**
@@ -111,7 +96,7 @@ public class Player implements IViewable, Serializable {
      * @return the name
      */
     public String getName() {
-        return name;
+        return this.name;
     }
 
     /**
@@ -120,7 +105,7 @@ public class Player implements IViewable, Serializable {
      * @return the identity
      */
     public PlayerCard getIdentity() {
-        return identity;
+        return this.identity;
     }
 
     /**
@@ -129,7 +114,7 @@ public class Player implements IViewable, Serializable {
      * @return the items deck
      */
     public SpareDeck<ItemCard> getItemsDeck() {
-        return itemsDeck;
+        return this.itemsDeck;
     }
 
     /**
@@ -148,21 +133,21 @@ public class Player implements IViewable, Serializable {
      * @return the kills count
      */
     public int getKillsCount() {
-        return killsCount;
+        return this.killsCount;
     }
 
     /**
-     * Increment kills count.
+     * Increments kills count.
      */
     public void incrementKillsCount() {
-        killsCount++;
+        this.killsCount++;
     }
 
     /**
-     * Decrement kills count.
+     * Decrements kills count.
      */
     public void decrementKillsCount() {
-        killsCount--;
+        this.killsCount--;
     }
 
     @Override

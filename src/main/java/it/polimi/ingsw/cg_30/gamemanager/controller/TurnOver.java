@@ -12,15 +12,17 @@ public class TurnOver extends ActionController {
      */
     @Override
     public boolean isValid() {
-        // player deve essersi mosso, non deve avere 4 carte in mano, deve aver
-        // risolto gli effetti legati al settore pericoloso (rumore ed eventuale
-        // pesca della carta oggetto)
-        return !matchController.getTurnController().getTurn().getMustMove()
-                && !matchController.getTurnController().getTurn()
+        // player must have been moved, player must not have four cards in his
+        // hand, dangerous sector effects must have been solved (noise and, if
+        // necessary, drawing an item card)
+        return !this.matchController.getTurnController().getTurn()
+                .getMustMove()
+                && !this.matchController.getTurnController().getTurn()
                         .getMustDiscard()
-                && !matchController.getTurnController().getTurn()
+                && !this.matchController.getTurnController().getTurn()
                         .getIsSecDangerous()
-                && matchController.getTurnController().getTurn().getDrawnCard() == null;
+                && this.matchController.getTurnController().getTurn()
+                        .getDrawnCard() == null;
     }
 
     /**
@@ -28,6 +30,6 @@ public class TurnOver extends ActionController {
      */
     @Override
     public void processAction() {
-        matchController.getTurnController().nextTurn(matchController);
+        this.matchController.getTurnController().nextTurn(matchController);
     }
 }

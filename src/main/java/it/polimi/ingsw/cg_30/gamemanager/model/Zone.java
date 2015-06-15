@@ -45,6 +45,14 @@ public class Zone extends GameTable<Sector> implements IViewable, Serializable {
     private Map<Player, Sector> playersLocation;
 
     /**
+     * Instantiates a new zone.
+     */
+    public Zone() {
+        this.playersLocation = new HashMap<Player, Sector>();
+        this.sectorsMap = new HashMap<HexPoint, Sector>();
+    }
+
+    /**
      * Gets the map.
      *
      * @return the map
@@ -80,7 +88,7 @@ public class Zone extends GameTable<Sector> implements IViewable, Serializable {
      */
     @Override
     public Sector getCell(Player player) {
-        return playersLocation.get(player);
+        return this.playersLocation.get(player);
     }
 
     /**
@@ -94,9 +102,16 @@ public class Zone extends GameTable<Sector> implements IViewable, Serializable {
      */
     @Override
     public void movePlayer(Player who, Sector where) {
-        playersLocation.put(who, where);
+        this.playersLocation.put(who, where);
     }
 
+    /**
+     * Can visit.
+     *
+     * @param s
+     *            the s
+     * @return true, if successful
+     */
     private boolean canVisit(Sector s) {
         return s != null && s.getType() != SectorType.EMPTY
                 && s.getType() != SectorType.HUMANS_START
@@ -145,11 +160,11 @@ public class Zone extends GameTable<Sector> implements IViewable, Serializable {
     }
 
     /**
-     * Gets a collection of all players in sector sec.
+     * Gets a collection of all players in sector sector.
      *
      * @param sec
      *            the sector to be checked
-     * @return the players in sector sec
+     * @return the players in sector sector
      */
     public Set<Player> getPlayersInSector(Sector sec) {
         Set<Player> pl = new HashSet<Player>();
@@ -163,15 +178,12 @@ public class Zone extends GameTable<Sector> implements IViewable, Serializable {
         return pl;
     }
 
+    /**
+     * Gets the view model of the map.
+     */
     @Override
     public ViewModel getViewModel() {
-
         return new ZoneViewModel(this.getMap());
     }
 
-    // Metodo implementato per fini di testing
-    public Zone() {
-        this.playersLocation = new HashMap<Player, Sector>();
-        this.sectorsMap = new HashMap<HexPoint, Sector>();
-    }
 }

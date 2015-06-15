@@ -44,7 +44,7 @@ public class SpareDeck<C extends Card> extends Deck<C> {
     }
 
     /**
-     * Recycle Deck using all cards in bucket.
+     * Recycles Deck using all cards in bucket.
      */
     @Override
     public void recycle() {

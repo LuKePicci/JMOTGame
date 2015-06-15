@@ -15,10 +15,19 @@ import java.util.Set;
 public class TurnController {
 
     /** The turn. */
-    private Turn turn;
+    protected Turn turn;
 
     /**
-     * Sets the turn (method implemented only for testing purpose).
+     * Gets the turn.
+     *
+     * @return the turn
+     */
+    public Turn getTurn() {
+        return this.turn;
+    }
+
+    /**
+     * Sets the turn.
      *
      * @param turn
      *            the new turn
@@ -28,16 +37,7 @@ public class TurnController {
     }
 
     /**
-     * Gets the turn.
-     *
-     * @return the turn
-     */
-    public Turn getTurn() {
-        return turn;
-    }
-
-    /**
-     * First turn.
+     * Prepares the first turn by assigning it to the player whose index is one.
      *
      * @param playerList
      *            the player list
@@ -59,10 +59,9 @@ public class TurnController {
      * @return the players of the party
      */
     public Set<Player> getPartyPlayers(MatchController matchController) {
-        // prendo i membri dal party passando da partyController
+        // take all party players passing through matchController
         return matchController.getPartyController().getCurrentParty()
-                .getMembers().keySet();// set con tutti i
-                                       // player del party
+                .getMembers().keySet();// set containing all party players
     }
 
     /**
@@ -74,9 +73,7 @@ public class TurnController {
     public void nextTurn(MatchController matchController) {
         Set<Player> playerList = getPartyPlayers(matchController);
         int playerNumber = playerList.size();
-        int index = turn.getCurrentPlayer().getIndex();// indice del giocatore
-        // successivo a quello di cui
-        // voglio terminare il turno
+        int index = this.turn.getCurrentPlayer().getIndex();
         playerList.removeAll(matchController.getMatch().getDeadPlayer());
         playerList.removeAll(matchController.getMatch().getRescuedPlayer());
         for (int i = 0; i < playerNumber; i++) {
@@ -86,29 +83,23 @@ public class TurnController {
             } else {
                 index++;
             }
-            for (Player nextPlayer : playerList) {// faccio ciò in quanto non ho
-                                                  // la
-                                                  // cartezza che nel set
-                                                  // restituito
-                                                  // i player siano nell'ordine
-                                                  // index (vedi attributi
-                                                  // Player)
+            for (Player nextPlayer : playerList) {
                 if (nextPlayer.getIndex() == index
-                        && checkIfPlayerIsOnline(nextPlayer, matchController)) {
-                    // passo il turno a nextPlayer
+                        && this.checkIfPlayerIsOnline(nextPlayer,
+                                matchController)) {
+                    // it's nextPlayer's turn
                     matchController.checkEndGame();
                     matchController.getTurnController().setTurn(
                             new Turn(nextPlayer));
-                    notify(nextPlayer, matchController);
+                    this.notify(nextPlayer, matchController);
                     return;
                 }
             }
         }
-        // qui non ci dovrei mai arrivare
     }
 
     /**
-     * Check if the player is online.
+     * Checks if the player is online.
      *
      * @param player
      *            the player
@@ -136,8 +127,9 @@ public class TurnController {
      */
     protected void notify(Player nextPlayer, MatchController matchController) {
         matchController.getPartyController().sendMessageToParty(
-                new ChatMessage(new ChatViewModel(nextPlayer.getName()
-                        + "'s turn", "Server", ChatVisibility.PARTY)));
+                new ChatMessage(new ChatViewModel("It's "
+                        + nextPlayer.getName() + "'s turn", "Server",
+                        ChatVisibility.PARTY)));
     }
 
 }

@@ -3,6 +3,9 @@ package it.polimi.ingsw.cg_30.gamemanager.model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.HexPoint;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerCard;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerCharacter;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerRace;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Sector;
 import it.polimi.ingsw.cg_30.gamemanager.controller.TemplateZoneFactory;
 import it.polimi.ingsw.cg_30.gamemanager.controller.ZoneFactory;
@@ -47,8 +50,10 @@ public class TestZone {
 
     @Test
     public void findPlayer() {
-        Player pl1 = new Player();
-        Player pl2 = new Player();
+        PlayerCard es = new PlayerCard(PlayerRace.HUMAN,
+                PlayerCharacter.THE_CAPTAIN);
+        Player pl1 = new Player("unknown player", 0, es);
+        Player pl2 = new Player("unknown player", 0, es);
         Zone zone = new Zone();
         HexPoint point = HexPoint.fromOffset(3, 4);
         Sector sec = new Sector(null, point);

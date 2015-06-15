@@ -91,11 +91,11 @@ public class ZoneController {
      * @return the current zone
      */
     public Zone getCurrentZone() {
-        return currentZone;
+        return this.currentZone;
     }
 
     /**
-     * Place players.
+     * Places the party players on their starts positions.
      *
      * @param players
      *            the players
@@ -103,9 +103,9 @@ public class ZoneController {
     public void placePlayers(List<Player> players) {
         for (Player player : players) {
             if (PlayerRace.ALIEN.equals(player.getIdentity().getRace())) {
-                currentZone.movePlayer(player, aliensStart);
+                this.currentZone.movePlayer(player, aliensStart);
             } else {
-                currentZone.movePlayer(player, humansStart);
+                this.currentZone.movePlayer(player, humansStart);
             }
         }
     }
@@ -116,7 +116,7 @@ public class ZoneController {
      * @return the humans start sector
      */
     public Sector getHumansStart() {
-        return humansStart;
+        return this.humansStart;
     }
 
 }

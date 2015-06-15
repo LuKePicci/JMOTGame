@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Party.
  */
@@ -145,11 +144,6 @@ public class Party implements IViewable, Serializable {
         return this;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see it.polimi.ingsw.cg_30.IViewable#getViewModel()
-     */
     @Override
     public ViewModel getViewModel() {
         List<ViewModel> pvmList = new ArrayList<ViewModel>();

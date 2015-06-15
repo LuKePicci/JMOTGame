@@ -6,8 +6,6 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerCharacter;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerRace;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorEvent;
-import it.polimi.ingsw.cg_30.gamemanager.model.Player;
-import it.polimi.ingsw.cg_30.gamemanager.model.Turn;
 
 import org.junit.Test;
 
@@ -15,7 +13,9 @@ public class TurnTest {
 
     @Test
     public void gettersTest() {
-        Player player = new Player();
+        PlayerCard es = new PlayerCard(PlayerRace.HUMAN,
+                PlayerCharacter.THE_CAPTAIN);
+        Player player = new Player("unknown player", 0, es);
         Turn turn = new Turn(player);
         assertEquals(false, turn.getCanAttack());
         assertEquals(true, turn.getMustMove());
@@ -30,7 +30,9 @@ public class TurnTest {
 
     @Test
     public void settersTest() {
-        Player player = new Player();
+        PlayerCard es = new PlayerCard(PlayerRace.HUMAN,
+                PlayerCharacter.THE_CAPTAIN);
+        Player player = new Player("unknown player", 0, es);
         Turn turn = new Turn(player);
         turn.setCanAttack(true);
         assertEquals(true, turn.getCanAttack());

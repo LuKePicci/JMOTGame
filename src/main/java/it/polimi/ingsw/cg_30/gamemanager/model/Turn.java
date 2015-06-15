@@ -25,19 +25,25 @@ public class Turn implements IViewable {
     /** The must discard. */
     private boolean mustDiscard;
 
-    /** The silence forced. */
-    private boolean silenceForced; // indica che non deve pescare una carta
-                                   // settore
-    /** The is sec dangerous. */
-    private boolean isSecDangerous;// indica se devo risolvere gli effetti di un
-                                   // settore pericoloso in cui player è finito
-                                   // dopo il movimento
+    /**
+     * The silence forced. Indicates that the player doesn't have to draw a
+     * sector card in case he ends his movement on a dangerous sector
+     */
+    private boolean silenceForced;
 
-    /** The human killed. */
-    private int humanKilled; // indica quanti umano sono stato uccisi da alieni
-                             // in questo turno
+    /**
+     * Is sector dangerous. Indicates if the effect of a dangerous sector still
+     * need to be solved.
+     */
+    private boolean isSecDangerous;
 
-    /** The draw card. */
+    /**
+     * The human killed. Indicates how many humans have been killed by aliens in
+     * this turn.
+     */
+    private int humanKilled;
+
+    /** The drawn card. */
     private SectorCard drawnCard;
 
     /**
@@ -47,14 +53,14 @@ public class Turn implements IViewable {
      *            the player
      */
     public Turn(Player player) {
-        if (PlayerRace.ALIEN == player.getIdentity().getRace()) {// alieno
+        if (PlayerRace.ALIEN == player.getIdentity().getRace()) {// alien
             this.canAttack = true;
             if (player.getKillsCount() > 0) {
-                this.maxSteps = 3;// alieno che ha già ucciso almeno un umano
+                this.maxSteps = 3;// alien who has already killed a human
             } else {
-                this.maxSteps = 2;// alieno che non ha ancora uccido umani
+                this.maxSteps = 2;// alien who has not killed a human yet
             }
-        } else {// umano
+        } else {// human
             this.canAttack = false;
             this.maxSteps = 1;
         }
@@ -73,7 +79,7 @@ public class Turn implements IViewable {
      * @return if the player can attack
      */
     public boolean getCanAttack() {
-        return canAttack;
+        return this.canAttack;
     }
 
     /**
@@ -82,7 +88,7 @@ public class Turn implements IViewable {
      * @return if the player must move
      */
     public boolean getMustMove() {
-        return mustMove;
+        return this.mustMove;
     }
 
     /**
@@ -91,7 +97,7 @@ public class Turn implements IViewable {
      * @return the max steps
      */
     public int getMaxSteps() {
-        return maxSteps;
+        return this.maxSteps;
     }
 
     /**
@@ -100,7 +106,7 @@ public class Turn implements IViewable {
      * @return if the silence is forced
      */
     public boolean getSilenceForced() {
-        return silenceForced;
+        return this.silenceForced;
     }
 
     /**
@@ -109,7 +115,7 @@ public class Turn implements IViewable {
      * @return the current player
      */
     public Player getCurrentPlayer() {
-        return currentPlayer;
+        return this.currentPlayer;
     }
 
     /**
@@ -118,16 +124,16 @@ public class Turn implements IViewable {
      * @return if the player must discard
      */
     public boolean getMustDiscard() {
-        return mustDiscard;
+        return this.mustDiscard;
     }
 
     /**
-     * Gets is sec dangerous.
+     * Gets is sector dangerous.
      *
-     * @return if sec is dangerous
+     * @return if sector is dangerous
      */
     public boolean getIsSecDangerous() {
-        return isSecDangerous;
+        return this.isSecDangerous;
     }
 
     /**
@@ -206,7 +212,7 @@ public class Turn implements IViewable {
     }
 
     /**
-     * Change human killed value.
+     * Change human killed value by increasing it of the value received.
      *
      * @param killed
      *            the number of killed players

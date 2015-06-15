@@ -30,7 +30,8 @@ public class AttackTest {
 
     // non si è ancora mosso
     @Test
-    public void notMovedYet() throws FileNotFoundException, URISyntaxException {
+    public void notMovedYet() throws FileNotFoundException, URISyntaxException,
+            DisconnectedException {
         MatchController matchController = new MatchController() {
             @Override
             public void initMatch(PartyController partyController)
@@ -71,7 +72,7 @@ public class AttackTest {
     // ha già attaccato
     @Test
     public void alreadyAttacked() throws FileNotFoundException,
-            URISyntaxException {
+            URISyntaxException, DisconnectedException {
         MatchController matchController = new MatchController() {
             @Override
             public void initMatch(PartyController partyController)
@@ -595,7 +596,7 @@ public class AttackTest {
     // alieno tenta invano di attaccare prima di muoversi
     @Test
     public void alienAttacksBeforeMoving() throws FileNotFoundException,
-            URISyntaxException {
+            URISyntaxException, DisconnectedException {
         // preparo il terreno
         MatchController matchController = new MatchController() {
             @Override
@@ -637,7 +638,7 @@ public class AttackTest {
     // umano tenta invano di attaccare prima di muoversi
     @Test
     public void humanAttacksBeforeMoving() throws FileNotFoundException,
-            URISyntaxException {
+            URISyntaxException, DisconnectedException {
         // preparo il terreno
         MatchController matchController = new MatchController() {
             @Override
@@ -679,7 +680,7 @@ public class AttackTest {
     // umano tenta invano di attaccare dopo il movimento
     @Test
     public void humanAttacksAfterMoving() throws FileNotFoundException,
-            URISyntaxException {
+            URISyntaxException, DisconnectedException {
         // preparo il terreno
         MatchController matchController = new MatchController() {
             @Override
