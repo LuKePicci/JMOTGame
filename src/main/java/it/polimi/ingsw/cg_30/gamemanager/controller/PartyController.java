@@ -36,7 +36,7 @@ public class PartyController implements Serializable {
 
     public PartyController(Party p) {
         this.currentParty = p;
-        this.startDelay = 0;
+        this.startDelay = 1;
     }
 
     public static Map<Party, PartyController> getParties() {
@@ -176,18 +176,46 @@ public class PartyController implements Serializable {
 
     private void scheduleMatchStart() {
 
-        this.startTimer.cancel();
+        this.resetTimer();
 
-        this.startDelay = 5 * 1000 * this.getCurrentParty().getMembers().size();
+        this.startDelay++;
 
-        this.startTimer = new Timer();
-        this.startTimer.schedule(new TimerTask() {
+        this.startTimer.schedule(this.buildStartTask(), 5000);
+    }
+
+    private TimerTask buildStartTask() {
+        return new TimerTask() {
             @Override
             public void run() {
-                startTimer.cancel();
-                if (!matchInProgress())
-                    startNewMatch();
+                if (!matchInProgress()) {
+                    setStartDelay(getStartDelay() - 1);
+                    if (getStartDelay() == 0)
+                        startNewMatch();
+                    else {
+                        resetTimer().schedule(buildStartTask(), 5000);
+                        sendMessageToParty(new ChatMessage(new ChatViewModel(
+                                String.format(
+                                        "The match will begin in %s seconds.",
+                                        Long.toString(getStartDelay() * 5)),
+                                "Server", ChatVisibility.PARTY)));
+                    }
+                } else
+                    resetTimer().schedule(buildStartTask(), 5000);
             }
-        }, this.startDelay);
+        };
+    }
+
+    private synchronized Timer resetTimer() {
+        this.startTimer.cancel();
+        this.startTimer = new Timer();
+        return this.startTimer;
+    }
+
+    public long getStartDelay() {
+        return this.startDelay;
+    }
+
+    public void setStartDelay(long newDelay) {
+        this.startDelay = newDelay;
     }
 }

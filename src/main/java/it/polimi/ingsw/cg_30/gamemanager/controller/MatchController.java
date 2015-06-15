@@ -115,6 +115,9 @@ public class MatchController {
     public void initMatch(PartyController partyController)
             throws FileNotFoundException, URISyntaxException {
         this.partyController = partyController;
+
+        // TODO kick offline players
+
         this.match = new Match();
         this.turnController = new TurnController();
 
@@ -134,6 +137,8 @@ public class MatchController {
         partyController.sendMessageToParty(new ChatMessage(new ChatViewModel(
                 turnController.getTurn().getCurrentPlayer().getName()
                         + "'s turn", "Server", ChatVisibility.PARTY)));
+
+        // TODO start turn timer
     }
 
     /**
@@ -383,7 +388,7 @@ public class MatchController {
             sayYouLose(match.getDeadPlayer());
         }
 
-        // TURNO 39 FINITO (conto partendo da 1) o NON CI SONO PIÙ SCIALUPPE
+        // TURNO 39 CONCLUSO (conto partendo da 1) o NON CI SONO PIÙ SCIALUPPE
         // DISPONIBILI
         else if (match.getTurnCount() == (MAX_TURN + 1)
                 || zoneController.noMoreHatches()) {

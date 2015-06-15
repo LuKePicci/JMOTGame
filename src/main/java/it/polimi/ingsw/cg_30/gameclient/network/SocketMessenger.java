@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg_30.gameclient.network;
 
 import it.polimi.ingsw.cg_30.exchange.messaging.Message;
+import it.polimi.ingsw.cg_30.gameclient.GameClient;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -24,8 +25,7 @@ public class SocketMessenger extends ClientMessenger implements Runnable {
         try {
             this.socOut.writeUTF(dataToSend);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            GameClient.getActiveEngine().showError("connection lost");
         }
     }
 
@@ -46,7 +46,7 @@ public class SocketMessenger extends ClientMessenger implements Runnable {
     public void run() {
         String receivedData, clearXml;
         Message receivedMessage;
-        while (!Thread.interrupted()) {
+        while (!Thread.interrupted() && !this.mySoc.isClosed()) {
             try {
                 receivedData = this.socIn.readUTF();
                 clearXml = new String(
@@ -54,8 +54,11 @@ public class SocketMessenger extends ClientMessenger implements Runnable {
                 receivedMessage = Message.msgFromXML(clearXml);
                 this.receiveMessage(receivedMessage);
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                try {
+                    this.mySoc.close();
+                } catch (IOException e1) {
+                    // BTW...
+                }
             }
         }
     }

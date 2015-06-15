@@ -1,12 +1,15 @@
 package it.polimi.ingsw.cg_30.gamemanager.controller;
 
 import it.polimi.ingsw.cg_30.exchange.messaging.ActionRequest;
+import it.polimi.ingsw.cg_30.exchange.messaging.ChatMessage;
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatRequest;
+import it.polimi.ingsw.cg_30.exchange.messaging.ChatVisibility;
 import it.polimi.ingsw.cg_30.exchange.messaging.IDelivery;
 import it.polimi.ingsw.cg_30.exchange.messaging.JoinRequest;
 import it.polimi.ingsw.cg_30.exchange.messaging.Message;
 import it.polimi.ingsw.cg_30.exchange.messaging.PartyRequest;
 import it.polimi.ingsw.cg_30.exchange.messaging.RequestModel;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.ChatViewModel;
 import it.polimi.ingsw.cg_30.gamemanager.model.Player;
 import it.polimi.ingsw.cg_30.gamemanager.network.AcceptPlayer;
 import it.polimi.ingsw.cg_30.gamemanager.network.DisconnectedException;
@@ -79,14 +82,20 @@ public class MessageController implements IDelivery {
 
     @Override
     public void deliver(ActionRequest req) {
-        if (this.isJoined() && this.myParty.matchInProgress()
-                && this.isMyTurn())
-            try {
+        try {
+            if (this.isJoined() && this.myParty.matchInProgress()
+                    && this.isMyTurn())
                 this.myParty.getCurrentMatch().processActionRequest(req);
-            } catch (DisconnectedException e) {
-                // the connection to the subscriber has been lost while
-                // performing action
+
+            else {
+                this.myAP.sendMessage(new ChatMessage(new ChatViewModel(
+                        "You can't do any action at the moment.", "Server",
+                        ChatVisibility.PLAYER)));
             }
+        } catch (DisconnectedException e) {
+            // the connection to the subscriber has been lost while
+            // performing action
+        }
     }
 
     /**

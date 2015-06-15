@@ -7,6 +7,7 @@ import it.polimi.ingsw.cg_30.gameclient.view.ViewEngine;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.security.InvalidParameterException;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
@@ -38,11 +39,40 @@ public class CliEngine extends ViewEngine {
             this.printToCli("eftaios> ");
 
             stkn = new StringTokenizer(stdin.nextLine());
-            if (stkn.hasMoreTokens()) {
+            if (stkn.hasMoreTokens())
+                this.switchOnCommand(stkn);
+
+        }
+    }
+
+    private void switchOnCommand(StringTokenizer stkn) {
+        RequestModel request;
+        String command = stkn.nextToken().toLowerCase();
+        try {
+            if (ActionCommand.validCommand(command)) {
+
+                request = new ActionCommand(ActionCommand.typeOf(command))
+                        .makeRequest(stkn);
+
                 this.printLineToCli("I'll be happy to do it in a few days...");
                 this.printLineToCli("");
+                return;
+            } else {
+                switch (command) {
+
+                    case "chat":
+                        request = new ChatCommand().makeRequest(stkn);
+                        break;
+                    default:
+                        // this.printCommands();
+                        return;
+                }
             }
+            ClientMessenger.getCurrentMessenger().executeRequestTask(request);
+        } catch (InvalidParameterException pex) {
+            return;
         }
+
     }
 
     @Override
@@ -111,15 +141,18 @@ public class CliEngine extends ViewEngine {
                                 .createJoinRequest(stkn.nextToken(),
                                         stkn.nextToken(), stkn.nextToken());
                         break;
+
                     case 2:
                         requestContent = new RequestComposer()
                                 .createJoinRequest(stkn.nextToken(),
                                         stkn.nextToken());
                         break;
+
                     case 1:
                         requestContent = new RequestComposer()
                                 .createJoinRequest(stkn.nextToken());
                         break;
+
                     default:
                         this.showError("bad syntax, too many arguments");
                         continue;
