@@ -10,6 +10,7 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.ChatViewModel;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Item;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ItemCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorCard;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.ZoneViewModel;
 import it.polimi.ingsw.cg_30.gamemanager.model.Player;
 import it.polimi.ingsw.cg_30.gamemanager.network.DisconnectedException;
 
@@ -28,10 +29,10 @@ public abstract class ActionController {
     /** The match controller. */
     protected MatchController matchController;
 
-    /** The req. */
+    /** The request */
     protected ActionRequest req;
 
-    /** The player. */
+    /** The current player. */
     protected Player player;
 
     static {
@@ -265,20 +266,35 @@ public abstract class ActionController {
      * @throws DisconnectedException
      */
     protected void updateMapView() throws DisconnectedException {
+        ZoneViewModel viewModel = (ZoneViewModel) matchController
+                .getZoneController().getCurrentZone().getViewModel();
+        viewModel.setPlayerLocation(matchController.getZoneController()
+                .getCurrentZone().getCell(player));
         MessageController
                 .getPlayerHandler(
                         matchController.getPartyController().getCurrentParty()
-                                .getPlayerUUID(player))
-                .getAcceptPlayer()
-                .sendMessage(
-                        new Message(matchController.getZoneController()
-                                .getCurrentZone().getViewModel()));
+                                .getPlayerUUID(player)).getAcceptPlayer()
+                .sendMessage(new Message(viewModel));
     }
 
-    protected void updateMapToPartyPlayers() {
-        matchController.getPartyController().sendMessageToParty(
-                new Message(matchController.getZoneController()
-                        .getCurrentZone().getViewModel()));
+    /**
+     * Updates map view for all party players.
+     * 
+     * @throws DisconnectedException
+     */
+    protected void updateMapToPartyPlayers() throws DisconnectedException {
+        for (Player playerToNotify : obtainPartyPlayers()) {
+            ZoneViewModel viewModel = (ZoneViewModel) matchController
+                    .getZoneController().getCurrentZone().getViewModel();
+            viewModel.setPlayerLocation(matchController.getZoneController()
+                    .getCurrentZone().getCell(playerToNotify));
+            MessageController
+                    .getPlayerHandler(
+                            matchController.getPartyController()
+                                    .getCurrentParty()
+                                    .getPlayerUUID(playerToNotify))
+                    .getAcceptPlayer().sendMessage(new Message(viewModel));
+        }
     }
 
 }

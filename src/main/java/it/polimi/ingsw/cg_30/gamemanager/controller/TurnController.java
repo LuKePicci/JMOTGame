@@ -37,7 +37,7 @@ public class TurnController {
     }
 
     /**
-     * First turn.
+     * Prepares the first turn by assigning it to the player whose index is one.
      *
      * @param playerList
      *            the player list
@@ -136,8 +136,9 @@ public class TurnController {
      */
     protected void notify(Player nextPlayer, MatchController matchController) {
         matchController.getPartyController().sendMessageToParty(
-                new ChatMessage(new ChatViewModel(nextPlayer.getName()
-                        + "'s turn", "Server", ChatVisibility.PARTY)));
+                new ChatMessage(new ChatViewModel("It's "
+                        + nextPlayer.getName() + "'s turn", "Server",
+                        ChatVisibility.PARTY)));
     }
 
 }

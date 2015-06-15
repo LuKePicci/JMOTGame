@@ -95,7 +95,7 @@ public class ZoneController {
     }
 
     /**
-     * Place players.
+     * Places the party players on their starts positions.
      *
      * @param players
      *            the players

@@ -45,6 +45,14 @@ public class Zone extends GameTable<Sector> implements IViewable, Serializable {
     private Map<Player, Sector> playersLocation;
 
     /**
+     * Instantiates a new zone.
+     */
+    public Zone() {
+        this.playersLocation = new HashMap<Player, Sector>();
+        this.sectorsMap = new HashMap<HexPoint, Sector>();
+    }
+
+    /**
      * Gets the map.
      *
      * @return the map
@@ -97,6 +105,13 @@ public class Zone extends GameTable<Sector> implements IViewable, Serializable {
         playersLocation.put(who, where);
     }
 
+    /**
+     * Can visit.
+     *
+     * @param s
+     *            the s
+     * @return true, if successful
+     */
     private boolean canVisit(Sector s) {
         return s != null && s.getType() != SectorType.EMPTY
                 && s.getType() != SectorType.HUMANS_START
@@ -163,15 +178,12 @@ public class Zone extends GameTable<Sector> implements IViewable, Serializable {
         return pl;
     }
 
+    /**
+     * Gets the view model of the map.
+     */
     @Override
     public ViewModel getViewModel() {
-
         return new ZoneViewModel(this.getMap());
     }
 
-    // Metodo implementato per fini di testing
-    public Zone() {
-        this.playersLocation = new HashMap<Player, Sector>();
-        this.sectorsMap = new HashMap<HexPoint, Sector>();
-    }
 }

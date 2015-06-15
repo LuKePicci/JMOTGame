@@ -12,6 +12,7 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.ItemCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerRace;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewModel;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.ZoneViewModel;
 import it.polimi.ingsw.cg_30.gamemanager.model.Match;
 import it.polimi.ingsw.cg_30.gamemanager.model.Player;
 import it.polimi.ingsw.cg_30.gamemanager.model.StackedDeck;
@@ -39,45 +40,42 @@ public class MatchController {
     /** The zone controller. */
     protected ZoneController zoneController;
 
-    /** The match. */
+    /** The match model. */
     protected Match match;
 
-    /** The max turn. */
-    private final int MAX_TURN = 39;
+    /** The max turn number. */
+    private static final int MAX_TURN = 39;
 
-    // Aggiunti solo per il testing
-    protected Set<Player> vincitori = new HashSet<Player>();
-    protected Set<Player> perdenti = new HashSet<Player>();
+    /** The server word text. */
+    private String serverWordText = "Server";
 
     /**
-     * Obtain party players.
+     * Obtains party players.
      *
      * @return the list of players of the current party
      */
     public List<Player> obtainPartyPlayers() {
-        return new ArrayList<Player>(partyController.getCurrentParty()
+        return new ArrayList<Player>(this.partyController.getCurrentParty()
                 .getMembers().keySet());
     }
 
     /**
      * Sends all the model needed in order to star a new match.
-     * 
-     * @throws DisconnectedException
      */
     private void modelSender() {
-        // mappa
-        partyController.sendMessageToParty(new Message(zoneController
+        // map
+        this.partyController.sendMessageToParty(new Message(this.zoneController
                 .getCurrentZone().getViewModel()));
         // players
-        partyController.sendMessageToParty(new Message(partyController
-                .getCurrentParty().getViewModel()));
-        // carte dei players
+        this.partyController.sendMessageToParty(new Message(
+                this.partyController.getCurrentParty().getViewModel()));
+        // players' cards
         for (Player player : obtainPartyPlayers()) {
             ViewModel model = player.getItemsDeck().getViewModel();
             try {
                 MessageController
                         .getPlayerHandler(
-                                partyController.getCurrentParty()
+                                this.partyController.getCurrentParty()
                                         .getPlayerUUID(player))
                         .getAcceptPlayer().sendMessage(new Message(model));
             } catch (DisconnectedException e) {
@@ -85,20 +83,35 @@ public class MatchController {
             }
         }
         // chat
-        partyController.sendMessageToParty(new ChatMessage(new ChatViewModel(
-                "Game started", "Server", ChatVisibility.PARTY)));
+        this.partyController.sendMessageToParty(new ChatMessage(
+                new ChatViewModel("Game started", serverWordText,
+                        ChatVisibility.PARTY)));
     }
 
     /**
      * Establishes the role of each player.
      */
     private void establishRoles() {
-        List<Player> players = obtainPartyPlayers();
+        List<Player> players = this.obtainPartyPlayers();
         Collections.shuffle(players);
         StackedDeck<PlayerCard> playerCardDeck = StackedDeck
                 .newStackedDeckPlayer();
         for (Player player : players) {
             player.setIdentity(playerCardDeck.pickCard());
+        }
+    }
+
+    /**
+     * Notifies each player about his role.
+     */
+    private void sayRoles() {
+        List<Player> players = obtainPartyPlayers();
+        for (Player player : players) {
+            if (PlayerRace.ALIEN.equals(player.getIdentity().getRace())) {
+                notifyAPlayerAbout(player, "You are an alien, start hunting!");
+            } else {
+                notifyAPlayerAbout(player, "You are a human, start running!");
+            }
         }
     }
 
@@ -118,22 +131,24 @@ public class MatchController {
         this.match = new Match();
         this.turnController = new TurnController();
 
-        // preparo mappa
+        // map preparation
         EftaiosGame game = (EftaiosGame) partyController.getCurrentParty()
                 .getGame();
         ZoneFactory zf = new TemplateZoneFactory(game.getMapName());
         this.zoneController = new ZoneController(zf);
 
-        establishRoles(); // assegno i ruoli
+        establishRoles(); // roles assignement
         List<Player> playerList = obtainPartyPlayers();
-        zoneController.placePlayers(playerList); // posiziono i players
-        turnController.firstTurn(playerList); // preparo primo turno
-        // inivio model
-        this.modelSender();
-        // informo il primo player
-        partyController.sendMessageToParty(new ChatMessage(new ChatViewModel(
-                turnController.getTurn().getCurrentPlayer().getName()
-                        + "'s turn", "Server", ChatVisibility.PARTY)));
+        this.zoneController.placePlayers(playerList); // put players on starts
+        this.turnController.firstTurn(playerList); // first turn preparation
+        this.modelSender(); // send the models
+        this.sayRoles(); // inform every player abotu his role
+        // inform the party about the first turn
+        this.partyController.sendMessageToParty(new ChatMessage(
+                new ChatViewModel("It's "
+                        + this.turnController.getTurn().getCurrentPlayer()
+                                .getName() + "'s turn", serverWordText,
+                        ChatVisibility.PARTY)));
     }
 
     /**
@@ -142,7 +157,7 @@ public class MatchController {
      * @return the turn controller
      */
     public TurnController getTurnController() {
-        return turnController;
+        return this.turnController;
     }
 
     /**
@@ -151,7 +166,7 @@ public class MatchController {
      * @return the party controller
      */
     public PartyController getPartyController() {
-        return partyController;
+        return this.partyController;
     }
 
     /**
@@ -160,7 +175,7 @@ public class MatchController {
      * @return the zone controller
      */
     public ZoneController getZoneController() {
-        return zoneController;
+        return this.zoneController;
     }
 
     /**
@@ -169,7 +184,7 @@ public class MatchController {
      * @return the match
      */
     public Match getMatch() {
-        return match;
+        return this.match;
     }
 
     /**
@@ -177,15 +192,14 @@ public class MatchController {
      *
      * @param killedPlayer
      *            the player to be killed
-     * @throws DisconnectedException
      */
     public void killed(Player killedPlayer) {
 
-        // verifico eventuale presenza carta difesa
+        // checks defense card
         if (PlayerRace.HUMAN.equals(killedPlayer.getIdentity().getRace())) {
             for (ItemCard card : killedPlayer.getItemsDeck().getCards()) {
                 if (Item.DEFENSE.equals(card.getItem())) {
-                    match.getItemsDeck().putIntoBucket(card);
+                    this.match.getItemsDeck().putIntoBucket(card);
                     killedPlayer.getItemsDeck().getCards().remove(card);
                     notifyPartyFromPlayer(killedPlayer, "DEFENSE CARD");
                     showCardToParty(card);
@@ -195,20 +209,19 @@ public class MatchController {
                         // do not push this model, will be retrieved manually on
                         // reconnect
                     }
-                    turnController.getTurn().changeHumanKilled(-1);
-                    turnController.getTurn().getCurrentPlayer()
+                    this.turnController.getTurn().changeHumanKilled(-1);
+                    this.turnController.getTurn().getCurrentPlayer()
                             .decrementKillsCount();
                     return;
                 }
             }
         }
 
-        // inserisce il player tra i morti
-        match.getDeadPlayer().add(killedPlayer);
-        // avvisa che quel giocatore che è morto
+        // adds killedPlayer among dead players
+        this.match.getDeadPlayer().add(killedPlayer);
+        // informs killedPlayer that he is dead
         notifyAPlayerAbout(killedPlayer, "You are dead");
-        // informa gli altri players sulla sua identità
-
+        // informs the other players about killedPlayer's identity
         List<Player> others = obtainPartyPlayers();
         others.remove(killedPlayer);
         for (Player otherPlayer : others) {
@@ -216,9 +229,9 @@ public class MatchController {
                     + killedPlayer.getIdentity().getRace().toString() + " "
                     + killedPlayer.getName() + " is dead");
         }
-        // scarta le carte del giocatore
+        // discards killedPlayer's cards
         for (ItemCard card : killedPlayer.getItemsDeck().getCards()) {
-            match.getItemsDeck().putIntoBucket(card);
+            this.match.getItemsDeck().putIntoBucket(card);
             killedPlayer.getItemsDeck().getCards().remove(card);
         }
         try {
@@ -226,24 +239,24 @@ public class MatchController {
         } catch (DisconnectedException e) {
             // do not push this model, will be retrieved manually on reconnect
         }
-        // faccio sparire il giocatore dalla mappa
-        zoneController.getCurrentZone().movePlayer(killedPlayer, null);
+        // killedPlayer have to disappear from the map
+        this.zoneController.getCurrentZone().movePlayer(killedPlayer, null);
         try {
             updateMapView(killedPlayer);
         } catch (DisconnectedException e) {
             // do not push this model, will be retrieved manually on reconnect
         }
-        // l'incremento del contatore uccisione lo faccio in Attack
+        // note: incrementKillCount has already been done in Attack
     }
 
     /**
-     * Gets the human players.
+     * Gets the human players of the party.
      *
      * @return the human players
      */
     private Set<Player> getHumanPlayers() {
         Set<Player> humanPlayers = new HashSet<Player>();
-        Set<Player> playerList = turnController.getPartyPlayers(this);
+        Set<Player> playerList = this.turnController.getPartyPlayers(this);
         for (Player thisPlayer : playerList) {
             if (PlayerRace.HUMAN.equals(thisPlayer.getIdentity().getRace())) {
                 humanPlayers.add(thisPlayer);
@@ -253,13 +266,13 @@ public class MatchController {
     }
 
     /**
-     * Gets the alien players.
+     * Gets the alien players of the party.
      *
      * @return the alien players
      */
     private Set<Player> getAlienPlayers() {
         Set<Player> alienPlayers = new HashSet<Player>();
-        Set<Player> playerList = turnController.getPartyPlayers(this);
+        Set<Player> playerList = this.turnController.getPartyPlayers(this);
         for (Player thisPlayer : playerList) {
             if (PlayerRace.ALIEN.equals(thisPlayer.getIdentity().getRace())) {
                 alienPlayers.add(thisPlayer);
@@ -268,13 +281,17 @@ public class MatchController {
         return alienPlayers;
     }
 
+    /**
+     * Utility method: all aliens win, rescued humans win, remaining humans
+     * lose.
+     */
     private void partialVictory() {
-        Set<Player> playerList = turnController.getPartyPlayers(this);
-        // gli alieni vincono
+        Set<Player> playerList = this.turnController.getPartyPlayers(this);
+        // aliens won
         sayYouWin(getAlienPlayers());
-        // gli umani fuggiti vincono
+        // escaped humans won
         sayYouWin(match.getRescuedPlayer());
-        // gli altri umani perdono
+        // remaining humans lost
         playerList.removeAll(getAlienPlayers());
         playerList.removeAll(match.getRescuedPlayer());
         sayYouLose(playerList);
@@ -285,19 +302,18 @@ public class MatchController {
      *
      * @param losers
      *            the losers
-     * @throws DisconnectedException
      */
     protected void sayYouLose(Set<Player> losers) {
         for (Player loser : losers) {
             try {
                 MessageController
                         .getPlayerHandler(
-                                partyController.getCurrentParty()
+                                this.partyController.getCurrentParty()
                                         .getPlayerUUID(loser))
                         .getAcceptPlayer()
                         .sendMessage(
                                 new Message(new ChatViewModel(
-                                        "GAME OVER\nYOU LOSE", "Server",
+                                        "GAME OVER\nYOU LOSE", serverWordText,
                                         ChatVisibility.PLAYER)));
             } catch (DisconnectedException e) {
                 // this player won't know that he lost
@@ -316,12 +332,12 @@ public class MatchController {
             try {
                 MessageController
                         .getPlayerHandler(
-                                partyController.getCurrentParty()
+                                this.partyController.getCurrentParty()
                                         .getPlayerUUID(winner))
                         .getAcceptPlayer()
                         .sendMessage(
                                 new Message(new ChatViewModel(
-                                        "GAME OVER\nYOU WIN", "Server",
+                                        "GAME OVER\nYOU WIN", serverWordText,
                                         ChatVisibility.PLAYER)));
             } catch (DisconnectedException e) {
                 // this player won't know that he won
@@ -333,71 +349,71 @@ public class MatchController {
      * Checks if the game has come to its end.
      */
     public void checkEndGame() {
-        Set<Player> playerList = turnController.getPartyPlayers(this);
+        Set<Player> playerList = this.turnController.getPartyPlayers(this);
         int playerNumber = playerList.size();
         int humanNumber = playerNumber / 2;
         int deadHumans = 0;
-        for (Player thisPlayer : match.getDeadPlayer()) {
+        for (Player thisPlayer : this.match.getDeadPlayer()) {
             if (PlayerRace.HUMAN.equals(thisPlayer.getIdentity().getRace())) {
                 deadHumans++;
             }
         }
 
-        // TUTTI GLI UMANI SONO MORTI
+        // ALL HUMANS ARE DEAD
         if (deadHumans == humanNumber) {
-            // gli umani hanno perso
+            // humans lost
             sayYouLose(getHumanPlayers());
-            // gli alieni hanno vinto
+            // aliens won
             sayYouWin(getAlienPlayers());
         }
 
-        // TUTTI GLI UMANI SONO FUGGITI
-        else if (match.getRescuedPlayer().size() == humanNumber) {
-            // gli umani sono salvi
+        // ALL HUMANS ARE ESCAPED
+        else if (this.match.getRescuedPlayer().size() == humanNumber) {
+            // humans won
             sayYouWin(getHumanPlayers());
-            // gli alieni hanno perso
+            // aliens lost
             sayYouLose(getAlienPlayers());
         }
 
-        // GLI ALIENI UCCIDONO L'ULTIMO UMANO
-        else if (((deadHumans + match.getRescuedPlayer().size()) == humanNumber)
-                && (turnController.getTurn().getHumanKilled() > 0)) {
-            // gli alieni vincono
+        // ALIENS KILLED THE LAST HUMAN
+        else if (((deadHumans + this.match.getRescuedPlayer().size()) == humanNumber)
+                && (this.turnController.getTurn().getHumanKilled() > 0)) {
+            // aliens won
             sayYouWin(getAlienPlayers());
-            // gli umani fuggiti vincono
-            sayYouWin(match.getRescuedPlayer());
-            // gli umani morti perdono
-            match.getDeadPlayer().removeAll(getAlienPlayers());
-            sayYouLose(match.getDeadPlayer());
+            // escaped humans won
+            sayYouWin(this.match.getRescuedPlayer());
+            // dead humans lost
+            this.match.getDeadPlayer().removeAll(getAlienPlayers());
+            sayYouLose(this.match.getDeadPlayer());
         }
 
-        // L'ULTIMO UMANO RIESCE A FUGGIRE
-        else if (((deadHumans + match.getRescuedPlayer().size()) == humanNumber)
-                && (turnController.getTurn().getHumanKilled() == 0)) {
-            // gli alieni perdono
+        // THE LAST HUMAN ESCAPED
+        else if (((deadHumans + this.match.getRescuedPlayer().size()) == humanNumber)
+                && (this.turnController.getTurn().getHumanKilled() == 0)) {
+            // aliens lost
             sayYouLose(getAlienPlayers());
-            // gli umani fuggiti vincono
-            sayYouWin(match.getRescuedPlayer());
-            // gli umani morti perdono
-            match.getDeadPlayer().removeAll(getAlienPlayers());
-            sayYouLose(match.getDeadPlayer());
+            // escaped humans won
+            sayYouWin(this.match.getRescuedPlayer());
+            // dead humans lost
+            this.match.getDeadPlayer().removeAll(getAlienPlayers());
+            sayYouLose(this.match.getDeadPlayer());
         }
 
-        // TURNO 39 FINITO (conto partendo da 1) o NON CI SONO PIÙ SCIALUPPE
-        // DISPONIBILI
-        else if (match.getTurnCount() == (MAX_TURN + 1)
-                || zoneController.noMoreHatches()) {
+        // END OF 39th TURN (count from 1) or NO MORE HATCHES AVAILABLE
+        else if (this.match.getTurnCount() == (MAX_TURN + 1)
+                || this.zoneController.noMoreHatches()) {
             partialVictory();
         }
 
     }
 
     /**
-     * Process thw action request.
+     * Process the action request.
      *
      * @param req
      *            the action request
      * @throws DisconnectedException
+     *             the disconnected exception
      */
     public synchronized void processActionRequest(ActionRequest req)
             throws DisconnectedException {
@@ -410,15 +426,15 @@ public class MatchController {
             else
                 MessageController
                         .getPlayerHandler(
-                                partyController.getCurrentParty()
+                                this.partyController.getCurrentParty()
                                         .getPlayerUUID(
                                                 turnController.getTurn()
                                                         .getCurrentPlayer()))
                         .getAcceptPlayer()
                         .sendMessage(
                                 new ChatMessage(new ChatViewModel(
-                                        "Sorry, you can't do this", "Server",
-                                        ChatVisibility.PLAYER)));
+                                        "Sorry, you can't do this",
+                                        serverWordText, ChatVisibility.PLAYER)));
         } catch (InstantiationException | IllegalAccessException e) {
             // TODO Log this exception
             System.out
@@ -430,6 +446,8 @@ public class MatchController {
      * Notifies the string received to the player received using server as
      * sender.
      *
+     * @param player
+     *            the player
      * @param about
      *            the string to notify
      */
@@ -437,20 +455,30 @@ public class MatchController {
         try {
             MessageController
                     .getPlayerHandler(
-                            partyController.getCurrentParty().getPlayerUUID(
-                                    player))
+                            this.partyController.getCurrentParty()
+                                    .getPlayerUUID(player))
                     .getAcceptPlayer()
                     .sendMessage(
-                            new ChatMessage(new ChatViewModel(about, "Server",
-                                    ChatVisibility.PLAYER)));
+                            new ChatMessage(new ChatViewModel(about,
+                                    serverWordText, ChatVisibility.PLAYER)));
         } catch (DisconnectedException e) {
             // TODO Enqueue this notification for later dispatch
         }
     }
 
+    /**
+     * Notifies the string received to the party using the player received as
+     * sender.
+     *
+     * @param player
+     *            the sender
+     * @param what
+     *            the string to notify
+     */
     protected void notifyPartyFromPlayer(Player player, String what) {
-        partyController.sendMessageToParty(new ChatMessage(new ChatViewModel(
-                what, player.getName(), ChatVisibility.PARTY)));
+        this.partyController
+                .sendMessageToParty(new ChatMessage(new ChatViewModel(what,
+                        player.getName(), ChatVisibility.PARTY)));
     }
 
     /**
@@ -460,35 +488,43 @@ public class MatchController {
      *            the card to notify
      */
     protected void showCardToParty(Card card) {
-        partyController.sendMessageToParty(new Message(card));
+        this.partyController.sendMessageToParty(new Message(card));
     }
 
     /**
      * Updates cards view for the player.
-     * 
+     *
+     * @param player
+     *            the player
      * @throws DisconnectedException
+     *             the disconnected exception
      */
     protected void updateDeckView(Player player) throws DisconnectedException {
         MessageController
                 .getPlayerHandler(
-                        partyController.getCurrentParty().getPlayerUUID(player))
-                .getAcceptPlayer()
+                        this.partyController.getCurrentParty().getPlayerUUID(
+                                player)).getAcceptPlayer()
                 .sendMessage(new Message(player.getItemsDeck().getViewModel()));
     }
 
     /**
      * Updates map view for the player.
-     * 
+     *
+     * @param player
+     *            the player
      * @throws DisconnectedException
+     *             the disconnected exception
      */
     protected void updateMapView(Player player) throws DisconnectedException {
+        ZoneViewModel viewModel = (ZoneViewModel) this.zoneController
+                .getCurrentZone().getViewModel();
+        viewModel.setPlayerLocation(this.zoneController.getCurrentZone()
+                .getCell(player));
         MessageController
                 .getPlayerHandler(
-                        partyController.getCurrentParty().getPlayerUUID(player))
-                .getAcceptPlayer()
-                .sendMessage(
-                        new Message(zoneController.getCurrentZone()
-                                .getViewModel()));
+                        this.partyController.getCurrentParty().getPlayerUUID(
+                                player)).getAcceptPlayer()
+                .sendMessage(new Message(viewModel));
     }
 
 }

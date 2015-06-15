@@ -28,6 +28,8 @@ public class MatchControllerTest {
     public void allHumansAreDead() throws FileNotFoundException,
             URISyntaxException {
         // preparo il terreno
+        final Set<Player> vincitori = new HashSet<Player>();
+        final Set<Player> perdenti = new HashSet<Player>();
         MatchController matchController = new MatchController() {
             @Override
             public void initMatch(PartyController partyController)
@@ -91,21 +93,23 @@ public class MatchControllerTest {
         // eseguo l'azione
         matchController.checkEndGame();
         // verifico gli esiti
-        assertTrue(matchController.perdenti.size() == 3);
-        assertTrue(matchController.vincitori.size() == 4);
-        assertTrue(matchController.perdenti.contains(player5));
-        assertTrue(matchController.perdenti.contains(player6));
-        assertTrue(matchController.perdenti.contains(player7));
-        assertTrue(matchController.vincitori.contains(player1));
-        assertTrue(matchController.vincitori.contains(player2));
-        assertTrue(matchController.vincitori.contains(player3));
-        assertTrue(matchController.vincitori.contains(player4));
+        assertTrue(perdenti.size() == 3);
+        assertTrue(vincitori.size() == 4);
+        assertTrue(perdenti.contains(player5));
+        assertTrue(perdenti.contains(player6));
+        assertTrue(perdenti.contains(player7));
+        assertTrue(vincitori.contains(player1));
+        assertTrue(vincitori.contains(player2));
+        assertTrue(vincitori.contains(player3));
+        assertTrue(vincitori.contains(player4));
     }
 
     // tutti gli umani sono fuggiti
     @Test
     public void allHumansAreEscaped() throws FileNotFoundException,
             URISyntaxException {
+        final Set<Player> vincitori = new HashSet<Player>();
+        final Set<Player> perdenti = new HashSet<Player>();
         // preparo il terreno
         MatchController matchController = new MatchController() {
             @Override
@@ -170,15 +174,15 @@ public class MatchControllerTest {
         // eseguo l'azione
         matchController.checkEndGame();
         // verifico gli esiti
-        assertTrue(matchController.perdenti.size() == 4);
-        assertTrue(matchController.vincitori.size() == 3);
-        assertTrue(matchController.perdenti.contains(player1));
-        assertTrue(matchController.perdenti.contains(player2));
-        assertTrue(matchController.perdenti.contains(player3));
-        assertTrue(matchController.perdenti.contains(player4));
-        assertTrue(matchController.vincitori.contains(player5));
-        assertTrue(matchController.vincitori.contains(player6));
-        assertTrue(matchController.vincitori.contains(player7));
+        assertTrue(perdenti.size() == 4);
+        assertTrue(vincitori.size() == 3);
+        assertTrue(perdenti.contains(player1));
+        assertTrue(perdenti.contains(player2));
+        assertTrue(perdenti.contains(player3));
+        assertTrue(perdenti.contains(player4));
+        assertTrue(vincitori.contains(player5));
+        assertTrue(vincitori.contains(player6));
+        assertTrue(vincitori.contains(player7));
     }
 
     // gli alieni uccidono l'ultimo umano
@@ -186,6 +190,8 @@ public class MatchControllerTest {
     public void lastHumanKilled() throws FileNotFoundException,
             URISyntaxException {
         // preparo il terreno
+        final Set<Player> vincitori = new HashSet<Player>();
+        final Set<Player> perdenti = new HashSet<Player>();
         MatchController matchController = new MatchController() {
             @Override
             public void initMatch(PartyController partyController)
@@ -250,15 +256,15 @@ public class MatchControllerTest {
         // eseguo l'azione
         matchController.checkEndGame();
         // verifico gli esiti
-        assertTrue(matchController.perdenti.size() == 1);
-        assertTrue(matchController.vincitori.size() == 6);
-        assertTrue(matchController.perdenti.contains(player7));
-        assertTrue(matchController.vincitori.contains(player1));
-        assertTrue(matchController.vincitori.contains(player2));
-        assertTrue(matchController.vincitori.contains(player3));
-        assertTrue(matchController.vincitori.contains(player4));
-        assertTrue(matchController.vincitori.contains(player5));
-        assertTrue(matchController.vincitori.contains(player6));
+        assertTrue(perdenti.size() == 1);
+        assertTrue(vincitori.size() == 6);
+        assertTrue(perdenti.contains(player7));
+        assertTrue(vincitori.contains(player1));
+        assertTrue(vincitori.contains(player2));
+        assertTrue(vincitori.contains(player3));
+        assertTrue(vincitori.contains(player4));
+        assertTrue(vincitori.contains(player5));
+        assertTrue(vincitori.contains(player6));
     }
 
     // l'ultimo umano riesce a fuggire
@@ -266,6 +272,8 @@ public class MatchControllerTest {
     public void lastHumanEscaped() throws FileNotFoundException,
             URISyntaxException {
         // preparo il terreno
+        final Set<Player> vincitori = new HashSet<Player>();
+        final Set<Player> perdenti = new HashSet<Player>();
         MatchController matchController = new MatchController() {
             @Override
             public void initMatch(PartyController partyController)
@@ -329,21 +337,23 @@ public class MatchControllerTest {
         // eseguo l'azione
         matchController.checkEndGame();
         // verifico gli esiti
-        assertTrue(matchController.perdenti.size() == 5);
-        assertTrue(matchController.vincitori.size() == 2);
-        assertTrue(matchController.perdenti.contains(player1));
-        assertTrue(matchController.perdenti.contains(player2));
-        assertTrue(matchController.perdenti.contains(player3));
-        assertTrue(matchController.perdenti.contains(player4));
-        assertTrue(matchController.perdenti.contains(player5));
-        assertTrue(matchController.vincitori.contains(player6));
-        assertTrue(matchController.vincitori.contains(player7));
+        assertTrue(perdenti.size() == 5);
+        assertTrue(vincitori.size() == 2);
+        assertTrue(perdenti.contains(player1));
+        assertTrue(perdenti.contains(player2));
+        assertTrue(perdenti.contains(player3));
+        assertTrue(perdenti.contains(player4));
+        assertTrue(perdenti.contains(player5));
+        assertTrue(vincitori.contains(player6));
+        assertTrue(vincitori.contains(player7));
     }
 
     // turno 39 finito
     @Test
     public void endOf39Turn() throws FileNotFoundException, URISyntaxException {
         // preparo il terreno
+        final Set<Player> vincitori = new HashSet<Player>();
+        final Set<Player> perdenti = new HashSet<Player>();
         MatchController matchController = new MatchController() {
             @Override
             public void initMatch(PartyController partyController)
@@ -409,15 +419,15 @@ public class MatchControllerTest {
         // eseguo l'azione
         matchController.checkEndGame();
         // verifico gli esiti
-        assertTrue(matchController.perdenti.size() == 2);
-        assertTrue(matchController.vincitori.size() == 5);
-        assertTrue(matchController.perdenti.contains(player5));
-        assertTrue(matchController.perdenti.contains(player7));
-        assertTrue(matchController.vincitori.contains(player1));
-        assertTrue(matchController.vincitori.contains(player2));
-        assertTrue(matchController.vincitori.contains(player3));
-        assertTrue(matchController.vincitori.contains(player4));
-        assertTrue(matchController.vincitori.contains(player6));
+        assertTrue(perdenti.size() == 2);
+        assertTrue(vincitori.size() == 5);
+        assertTrue(perdenti.contains(player5));
+        assertTrue(perdenti.contains(player7));
+        assertTrue(vincitori.contains(player1));
+        assertTrue(vincitori.contains(player2));
+        assertTrue(vincitori.contains(player3));
+        assertTrue(vincitori.contains(player4));
+        assertTrue(vincitori.contains(player6));
     }
 
     // non ci sono più scialuppe
@@ -425,6 +435,8 @@ public class MatchControllerTest {
     public void noMoreHatchesAvailable() throws FileNotFoundException,
             URISyntaxException, NotAnHatchException {
         // preparo il terreno
+        final Set<Player> vincitori = new HashSet<Player>();
+        final Set<Player> perdenti = new HashSet<Player>();
         MatchController matchController = new MatchController() {
             @Override
             public void initMatch(PartyController partyController)
@@ -502,15 +514,15 @@ public class MatchControllerTest {
         // eseguo l'azione
         matchController.checkEndGame();
         // verifico gli esiti
-        assertTrue(matchController.perdenti.size() == 2);
-        assertTrue(matchController.vincitori.size() == 5);
-        assertTrue(matchController.perdenti.contains(player5));
-        assertTrue(matchController.perdenti.contains(player7));
-        assertTrue(matchController.vincitori.contains(player1));
-        assertTrue(matchController.vincitori.contains(player2));
-        assertTrue(matchController.vincitori.contains(player3));
-        assertTrue(matchController.vincitori.contains(player4));
-        assertTrue(matchController.vincitori.contains(player6));
+        assertTrue(perdenti.size() == 2);
+        assertTrue(vincitori.size() == 5);
+        assertTrue(perdenti.contains(player5));
+        assertTrue(perdenti.contains(player7));
+        assertTrue(vincitori.contains(player1));
+        assertTrue(vincitori.contains(player2));
+        assertTrue(vincitori.contains(player3));
+        assertTrue(vincitori.contains(player4));
+        assertTrue(vincitori.contains(player6));
     }
 
 }
