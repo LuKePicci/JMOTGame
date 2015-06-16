@@ -15,7 +15,7 @@ public abstract class ViewEngine {
         views.put(t, v);
     }
 
-    public abstract void logoonWizard();
+    public abstract void logonWizard();
 
     public abstract void runEngine();
 

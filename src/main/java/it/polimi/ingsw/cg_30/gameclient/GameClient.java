@@ -45,7 +45,7 @@ public class GameClient {
     }
 
     private void startEngine() {
-        activeEngine.logoonWizard();
+        activeEngine.logonWizard();
         activeEngine.runEngine();
     }
 

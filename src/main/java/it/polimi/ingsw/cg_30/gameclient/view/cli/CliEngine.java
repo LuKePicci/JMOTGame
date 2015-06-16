@@ -22,7 +22,7 @@ public class CliEngine extends ViewEngine {
     }
 
     @Override
-    public void logoonWizard() {
+    public void logonWizard() {
 
         this.printLineToCli("Welcome to EFTAIOS - Enjoy the CLI version of this game!");
 
@@ -55,9 +55,9 @@ public class CliEngine extends ViewEngine {
                 request = new ActionCommand(ActionCommand.typeOf(command))
                         .makeRequest(stkn);
 
-                this.printLineToCli("I'll be happy to do it in a few days...");
-                this.printLineToCli("");
-                return;
+                // this.printLineToCli("I'll be happy to do it in a few days...");
+                // this.printLineToCli("");
+                // return;
             } else {
                 switch (command) {
 

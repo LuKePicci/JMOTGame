@@ -102,7 +102,7 @@ public class TurnController {
             }
             for (Player nextPlayer : playerList) {
                 if (nextPlayer.getIndex() == index
-                        && this.checkIfPlayerIsOnline(nextPlayer,
+                        && !this.checkIfPlayerIsOnline(nextPlayer,
                                 matchController)) {
                     // it's nextPlayer's turn
                     matchController.checkEndGame();

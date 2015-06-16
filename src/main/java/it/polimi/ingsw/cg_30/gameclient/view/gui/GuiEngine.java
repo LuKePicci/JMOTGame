@@ -5,7 +5,7 @@ import it.polimi.ingsw.cg_30.gameclient.view.ViewEngine;
 public class GuiEngine extends ViewEngine {
 
     @Override
-    public void logoonWizard() {
+    public void logonWizard() {
         // TODO Auto-generated method stub
 
     }
