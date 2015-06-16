@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 
 /**
  * The Class Sector.
@@ -19,6 +20,7 @@ public class Sector extends Cell implements Serializable {
     private SectorType type;
 
     /** The point. */
+    @XmlElement(name = "HexPoint")
     private HexPoint point;
 
     /**
