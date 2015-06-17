@@ -2,6 +2,7 @@ package it.polimi.ingsw.cg_30.gameclient.view.cli;
 
 import it.polimi.ingsw.cg_30.exchange.messaging.JoinRequest;
 import it.polimi.ingsw.cg_30.exchange.messaging.RequestModel;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewType;
 import it.polimi.ingsw.cg_30.gameclient.network.ClientMessenger;
 import it.polimi.ingsw.cg_30.gameclient.view.RequestComposer;
 import it.polimi.ingsw.cg_30.gameclient.view.ViewEngine;
@@ -79,6 +80,14 @@ public class CliEngine extends ViewEngine {
     @Override
     public void registerViews() {
         // TODO bind(ViewType.*, new *CliView());
+        bind(ViewType.DECK, new CliDeckView());
+        bind(ViewType.PARTY, new CliPartyView());
+        bind(ViewType.CHAT, new CliChatView());
+        bind(ViewType.ZONE, new CliZoneView());
+        bind(ViewType.PLAYER, new CliPlayerView());
+        bind(ViewType.CARD, new CliCardView());
+        bind(ViewType.TURN, new CliTurnView());
+        bind(ViewType.SECTOR, new CliSectorView());
     }
 
     @Override
@@ -86,9 +95,9 @@ public class CliEngine extends ViewEngine {
         StringTokenizer stkn;
         validCommand = false;
         while (!validCommand) {
-            this.printLineToCli("");
-            this.printLineToCli("Syntax: <rmi|socket> <host> <port>");
-            this.printToCli("Connection> ");
+            CliEngine.printLineToCli("");
+            CliEngine.printLineToCli("Syntax: <rmi|socket> <host> <port>");
+            CliEngine.printToCli("Connection> ");
             stkn = new StringTokenizer(stdin.nextLine());
             if (!stkn.hasMoreTokens())
                 continue;
@@ -129,9 +138,10 @@ public class CliEngine extends ViewEngine {
         StringTokenizer stkn;
         validCommand = false;
         while (!validCommand) {
-            this.printLineToCli("");
-            this.printLineToCli("Syntax: <nickname> [<mapname> [partyname]]");
-            this.printToCli("Join> ");
+            CliEngine.printLineToCli("");
+            CliEngine
+                    .printLineToCli("Syntax: <nickname> [<mapname> [partyname]]");
+            CliEngine.printToCli("Join> ");
 
             stkn = new StringTokenizer(stdin.nextLine());
             if (stkn.hasMoreTokens()) {
@@ -175,11 +185,11 @@ public class CliEngine extends ViewEngine {
 
     }
 
-    private void printToCli(String text) {
+    protected static void printToCli(String text) {
         System.out.print(text);
     }
 
-    private void printLineToCli(String line) {
+    protected static void printLineToCli(String line) {
         System.out.println(line);
     }
 

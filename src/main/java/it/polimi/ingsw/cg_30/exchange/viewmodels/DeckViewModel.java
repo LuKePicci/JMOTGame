@@ -11,7 +11,7 @@ public class DeckViewModel<C extends Card> extends ViewModel {
     private static final long serialVersionUID = -8158974397380721778L;
 
     @XmlElement(name = "Cards")
-    List<C> cards;
+    private List<C> cards;
 
     public DeckViewModel(List<C> d) {
         this();
@@ -21,6 +21,10 @@ public class DeckViewModel<C extends Card> extends ViewModel {
     private DeckViewModel() {
         // JAXB handled
         super(ViewType.DECK);
+    }
+
+    public List<C> getPlayerCards() {
+        return this.cards;
     }
 
     @Override

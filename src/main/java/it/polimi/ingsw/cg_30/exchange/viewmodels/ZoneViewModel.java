@@ -26,6 +26,10 @@ public class ZoneViewModel extends ViewModel {
         this.sectorsMap = map;
     }
 
+    public Map<HexPoint, Sector> getSectorsMap() {
+        return this.sectorsMap;
+    }
+
     private ZoneViewModel() {
         // JAXB handled
         super(ViewType.ZONE);
