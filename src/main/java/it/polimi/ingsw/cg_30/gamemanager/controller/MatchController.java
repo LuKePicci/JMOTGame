@@ -15,6 +15,7 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.Sector;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorHighlight;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorViewModel;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewModel;
+import it.polimi.ingsw.cg_30.gamemanager.model.EftaiosDecks;
 import it.polimi.ingsw.cg_30.gamemanager.model.Match;
 import it.polimi.ingsw.cg_30.gamemanager.model.Player;
 import it.polimi.ingsw.cg_30.gamemanager.model.StackedDeck;
@@ -126,7 +127,7 @@ public class MatchController {
     private void establishRoles() {
         List<Player> players = this.obtainPartyPlayers();
         Collections.shuffle(players);
-        StackedDeck<PlayerCard> playerCardDeck = StackedDeck
+        StackedDeck<PlayerCard> playerCardDeck = EftaiosDecks
                 .newStackedDeckPlayer();
         for (Player player : players) {
             player.setIdentity(playerCardDeck.pickCard());

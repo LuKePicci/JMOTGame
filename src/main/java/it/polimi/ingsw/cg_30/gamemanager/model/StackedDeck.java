@@ -1,15 +1,6 @@
 package it.polimi.ingsw.cg_30.gamemanager.model;
 
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Card;
-import it.polimi.ingsw.cg_30.exchange.viewmodels.HatchCard;
-import it.polimi.ingsw.cg_30.exchange.viewmodels.HatchChance;
-import it.polimi.ingsw.cg_30.exchange.viewmodels.Item;
-import it.polimi.ingsw.cg_30.exchange.viewmodels.ItemCard;
-import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerCard;
-import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerCharacter;
-import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerRace;
-import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorCard;
-import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorEvent;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -34,93 +25,9 @@ public class StackedDeck<C extends Card> extends Deck<C> {
     /**
      * Instantiates a new stacked deck.
      */
-    private StackedDeck() {
+    public StackedDeck(Collection<C> cardsToPut) {
         super();
-        this.cards = new Stack<C>();
-    }
-
-    /**
-     * Stacked deck hatch.
-     *
-     * @return the stacked deck of HatchCard
-     */
-    public static StackedDeck<HatchCard> newStackedDeckHatch() {
-        StackedDeck<HatchCard> ex = new StackedDeck<HatchCard>();
-        for (int i = 0; i < 3; i++) {
-            ex.cards.push(new HatchCard(HatchChance.FREE));
-            ex.cards.push(new HatchCard(HatchChance.LOCKED));
-        }
-        ex.shuffle();
-        return ex;
-    }
-
-    /**
-     * Stacked deck sector.
-     *
-     * @return the stacked deck of SectorCard
-     */
-    public static StackedDeck<SectorCard> newStackedDeckSector() {
-        StackedDeck<SectorCard> ex = new StackedDeck<SectorCard>();
-        for (int i = 0; i < 5; i++) {
-            ex.cards.push(new SectorCard(SectorEvent.SILENCE, false));
-        }
-        for (int i = 0; i < 4; i++) {
-            ex.cards.push(new SectorCard(SectorEvent.NOISE_ANY, true));
-            ex.cards.push(new SectorCard(SectorEvent.NOISE_YOUR, true));
-        }
-        for (int i = 0; i < 6; i++) {
-            ex.cards.push(new SectorCard(SectorEvent.NOISE_ANY, false));
-            ex.cards.push(new SectorCard(SectorEvent.NOISE_YOUR, false));
-        }
-        ex.shuffle();
-        return ex;
-    }
-
-    /**
-     * Stacked deck item.
-     *
-     * @return the stacked deck of ItemCard
-     */
-    public static StackedDeck<ItemCard> newStackedDeckItem() {
-        StackedDeck<ItemCard> ex = new StackedDeck<ItemCard>();
-        ex.cards.push(new ItemCard(Item.DEFENSE));
-        for (int i = 0; i < 2; i++) {
-            ex.cards.push(new ItemCard(Item.ADRENALINE));
-            ex.cards.push(new ItemCard(Item.ATTACK));
-            ex.cards.push(new ItemCard(Item.TELEPORT));
-            ex.cards.push(new ItemCard(Item.SPOTLIGHT));
-        }
-        for (int i = 0; i < 3; i++) {
-            ex.cards.push(new ItemCard(Item.SEDATIVES));
-        }
-        ex.shuffle();
-        return ex;
-    }
-
-    /**
-     * Stacked deck player.
-     *
-     * @return the stacked deck of PlayerCard
-     */
-    public static StackedDeck<PlayerCard> newStackedDeckPlayer() {
-        StackedDeck<PlayerCard> ex = new StackedDeck<PlayerCard>();
-        ex.cards.push(new PlayerCard(PlayerRace.HUMAN,
-                PlayerCharacter.THE_SOLDIER));
-        ex.cards.push(new PlayerCard(PlayerRace.ALIEN,
-                PlayerCharacter.THE_FOURTH_ALIEN));
-        ex.cards.push(new PlayerCard(PlayerRace.HUMAN,
-                PlayerCharacter.THE_PSYCHOLOGIST));
-        ex.cards.push(new PlayerCard(PlayerRace.ALIEN,
-                PlayerCharacter.THE_THIRD_ALIEN));
-        ex.cards.push(new PlayerCard(PlayerRace.HUMAN,
-                PlayerCharacter.THE_PILOT));
-        ex.cards.push(new PlayerCard(PlayerRace.ALIEN,
-                PlayerCharacter.THE_SECOND_ALIEN));
-        ex.cards.push(new PlayerCard(PlayerRace.HUMAN,
-                PlayerCharacter.THE_CAPTAIN));
-        ex.cards.push(new PlayerCard(PlayerRace.ALIEN,
-                PlayerCharacter.THE_FIRST_ALIEN));
-        return ex;
+        this.cards.addAll(cardsToPut);
     }
 
     /**
@@ -173,7 +80,7 @@ public class StackedDeck<C extends Card> extends Deck<C> {
      * @return the card collection
      */
     @Override
-    public Collection<C> getCardCollection() {
+    public Stack<C> getCardCollection() {
         return cards;
     }
 
