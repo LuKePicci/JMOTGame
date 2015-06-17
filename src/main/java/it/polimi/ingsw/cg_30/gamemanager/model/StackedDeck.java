@@ -20,7 +20,7 @@ public class StackedDeck<C extends Card> extends Deck<C> {
     private static final long serialVersionUID = -7122684108628884837L;
 
     /** The cards. */
-    private Stack<C> cards;
+    private Stack<C> cards = new Stack<C>();
 
     /**
      * Instantiates a new stacked deck.
