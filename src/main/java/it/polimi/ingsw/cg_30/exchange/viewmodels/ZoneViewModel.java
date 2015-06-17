@@ -21,9 +21,6 @@ public class ZoneViewModel extends ViewModel {
     @XmlJavaTypeAdapter(XmlZoneMapAdapter.class)
     private Map<HexPoint, Sector> sectorsMap;
 
-    @XmlElement(name = "MyLocation")
-    private Sector playerLocation;
-
     public ZoneViewModel(Map<HexPoint, Sector> map) {
         this();
         this.sectorsMap = map;
@@ -32,17 +29,6 @@ public class ZoneViewModel extends ViewModel {
     private ZoneViewModel() {
         // JAXB handled
         super(ViewType.ZONE);
-    }
-
-    public ZoneViewModel setPlayerLocation(Sector s) {
-        this.playerLocation = s;
-        return this;
-    }
-
-    @Override
-    public String toString() {
-        return "ZoneViewModel { sectorsMap: " + sectorsMap
-                + ", playerLocation: " + playerLocation + " }";
     }
 
 }

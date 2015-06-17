@@ -9,14 +9,15 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.Card;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ChatViewModel;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Item;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ItemCard;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.Sector;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorCard;
-import it.polimi.ingsw.cg_30.exchange.viewmodels.ZoneViewModel;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorHighlight;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorViewModel;
 import it.polimi.ingsw.cg_30.gamemanager.model.Player;
 import it.polimi.ingsw.cg_30.gamemanager.network.DisconnectedException;
 
 import java.util.EmptyStackException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,12 +25,13 @@ import java.util.Map;
  */
 public abstract class ActionController {
 
+    /** The strategies. */
     private static Map<ActionType, Class> strategies = new HashMap<ActionType, Class>();
 
     /** The match controller. */
     protected MatchController matchController;
 
-    /** The request */
+    /** The request. */
     protected ActionRequest req;
 
     /** The current player. */
@@ -89,19 +91,9 @@ public abstract class ActionController {
 
     /**
      * Processes action.
-     * 
-     * @throws DisconnectedException
-     */
-    public abstract void processAction() throws DisconnectedException;
-
-    /**
-     * Obtains party players list.
      *
-     * @return the list of players of the current party
      */
-    public List<Player> obtainPartyPlayers() {
-        return this.matchController.obtainPartyPlayers();
-    }
+    public abstract void processAction();
 
     /**
      * Searches among player's cards an item card whose item is "item"; if it
@@ -128,9 +120,8 @@ public abstract class ActionController {
      *
      * @param drawnCard
      *            the sector card to check
-     * @throws DisconnectedException
      */
-    protected void hasObject(SectorCard drawnCard) throws DisconnectedException {
+    protected void hasObject(SectorCard drawnCard) {
         if (drawnCard.hasObjectSymbol()) {
             ItemCard icard;
             // only the itemDeck could end its cards
@@ -139,19 +130,41 @@ public abstract class ActionController {
                         .pickCard();
             } catch (EmptyStackException e) {
                 // informs the player that there are not item card available
-                this.notifyCurrentPlayerByServer("No more cards in the item deck.");
+                try {
+                    this.notifyCurrentPlayerByServer("No more cards in the item deck.");
+                } catch (DisconnectedException e1) {
+                    // no problem
+                }
                 return;
             }
             this.player.getItemsDeck().getCards().add(icard);
             // notifies the player about the drawn card
-            this.notifyCurrentPlayerByServer("You have just picked a "
-                    + icard.getItem().toString() + " card");
-            this.showCardToCurrentPlayer(icard);
-            this.updateDeckView();
+            try {
+                this.notifyCurrentPlayerByServer("You have just picked a "
+                        + icard.getItem().toString() + " card");
+            } catch (DisconnectedException e2) {
+                // no problem: the player will discover his new card as soon as
+                // he comes back
+            }
+            try {
+                this.showCardToCurrentPlayer(icard);
+                this.matchController.updateDeckView(player);
+            } catch (DisconnectedException e1) {
+                // player's deck will be update as soon as the player comes back
+                // thanks to modelSender(Player returningPlayer) in
+                // MatchController
+            }
+
             if (this.player.getItemsDeck().getCards().size() > 3) {
                 this.matchController.getTurnController().getTurn()
                         .setMustDiscard(true);
-                this.notifyCurrentPlayerByServer("You must use or discard at least one card in this turn");
+                try {
+                    this.notifyCurrentPlayerByServer("You must use or discard at least one card in this turn");
+                } catch (DisconnectedException e) {
+                    // the player won't be able to end his turn until he
+                    // discards a card, if he won't figure it out the game will
+                    // automatically discard a card
+                }
             }
         }
     }
@@ -191,6 +204,7 @@ public abstract class ActionController {
      * @param what
      *            the string to notify
      * @throws DisconnectedException
+     *             the disconnected exception
      */
     protected void notifyCurrentPlayerByServer(String what)
             throws DisconnectedException {
@@ -205,42 +219,12 @@ public abstract class ActionController {
     }
 
     /**
-     * Notifies the string received to the player received using server as
-     * sender.
-     *
-     * @param about
-     *            the string to notify
-     * @throws DisconnectedException
-     */
-    protected void notifyAPlayerAbout(Player player, String about)
-            throws DisconnectedException {
-        MessageController
-                .getPlayerHandler(
-                        this.matchController.getPartyController()
-                                .getCurrentParty().getPlayerUUID(player))
-                .getAcceptPlayer()
-                .sendMessage(
-                        new ChatMessage(new ChatViewModel(about,
-                                serverWordText, ChatVisibility.PLAYER)));
-    }
-
-    /**
-     * Shows the card received to the party.
-     *
-     * @param card
-     *            the card to notify
-     */
-    protected void showCardToParty(Card card) {
-        this.matchController.getPartyController().sendMessageToParty(
-                new Message(card));
-    }
-
-    /**
      * Shows the card received to the current player.
      *
      * @param card
      *            the card to notify
      * @throws DisconnectedException
+     *             the disconnected exception
      */
     protected void showCardToCurrentPlayer(Card card)
             throws DisconnectedException {
@@ -252,55 +236,27 @@ public abstract class ActionController {
     }
 
     /**
-     * Updates deck view for the current player.
-     * 
-     * @throws DisconnectedException
+     * Send map variation to all party players; a variation could be about
+     * player's location, used hatch,... (see SectorHighlight enum) .
+     *
+     * @param sec
+     *            the sector
+     * @param highlight
+     *            the highlight
      */
-    protected void updateDeckView() throws DisconnectedException {
-        MessageController
-                .getPlayerHandler(
-                        this.matchController.getPartyController()
-                                .getCurrentParty().getPlayerUUID(player))
-                .getAcceptPlayer()
-                .sendMessage(new Message(player.getItemsDeck().getViewModel()));
-    }
-
-    /**
-     * Updates map view for the current player.
-     * 
-     * @throws DisconnectedException
-     */
-    protected void updateMapView() throws DisconnectedException {
-        ZoneViewModel viewModel = (ZoneViewModel) this.matchController
-                .getZoneController().getCurrentZone().getViewModel();
-        viewModel.setPlayerLocation(this.matchController.getZoneController()
-                .getCurrentZone().getCell(this.player));
-        MessageController
-                .getPlayerHandler(
-                        this.matchController.getPartyController()
-                                .getCurrentParty().getPlayerUUID(this.player))
-                .getAcceptPlayer().sendMessage(new Message(viewModel));
-    }
-
-    /**
-     * Updates map view for all party players.
-     * 
-     * @throws DisconnectedException
-     */
-    protected void updateMapToPartyPlayers() throws DisconnectedException {
-        for (Player playerToNotify : obtainPartyPlayers()) {
-            ZoneViewModel viewModel = (ZoneViewModel) this.matchController
-                    .getZoneController().getCurrentZone().getViewModel();
-            viewModel.setPlayerLocation(this.matchController
-                    .getZoneController().getCurrentZone()
-                    .getCell(playerToNotify));
-            MessageController
-                    .getPlayerHandler(
-                            this.matchController.getPartyController()
-                                    .getCurrentParty()
-                                    .getPlayerUUID(playerToNotify))
-                    .getAcceptPlayer().sendMessage(new Message(viewModel));
+    protected void sendMapVariationToParty(Sector sec, SectorHighlight highlight) {
+        SectorViewModel viewModel = new SectorViewModel(sec, highlight);
+        for (Player playerToNotify : this.matchController.obtainPartyPlayers()) {
+            try {
+                this.matchController.sendViewModelToAPlayer(playerToNotify,
+                        viewModel);
+            } catch (DisconnectedException e) {
+                // the players who will not receive this update will be updated
+                // as soon as the reconnect using modelSender(Player
+                // returningPlayer) in MatchController
+            }
         }
+
     }
 
 }

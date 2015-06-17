@@ -1,6 +1,5 @@
 package it.polimi.ingsw.cg_30.gamemanager.controller;
 
-import it.polimi.ingsw.cg_30.gamemanager.network.DisconnectedException;
 
 /**
  * The Class TurnOver.
@@ -29,11 +28,9 @@ public class TurnOver extends ActionController {
 
     /**
      * Executes the action.
-     * 
-     * @throws DisconnectedException
      */
     @Override
-    public void processAction() throws DisconnectedException {
+    public void processAction() {
         this.matchController.getTurnController().nextTurn(matchController);
     }
 }

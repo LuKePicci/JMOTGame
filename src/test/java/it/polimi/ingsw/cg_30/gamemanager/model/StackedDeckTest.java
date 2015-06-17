@@ -5,9 +5,9 @@ import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Card;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.HatchCard;
-import it.polimi.ingsw.cg_30.exchange.viewmodels.HatchChance;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ItemCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerCard;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerRace;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorEvent;
 
@@ -34,10 +34,10 @@ public class StackedDeckTest {
 
     @Test
     public void pickCardTest() {
-        StackedDeck<HatchCard> ex = StackedDeck.newStackedDeckHatch();
+        StackedDeck<PlayerCard> ex = StackedDeck.newStackedDeckPlayer();
         int prevSize = ex.getCardCollection().size();
-        HatchCard c = ex.pickCard();
-        assertEquals(HatchChance.LOCKED, c.getChance());
+        PlayerCard c = ex.pickCard();
+        assertEquals(PlayerRace.ALIEN, c.getRace());
         ex.putIntoBucket(c);
         for (int i = 0; i < prevSize - 1; i++) {
             c = ex.pickCard();
@@ -52,10 +52,10 @@ public class StackedDeckTest {
 
     @Test
     public void pickAndThrowTest() {
-        StackedDeck<HatchCard> ex = StackedDeck.newStackedDeckHatch();
+        StackedDeck<PlayerCard> ex = StackedDeck.newStackedDeckPlayer();
         assertTrue(ex.bucket.isEmpty());
-        HatchCard c = ex.pickAndThrow();
-        assertEquals(HatchChance.LOCKED, c.getChance());
+        PlayerCard c = ex.pickAndThrow();
+        assertEquals(PlayerRace.ALIEN, c.getRace());
         assertTrue(ex.bucket.contains(c));
     }
 

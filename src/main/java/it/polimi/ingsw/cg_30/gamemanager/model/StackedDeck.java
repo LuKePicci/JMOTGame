@@ -50,6 +50,7 @@ public class StackedDeck<C extends Card> extends Deck<C> {
             ex.cards.push(new HatchCard(HatchChance.FREE));
             ex.cards.push(new HatchCard(HatchChance.LOCKED));
         }
+        ex.shuffle();
         return ex;
     }
 
@@ -71,6 +72,7 @@ public class StackedDeck<C extends Card> extends Deck<C> {
             ex.cards.push(new SectorCard(SectorEvent.NOISE_ANY, false));
             ex.cards.push(new SectorCard(SectorEvent.NOISE_YOUR, false));
         }
+        ex.shuffle();
         return ex;
     }
 
@@ -91,6 +93,7 @@ public class StackedDeck<C extends Card> extends Deck<C> {
         for (int i = 0; i < 3; i++) {
             ex.cards.push(new ItemCard(Item.SEDATIVES));
         }
+        ex.shuffle();
         return ex;
     }
 

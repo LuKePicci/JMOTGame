@@ -36,6 +36,7 @@ public class Match {
     public Match() {
         this.turnCount = 1;
         this.itemsDeck = StackedDeck.newStackedDeckItem();
+        // TODO mescolare le carte
         this.hatchesDeck = StackedDeck.newStackedDeckHatch();
         this.sectorsDeck = StackedDeck.newStackedDeckSector();
         this.deadPlayer = new HashSet<Player>();

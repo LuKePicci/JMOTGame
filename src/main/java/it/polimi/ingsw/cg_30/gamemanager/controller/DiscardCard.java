@@ -50,12 +50,9 @@ public class DiscardCard extends ActionController {
 
     /**
      * Executes the action.
-     *
-     * @throws DisconnectedException
-     *             the disconnected exception
      */
     @Override
-    public void processAction() throws DisconnectedException {
+    public void processAction() {
         ItemCard card = findItemCardByItem(this.item);
         // discard the card
         this.matchController.getMatch().getItemsDeck().putIntoBucket(card);
@@ -64,7 +61,12 @@ public class DiscardCard extends ActionController {
         this.matchController.getTurnController().getTurn()
                 .setMustDiscard(false);
         this.notifyInChatByCurrentPlayer("CARD DISCARDED");
-        this.updateDeckView();
+        try {
+            this.matchController.updateDeckView(player);
+        } catch (DisconnectedException e) {
+            // player's deck will be updated as soon as the player comes back
+            // thanks to modelSender(Player returningPlayer) in MatchController
+        }
     }
 
 }

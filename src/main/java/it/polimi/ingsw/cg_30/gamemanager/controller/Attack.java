@@ -28,11 +28,9 @@ public class Attack extends ActionController {
 
     /**
      * Executes the action.
-     * 
-     * @throws DisconnectedException
      */
     @Override
-    public void processAction() throws DisconnectedException {
+    public void processAction() {
         int killsCountPrecedent = this.matchController.getTurnController()
                 .getTurn().getCurrentPlayer().getKillsCount();
         Sector sec = this.matchController.getZoneController().getCurrentZone()
@@ -64,7 +62,12 @@ public class Attack extends ActionController {
         // actually can)
         if (PlayerRace.ALIEN.equals(this.player.getIdentity().getRace())
                 && this.player.getKillsCount() > 0 && killsCountPrecedent == 0) {
-            this.notifyCurrentPlayerByServer("FROM NOW YOU CAN CROSS THREE SECTORS DURING YOUR MOVEMENT");
+            try {
+                this.notifyCurrentPlayerByServer("FROM NOW YOU CAN CROSS THREE SECTORS DURING YOUR MOVEMENT");
+            } catch (DisconnectedException e) {
+                // the player won't receive this message, but it's not
+                // fundamental so we can continue
+            }
         }
         // can't attack twice
         this.matchController.getTurnController().getTurn().setCanAttack(false);
