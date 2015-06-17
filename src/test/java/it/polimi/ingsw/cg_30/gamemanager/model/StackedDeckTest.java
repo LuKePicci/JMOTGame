@@ -20,7 +20,7 @@ public class StackedDeckTest {
 
     @Test
     public void shuffleTest() {
-        StackedDeck<SectorCard> ex = StackedDeck.newStackedDeckSector();
+        StackedDeck<SectorCard> ex = EftaiosDecks.newStackedDeckSector();
         ex.shuffle();
         int j = 0;
         for (int i = 0; i < 20; i++) {
@@ -34,7 +34,7 @@ public class StackedDeckTest {
 
     @Test
     public void pickCardTest() {
-        StackedDeck<PlayerCard> ex = StackedDeck.newStackedDeckPlayer();
+        StackedDeck<PlayerCard> ex = EftaiosDecks.newStackedDeckPlayer();
         int prevSize = ex.getCardCollection().size();
         PlayerCard c = ex.pickCard();
         assertEquals(PlayerRace.ALIEN, c.getRace());
@@ -52,7 +52,7 @@ public class StackedDeckTest {
 
     @Test
     public void pickAndThrowTest() {
-        StackedDeck<PlayerCard> ex = StackedDeck.newStackedDeckPlayer();
+        StackedDeck<PlayerCard> ex = EftaiosDecks.newStackedDeckPlayer();
         assertTrue(ex.bucket.isEmpty());
         PlayerCard c = ex.pickAndThrow();
         assertEquals(PlayerRace.ALIEN, c.getRace());
@@ -61,31 +61,31 @@ public class StackedDeckTest {
 
     @Test
     public void stackedDeckHatchTest() {
-        StackedDeck<HatchCard> ex = StackedDeck.newStackedDeckHatch();
+        StackedDeck<HatchCard> ex = EftaiosDecks.newStackedDeckHatch();
         assertEquals(6, ex.getCardCollection().size());
     }
 
     @Test
     public void stackedDeckSectorTest() {
-        StackedDeck<SectorCard> ex = StackedDeck.newStackedDeckSector();
+        StackedDeck<SectorCard> ex = EftaiosDecks.newStackedDeckSector();
         assertEquals(25, ex.getCardCollection().size());
     }
 
     @Test
     public void stackedDeckItemTest() {
-        StackedDeck<ItemCard> ex = StackedDeck.newStackedDeckItem();
+        StackedDeck<ItemCard> ex = EftaiosDecks.newStackedDeckItem();
         assertEquals(12, ex.getCardCollection().size());
     }
 
     @Test
     public void stackedDeckPlayerTest() {
-        StackedDeck<PlayerCard> ex = StackedDeck.newStackedDeckPlayer();
+        StackedDeck<PlayerCard> ex = EftaiosDecks.newStackedDeckPlayer();
         assertEquals(8, ex.getCardCollection().size());
     }
 
     @Test
     public void recycleTest() {
-        StackedDeck<ItemCard> ex = StackedDeck.newStackedDeckItem();
+        StackedDeck<ItemCard> ex = EftaiosDecks.newStackedDeckItem();
         int prevSize = ex.getCardCollection().size();
         for (int i = 0; i < prevSize; i++) {
             ex.pickAndThrow();
