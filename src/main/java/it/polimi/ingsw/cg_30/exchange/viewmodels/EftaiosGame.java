@@ -30,10 +30,16 @@ public class EftaiosGame extends Game {
         return this.mapName;
     }
 
+    @SuppressWarnings("unused")
+    private void setMapName(String name) {
+        this.mapName = name;
+    }
+
     @Override
     public boolean sameGame(Game g) {
         return this.type == g.getGameType()
-                && this.mapName == ((EftaiosGame) g).getMapName();
+                && this.mapName
+                        .equalsIgnoreCase(((EftaiosGame) g).getMapName());
     }
 
     @Override

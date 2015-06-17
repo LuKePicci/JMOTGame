@@ -1,12 +1,15 @@
 package it.polimi.ingsw.cg_30.gamemanager.controller;
 
 import it.polimi.ingsw.cg_30.exchange.messaging.ActionRequest;
+import it.polimi.ingsw.cg_30.exchange.messaging.ChatMessage;
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatRequest;
+import it.polimi.ingsw.cg_30.exchange.messaging.ChatVisibility;
 import it.polimi.ingsw.cg_30.exchange.messaging.IDelivery;
 import it.polimi.ingsw.cg_30.exchange.messaging.JoinRequest;
 import it.polimi.ingsw.cg_30.exchange.messaging.Message;
 import it.polimi.ingsw.cg_30.exchange.messaging.PartyRequest;
 import it.polimi.ingsw.cg_30.exchange.messaging.RequestModel;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.ChatViewModel;
 import it.polimi.ingsw.cg_30.gamemanager.model.Player;
 import it.polimi.ingsw.cg_30.gamemanager.network.AcceptPlayer;
 import it.polimi.ingsw.cg_30.gamemanager.network.DisconnectedException;
@@ -52,18 +55,19 @@ public class MessageController implements IDelivery {
         MessageController.usedIds.add(this.myAP.getUUID());
         MessageController.connectedClients.put(this.myAP.getUUID(), this);
 
-        if (req.getMyID() == null) {
-            this.myParty = PartyController.processJoinRequest(
-                    this.myAP.getUUID(), req);
-        } else {
+        if (req.getMyID() == null)
+            this.bindToParty(req);
+        else
             try {
-                this.myParty = this.reuseId(req.getMyID());
+                this.reuseId(req.getMyID());
             } catch (IllegalArgumentException ex) {
-                // TODO Log this event
-                System.out.println("User issued an illegal reuse request");
+                this.bindToParty(req);
             }
-        }
+    }
 
+    private void bindToParty(JoinRequest req) {
+        this.myParty = PartyController.processJoinRequest(this.myAP.getUUID(),
+                req);
     }
 
     @Override
@@ -79,14 +83,20 @@ public class MessageController implements IDelivery {
 
     @Override
     public void deliver(ActionRequest req) {
-        if (this.isJoined() && this.myParty.matchInProgress()
-                && this.isMyTurn())
-            try {
+        try {
+            if (this.isJoined() && this.myParty.matchInProgress()
+                    && this.isMyTurn())
                 this.myParty.getCurrentMatch().processActionRequest(req);
-            } catch (DisconnectedException e) {
-                // the connection to the subscriber has been lost while
-                // performing action
+
+            else {
+                this.myAP.sendMessage(new ChatMessage(new ChatViewModel(
+                        "You can't do any action at the moment.", "Server",
+                        ChatVisibility.PLAYER)));
             }
+        } catch (DisconnectedException e) {
+            // the connection to the subscriber has been lost while
+            // performing action
+        }
     }
 
     /**
@@ -123,9 +133,9 @@ public class MessageController implements IDelivery {
      * @throws IllegalArgumentException
      *             thrown if reuse request contains an unknown UUID
      */
-    private PartyController reuseId(UUID usedId) {
+    private void reuseId(UUID usedId) {
         if (this.myAP.getUUID().equals(usedId))
-            return this.myParty;
+            return;
 
         MessageController oldMc = connectedClients.get(usedId);
 
@@ -135,7 +145,9 @@ public class MessageController implements IDelivery {
             this.myAP.setUUID(usedId);
             connectedClients.remove(unusedId);
             usedIds.remove(unusedId);
-            return oldMc.myParty;
+            this.myParty = oldMc.myParty;
+
+            this.myParty.resumePlayer(usedId);
         } else {
             throw new IllegalArgumentException();
         }

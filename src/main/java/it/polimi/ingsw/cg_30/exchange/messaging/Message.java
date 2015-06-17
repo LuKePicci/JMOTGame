@@ -5,6 +5,7 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewModel;
 import java.io.Serializable;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.UUID;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -14,11 +15,12 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
+@XmlRootElement(name = "Message")
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlSeeAlso({ ActionMessage.class, ChatMessage.class, PartyMessage.class,
-        JoinMessage.class })
+@XmlSeeAlso({ ChatMessage.class })
 public class Message implements Serializable {
 
     private static final long serialVersionUID = -7712280460808337633L;
@@ -28,6 +30,8 @@ public class Message implements Serializable {
     private static Unmarshaller messageUnmarshaller;
 
     protected MessageType msgType;
+
+    protected UUID sessionId;
 
     protected RequestModel requestContent;
 
@@ -48,6 +52,11 @@ public class Message implements Serializable {
             Message.messageMarshaller = msl;
             Message.messageUnmarshaller = unmsl;
         }
+    }
+
+    public Message(RequestModel req) {
+        this(MessageType.REQUEST_MESSAGE);
+        this.requestContent = req;
     }
 
     public Message(ViewModel pub) {
@@ -73,9 +82,22 @@ public class Message implements Serializable {
         this.msgType = type;
     }
 
+    @XmlElement(name = "UUID")
+    public UUID getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(UUID id) {
+        this.sessionId = id;
+    }
+
     @XmlElement(name = "Request")
     public RequestModel getRawRequest() {
         return this.requestContent;
+    }
+
+    protected void setRawRequest(RequestModel content) {
+        this.requestContent = content;
     }
 
     @XmlElement(name = "View")
@@ -83,8 +105,8 @@ public class Message implements Serializable {
         return this.publishedContent;
     }
 
-    protected void setRawRequest(RequestModel content) {
-        this.requestContent = content;
+    protected void setRawView(ViewModel pub) {
+        this.publishedContent = pub;
     }
 
     public static String msgToXML(Message msg) {

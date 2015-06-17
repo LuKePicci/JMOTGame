@@ -12,6 +12,8 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.ItemCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerRace;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Sector;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorHighlight;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewModel;
 import it.polimi.ingsw.cg_30.gamemanager.model.Match;
 import it.polimi.ingsw.cg_30.gamemanager.model.Party;
 import it.polimi.ingsw.cg_30.gamemanager.model.Player;
@@ -193,23 +195,24 @@ public class AttackTest {
             }
 
             @Override
-            protected void notifyPartyFromPlayer(Player player, String what) {
+            public void notifyAPlayerAbout(Player player, String about) {
             }
 
             @Override
-            protected void showCardToParty(Card card) {
+            public void showCardToParty(Card card) {
             }
 
             @Override
-            protected void updateDeckView(Player player) {
+            public void updateDeckView(Player player) {
             }
 
             @Override
-            protected void notifyAPlayerAbout(Player player, String about) {
+            public void sendMapVariationToPlayer(Player player, Sector sec,
+                    SectorHighlight highlight) {
             }
 
             @Override
-            protected void updateMapView(Player player) {
+            public void sendViewModelToAPlayer(Player p, ViewModel content) {
             }
         };
 
@@ -283,23 +286,24 @@ public class AttackTest {
             }
 
             @Override
-            protected void notifyPartyFromPlayer(Player player, String what) {
+            public void notifyAPlayerAbout(Player player, String about) {
             }
 
             @Override
-            protected void showCardToParty(Card card) {
+            public void showCardToParty(Card card) {
             }
 
             @Override
-            protected void updateDeckView(Player player) {
+            public void updateDeckView(Player player) {
             }
 
             @Override
-            protected void notifyAPlayerAbout(Player player, String about) {
+            public void sendMapVariationToPlayer(Player player, Sector sec,
+                    SectorHighlight highlight) {
             }
 
             @Override
-            protected void updateMapView(Player player) {
+            public void sendViewModelToAPlayer(Player p, ViewModel content) {
             }
         };
 
@@ -374,23 +378,24 @@ public class AttackTest {
             }
 
             @Override
-            protected void notifyPartyFromPlayer(Player player, String what) {
+            public void notifyAPlayerAbout(Player player, String about) {
             }
 
             @Override
-            protected void showCardToParty(Card card) {
+            public void showCardToParty(Card card) {
             }
 
             @Override
-            protected void updateDeckView(Player player) {
+            public void updateDeckView(Player player) {
             }
 
             @Override
-            protected void notifyAPlayerAbout(Player player, String about) {
+            public void sendMapVariationToPlayer(Player player, Sector sec,
+                    SectorHighlight highlight) {
             }
 
             @Override
-            protected void updateMapView(Player player) {
+            public void sendViewModelToAPlayer(Player p, ViewModel content) {
             }
         };
 
@@ -473,23 +478,24 @@ public class AttackTest {
             }
 
             @Override
-            protected void notifyPartyFromPlayer(Player player, String what) {
+            public void notifyAPlayerAbout(Player player, String about) {
             }
 
             @Override
-            protected void showCardToParty(Card card) {
+            public void showCardToParty(Card card) {
             }
 
             @Override
-            protected void updateDeckView(Player player) {
+            public void updateDeckView(Player player) {
             }
 
             @Override
-            protected void notifyAPlayerAbout(Player player, String about) {
+            public void sendMapVariationToPlayer(Player player, Sector sec,
+                    SectorHighlight highlight) {
             }
 
             @Override
-            protected void updateMapView(Player player) {
+            public void sendViewModelToAPlayer(Player p, ViewModel content) {
             }
         };
 
@@ -742,23 +748,24 @@ public class AttackTest {
             }
 
             @Override
-            protected void notifyPartyFromPlayer(Player player, String what) {
+            public void notifyAPlayerAbout(Player player, String about) {
             }
 
             @Override
-            protected void showCardToParty(Card card) {
+            public void showCardToParty(Card card) {
             }
 
             @Override
-            protected void updateDeckView(Player player) {
+            public void updateDeckView(Player player) {
             }
 
             @Override
-            protected void notifyAPlayerAbout(Player player, String about) {
+            public void sendMapVariationToPlayer(Player player, Sector sec,
+                    SectorHighlight highlight) {
             }
 
             @Override
-            protected void updateMapView(Player player) {
+            public void sendViewModelToAPlayer(Player p, ViewModel content) {
             }
         };
 
@@ -834,23 +841,24 @@ public class AttackTest {
             }
 
             @Override
-            protected void notifyPartyFromPlayer(Player player, String what) {
+            public void notifyAPlayerAbout(Player player, String about) {
             }
 
             @Override
-            protected void showCardToParty(Card card) {
+            public void showCardToParty(Card card) {
             }
 
             @Override
-            protected void updateDeckView(Player player) {
+            public void updateDeckView(Player player) {
             }
 
             @Override
-            protected void notifyAPlayerAbout(Player player, String about) {
+            public void sendMapVariationToPlayer(Player player, Sector sec,
+                    SectorHighlight highlight) {
             }
 
             @Override
-            protected void updateMapView(Player player) {
+            public void sendViewModelToAPlayer(Player p, ViewModel content) {
             }
         };
 
@@ -924,27 +932,27 @@ public class AttackTest {
             }
 
             @Override
-            protected void notifyPartyFromPlayer(Player player, String what) {
+            public void notifyAPlayerAbout(Player player, String about) {
             }
 
             @Override
-            protected void showCardToParty(Card card) {
+            public void showCardToParty(Card card) {
             }
 
             @Override
-            protected void updateDeckView(Player player) {
+            public void updateDeckView(Player player) {
             }
 
             @Override
-            protected void notifyAPlayerAbout(Player player, String about) {
+            public void sendMapVariationToPlayer(Player player, Sector sec,
+                    SectorHighlight highlight) {
             }
 
             @Override
-            protected void updateMapView(Player player) {
+            public void sendViewModelToAPlayer(Player p, ViewModel content) {
             }
         };
 
-        PlayerCard alien = new PlayerCard(PlayerRace.ALIEN, null);
         PlayerCard human = new PlayerCard(PlayerRace.HUMAN, null);
         Party party = new Party("test", new EftaiosGame(), false);
         PartyController partyController = PartyController.createNewParty(party);

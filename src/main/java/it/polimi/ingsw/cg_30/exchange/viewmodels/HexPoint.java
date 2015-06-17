@@ -26,7 +26,6 @@ public class HexPoint extends Point implements Serializable {
     /**
      * Instantiates a new hex point.
      */
-    @SuppressWarnings("unused")
     private HexPoint() {
         // JAXB handled
     }
@@ -234,6 +233,11 @@ public class HexPoint extends Point implements Serializable {
         if (cubicX != other.cubicX || cubicY != other.cubicY)
             return false;
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "HexPoint { getX(): " + getX() + ", getY(): " + getY() + " }";
     }
 
 }

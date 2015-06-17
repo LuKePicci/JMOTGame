@@ -35,9 +35,10 @@ public class Match {
      */
     public Match() {
         this.turnCount = 1;
-        this.itemsDeck = StackedDeck.newStackedDeckItem();
-        this.hatchesDeck = StackedDeck.newStackedDeckHatch();
-        this.sectorsDeck = StackedDeck.newStackedDeckSector();
+        this.itemsDeck = EftaiosDecks.newStackedDeckItem();
+        // TODO mescolare le carte
+        this.hatchesDeck = EftaiosDecks.newStackedDeckHatch();
+        this.sectorsDeck = EftaiosDecks.newStackedDeckSector();
         this.deadPlayer = new HashSet<Player>();
         this.rescuedPlayer = new HashSet<Player>();
     }

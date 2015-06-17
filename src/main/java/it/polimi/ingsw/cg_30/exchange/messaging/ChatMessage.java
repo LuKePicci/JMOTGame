@@ -18,12 +18,12 @@ public class ChatMessage extends Message {
     }
 
     public ChatMessage(ChatRequest request) {
-        super(MessageType.CHAT_MESSAGE);
+        super(MessageType.REQUEST_MESSAGE);
         super.requestContent = request;
     }
 
     public ChatMessage(ChatViewModel model) {
-        super(MessageType.CHAT_MESSAGE);
+        super(MessageType.VIEW_MESSAGE);
         super.publishedContent = model;
     }
 

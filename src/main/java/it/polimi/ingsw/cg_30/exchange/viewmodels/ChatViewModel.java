@@ -9,6 +9,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "Chat")
 public class ChatViewModel extends ViewModel {
 
+    private static final long serialVersionUID = 2792460984430627321L;
+
     @XmlElement(name = "Text")
     private String text;
 
@@ -40,6 +42,12 @@ public class ChatViewModel extends ViewModel {
 
     public ChatVisibility getAudience() {
         return this.audience;
+    }
+
+    @Override
+    public String toString() {
+        return "ChatViewModel { text: " + text + ", senderNick: " + senderNick
+                + ", audience: " + audience + " }";
     }
 
 }

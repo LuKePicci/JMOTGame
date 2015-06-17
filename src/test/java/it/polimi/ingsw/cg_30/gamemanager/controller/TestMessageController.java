@@ -2,16 +2,13 @@ package it.polimi.ingsw.cg_30.gamemanager.controller;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import it.polimi.ingsw.cg_30.exchange.messaging.ActionMessage;
 import it.polimi.ingsw.cg_30.exchange.messaging.ActionRequest;
 import it.polimi.ingsw.cg_30.exchange.messaging.ActionType;
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatMessage;
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatRequest;
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatVisibility;
-import it.polimi.ingsw.cg_30.exchange.messaging.JoinMessage;
 import it.polimi.ingsw.cg_30.exchange.messaging.JoinRequest;
 import it.polimi.ingsw.cg_30.exchange.messaging.Message;
-import it.polimi.ingsw.cg_30.exchange.messaging.PartyMessage;
 import it.polimi.ingsw.cg_30.exchange.messaging.PartyRequest;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.EftaiosGame;
 
@@ -22,7 +19,7 @@ import org.junit.Test;
 public class TestMessageController {
     @Test
     public void shouldDeliverJoinMessage() {
-        final Message testMsg = new JoinMessage(new JoinRequest("Player",
+        final Message testMsg = new Message(new JoinRequest("Player",
                 new EftaiosGame()));
         MessageController mc = new MessageController(
                 TestPartyController.newMockAp()) {
@@ -36,32 +33,35 @@ public class TestMessageController {
 
     @Test
     public void shouldReuseUuidToken() {
-        final Message testMsg = new JoinMessage(new JoinRequest("Player",
+        final Message testMsg = new Message(new JoinRequest("Player",
                 new EftaiosGame()));
         final MessageController mc = new MessageController(
                 TestPartyController.newMockAp());
         mc.dispatchIncoming(testMsg);
 
         JoinRequest req = new JoinRequest("Player", new EftaiosGame()) {
+
+            private static final long serialVersionUID = 1479373789400248170L;
+
             {
                 super.myID = mc.getAcceptPlayer().getUUID();
             }
         };
-        final Message testMsg2 = new JoinMessage(req);
+        final Message testMsg2 = new Message(req);
         MessageController otherMc = new MessageController(
                 TestPartyController.newMockAp());
         otherMc.dispatchIncoming(testMsg2);
 
         assertEquals(mc.getAcceptPlayer().getUUID(), otherMc.getAcceptPlayer()
                 .getUUID());
-        assertEquals(otherMc, MessageController.connectedClients.get(mc
+        assertEquals(otherMc, MessageController.getPlayerHandler(mc
                 .getAcceptPlayer().getUUID()));
     }
 
     @SuppressWarnings("serial")
     @Test
     public void shouldNotReuseUuidToken() {
-        final Message testMsg = new JoinMessage(new JoinRequest("Player",
+        final Message testMsg = new Message(new JoinRequest("Player",
                 new EftaiosGame()));
         MessageController mc = new MessageController(
                 TestPartyController.newMockAp());
@@ -72,14 +72,14 @@ public class TestMessageController {
                 super.myID = UUID.randomUUID();
             }
         };
-        final Message testMsg2 = new JoinMessage(req);
+        final Message testMsg2 = new Message(req);
         MessageController otherMc = new MessageController(
                 TestPartyController.newMockAp());
         otherMc.dispatchIncoming(testMsg2);
 
         assertNotEquals(mc.getAcceptPlayer().getUUID(), otherMc
                 .getAcceptPlayer().getUUID());
-        assertNotEquals(otherMc, MessageController.connectedClients.get(mc
+        assertNotEquals(otherMc, MessageController.getPlayerHandler(mc
                 .getAcceptPlayer().getUUID()));
     }
 
@@ -99,7 +99,7 @@ public class TestMessageController {
 
     @Test
     public void shouldDeliverPartyMessage() {
-        final Message testMsg = new PartyMessage(new PartyRequest());
+        final Message testMsg = new Message(new PartyRequest());
         MessageController mc = new MessageController(
                 TestPartyController.newMockAp()) {
             @Override
@@ -112,7 +112,7 @@ public class TestMessageController {
 
     @Test
     public void shouldDeliverActionMessage() {
-        final Message testMsg = new ActionMessage(new ActionRequest(
+        final Message testMsg = new Message(new ActionRequest(
                 ActionType.ATTACK, null, null));
         MessageController mc = new MessageController(
                 TestPartyController.newMockAp()) {

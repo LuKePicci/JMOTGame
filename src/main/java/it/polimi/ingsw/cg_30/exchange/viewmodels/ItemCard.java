@@ -44,4 +44,9 @@ public class ItemCard extends Card {
         return item;
     }
 
+    @Override
+    public String toString() {
+        return "ItemCard { item: " + item + " }";
+    }
+
 }

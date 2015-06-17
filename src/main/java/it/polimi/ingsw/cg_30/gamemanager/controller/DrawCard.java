@@ -27,17 +27,19 @@ public class DrawCard extends ActionController {
 
     /**
      * Executes the action.
-     * 
-     * @throws DisconnectedException
      */
     @Override
-    public void processAction() throws DisconnectedException {
+    public void processAction() {
         SectorCard drawnCard = this.matchController.getMatch().getSectorsDeck()
                 .pickAndThrow();
         this.matchController.getTurnController().getTurn()
                 .setIsSecDangerous(false);
         this.matchController.getTurnController().getTurn().setCanAttack(false);
-        this.showCardToCurrentPlayer(drawnCard);
+        try {
+            this.showCardToCurrentPlayer(drawnCard);
+        } catch (DisconnectedException e) {
+            // TODO come lo gestiamo?
+        }
         if (SectorEvent.SILENCE.equals(drawnCard.getEvent())) {
             this.notifyInChatByCurrentPlayer("SILENCE");
         } else if (SectorEvent.NOISE_YOUR.equals(drawnCard.getEvent())) {
@@ -50,7 +52,12 @@ public class DrawCard extends ActionController {
             // access it in noiseAny action too.
             this.matchController.getTurnController().getTurn()
                     .setDrawnCard(drawnCard);
-            this.notifyCurrentPlayerByServer("CHOOSE WHERE TO MAKE THE NOISE");
+            try {
+                this.notifyCurrentPlayerByServer("CHOOSE WHERE TO MAKE THE NOISE");
+            } catch (DisconnectedException e) {
+                // TODO il player se torna deve essere informato che deve
+                // scartare: riceve il turno coi flag attivo e viene notificato
+            }
         }
     }
 

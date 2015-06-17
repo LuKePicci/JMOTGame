@@ -16,7 +16,7 @@ class SectorModel {
 	}
 
 	public SectorModel() {
-		this.type = SectorType.Empty;
+		this.type = SectorType.EMPTY;
 	}
 
 	@XmlAttribute(name = "Type")

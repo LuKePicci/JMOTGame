@@ -8,6 +8,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "Request")
 public class PartyRequest extends RequestModel {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -1380868078024237165L;
     @XmlElementWrapper(name = "Informations")
     @XmlElement(name = "Info")
     public Collection<Object> playersInfo;

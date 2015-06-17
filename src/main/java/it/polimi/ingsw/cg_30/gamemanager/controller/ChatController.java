@@ -51,6 +51,7 @@ public class ChatController {
             case PLAYER:
                 try {
                     sendToPlayer(msg, pc, chatReq.getRecipient());
+                    sendToPlayer(msg, pc, senderNick);
                 } catch (DisconnectedException e) {
                     ChatMessage offlineMsg = new ChatMessage(new ChatViewModel(
                             chatReq.getRecipient() + CANNOT_CONTACT,

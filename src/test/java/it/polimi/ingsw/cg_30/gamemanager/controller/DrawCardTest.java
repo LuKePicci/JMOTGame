@@ -43,6 +43,10 @@ public class DrawCardTest {
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
             }
+
+            @Override
+            public void updateDeckView(Player player) {
+            }
         };
         PlayerCard alien = new PlayerCard(PlayerRace.ALIEN, null);
         Party party = new Party("test", new EftaiosGame(), false);
@@ -76,10 +80,6 @@ public class DrawCardTest {
 
             @Override
             protected void notifyCurrentPlayerByServer(String what) {
-            }
-
-            @Override
-            protected void updateDeckView() {
             }
         };
         dc.initAction(matchController, action);
@@ -107,6 +107,10 @@ public class DrawCardTest {
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
             }
+
+            @Override
+            public void updateDeckView(Player player) {
+            }
         };
         PlayerCard alien = new PlayerCard(PlayerRace.ALIEN, null);
         Party party = new Party("test", new EftaiosGame(), false);
@@ -139,10 +143,6 @@ public class DrawCardTest {
             @Override
             protected void notifyCurrentPlayerByServer(String what) {
             }
-
-            @Override
-            protected void updateDeckView() {
-            }
         };
         dc.initAction(matchController, action);
         for (int i = 0; i < 25; i++) {
@@ -167,6 +167,10 @@ public class DrawCardTest {
                 ZoneFactory zf = new TemplateZoneFactory(
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
+            }
+
+            @Override
+            public void updateDeckView(Player player) {
             }
         };
         PlayerCard alien = new PlayerCard(PlayerRace.ALIEN, null);
@@ -200,10 +204,6 @@ public class DrawCardTest {
             @Override
             protected void notifyCurrentPlayerByServer(String what) {
             }
-
-            @Override
-            protected void updateDeckView() {
-            }
         };
         dc.initAction(matchController, action);
         for (int i = 0; i < 25; i++) {
@@ -227,6 +227,10 @@ public class DrawCardTest {
                 ZoneFactory zf = new TemplateZoneFactory(
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
+            }
+
+            @Override
+            public void updateDeckView(Player player) {
             }
         };
         PlayerCard alien = new PlayerCard(PlayerRace.ALIEN, null);
@@ -259,10 +263,6 @@ public class DrawCardTest {
 
             @Override
             protected void notifyCurrentPlayerByServer(String what) {
-            }
-
-            @Override
-            protected void updateDeckView() {
             }
         };
         dc.initAction(matchController, action);

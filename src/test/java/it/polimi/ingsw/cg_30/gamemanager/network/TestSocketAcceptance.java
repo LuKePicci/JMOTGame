@@ -1,12 +1,7 @@
 package it.polimi.ingsw.cg_30.gamemanager.network;
 
-import static org.junit.Assert.assertNotNull;
-import it.polimi.ingsw.cg_30.gamemanager.network.SocketAcceptance;
-
-import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.UUID;
 import java.util.concurrent.Semaphore;
 
 import org.junit.AfterClass;
@@ -55,21 +50,9 @@ public class TestSocketAcceptance {
             e.printStackTrace();
         }
 
-        UUID clientId;
-
         for (int i = 0; i < 10; i++) {
-            clientId = null;
             Socket soc = new Socket("127.0.0.1", server.getRandomPort());
-
-            String response = (new DataInputStream(soc.getInputStream())
-                    .readUTF());
-            try {
-                clientId = UUID.fromString(response);
-            } catch (IllegalArgumentException e) {
-                // Test will fail
-            }
             soc.close();
-            assertNotNull(clientId);
         }
     }
 

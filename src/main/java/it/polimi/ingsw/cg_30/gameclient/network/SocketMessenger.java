@@ -1,23 +1,23 @@
 package it.polimi.ingsw.cg_30.gameclient.network;
 
 import it.polimi.ingsw.cg_30.exchange.messaging.Message;
+import it.polimi.ingsw.cg_30.gameclient.GameClient;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.UUID;
 
 import javax.xml.bind.DatatypeConverter;
 
-public class SocketMessenger extends ClientMessenger {
+public class SocketMessenger extends ClientMessenger implements Runnable {
 
     private Socket mySoc;
     private DataOutputStream socOut;
     private DataInputStream socIn;
 
     @Override
-    public void sendMessage(Message msg) {
+    public synchronized void sendMessage(Message msg) {
 
         String clearXml = Message.msgToXML(msg);
         String dataToSend = DatatypeConverter.printBase64Binary(clearXml
@@ -25,8 +25,7 @@ public class SocketMessenger extends ClientMessenger {
         try {
             this.socOut.writeUTF(dataToSend);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            GameClient.getActiveEngine().showError("connection lost");
         }
     }
 
@@ -36,11 +35,31 @@ public class SocketMessenger extends ClientMessenger {
             this.mySoc = new Socket(host, port);
             this.socOut = new DataOutputStream(this.mySoc.getOutputStream());
             this.socIn = new DataInputStream(this.mySoc.getInputStream());
-            super.setUUID(UUID.fromString(this.socIn.readUTF()));
+            threadPool.execute(this);
         } catch (IOException e) {
             throw e;
         }
 
     }
 
+    @Override
+    public void run() {
+        String receivedData, clearXml;
+        Message receivedMessage;
+        while (!Thread.interrupted() && !this.mySoc.isClosed()) {
+            try {
+                receivedData = this.socIn.readUTF();
+                clearXml = new String(
+                        DatatypeConverter.parseBase64Binary(receivedData));
+                receivedMessage = Message.msgFromXML(clearXml);
+                this.receiveMessage(receivedMessage);
+            } catch (IOException e) {
+                try {
+                    this.mySoc.close();
+                } catch (IOException e1) {
+                    // BTW...
+                }
+            }
+        }
+    }
 }

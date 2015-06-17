@@ -39,5 +39,9 @@ public abstract class RequestModel implements Serializable {
         return this.myID;
     }
 
+    public void setMyID(UUID id) {
+        this.myID = id;
+    }
+
     public abstract void process(IDelivery mc);
 }

@@ -66,7 +66,6 @@ public class AcceptSocketPlayer extends AcceptPlayer implements Runnable {
 
     @Override
     public final void run() {
-        this.ping();
         while (this.mySoc.isConnected() && !this.mySoc.isClosed()
                 && !Thread.interrupted()) {
             try {
@@ -86,6 +85,8 @@ public class AcceptSocketPlayer extends AcceptPlayer implements Runnable {
     public void sendMessage(Message message) throws DisconnectedException {
         if (this.connectionLost())
             throw new DisconnectedException(new Date());
+
+        message.setSessionId(this.sessionId);
 
         try {
             // Marshall, encode and send Message objects to output stream

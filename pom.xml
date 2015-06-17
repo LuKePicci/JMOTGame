@@ -72,6 +72,70 @@
 					</execution>
 				</executions>
 			</plugin>
+
+			<!-- Make this jar executable -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.6</version>
+				<executions>
+					<execution>
+						<id>default-jar</id>
+						<phase>none</phase>
+					</execution>
+
+					<execution>
+						<id>GameClient</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<phase>package</phase>
+
+						<configuration>
+							<!-- DO NOT include log4j.properties file in your Jar -->
+							<classifier>GameClient</classifier>
+							<excludes>
+								<exclude>**/it/polimi/ingsw/cg_30/gamemanager/**</exclude>
+							</excludes>
+							<finalname>EftaiosClient</finalname>
+							<archive>
+								<manifest>
+									<!-- Jar file entry point -->
+									<mainClass>it.polimi.ingsw.cg_30.gameclient.GameClient
+									</mainClass>
+									<addClasspath>true</addClasspath>
+									<classpathPrefix>lib/</classpathPrefix>
+								</manifest>
+							</archive>
+						</configuration>
+					</execution>
+					<execution>
+						<id>GameManager</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<phase>package</phase>
+
+						<configuration>
+							<!-- DO NOT include log4j.properties file in your Jar -->
+							<classifier>GameManager</classifier>
+							<excludes>
+								<exclude>**/it/polimi/ingsw/cg_30/gameclient/**</exclude>
+							</excludes>
+							<finalname>EftaiosServer</finalname>
+							<archive>
+								<manifest>
+									<!-- Jar file entry point -->
+									<mainClass>it.polimi.ingsw.cg_30.gamemanager.GameServer
+									</mainClass>
+									<addClasspath>true</addClasspath>
+									<classpathPrefix>lib/</classpathPrefix>
+								</manifest>
+							</archive>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 		<pluginManagement>
 			<plugins>

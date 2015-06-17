@@ -137,6 +137,10 @@ public class DiscardCardTest {
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
             }
+
+            @Override
+            public void updateDeckView(Player player) {
+            }
         };
 
         PlayerCard human = new PlayerCard(PlayerRace.HUMAN, null);
@@ -166,10 +170,6 @@ public class DiscardCardTest {
         DiscardCard dis = new DiscardCard() {
             @Override
             protected void notifyInChatByCurrentPlayer(String what) {
-            }
-
-            @Override
-            protected void updateDeckView() {
             }
         };
         dis.initAction(matchController, action);

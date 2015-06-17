@@ -9,6 +9,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "Turn")
 public class TurnViewModel extends ViewModel {
 
+    private static final long serialVersionUID = 6158366298057289584L;
+
     @XmlElement(name = "MaxSteps")
     private int maxSteps;
 
@@ -88,6 +90,13 @@ public class TurnViewModel extends ViewModel {
      */
     public boolean isSilenceForced() {
         return silenceForced;
+    }
+
+    @Override
+    public String toString() {
+        return "TurnViewModel { maxSteps: " + maxSteps + ", canAttack: "
+                + canAttack + ", mustDiscard: " + mustDiscard + ", mustMove: "
+                + mustMove + ", silenceForced: " + silenceForced + " }";
     }
 
 }

@@ -36,7 +36,7 @@ public class PartyController implements Serializable {
 
     public PartyController(Party p) {
         this.currentParty = p;
-        this.startDelay = 0;
+        this.startDelay = 1;
     }
 
     public static Map<Party, PartyController> getParties() {
@@ -68,7 +68,8 @@ public class PartyController implements Serializable {
         boolean checkPrivate;
         for (Party p : parties.keySet()) {
             pc = parties.get(p);
-            checkPrivate = !p.isPrivate() || p.getName().equals(privateName);
+            checkPrivate = !p.isPrivate()
+                    || p.getName().equalsIgnoreCase(privateName);
             if (p.getGame().sameGame(g)
                     && p.getMembers().size() < p.getGame().getMaxPlayers()
                     && !pc.matchInProgress() && checkPrivate)
@@ -109,6 +110,12 @@ public class PartyController implements Serializable {
             joined = joinPrivateParty(playerClient, request);
         else
             joined = joinPublicParty(playerClient, request);
+
+        joined.sendMessageToParty(new ChatMessage(new ChatViewModel(String
+                .format("%s joined the party.", joined.getCurrentParty()
+                        .getNickOfUUID(playerClient)), "Server",
+                ChatVisibility.PARTY)));
+
         if (joined.getCurrentParty().getMembers().size() >= 2)
             joined.scheduleMatchStart();
         return joined;
@@ -126,12 +133,13 @@ public class PartyController implements Serializable {
         for (UUID memberId : this.currentParty.getMembers().values()) {
 
             try {
-                if (MessageController.connectedClients.get(memberId)
-                        .getAcceptPlayer().connectionLost())
+                MessageController mc = MessageController
+                        .getPlayerHandler(memberId);
+
+                if (mc == null || mc.getAcceptPlayer().connectionLost())
                     continue;
 
-                MessageController.connectedClients.get(memberId)
-                        .getAcceptPlayer().sendMessage(message);
+                mc.getAcceptPlayer().sendMessage(message);
 
             } catch (DisconnectedException e) {
                 // this member will not receive the message
@@ -179,18 +187,56 @@ public class PartyController implements Serializable {
 
     private void scheduleMatchStart() {
 
-        this.startTimer.cancel();
+        this.resetTimer();
 
-        this.startDelay = 5 * 1000 * this.getCurrentParty().getMembers().size();
+        this.startDelay++;
 
-        this.startTimer = new Timer();
-        this.startTimer.schedule(new TimerTask() {
+        this.startTimer.schedule(this.buildStartTask(), 5000);
+    }
+
+    private TimerTask buildStartTask() {
+        return new TimerTask() {
             @Override
             public void run() {
-                startTimer.cancel();
-                if (!matchInProgress())
-                    startNewMatch();
+                if (!matchInProgress()) {
+                    setStartDelay(getStartDelay() - 1);
+                    if (getStartDelay() == 0)
+                        startNewMatch();
+                    else {
+                        resetTimer().schedule(buildStartTask(), 5000);
+                        sendMessageToParty(new ChatMessage(new ChatViewModel(
+                                String.format(
+                                        "The match will begin in %s seconds.",
+                                        Long.toString(getStartDelay() * 5)),
+                                "Server", ChatVisibility.PARTY)));
+                    }
+                } else
+                    resetTimer().schedule(buildStartTask(), 5000);
             }
-        }, this.startDelay);
+        };
+    }
+
+    private synchronized Timer resetTimer() {
+        this.startTimer.cancel();
+        this.startTimer = new Timer();
+        return this.startTimer;
+    }
+
+    public long getStartDelay() {
+        return this.startDelay;
+    }
+
+    public void setStartDelay(long newDelay) {
+        this.startDelay = newDelay;
+    }
+
+    public void resumePlayer(UUID playerId) {
+        if (matchInProgress())
+            try {
+                this.currentMatch.modelSender(this.getCurrentParty()
+                        .getPlayerByUUID(playerId));
+            } catch (DisconnectedException e) {
+                // maybe the next time...
+            }
     }
 }

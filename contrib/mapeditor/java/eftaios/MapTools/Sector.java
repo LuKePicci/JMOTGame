@@ -14,22 +14,22 @@ public class Sector extends JComponent {
 
 	public static final Map<SectorType, Color> ColorMap = new HashMap<SectorType, Color>();
 	static {
-		ColorMap.put(SectorType.Empty, Color.BLACK);
-		ColorMap.put(SectorType.AliensStart, Color.RED);
-		ColorMap.put(SectorType.HumansStart, Color.GREEN);
-		ColorMap.put(SectorType.Secure, Color.WHITE);
-		ColorMap.put(SectorType.Dangerous, Color.LIGHT_GRAY);
-		ColorMap.put(SectorType.EscapeHatch, Color.CYAN);
+		ColorMap.put(SectorType.EMPTY, Color.BLACK);
+		ColorMap.put(SectorType.ALIENS_START, Color.RED);
+		ColorMap.put(SectorType.HUMANS_START, Color.GREEN);
+		ColorMap.put(SectorType.SECURE, Color.WHITE);
+		ColorMap.put(SectorType.DANGEROUS, Color.LIGHT_GRAY);
+		ColorMap.put(SectorType.ESCAPE_HATCH, Color.CYAN);
 	}
 
 	private PairXY position;
 	private int size;
-	private SectorType type = SectorType.Empty;
+	private SectorType type = SectorType.EMPTY;
 
 	public Sector(PairXY position, int size) {
 		this.position = position;
 		this.size = size;
-		this.setType(SectorType.Dangerous);
+		this.setType(SectorType.DANGEROUS);
 	}
 
 	public SectorType getType() {

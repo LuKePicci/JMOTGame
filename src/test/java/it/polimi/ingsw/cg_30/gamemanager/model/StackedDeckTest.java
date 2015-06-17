@@ -5,9 +5,9 @@ import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Card;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.HatchCard;
-import it.polimi.ingsw.cg_30.exchange.viewmodels.HatchChance;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ItemCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerCard;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerRace;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorEvent;
 
@@ -20,7 +20,7 @@ public class StackedDeckTest {
 
     @Test
     public void shuffleTest() {
-        StackedDeck<SectorCard> ex = StackedDeck.newStackedDeckSector();
+        StackedDeck<SectorCard> ex = EftaiosDecks.newStackedDeckSector();
         ex.shuffle();
         int j = 0;
         for (int i = 0; i < 20; i++) {
@@ -34,10 +34,10 @@ public class StackedDeckTest {
 
     @Test
     public void pickCardTest() {
-        StackedDeck<HatchCard> ex = StackedDeck.newStackedDeckHatch();
+        StackedDeck<PlayerCard> ex = EftaiosDecks.newStackedDeckPlayer();
         int prevSize = ex.getCardCollection().size();
-        HatchCard c = ex.pickCard();
-        assertEquals(HatchChance.LOCKED, c.getChance());
+        PlayerCard c = ex.pickCard();
+        assertEquals(PlayerRace.ALIEN, c.getRace());
         ex.putIntoBucket(c);
         for (int i = 0; i < prevSize - 1; i++) {
             c = ex.pickCard();
@@ -52,40 +52,40 @@ public class StackedDeckTest {
 
     @Test
     public void pickAndThrowTest() {
-        StackedDeck<HatchCard> ex = StackedDeck.newStackedDeckHatch();
+        StackedDeck<PlayerCard> ex = EftaiosDecks.newStackedDeckPlayer();
         assertTrue(ex.bucket.isEmpty());
-        HatchCard c = ex.pickAndThrow();
-        assertEquals(HatchChance.LOCKED, c.getChance());
+        PlayerCard c = ex.pickAndThrow();
+        assertEquals(PlayerRace.ALIEN, c.getRace());
         assertTrue(ex.bucket.contains(c));
     }
 
     @Test
     public void stackedDeckHatchTest() {
-        StackedDeck<HatchCard> ex = StackedDeck.newStackedDeckHatch();
+        StackedDeck<HatchCard> ex = EftaiosDecks.newStackedDeckHatch();
         assertEquals(6, ex.getCardCollection().size());
     }
 
     @Test
     public void stackedDeckSectorTest() {
-        StackedDeck<SectorCard> ex = StackedDeck.newStackedDeckSector();
+        StackedDeck<SectorCard> ex = EftaiosDecks.newStackedDeckSector();
         assertEquals(25, ex.getCardCollection().size());
     }
 
     @Test
     public void stackedDeckItemTest() {
-        StackedDeck<ItemCard> ex = StackedDeck.newStackedDeckItem();
+        StackedDeck<ItemCard> ex = EftaiosDecks.newStackedDeckItem();
         assertEquals(12, ex.getCardCollection().size());
     }
 
     @Test
     public void stackedDeckPlayerTest() {
-        StackedDeck<PlayerCard> ex = StackedDeck.newStackedDeckPlayer();
+        StackedDeck<PlayerCard> ex = EftaiosDecks.newStackedDeckPlayer();
         assertEquals(8, ex.getCardCollection().size());
     }
 
     @Test
     public void recycleTest() {
-        StackedDeck<ItemCard> ex = StackedDeck.newStackedDeckItem();
+        StackedDeck<ItemCard> ex = EftaiosDecks.newStackedDeckItem();
         int prevSize = ex.getCardCollection().size();
         for (int i = 0; i < prevSize; i++) {
             ex.pickAndThrow();
