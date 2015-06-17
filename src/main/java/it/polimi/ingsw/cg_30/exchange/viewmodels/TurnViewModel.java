@@ -9,9 +9,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "Turn")
 public class TurnViewModel extends ViewModel {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 6158366298057289584L;
 
     @XmlElement(name = "MaxSteps")

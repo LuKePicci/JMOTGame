@@ -10,7 +10,6 @@ import it.polimi.ingsw.cg_30.gamemanager.model.Player;
 import it.polimi.ingsw.cg_30.gamemanager.model.Turn;
 import it.polimi.ingsw.cg_30.gamemanager.network.DisconnectedException;
 
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -20,6 +19,9 @@ public class TurnController {
 
     /** The turn. */
     protected Turn turn;
+
+    /** The max turn number. */
+    private static final int MAX_TURN = 39;
 
     /**
      * Instance of discard card action needed if a player can't end his turn
@@ -52,10 +54,22 @@ public class TurnController {
      * @param playerList
      *            the player list
      */
-    public void firstTurn(List<Player> playerList) {
-        for (Player nextPlayer : playerList) {
-            if (nextPlayer.getIndex() == 1) {
+    public void firstTurn(MatchController matchController) {
+        for (Player nextPlayer : matchController.obtainPartyPlayers()) {
+            if (nextPlayer.getIndex() == 1
+                    && !this.checkIfPlayerIsOnline(nextPlayer, matchController)) {
                 this.turn = new Turn(nextPlayer);
+                try {
+                    matchController.sendViewModelToAPlayer(nextPlayer,
+                            matchController.getTurnController().getTurn()
+                                    .getViewModel());
+                } catch (DisconnectedException e) {
+                    // the player will receive the view of his turn when he will
+                    // connect again thanks to modelSender(Player) (if it's
+                    // still his turn)
+                    // Otherwise, after a timeout the turn will be given to the
+                    // next player
+                }
                 return;
             }
         }
@@ -79,11 +93,8 @@ public class TurnController {
      *
      * @param matchController
      *            the match controller
-     * @throws DisconnectedException
-     *             the disconnected exception
      */
-    public void nextTurn(MatchController matchController)
-            throws DisconnectedException {
+    public void nextTurn(MatchController matchController) {
         // in case a player has gone offline and the new turn is called due to a
         // timer expiration, I must guarantee the player doesn't end his turn
         // with more than three item card
@@ -91,19 +102,25 @@ public class TurnController {
         Set<Player> playerList = getPartyPlayers(matchController);
         int playerNumber = playerList.size();
         int index = this.turn.getCurrentPlayer().getIndex();
-        playerList.removeAll(matchController.getMatch().getDeadPlayer());
-        playerList.removeAll(matchController.getMatch().getRescuedPlayer());
         for (int i = 0; i < playerNumber; i++) {
             if (index == playerNumber) {
                 index = 1;
                 matchController.getMatch().incrementTurnCount();
+                if (matchController.getMatch().getTurnCount() == (MAX_TURN + 1)) {
+                    matchController.endingByTurnController();
+                    return;
+                }
             } else {
                 index++;
             }
             for (Player nextPlayer : playerList) {
                 if (nextPlayer.getIndex() == index
                         && !this.checkIfPlayerIsOnline(nextPlayer,
-                                matchController)) {
+                                matchController)
+                        && !matchController.getMatch().getDeadPlayer()
+                                .contains(nextPlayer)
+                        && !matchController.getMatch().getRescuedPlayer()
+                                .contains(nextPlayer)) {
                     // it's nextPlayer's turn
                     matchController.checkEndGame();
                     matchController.getTurnController().setTurn(
@@ -122,11 +139,8 @@ public class TurnController {
      *
      * @param matchController
      *            the match controller
-     * @throws DisconnectedException
-     *             the disconnected exception
      */
-    private void checkLegality(MatchController matchController)
-            throws DisconnectedException {
+    private void checkLegality(MatchController matchController) {
         if (matchController.getTurnController().getTurn().getMustDiscard()) {
             Object[] playerCards = matchController.getTurnController()
                     .getTurn().getCurrentPlayer().getItemsDeck().getCards()
@@ -145,7 +159,7 @@ public class TurnController {
      *            the player
      * @param matchController
      *            the match controller
-     * @return true, if the player is online
+     * @return true, if the player is offline
      */
     protected boolean checkIfPlayerIsOnline(Player player,
             MatchController matchController) {
@@ -154,7 +168,6 @@ public class TurnController {
                         matchController.getPartyController().getCurrentParty()
                                 .getPlayerUUID(player)).getAcceptPlayer()
                 .connectionLost();
-
     }
 
     /**
@@ -170,6 +183,16 @@ public class TurnController {
                 new ChatMessage(new ChatViewModel("It's "
                         + nextPlayer.getName() + "'s turn", "Server",
                         ChatVisibility.PARTY)));
+        try {
+            matchController.sendViewModelToAPlayer(nextPlayer, matchController
+                    .getTurnController().getTurn().getViewModel());
+        } catch (DisconnectedException e) {
+            // the player will receive the view of his turn when he will
+            // connect again thanks to modelSender(Player) (if it's
+            // still his turn)
+            // Otherwise, after a timeout the turn will be given to the
+            // next player
+        }
     }
 
 }

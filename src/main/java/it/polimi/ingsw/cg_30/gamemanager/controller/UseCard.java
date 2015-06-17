@@ -6,6 +6,7 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.Item;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ItemCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerRace;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Sector;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorHighlight;
 import it.polimi.ingsw.cg_30.gamemanager.model.Player;
 import it.polimi.ingsw.cg_30.gamemanager.model.SpareDeck;
 import it.polimi.ingsw.cg_30.gamemanager.network.DisconnectedException;
@@ -63,21 +64,20 @@ public class UseCard extends ActionController {
                                     .getMustMove())// must be used before moving
                     || (Item.SPOTLIGHT.equals(this.item) && !this.matchController
                             .getZoneController().getCurrentZone().getMap()
-                            .containsKey(req.getActionTarget()))); // the sector
-                                                                   // must be on
-                                                                   // the map
+                            .containsKey(this.req.getActionTarget()))); // the
+                                                                        // sector
+            // must be on
+            // the map
         }
     }
 
     /**
      * Executes the action.
-     * 
-     * @throws DisconnectedException
      */
     @Override
-    public void processAction() throws DisconnectedException {
+    public void processAction() {
         ItemCard card = findItemCardByItem(item);
-        this.showCardToParty(card);
+        this.matchController.showCardToParty(card);
 
         if (Item.ATTACK.equals(this.item)) {
             this.notifyInChatByCurrentPlayer("ATTACK CARD");
@@ -90,7 +90,17 @@ public class UseCard extends ActionController {
         } else if (Item.TELEPORT.equals(item)) {
             this.notifyInChatByCurrentPlayer("TELEPORT CARD");
             this.teleportLogic();
-            this.updateMapView();
+            try {
+                this.matchController.sendMapVariationToPlayer(player,
+                        this.matchController.getZoneController()
+                                .getHumansStart(),
+                        SectorHighlight.PLAYER_LOCATION);
+            } catch (DisconnectedException e) {
+                // player's location will be updated as soon as the player comes
+                // back
+                // thanks to modelSender(Player returningPlayer) in
+                // MatchController
+            }
 
         } else if (Item.ADRENALINE.equals(item)) {
             this.notifyInChatByCurrentPlayer("ADRENALINE CARD");
@@ -112,7 +122,12 @@ public class UseCard extends ActionController {
         // remove the obliged to discard
         this.matchController.getTurnController().getTurn()
                 .setMustDiscard(false);
-        this.updateDeckView();
+        try {
+            this.matchController.updateDeckView(player);
+        } catch (DisconnectedException e) {
+            // player's deck will be updated as soon as the player comes back
+            // thanks to modelSender(Player returningPlayer) in MatchController
+        }
     }
 
     /**

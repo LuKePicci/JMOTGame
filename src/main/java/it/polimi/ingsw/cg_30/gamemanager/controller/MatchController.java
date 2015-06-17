@@ -11,8 +11,10 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.Item;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ItemCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerRace;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.Sector;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorHighlight;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorViewModel;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewModel;
-import it.polimi.ingsw.cg_30.exchange.viewmodels.ZoneViewModel;
 import it.polimi.ingsw.cg_30.gamemanager.model.Match;
 import it.polimi.ingsw.cg_30.gamemanager.model.Player;
 import it.polimi.ingsw.cg_30.gamemanager.model.StackedDeck;
@@ -43,9 +45,6 @@ public class MatchController {
     /** The match model. */
     protected Match match;
 
-    /** The max turn number. */
-    private static final int MAX_TURN = 39;
-
     /** The server word text. */
     private String serverWordText = "Server";
 
@@ -61,21 +60,25 @@ public class MatchController {
 
     /**
      * Sends all the model needed in order to star a new match.
-     * 
+     *
      * @throws DisconnectedException
+     *             the disconnected exception
      */
-    private void modelSender() throws DisconnectedException {
-        // map
-        this.updateMapToPartyPlayers();
+    private void modelSender() {
+        // clean map
+        this.sendMapViewToParty();
 
         // party
         this.partyController.sendMessageToParty(new Message(
                 this.partyController.getCurrentParty().getViewModel()));
 
-        // players' cards
+        // players' cards and position
         for (Player player : obtainPartyPlayers()) {
             try {
                 this.updateDeckView(player);
+                this.sendMapVariationToPlayer(player, zoneController
+                        .getCurrentZone().getCell(player),
+                        SectorHighlight.PLAYER_LOCATION);
             } catch (DisconnectedException e) {
                 // This player will not be able to play until he reconnects.
             }
@@ -87,16 +90,34 @@ public class MatchController {
                         ChatVisibility.PARTY)));
     }
 
+    /**
+     * Model sender.
+     *
+     * @param returningPlayer
+     *            the returning player
+     * @throws DisconnectedException
+     *             the disconnected exception
+     */
     public void modelSender(Player returningPlayer)
             throws DisconnectedException {
-        // map
-        this.updateMapView(returningPlayer);
+        // cleqn map
+        this.sendMapViewToPlayer(returningPlayer);
+        // player's location
+        this.sendMapVariationToPlayer(returningPlayer, zoneController
+                .getCurrentZone().getCell(returningPlayer),
+                SectorHighlight.PLAYER_LOCATION);
 
         // party
         this.updatePartyModel(returningPlayer);
 
-        // cards
+        // player's cards
         this.updateDeckView(returningPlayer);
+
+        // turn (in case returningPlayer is the currentPlayer)
+        if (turnController.getTurn().getCurrentPlayer().equals(returningPlayer)) {
+            sendViewModelToAPlayer(returningPlayer, turnController.getTurn()
+                    .getViewModel());
+        }
     }
 
     /**
@@ -136,14 +157,11 @@ public class MatchController {
      * @throws URISyntaxException
      *             the URI syntax exception
      * @throws DisconnectedException
+     *             the disconnected exception
      */
     public void initMatch(PartyController partyController)
-            throws FileNotFoundException, URISyntaxException,
-            DisconnectedException {
+            throws FileNotFoundException, URISyntaxException {
         this.partyController = partyController;
-
-        // TODO kick offline players
-
         this.match = new Match();
         this.turnController = new TurnController();
 
@@ -153,10 +171,12 @@ public class MatchController {
         ZoneFactory zf = new TemplateZoneFactory(game.getMapName());
         this.zoneController = new ZoneController(zf);
 
+        // TODO kick offline players
+
         this.establishRoles(); // roles assignment
-        List<Player> playerList = obtainPartyPlayers();
-        this.zoneController.placePlayers(playerList); // put players on starts
-        this.turnController.firstTurn(playerList); // first turn preparation
+        this.zoneController.placePlayers(obtainPartyPlayers()); // put players
+                                                                // on starts
+        this.turnController.firstTurn(this); // first turn preparation
         this.modelSender(); // send the models
         this.sayRoles(); // inform every player about his role
         // inform the party about the first turn
@@ -217,7 +237,7 @@ public class MatchController {
                 if (Item.DEFENSE.equals(card.getItem())) {
                     this.match.getItemsDeck().putIntoBucket(card);
                     killedPlayer.getItemsDeck().getCards().remove(card);
-                    notifyPartyFromPlayer(killedPlayer, "DEFENSE CARD");
+                    notifyPartyByPlayer(killedPlayer, "DEFENSE CARD");
                     showCardToParty(card);
                     try {
                         updateDeckView(killedPlayer);
@@ -236,12 +256,12 @@ public class MatchController {
         // adds killedPlayer among dead players
         this.match.getDeadPlayer().add(killedPlayer);
         // informs killedPlayer that he is dead
-        notifyAPlayerAbout(killedPlayer, "You are dead");
+        this.notifyAPlayerAbout(killedPlayer, "You are dead");
         // informs the other players about killedPlayer's identity
         List<Player> others = obtainPartyPlayers();
         others.remove(killedPlayer);
         for (Player otherPlayer : others) {
-            notifyAPlayerAbout(otherPlayer, "The "
+            this.notifyAPlayerAbout(otherPlayer, "The "
                     + killedPlayer.getIdentity().getRace().toString() + " "
                     + killedPlayer.getName() + " is dead");
         }
@@ -251,14 +271,16 @@ public class MatchController {
             killedPlayer.getItemsDeck().getCards().remove(card);
         }
         try {
-            updateDeckView(killedPlayer);
+            this.updateDeckView(killedPlayer);
         } catch (DisconnectedException e) {
             // do not push this model, will be retrieved manually on reconnect
         }
         // killedPlayer have to disappear from the map
         this.zoneController.getCurrentZone().movePlayer(killedPlayer, null);
         try {
-            updateMapView(killedPlayer);
+            this.sendMapVariationToPlayer(killedPlayer, zoneController
+                    .getCurrentZone().getCell(killedPlayer),
+                    SectorHighlight.PLAYER_LOCATION);
         } catch (DisconnectedException e) {
             // do not push this model, will be retrieved manually on reconnect
         }
@@ -311,6 +333,11 @@ public class MatchController {
         playerList.removeAll(getAlienPlayers());
         playerList.removeAll(match.getRescuedPlayer());
         this.sayYouLose(playerList);
+    }
+
+    public void endingByTurnController() {
+        this.partialVictory();
+        this.partyController.endMatch();
     }
 
     /**
@@ -393,9 +420,8 @@ public class MatchController {
             this.partyController.endMatch();
         }
 
-        // END OF 39th TURN (count from 1) or NO MORE HATCHES AVAILABLE
-        else if (this.match.getTurnCount() == (MAX_TURN + 1)
-                || this.zoneController.noMoreHatches()) {
+        // NO MORE HATCHES AVAILABLE
+        else if (this.zoneController.noMoreHatches()) {
             this.partialVictory();
             this.partyController.endMatch();
         }
@@ -437,7 +463,7 @@ public class MatchController {
      * @param about
      *            the string to notify
      */
-    protected void notifyAPlayerAbout(Player player, String about) {
+    public void notifyAPlayerAbout(Player player, String about) {
         try {
             MessageController
                     .getPlayerHandler(
@@ -461,7 +487,7 @@ public class MatchController {
      * @param what
      *            the string to notify
      */
-    protected void notifyPartyFromPlayer(Player player, String what) {
+    protected void notifyPartyByPlayer(Player player, String what) {
         this.partyController
                 .sendMessageToParty(new ChatMessage(new ChatViewModel(what,
                         player.getName(), ChatVisibility.PARTY)));
@@ -473,7 +499,7 @@ public class MatchController {
      * @param card
      *            the card to notify
      */
-    protected void showCardToParty(Card card) {
+    public void showCardToParty(Card card) {
         this.partyController.sendMessageToParty(new Message(card));
     }
 
@@ -485,46 +511,61 @@ public class MatchController {
      * @throws DisconnectedException
      *             the disconnected exception
      */
-    protected void updateDeckView(Player player) throws DisconnectedException {
+    public void updateDeckView(Player player) throws DisconnectedException {
         this.sendViewModelToAPlayer(player, player.getItemsDeck()
                 .getViewModel());
     }
 
     /**
-     * Updates map view for the player.
-     * 
+     * Send map view to party. Note: this map does not contain neither players'
+     * locations nor possible used hatches.
+     */
+    protected void sendMapViewToParty() {
+        this.partyController.sendMessageToParty(new Message(this.zoneController
+                .getCurrentZone().getViewModel()));
+    }
+
+    /**
+     * Send map view to player. Note: this map does not contain neither players'
+     * locations nor possible used hatches.
+     *
      * @param player
      *            the player
      * @throws DisconnectedException
      *             the disconnected exception
      */
-    protected void updateMapView(Player player) throws DisconnectedException {
-        ZoneViewModel viewModel = (ZoneViewModel) this.zoneController
-                .getCurrentZone().getViewModel();
-        viewModel.setPlayerLocation(this.zoneController.getCurrentZone()
-                .getCell(player));
+    protected void sendMapViewToPlayer(Player player)
+            throws DisconnectedException {
+        this.sendViewModelToAPlayer(player, this.zoneController
+                .getCurrentZone().getViewModel());
+    }
+
+    /**
+     * Send map variation to player; a variation could be about player's
+     * location, used hatch,... (see SectorHighlight enum) .
+     *
+     * @param player
+     *            the player
+     * @param sec
+     *            the sector
+     * @param highlight
+     *            the highlight
+     * @throws DisconnectedException
+     *             the disconnected exception
+     */
+    public void sendMapVariationToPlayer(Player player, Sector sec,
+            SectorHighlight highlight) throws DisconnectedException {
+        SectorViewModel viewModel = new SectorViewModel(sec, highlight);
         this.sendViewModelToAPlayer(player, viewModel);
     }
 
     /**
-     * Updates map view for all party players.
-     * 
+     * Updates party view for the player received.
+     *
+     * @param player
+     *            the player
      * @throws DisconnectedException
-     */
-    protected void updateMapToPartyPlayers() throws DisconnectedException {
-        for (Player playerToNotify : obtainPartyPlayers()) {
-            ZoneViewModel viewModel = (ZoneViewModel) this.zoneController
-                    .getCurrentZone().getViewModel();
-            viewModel.setPlayerLocation(this.zoneController.getCurrentZone()
-                    .getCell(playerToNotify));
-            this.sendViewModelToAPlayer(playerToNotify, viewModel);
-        }
-    }
-
-    /**
-     * Updates party view for the player.
-     * 
-     * @throws DisconnectedException
+     *             the disconnected exception
      */
     protected void updatePartyModel(Player player) throws DisconnectedException {
         this.sendViewModelToAPlayer(player, this.partyController
@@ -532,7 +573,17 @@ public class MatchController {
 
     }
 
-    protected void sendViewModelToAPlayer(Player p, ViewModel content)
+    /**
+     * Send the view model received to the player received.
+     *
+     * @param p
+     *            the player
+     * @param content
+     *            the view model
+     * @throws DisconnectedException
+     *             the disconnected exception
+     */
+    public void sendViewModelToAPlayer(Player p, ViewModel content)
             throws DisconnectedException {
         MessageController
                 .getPlayerHandler(

@@ -6,6 +6,7 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.HatchCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.HatchChance;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerRace;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Sector;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorHighlight;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorType;
 import it.polimi.ingsw.cg_30.gamemanager.model.Player;
 import it.polimi.ingsw.cg_30.gamemanager.network.DisconnectedException;
@@ -67,11 +68,9 @@ public class Move extends ActionController {
 
     /**
      * Executes the action.
-     * 
-     * @throws DisconnectedException
      */
     @Override
-    public void processAction() throws DisconnectedException {
+    public void processAction() {
         // move the player
         this.matchController.getZoneController().getCurrentZone()
                 .movePlayer(player, this.target);
@@ -82,47 +81,52 @@ public class Move extends ActionController {
                     + this.target.getPoint().toString());
             HatchCard drawnCard = this.matchController.getMatch()
                     .getHatchesDeck().pickAndThrow();
+            List<Player> others = this.matchController.obtainPartyPlayers();
+            others.remove(this.matchController.getTurnController().getTurn()
+                    .getCurrentPlayer());
             // send the card
-            showCardToParty(drawnCard);
+            this.matchController.showCardToParty(drawnCard);
             if (HatchChance.FREE.equals(drawnCard.getChance())) {
                 this.matchController.getMatch().getRescuedPlayer().add(player);
                 this.notifyInChatByServer("GREEN HATCH CAR");
-                this.notifyCurrentPlayerByServer("YOU ARE SAFE NOW");
-                List<Player> others = obtainPartyPlayers();
-                others.remove(this.matchController.getTurnController()
-                        .getTurn().getCurrentPlayer());
-                for (Player otherPlayer : others) {
-                    this.notifyAPlayerAbout(otherPlayer, this.matchController
-                            .getTurnController().getTurn().getCurrentPlayer()
-                            .getName()
-                            + " HAS ESCAPED");
+                try {
+                    this.notifyCurrentPlayerByServer("YOU ARE SAFE NOW");
+                } catch (DisconnectedException e) {
+                    // TODO il player se torna non sa se è fuggito o se è stato
+                    // ucciso fino a che finisce il match...
                 }
-                this.matchController.checkEndGame();
+                for (Player otherPlayer : others) {
+                    this.matchController.notifyAPlayerAbout(otherPlayer,
+                            this.matchController.getTurnController().getTurn()
+                                    .getCurrentPlayer().getName()
+                                    + " HAS ESCAPED");
+                }
             } else {
                 this.notifyInChatByServer("RED HATCH CARD");
-                this.notifyCurrentPlayerByServer("YOU CAN'T USE THIS HATCH");
-                List<Player> others = obtainPartyPlayers();
-                others.remove(this.matchController.getTurnController()
-                        .getTurn().getCurrentPlayer());
-                for (Player otherPlayer : others) {
-                    this.notifyAPlayerAbout(otherPlayer, this.matchController
-                            .getTurnController().getTurn().getCurrentPlayer()
-                            .getName()
-                            + " HAS NOT ESCAPED");
+                try {
+                    this.notifyCurrentPlayerByServer("YOU CAN'T USE THIS HATCH");
+                } catch (DisconnectedException e) {
+                    // TODO il player se torna non sa se è fuggito o se è stato
+                    // ucciso fino a che finisce il match...
                 }
-                this.matchController.checkEndGame();
+                for (Player otherPlayer : others) {
+                    this.matchController.notifyAPlayerAbout(otherPlayer,
+                            this.matchController.getTurnController().getTurn()
+                                    .getCurrentPlayer().getName()
+                                    + " HAS NOT ESCAPED");
+                }
             }
             try {
                 this.matchController.getZoneController().lockHatch(
                         this.target.getPoint());
             } catch (NotAnHatchException e) {
-                // technically I have already checked the sector, so an
+                // TODO technically I have already checked the sector, so an
                 // exception should never be thrown
-                // TODO Auto-generated catch block
-                e.printStackTrace();
             }
             // update the map
-            this.updateMapToPartyPlayers();
+            this.sendMapVariationToParty(this.target,
+                    SectorHighlight.HATCH_LOCKED);
+            this.matchController.checkEndGame();
         } else if (SectorType.DANGEROUS.equals(this.target.getType())) {
             this.matchController.getTurnController().getTurn()
                     .setIsSecDangerous(true);// an alien can attack or draw a

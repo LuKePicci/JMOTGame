@@ -10,7 +10,9 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.HexPoint;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerRace;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Sector;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorHighlight;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorType;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewModel;
 import it.polimi.ingsw.cg_30.gamemanager.model.Match;
 import it.polimi.ingsw.cg_30.gamemanager.model.Party;
 import it.polimi.ingsw.cg_30.gamemanager.model.Player;
@@ -48,25 +50,25 @@ public class MoveTest {
             }
 
             @Override
-            protected void notifyPartyFromPlayer(Player player, String what) {
+            public void notifyAPlayerAbout(Player player, String about) {
             }
 
             @Override
-            protected void showCardToParty(Card card) {
+            public void showCardToParty(Card card) {
             }
 
             @Override
-            protected void updateDeckView(Player player) {
+            public void updateDeckView(Player player) {
             }
 
             @Override
-            protected void notifyAPlayerAbout(Player player, String about) {
+            public void sendMapVariationToPlayer(Player player, Sector sec,
+                    SectorHighlight highlight) {
             }
 
             @Override
-            protected void updateMapView(Player player) {
+            public void sendViewModelToAPlayer(Player p, ViewModel content) {
             }
-
         };
 
         PlayerCard alien = new PlayerCard(PlayerRace.ALIEN, null);
@@ -98,10 +100,6 @@ public class MoveTest {
             @Override
             protected void notifyCurrentPlayerByServer(String what) {
             }
-
-            @Override
-            protected void updateDeckView() {
-            }
         };
         mo.initAction(matchController, action);
         // verifico esito
@@ -129,23 +127,24 @@ public class MoveTest {
             }
 
             @Override
-            protected void notifyPartyFromPlayer(Player player, String what) {
+            public void notifyAPlayerAbout(Player player, String about) {
             }
 
             @Override
-            protected void showCardToParty(Card card) {
+            public void showCardToParty(Card card) {
             }
 
             @Override
-            protected void updateDeckView(Player player) {
+            public void updateDeckView(Player player) {
             }
 
             @Override
-            protected void notifyAPlayerAbout(Player player, String about) {
+            public void sendMapVariationToPlayer(Player player, Sector sec,
+                    SectorHighlight highlight) {
             }
 
             @Override
-            protected void updateMapView(Player player) {
+            public void sendViewModelToAPlayer(Player p, ViewModel content) {
             }
 
         };
@@ -186,10 +185,6 @@ public class MoveTest {
             @Override
             protected void notifyCurrentPlayerByServer(String what) {
             }
-
-            @Override
-            protected void updateDeckView() {
-            }
         };
         mo.initAction(matchController, action);
         // verifico esito
@@ -217,23 +212,24 @@ public class MoveTest {
             }
 
             @Override
-            protected void notifyPartyFromPlayer(Player player, String what) {
+            public void notifyAPlayerAbout(Player player, String about) {
             }
 
             @Override
-            protected void showCardToParty(Card card) {
+            public void showCardToParty(Card card) {
             }
 
             @Override
-            protected void updateDeckView(Player player) {
+            public void updateDeckView(Player player) {
             }
 
             @Override
-            protected void notifyAPlayerAbout(Player player, String about) {
+            public void sendMapVariationToPlayer(Player player, Sector sec,
+                    SectorHighlight highlight) {
             }
 
             @Override
-            protected void updateMapView(Player player) {
+            public void sendViewModelToAPlayer(Player p, ViewModel content) {
             }
 
         };
@@ -270,10 +266,6 @@ public class MoveTest {
             @Override
             protected void notifyCurrentPlayerByServer(String what) {
             }
-
-            @Override
-            protected void updateDeckView() {
-            }
         };
         mo.initAction(matchController, action);
         // verifico esito
@@ -301,25 +293,25 @@ public class MoveTest {
             }
 
             @Override
-            protected void notifyPartyFromPlayer(Player player, String what) {
+            public void notifyAPlayerAbout(Player player, String about) {
             }
 
             @Override
-            protected void showCardToParty(Card card) {
+            public void showCardToParty(Card card) {
             }
 
             @Override
-            protected void updateDeckView(Player player) {
+            public void updateDeckView(Player player) {
             }
 
             @Override
-            protected void notifyAPlayerAbout(Player player, String about) {
+            public void sendMapVariationToPlayer(Player player, Sector sec,
+                    SectorHighlight highlight) {
             }
 
             @Override
-            protected void updateMapView(Player player) {
+            public void sendViewModelToAPlayer(Player p, ViewModel content) {
             }
-
         };
 
         PlayerCard human = new PlayerCard(PlayerRace.HUMAN, null);
@@ -382,25 +374,8 @@ public class MoveTest {
             }
 
             @Override
-            protected void updateDeckView() {
-            }
-
-            @Override
-            protected void showCardToParty(Card card) {
-            }
-
-            @Override
             protected void notifyInChatByServer(String what) {
             }
-
-            @Override
-            protected void notifyAPlayerAbout(Player player, String about) {
-            }
-
-            @Override
-            protected void updateMapToPartyPlayers() {
-            }
-
         };
         mo.initAction(matchController, action1);
         assertTrue(mo.isValid());
@@ -460,25 +435,25 @@ public class MoveTest {
             }
 
             @Override
-            protected void notifyPartyFromPlayer(Player player, String what) {
+            public void notifyAPlayerAbout(Player player, String about) {
             }
 
             @Override
-            protected void showCardToParty(Card card) {
+            public void showCardToParty(Card card) {
             }
 
             @Override
-            protected void updateDeckView(Player player) {
+            public void updateDeckView(Player player) {
             }
 
             @Override
-            protected void notifyAPlayerAbout(Player player, String about) {
+            public void sendMapVariationToPlayer(Player player, Sector sec,
+                    SectorHighlight highlight) {
             }
 
             @Override
-            protected void updateMapView(Player player) {
+            public void sendViewModelToAPlayer(Player p, ViewModel content) {
             }
-
         };
 
         PlayerCard human = new PlayerCard(PlayerRace.HUMAN, null);
@@ -513,10 +488,6 @@ public class MoveTest {
             @Override
             protected void notifyCurrentPlayerByServer(String what) {
             }
-
-            @Override
-            protected void updateDeckView() {
-            }
         };
         mo.initAction(matchController, action);
         // verifico esito
@@ -544,25 +515,25 @@ public class MoveTest {
             }
 
             @Override
-            protected void notifyPartyFromPlayer(Player player, String what) {
+            public void notifyAPlayerAbout(Player player, String about) {
             }
 
             @Override
-            protected void showCardToParty(Card card) {
+            public void showCardToParty(Card card) {
             }
 
             @Override
-            protected void updateDeckView(Player player) {
+            public void updateDeckView(Player player) {
             }
 
             @Override
-            protected void notifyAPlayerAbout(Player player, String about) {
+            public void sendMapVariationToPlayer(Player player, Sector sec,
+                    SectorHighlight highlight) {
             }
 
             @Override
-            protected void updateMapView(Player player) {
+            public void sendViewModelToAPlayer(Player p, ViewModel content) {
             }
-
         };
 
         PlayerCard human = new PlayerCard(PlayerRace.HUMAN, null);
@@ -597,10 +568,6 @@ public class MoveTest {
             @Override
             protected void notifyCurrentPlayerByServer(String what) {
             }
-
-            @Override
-            protected void updateDeckView() {
-            }
         };
         mo.initAction(matchController, action);
         // verifico esito
@@ -628,25 +595,25 @@ public class MoveTest {
             }
 
             @Override
-            protected void notifyPartyFromPlayer(Player player, String what) {
+            public void notifyAPlayerAbout(Player player, String about) {
             }
 
             @Override
-            protected void showCardToParty(Card card) {
+            public void showCardToParty(Card card) {
             }
 
             @Override
-            protected void updateDeckView(Player player) {
+            public void updateDeckView(Player player) {
             }
 
             @Override
-            protected void notifyAPlayerAbout(Player player, String about) {
+            public void sendMapVariationToPlayer(Player player, Sector sec,
+                    SectorHighlight highlight) {
             }
 
             @Override
-            protected void updateMapView(Player player) {
+            public void sendViewModelToAPlayer(Player p, ViewModel content) {
             }
-
         };
 
         PlayerCard alien = new PlayerCard(PlayerRace.ALIEN, null);
@@ -684,10 +651,6 @@ public class MoveTest {
             @Override
             protected void notifyCurrentPlayerByServer(String what) {
             }
-
-            @Override
-            protected void updateDeckView() {
-            }
         };
         mo.initAction(matchController, action);
         assertTrue(mo.isValid());
@@ -723,23 +686,24 @@ public class MoveTest {
             }
 
             @Override
-            protected void notifyPartyFromPlayer(Player player, String what) {
+            public void notifyAPlayerAbout(Player player, String about) {
             }
 
             @Override
-            protected void showCardToParty(Card card) {
+            public void showCardToParty(Card card) {
             }
 
             @Override
-            protected void updateDeckView(Player player) {
+            public void updateDeckView(Player player) {
             }
 
             @Override
-            protected void notifyAPlayerAbout(Player player, String about) {
+            public void sendMapVariationToPlayer(Player player, Sector sec,
+                    SectorHighlight highlight) {
             }
 
             @Override
-            protected void updateMapView(Player player) {
+            public void sendViewModelToAPlayer(Player p, ViewModel content) {
             }
 
         };
@@ -778,14 +742,6 @@ public class MoveTest {
 
             @Override
             protected void notifyCurrentPlayerByServer(String what) {
-            }
-
-            @Override
-            protected void updateDeckView() {
-            }
-
-            @Override
-            protected void updateMapView() throws DisconnectedException {
             }
         };
         mo.initAction(matchController, action);
@@ -827,23 +783,24 @@ public class MoveTest {
             }
 
             @Override
-            protected void notifyPartyFromPlayer(Player player, String what) {
+            public void notifyAPlayerAbout(Player player, String about) {
             }
 
             @Override
-            protected void showCardToParty(Card card) {
+            public void showCardToParty(Card card) {
             }
 
             @Override
-            protected void updateDeckView(Player player) {
+            public void updateDeckView(Player player) {
             }
 
             @Override
-            protected void notifyAPlayerAbout(Player player, String about) {
+            public void sendMapVariationToPlayer(Player player, Sector sec,
+                    SectorHighlight highlight) {
             }
 
             @Override
-            protected void updateMapView(Player player) {
+            public void sendViewModelToAPlayer(Player p, ViewModel content) {
             }
 
         };
@@ -884,10 +841,6 @@ public class MoveTest {
             @Override
             protected void notifyCurrentPlayerByServer(String what) {
             }
-
-            @Override
-            protected void updateDeckView() {
-            }
         };
         mo.initAction(matchController, action);
         assertTrue(mo.isValid());
@@ -922,25 +875,25 @@ public class MoveTest {
             }
 
             @Override
-            protected void notifyPartyFromPlayer(Player player, String what) {
+            public void notifyAPlayerAbout(Player player, String about) {
             }
 
             @Override
-            protected void showCardToParty(Card card) {
+            public void showCardToParty(Card card) {
             }
 
             @Override
-            protected void updateDeckView(Player player) {
+            public void updateDeckView(Player player) {
             }
 
             @Override
-            protected void notifyAPlayerAbout(Player player, String about) {
+            public void sendMapVariationToPlayer(Player player, Sector sec,
+                    SectorHighlight highlight) {
             }
 
             @Override
-            protected void updateMapView(Player player) {
+            public void sendViewModelToAPlayer(Player p, ViewModel content) {
             }
-
         };
 
         PlayerCard human = new PlayerCard(PlayerRace.HUMAN, null);
@@ -977,10 +930,6 @@ public class MoveTest {
 
             @Override
             protected void notifyCurrentPlayerByServer(String what) {
-            }
-
-            @Override
-            protected void updateDeckView() {
             }
         };
         mo.initAction(matchController, action);

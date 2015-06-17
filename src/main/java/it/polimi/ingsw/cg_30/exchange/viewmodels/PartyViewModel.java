@@ -9,9 +9,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "Party")
 public class PartyViewModel extends ViewModel {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -1432131216732742865L;
 
     @XmlAttribute(name = "Name")
