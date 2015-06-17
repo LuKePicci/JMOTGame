@@ -10,7 +10,9 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerRace;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorEvent;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class EftaiosDecks {
@@ -18,7 +20,7 @@ public class EftaiosDecks {
     private static final Set<HatchCard> HATCH_CARDS;
     private static final Set<SectorCard> SECTOR_CARDS;
     private static final Set<ItemCard> ITEM_CARDS;
-    private static final Set<PlayerCard> PLAYER_CARDS;
+    private static final List<PlayerCard> PLAYER_CARDS;
 
     static {
         HATCH_CARDS = new HashSet<HatchCard>();
@@ -52,7 +54,7 @@ public class EftaiosDecks {
             ITEM_CARDS.add(new ItemCard(Item.SEDATIVES));
         }
 
-        PLAYER_CARDS = new HashSet<PlayerCard>();
+        PLAYER_CARDS = new ArrayList<PlayerCard>();
         PLAYER_CARDS.add(new PlayerCard(PlayerRace.HUMAN,
                 PlayerCharacter.THE_SOLDIER));
         PLAYER_CARDS.add(new PlayerCard(PlayerRace.ALIEN,
