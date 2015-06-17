@@ -32,6 +32,18 @@ public class PlayerViewModel extends ViewModel {
         super(ViewType.PLAYER);
     }
 
+    public String getName() {
+        return this.name;
+    }
+
+    public int getIndex() {
+        return this.index;
+    }
+
+    public int getKillsCount() {
+        return this.killsCount;
+    }
+
     @Override
     public String toString() {
         return "PlayerViewModel { index: " + index + ", name: " + name

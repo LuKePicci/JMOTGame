@@ -38,8 +38,7 @@ public class DrawCard extends ActionController {
         try {
             this.showCardToCurrentPlayer(drawnCard);
         } catch (DisconnectedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            // TODO come lo gestiamo?
         }
         if (SectorEvent.SILENCE.equals(drawnCard.getEvent())) {
             this.notifyInChatByCurrentPlayer("SILENCE");
@@ -56,8 +55,8 @@ public class DrawCard extends ActionController {
             try {
                 this.notifyCurrentPlayerByServer("CHOOSE WHERE TO MAKE THE NOISE");
             } catch (DisconnectedException e) {
-                // TODO come la gestiamo?
-                // il player se torna deve essere informato che deve scartare
+                // TODO il player se torna deve essere informato che deve
+                // scartare: riceve il turno coi flag attivo e viene notificato
             }
         }
     }

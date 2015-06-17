@@ -25,6 +25,14 @@ public class SectorViewModel extends ViewModel {
         super(ViewType.SECTOR);
     }
 
+    public Sector getSector() {
+        return this.sectorOfInterest;
+    }
+
+    public SectorHighlight getHighlight() {
+        return this.highlight;
+    }
+
     @Override
     public String toString() {
         return "SectorViewModel{ sectorOfInterest: " + sectorOfInterest
