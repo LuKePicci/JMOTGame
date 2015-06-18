@@ -160,7 +160,7 @@ public class UseCard extends ActionController {
                     .getPlayersInSector(sec);
             for (Player playerFound : watchedPlayers) {
                 this.notifyInChatByServer("The player " + playerFound.getName()
-                        + " is in sector " + sec.getPoint().toString());
+                        + " is in sector " + this.getStringFromSector(sec));
             }
         }
     }

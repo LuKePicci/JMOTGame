@@ -36,7 +36,8 @@ public class Attack extends ActionController {
         Sector sec = this.matchController.getZoneController().getCurrentZone()
                 .getCell(player);
         // notify the attack
-        this.notifyInChatByCurrentPlayer("ATTACK in " + sec.toString());
+        this.notifyInChatByCurrentPlayer("ATTACK in "
+                + getStringFromSector(sec));
         // take the list of dead plyers
         Set<Player> dead = this.matchController.getZoneController()
                 .getCurrentZone().getPlayersInSector(sec);

@@ -7,12 +7,14 @@ import it.polimi.ingsw.cg_30.exchange.messaging.Message;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Card;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ChatViewModel;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.EftaiosGame;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.HexPoint;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Item;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ItemCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerRace;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Sector;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorHighlight;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorType;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorViewModel;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewModel;
 import it.polimi.ingsw.cg_30.gamemanager.model.EftaiosDecks;
@@ -48,6 +50,13 @@ public class MatchController {
 
     /** The server word text. */
     protected String serverWordText = "Server";
+
+    /**
+     * The sector where a player is moved after he had escaped or had been
+     * killed.
+     */
+    protected final Sector endingSector = new Sector(SectorType.SECURE,
+            HexPoint.fromOffset(26, 1));
 
     /**
      * Obtains party players.
@@ -125,8 +134,7 @@ public class MatchController {
 
         // turn (in case returningPlayer is the currentPlayer)
         if (turnController.getTurn().getCurrentPlayer().equals(returningPlayer)) {
-            sendViewModelToAPlayer(returningPlayer, turnController.getTurn()
-                    .getViewModel());
+            this.sendTurnViewModel();
         }
     }
 
@@ -277,8 +285,9 @@ public class MatchController {
         } catch (DisconnectedException e) {
             // do not push this model, will be retrieved manually on reconnect
         }
-        // killedPlayer have to disappear from the map
-        this.zoneController.getCurrentZone().movePlayer(killedPlayer, null);
+        // killedPlayer has to disappear from the map
+        this.zoneController.getCurrentZone().movePlayer(killedPlayer,
+                endingSector);
         try {
             this.sendMapVariationToPlayer(killedPlayer, zoneController
                     .getCurrentZone().getCell(killedPlayer),

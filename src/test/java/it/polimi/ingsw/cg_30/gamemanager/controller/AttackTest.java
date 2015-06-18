@@ -259,7 +259,7 @@ public class AttackTest {
                 .getCell(player1).equals(sec));
         assertTrue(matchController.getTurnController().getTurn().getCanAttack() == false);
         assertTrue(matchController.getZoneController().getCurrentZone()
-                .getCell(player2) == null);
+                .getCell(player2) == matchController.endingSector);
         assertTrue(matchController.getMatch().getDeadPlayer().contains(player2));
         assertTrue(matchController.getMatch().getDeadPlayer().size() == 1);
     }
@@ -351,7 +351,7 @@ public class AttackTest {
                 .getCell(player1).equals(sec));
         assertTrue(matchController.getTurnController().getTurn().getCanAttack() == false);
         assertTrue(matchController.getZoneController().getCurrentZone()
-                .getCell(player2) == null);
+                .getCell(player2) == matchController.endingSector);
         assertTrue(matchController.getMatch().getDeadPlayer().contains(player2));
         assertTrue(matchController.getMatch().getDeadPlayer().size() == 1);
     }
@@ -570,11 +570,11 @@ public class AttackTest {
         assertTrue(matchController.getZoneController().getCurrentZone()
                 .getCell(player1).equals(sec));
         assertTrue(matchController.getZoneController().getCurrentZone()
-                .getCell(player2) == null);
+                .getCell(player2) == matchController.endingSector);
         assertTrue(matchController.getZoneController().getCurrentZone()
-                .getCell(player3) == null);
+                .getCell(player3) == matchController.endingSector);
         assertTrue(matchController.getZoneController().getCurrentZone()
-                .getCell(player4) == null);
+                .getCell(player4) == matchController.endingSector);
         assertTrue(matchController.getZoneController().getCurrentZone()
                 .getCell(player5).equals(sec2));
         assertTrue(matchController.getZoneController().getCurrentZone()
@@ -814,7 +814,7 @@ public class AttackTest {
                 .getCell(player1).equals(sec));
         assertTrue(matchController.getTurnController().getTurn().getCanAttack() == false);
         assertTrue(matchController.getZoneController().getCurrentZone()
-                .getCell(player2) == null);
+                .getCell(player2) == matchController.endingSector);
         assertTrue(matchController.getMatch().getDeadPlayer().contains(player2));
         assertTrue(matchController.getMatch().getDeadPlayer().size() == 1);
     }
@@ -905,7 +905,7 @@ public class AttackTest {
         assertTrue(matchController.getZoneController().getCurrentZone()
                 .getCell(player1).equals(sec));
         assertTrue(matchController.getZoneController().getCurrentZone()
-                .getCell(player2) == null);
+                .getCell(player2) == matchController.endingSector);
         assertTrue(matchController.getMatch().getDeadPlayer().contains(player2));
         assertTrue(matchController.getMatch().getDeadPlayer().size() == 1);
     }
@@ -995,7 +995,7 @@ public class AttackTest {
         assertTrue(matchController.getZoneController().getCurrentZone()
                 .getCell(player1).equals(sec));
         assertTrue(matchController.getZoneController().getCurrentZone()
-                .getCell(player2) == null);
+                .getCell(player2) == matchController.endingSector);
         assertTrue(matchController.getMatch().getDeadPlayer().contains(player2));
         assertTrue(matchController.getMatch().getDeadPlayer().size() == 1);
     }

@@ -7,6 +7,7 @@ import it.polimi.ingsw.cg_30.exchange.messaging.ChatVisibility;
 import it.polimi.ingsw.cg_30.exchange.messaging.Message;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Card;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ChatViewModel;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.HexPoint;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Item;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ItemCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Sector;
@@ -265,6 +266,11 @@ public abstract class ActionController {
     protected String getStringFromSector(Sector sec) {
         return this.getCharFromNumber(sec.getPoint().getOffsetX() + 1)
                 + String.format("%02d", (sec.getPoint().getOffsetY() + 1));
+    }
+
+    protected String getStringFromHexPoint(HexPoint hex) {
+        return this.getCharFromNumber(hex.getOffsetX() + 1)
+                + String.format("%02d", (hex.getOffsetY() + 1));
     }
 
 }
