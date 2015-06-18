@@ -9,20 +9,23 @@ public class CliSectorView extends View {
     @Override
     public void applyUpdate(ViewModel model) {
         SectorViewModel viewModel = (SectorViewModel) model;
+
+        String sectorRep = this.getCharFromNumber(viewModel.getSector()
+                .getPoint().getOffsetX() + 1)
+                + String.format("%02d", (viewModel.getSector().getPoint()
+                        .getOffsetY() + 1));
+
         switch (viewModel.getHighlight()) {
             case PLAYER_LOCATION:
-                CliEngine.printLineToCli("You are in "
-                        + this.getCharFromNumber(viewModel.getSector()
-                                .getPoint().getOffsetX())
-                        + viewModel.getSector().getPoint().getOffsetY() + 1
-                        + ".");
+                CliEngine.printLineToCli("You are in " + sectorRep + ".");
                 break;
             case HATCH_LOCKED:
-                CliEngine.printLineToCli("Hatch in "
-                        + this.getCharFromNumber(viewModel.getSector()
-                                .getPoint().getOffsetX())
-                        + viewModel.getSector().getPoint().getOffsetY() + 1
+                CliEngine.printLineToCli("Hatch in " + sectorRep
                         + " is now locked.");
+                break;
+            case SPOTTED:
+                CliEngine
+                        .printLineToCli("Player spotted in " + sectorRep + "!");
                 break;
         }
     }

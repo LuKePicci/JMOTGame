@@ -35,6 +35,7 @@ public class CliEngine extends ViewEngine {
 
     @Override
     public void runEngine() {
+        this.registerViews();
 
         StringTokenizer stkn;
         CliEngine.printLineToCli("");
@@ -186,11 +187,11 @@ public class CliEngine extends ViewEngine {
 
     }
 
-    protected static void printToCli(String text) {
+    protected static synchronized void printToCli(String text) {
         System.out.print(text);
     }
 
-    protected static void printLineToCli(String line) {
+    protected static synchronized void printLineToCli(String line) {
         System.out.println(line);
     }
 

@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlSeeAlso({ ZoneViewModel.class, ChatViewModel.class, PartyViewModel.class,
         DeckViewModel.class, PlayerViewModel.class, Card.class,
-        TurnViewModel.class })
+        TurnViewModel.class, SectorViewModel.class })
 public abstract class ViewModel implements Serializable {
 
     private static final long serialVersionUID = -6011241572950363177L;

@@ -11,40 +11,35 @@ public class CliDeckView extends View {
     @Override
     public synchronized void applyUpdate(ViewModel model) {
         DeckViewModel<Card> viewModel = (DeckViewModel<Card>) model;
-        switch (viewModel.getPlayerCards().size()) {
-            case 0:
-                CliEngine.printLineToCli("You have no item cards.");
-                break;
-            case 1:
-                CliEngine.printLineToCli("You have one item card: ");
-                this.printCardName(viewModel.getPlayerCards().get(0));
-                break;
-            case 2:
-                CliEngine.printLineToCli("You have two item cards: ");
-                for (Card card : viewModel.getPlayerCards()) {
-                    this.printCardName(card);
-                }
-                break;
-            case 3:
-                CliEngine.printLineToCli("You have three item cards: ");
-                for (Card card : viewModel.getPlayerCards()) {
-                    this.printCardName(card);
-                }
-                break;
-            case 4:
-                CliEngine.printLineToCli("You have four item cards: ");
-                for (Card card : viewModel.getPlayerCards()) {
-                    this.printCardName(card);
-                }
-                break;
-            default:
-                // should never get here, but just in case...
-                CliEngine.printLineToCli("You have these item cards:");
-                for (Card card : viewModel.getPlayerCards()) {
-                    this.printCardName(card);
-                }
-                break;
-        }
+        if (viewModel.getPlayerCards() != null) {
+            switch (viewModel.getPlayerCards().size()) {
+                case 0:
+                    CliEngine.printLineToCli("You have no item cards.");
+                    break;
+                case 1:
+                    CliEngine.printLineToCli("You have one item card: ");
+                    break;
+                case 2:
+                    CliEngine.printLineToCli("You have two item cards: ");
+                    break;
+                case 3:
+                    CliEngine.printLineToCli("You have three item cards: ");
+                    break;
+                case 4:
+                    CliEngine.printLineToCli("You have four item cards: ");
+                    break;
+                default:
+                    // should never get here, but just in case...
+                    CliEngine.printLineToCli("You have these item cards:");
+                    break;
+            }
+
+            for (Card card : viewModel.getPlayerCards()) {
+                this.printCardName(card);
+            }
+
+        } else
+            CliEngine.printLineToCli("You have no item cards.");
     }
 
     private void printCardName(Card card) {

@@ -23,13 +23,18 @@ public class ZoneViewModel extends ViewModel {
         this.sectorsMap = map;
     }
 
+    private ZoneViewModel() {
+        // JAXB handled
+        super(ViewType.ZONE);
+    }
+
     public Map<HexPoint, Sector> getSectorsMap() {
         return this.sectorsMap;
     }
 
-    private ZoneViewModel() {
-        // JAXB handled
-        super(ViewType.ZONE);
+    @Override
+    public String toString() {
+        return "ZoneViewModel { sectorsMap: " + sectorsMap + " }";
     }
 
 }

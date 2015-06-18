@@ -10,13 +10,13 @@ public class CliPartyView extends View {
     @Override
     public synchronized void applyUpdate(ViewModel model) {
         PartyViewModel viewModel = (PartyViewModel) model;
-        CliEngine.printToCli("Name of the party: ");
-        CliEngine.printLineToCli(viewModel.getPartyName());
-        CliEngine.printLineToCli("Players of the party:");
+        String players = "";
         for (ViewModel view : viewModel.getPartyPlayers()) {
             PlayerViewModel playerView = (PlayerViewModel) view;
-            CliEngine.printLineToCli(playerView.getName());
+            players += playerView.getName() + "\r\n";
         }
+        CliEngine.printLineToCli("Name of the party: "
+                + viewModel.getPartyName() + "\r\nPlayers of the party:");
     }
 
 }
