@@ -30,7 +30,7 @@ public class TurnControllerTest {
             URISyntaxException, DisconnectedException {
         MatchController matchController = new MatchController() {
             @Override
-            public void sendViewModelToAPlayer(Player p, ViewModel content) {
+            protected void sendViewModelToAPlayer(Player p, ViewModel content) {
             }
 
             @Override
@@ -335,7 +335,7 @@ public class TurnControllerTest {
             }
 
             @Override
-            public void updateDeckView(Player player) {
+            protected void updateDeckView(Player player) {
             }
 
         };
@@ -452,7 +452,7 @@ public class TurnControllerTest {
             }
 
             @Override
-            public void updateDeckView(Player player) {
+            protected void updateDeckView(Player player) {
             }
 
             @Override
