@@ -263,9 +263,8 @@ public abstract class ActionController {
     }
 
     protected String getStringFromSector(Sector sec) {
-        return this.getCharFromNumber(sec.getPoint().getOffsetX())
-                + sec.getPoint().getOffsetY() + 1;
-
+        return this.getCharFromNumber(sec.getPoint().getOffsetX() + 1)
+                + String.format("%02d", (sec.getPoint().getOffsetY() + 1));
     }
 
 }
