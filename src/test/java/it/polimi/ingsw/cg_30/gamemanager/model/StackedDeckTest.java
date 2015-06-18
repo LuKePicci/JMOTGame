@@ -1,7 +1,6 @@
 package it.polimi.ingsw.cg_30.gamemanager.model;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Card;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.HatchCard;
@@ -9,7 +8,6 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.ItemCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerRace;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorCard;
-import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorEvent;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -17,20 +15,6 @@ import java.util.Set;
 import org.junit.Test;
 
 public class StackedDeckTest {
-
-    @Test
-    public void shuffleTest() {
-        StackedDeck<SectorCard> ex = EftaiosDecks.newStackedDeckSector();
-        ex.shuffle();
-        int j = 0;
-        for (int i = 0; i < 20; i++) {
-            SectorCard c = ex.pickCard();
-            if (c.getEvent().equals(SectorEvent.SILENCE)) {
-                j++;
-            }
-        }
-        assertNotSame(0, j);
-    }
 
     @Test
     public void pickCardTest() {

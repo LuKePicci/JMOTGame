@@ -27,7 +27,7 @@ public class ActionCommand implements ICliCommand {
         actionStrings.put("useitem", ActionType.USE_ITEM);
         actionStrings.put("turnover", ActionType.TURN_OVER);
         actionStrings.put("noise", ActionType.NOISE_ANY);
-        actionStrings.put("dicard", ActionType.DISCARD_CARD);
+        actionStrings.put("discard", ActionType.DISCARD_CARD);
         actionStrings.put("draw", ActionType.DRAW_CARD);
     }
 

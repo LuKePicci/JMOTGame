@@ -78,7 +78,7 @@ public class Move extends ActionController {
         this.matchController.getTurnController().getTurn().setMustMove();
         if (SectorType.ESCAPE_HATCH.equals(this.target.getType())) {
             this.notifyInChatByCurrentPlayer("I am in "
-                    + this.target.getPoint().toString());
+                    + this.getStringFromHexPoint(this.target.getPoint()));
             HatchCard drawnCard = this.matchController.getMatch()
                     .getHatchesDeck().pickAndThrow();
             List<Player> others = this.matchController.obtainPartyPlayers();
