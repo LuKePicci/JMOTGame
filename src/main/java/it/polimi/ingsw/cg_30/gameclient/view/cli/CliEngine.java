@@ -79,7 +79,7 @@ public class CliEngine extends ViewEngine {
 
     @Override
     public void registerViews() {
-        // TODO bind(ViewType.*, new *CliView());
+        // bind(ViewType.*, new *CliView());
         bind(ViewType.DECK, new CliDeckView());
         bind(ViewType.PARTY, new CliPartyView());
         bind(ViewType.CHAT, new CliChatView());

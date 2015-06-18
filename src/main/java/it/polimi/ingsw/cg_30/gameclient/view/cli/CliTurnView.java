@@ -13,9 +13,7 @@ public class CliTurnView extends View {
         if (viewModel.mustMove()) {
             CliEngine.printLineToCli("You can cross " + viewModel.getMaxSteps()
                     + "sectors.");
-        }
-        // can attack
-        if (viewModel.canAttack()) {
+        } else if (viewModel.canAttack()) { // can attack
             CliEngine.printLineToCli("You can attack.");
         }
         // must discard
@@ -24,7 +22,7 @@ public class CliTurnView extends View {
                     .printLineToCli("You must discard (or use if you can) at least one Item Card before ending your turn.");
         }
         // silenced forced
-        if (viewModel.canAttack()) {
+        if (viewModel.isSilenceForced()) {
             CliEngine
                     .printLineToCli("You will not draw a Sector Card if you end your movement on a dangerous sector.");
         }
