@@ -44,7 +44,7 @@ public class Message implements Serializable {
             JAXBContext ctx;
             ctx = JAXBContext.newInstance(Message.class);
             msl = ctx.createMarshaller();
-            msl.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            // msl.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
             unmsl = ctx.createUnmarshaller();
         } catch (JAXBException e) {
             e.printStackTrace();
