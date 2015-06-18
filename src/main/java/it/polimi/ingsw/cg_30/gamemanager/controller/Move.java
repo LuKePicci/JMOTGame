@@ -128,6 +128,7 @@ public class Move extends ActionController {
                     SectorHighlight.HATCH_LOCKED);
             this.matchController.checkEndGame();
         } else if (SectorType.DANGEROUS.equals(this.target.getType())) {
+            this.matchController.sendTurnViewModel();
             this.matchController.getTurnController().getTurn()
                     .setIsSecDangerous(true);// an alien can attack or draw a
                                              // card
@@ -145,5 +146,6 @@ public class Move extends ActionController {
             }
         }
         // the sector is secure (white), nothing have to be done
+        this.matchController.sendTurnViewModel();
     }
 }

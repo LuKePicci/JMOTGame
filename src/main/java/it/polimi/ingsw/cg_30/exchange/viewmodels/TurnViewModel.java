@@ -26,20 +26,18 @@ public class TurnViewModel extends ViewModel {
     @XmlElement(name = "SilenceForced")
     private boolean silenceForced;
 
-    /**
-     * Instantiates a new turn view model.
-     *
-     * @param t
-     *            the t
-     */
+    @XmlElement(name = "DrawnCard")
+    private SectorCard drawnCard;
+
     public TurnViewModel(boolean attack, int steps, boolean discard,
-            boolean move, boolean silence) {
+            boolean move, boolean silence, SectorCard drawnCard) {
         this();
         this.canAttack = attack;
         this.maxSteps = steps;
         this.mustDiscard = discard;
         this.mustMove = move;
         this.silenceForced = silence;
+        this.drawnCard = drawnCard;
     }
 
     private TurnViewModel() {
@@ -92,11 +90,16 @@ public class TurnViewModel extends ViewModel {
         return silenceForced;
     }
 
+    public SectorCard getDrawnCard() {
+        return drawnCard;
+    }
+
     @Override
     public String toString() {
         return "TurnViewModel { maxSteps: " + maxSteps + ", canAttack: "
                 + canAttack + ", mustDiscard: " + mustDiscard + ", mustMove: "
-                + mustMove + ", silenceForced: " + silenceForced + " }";
+                + mustMove + ", silenceForced: " + silenceForced
+                + ", drawnCard: " + drawnCard + " }";
     }
 
 }

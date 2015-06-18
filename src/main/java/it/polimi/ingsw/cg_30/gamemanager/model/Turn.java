@@ -235,7 +235,7 @@ public class Turn implements IViewable {
     public ViewModel getViewModel() {
         return new TurnViewModel(this.getCanAttack(), this.getMaxSteps(),
                 this.getMustDiscard(), this.getMustMove(),
-                this.getSilenceForced());
+                this.getSilenceForced(), this.getDrawnCard());
     }
 
 }

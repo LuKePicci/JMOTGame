@@ -574,6 +574,17 @@ public class MatchController {
 
     }
 
+    protected void sendTurnViewModel() {
+        try {
+            this.sendViewModelToAPlayer(turnController.getTurn()
+                    .getCurrentPlayer(), turnController.getTurn()
+                    .getViewModel());
+        } catch (DisconnectedException e) {
+            // the player will receive the updated turn view when he comes back
+            // online
+        }
+    }
+
     /**
      * Send the view model received to the player received.
      *
