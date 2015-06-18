@@ -181,20 +181,12 @@ public class MatchController {
         ZoneFactory zf = new TemplateZoneFactory(game.getMapName());
         this.zoneController = new ZoneController(zf);
 
-        // TODO kick offline players
-
         this.establishRoles(); // roles assignment
         this.zoneController.placePlayers(obtainPartyPlayers()); // put players
                                                                 // on starts
         this.turnController.firstTurn(this); // first turn preparation
         this.modelSender(); // send the models
         this.sayRoles(); // inform every player about his role
-        // inform the party about the first turn
-        this.partyController.sendMessageToParty(new ChatMessage(
-                new ChatViewModel("It's "
-                        + this.turnController.getTurn().getCurrentPlayer()
-                                .getName() + "'s turn", serverWordText,
-                        ChatVisibility.PARTY)));
     }
 
     /**

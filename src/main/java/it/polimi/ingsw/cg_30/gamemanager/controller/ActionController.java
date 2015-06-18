@@ -133,7 +133,8 @@ public abstract class ActionController {
                 try {
                     this.notifyCurrentPlayerByServer("No more cards in the item deck.");
                 } catch (DisconnectedException e1) {
-                    // no problem
+                    // no problem: the player will notice this because he
+                    // doesn't have any new item card.
                 }
                 return;
             }

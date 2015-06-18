@@ -84,17 +84,17 @@ public class TurnControllerTest {
         player6.setIdentity(human);
         player7.setIdentity(human);
         matchController.initMatch(partyController);
-        Player player0 = new Player("", 9);
+        Player player9 = new Player("", 9);
         for (Player nextPlayer : players) {
             if (nextPlayer.getIndex() == 1) {
-                player0 = nextPlayer;
+                player9 = nextPlayer;
             }
         }
         // eseguo
         matchController.getTurnController().firstTurn(matchController);
         // verifico
         assertTrue(matchController.getTurnController().getTurn()
-                .getCurrentPlayer().equals(player0));
+                .getCurrentPlayer().equals(player9));
     }
 
     // eseguo un giro del party

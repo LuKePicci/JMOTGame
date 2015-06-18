@@ -6,6 +6,9 @@ import it.polimi.ingsw.cg_30.exchange.messaging.ChatMessage;
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatVisibility;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ChatViewModel;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ItemCard;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerCard;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerCharacter;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerRace;
 import it.polimi.ingsw.cg_30.gamemanager.model.Player;
 import it.polimi.ingsw.cg_30.gamemanager.model.Turn;
 import it.polimi.ingsw.cg_30.gamemanager.network.DisconnectedException;
@@ -49,30 +52,18 @@ public class TurnController {
     }
 
     /**
-     * Prepares the first turn by assigning it to the player whose index is one.
+     * Prepares the first turn by assigning it to the player whose index is one,
+     * or to the next online player in case player one is offline.
      *
-     * @param playerList
-     *            the player list
+     * @param matchController
+     *            the match controller
      */
     public void firstTurn(MatchController matchController) {
-        for (Player nextPlayer : matchController.obtainPartyPlayers()) {
-            if (nextPlayer.getIndex() == 1
-                    && !this.checkIfPlayerIsOnline(nextPlayer, matchController)) {
-                this.turn = new Turn(nextPlayer);
-                try {
-                    matchController.sendViewModelToAPlayer(nextPlayer,
-                            matchController.getTurnController().getTurn()
-                                    .getViewModel());
-                } catch (DisconnectedException e) {
-                    // the player will receive the view of his turn when he will
-                    // connect again thanks to modelSender(Player) (if it's
-                    // still his turn)
-                    // Otherwise, after a timeout the turn will be given to the
-                    // next player
-                }
-                return;
-            }
-        }
+        PlayerCard pcard = new PlayerCard(PlayerRace.ALIEN,
+                PlayerCharacter.THE_FIRST_ALIEN);
+        Player player0 = new Player("player0", 0, pcard);
+        this.turn = new Turn(player0);
+        this.nextTurn(matchController);
     }
 
     /**
