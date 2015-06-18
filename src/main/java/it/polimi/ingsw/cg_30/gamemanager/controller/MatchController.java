@@ -47,14 +47,14 @@ public class MatchController {
     protected Match match;
 
     /** The server word text. */
-    private String serverWordText = "Server";
+    protected String serverWordText = "Server";
 
     /**
      * Obtains party players.
      *
      * @return the list of players of the current party
      */
-    public List<Player> obtainPartyPlayers() {
+    protected List<Player> obtainPartyPlayers() {
         return new ArrayList<Player>(this.partyController.getCurrentParty()
                 .getMembers().keySet());
     }
@@ -101,6 +101,7 @@ public class MatchController {
      */
     public void modelSender(Player returningPlayer)
             throws DisconnectedException {
+
         // cleqn map
         this.sendMapViewToPlayer(returningPlayer);
         // player's location
@@ -110,9 +111,17 @@ public class MatchController {
 
         // party
         this.updatePartyModel(returningPlayer);
-
         // player's cards
         this.updateDeckView(returningPlayer);
+
+        // is player still alive
+        if (match.getDeadPlayer().contains(returningPlayer)) {
+            this.notifyAPlayerAbout(returningPlayer, "You are dead.");
+        } else if (match.getRescuedPlayer().contains(returningPlayer)) {
+            this.notifyAPlayerAbout(returningPlayer, "You are escaped.");
+        } else {
+            this.notifyAPlayerAbout(returningPlayer, "You are still alive.");
+        }
 
         // turn (in case returningPlayer is the currentPlayer)
         if (turnController.getTurn().getCurrentPlayer().equals(returningPlayer)) {
@@ -172,20 +181,12 @@ public class MatchController {
         ZoneFactory zf = new TemplateZoneFactory(game.getMapName());
         this.zoneController = new ZoneController(zf);
 
-        // TODO kick offline players
-
         this.establishRoles(); // roles assignment
         this.zoneController.placePlayers(obtainPartyPlayers()); // put players
                                                                 // on starts
         this.turnController.firstTurn(this); // first turn preparation
         this.modelSender(); // send the models
         this.sayRoles(); // inform every player about his role
-        // inform the party about the first turn
-        this.partyController.sendMessageToParty(new ChatMessage(
-                new ChatViewModel("It's "
-                        + this.turnController.getTurn().getCurrentPlayer()
-                                .getName() + "'s turn", serverWordText,
-                        ChatVisibility.PARTY)));
     }
 
     /**
@@ -230,7 +231,7 @@ public class MatchController {
      * @param killedPlayer
      *            the player to be killed
      */
-    public void killed(Player killedPlayer) {
+    protected void killed(Player killedPlayer) {
 
         // checks defense card
         if (PlayerRace.HUMAN.equals(killedPlayer.getIdentity().getRace())) {
@@ -336,7 +337,7 @@ public class MatchController {
         this.sayYouLose(playerList);
     }
 
-    public void endingByTurnController() {
+    protected void endingByTurnController() {
         this.partialVictory();
         this.partyController.endMatch();
     }
@@ -366,7 +367,7 @@ public class MatchController {
     /**
      * Checks if the game has come to its end.
      */
-    public void checkEndGame() {
+    protected void checkEndGame() {
         Set<Player> playerList = this.turnController.getPartyPlayers(this);
         int playerNumber = playerList.size();
         int humanNumber = playerNumber / 2;
@@ -464,7 +465,7 @@ public class MatchController {
      * @param about
      *            the string to notify
      */
-    public void notifyAPlayerAbout(Player player, String about) {
+    protected void notifyAPlayerAbout(Player player, String about) {
         try {
             MessageController
                     .getPlayerHandler(
@@ -500,7 +501,7 @@ public class MatchController {
      * @param card
      *            the card to notify
      */
-    public void showCardToParty(Card card) {
+    protected void showCardToParty(Card card) {
         this.partyController.sendMessageToParty(new Message(card));
     }
 
@@ -512,7 +513,7 @@ public class MatchController {
      * @throws DisconnectedException
      *             the disconnected exception
      */
-    public void updateDeckView(Player player) throws DisconnectedException {
+    protected void updateDeckView(Player player) throws DisconnectedException {
         this.sendViewModelToAPlayer(player, player.getItemsDeck()
                 .getViewModel());
     }
@@ -554,7 +555,7 @@ public class MatchController {
      * @throws DisconnectedException
      *             the disconnected exception
      */
-    public void sendMapVariationToPlayer(Player player, Sector sec,
+    protected void sendMapVariationToPlayer(Player player, Sector sec,
             SectorHighlight highlight) throws DisconnectedException {
         SectorViewModel viewModel = new SectorViewModel(sec, highlight);
         this.sendViewModelToAPlayer(player, viewModel);
@@ -595,7 +596,7 @@ public class MatchController {
      * @throws DisconnectedException
      *             the disconnected exception
      */
-    public void sendViewModelToAPlayer(Player p, ViewModel content)
+    protected void sendViewModelToAPlayer(Player p, ViewModel content)
             throws DisconnectedException {
         MessageController
                 .getPlayerHandler(

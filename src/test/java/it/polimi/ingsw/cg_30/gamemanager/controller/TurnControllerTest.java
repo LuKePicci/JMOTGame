@@ -30,7 +30,7 @@ public class TurnControllerTest {
             URISyntaxException, DisconnectedException {
         MatchController matchController = new MatchController() {
             @Override
-            public void sendViewModelToAPlayer(Player p, ViewModel content) {
+            protected void sendViewModelToAPlayer(Player p, ViewModel content) {
             }
 
             @Override
@@ -84,17 +84,17 @@ public class TurnControllerTest {
         player6.setIdentity(human);
         player7.setIdentity(human);
         matchController.initMatch(partyController);
-        Player player0 = new Player("", 9);
+        Player player9 = new Player("", 9);
         for (Player nextPlayer : players) {
             if (nextPlayer.getIndex() == 1) {
-                player0 = nextPlayer;
+                player9 = nextPlayer;
             }
         }
         // eseguo
         matchController.getTurnController().firstTurn(matchController);
         // verifico
         assertTrue(matchController.getTurnController().getTurn()
-                .getCurrentPlayer().equals(player0));
+                .getCurrentPlayer().equals(player9));
     }
 
     // eseguo un giro del party
@@ -254,7 +254,7 @@ public class TurnControllerTest {
         // turno di partenza
         Player startPlayer = new Player("", 9);
         for (Player nextPlayer : players) {
-            if (nextPlayer.getIndex() == 3) {
+            if (nextPlayer.getIndex() == 2) {
                 startPlayer = nextPlayer;
             }
         }
@@ -264,10 +264,32 @@ public class TurnControllerTest {
                 .getCurrentPlayer().equals(startPlayer));
         int num = matchController.getMatch().getTurnCount();
 
+        // rimozione player morti/fuggiti
+        for (Player nextPlayer : players) {
+            if (nextPlayer.getIndex() == 3) {
+                matchController.getMatch().getDeadPlayer().add(nextPlayer);
+            }
+        }
+        for (Player nextPlayer : players) {
+            if (nextPlayer.getIndex() == 4) {
+                matchController.getMatch().getDeadPlayer().add(nextPlayer);
+            }
+        }
+        for (Player nextPlayer : players) {
+            if (nextPlayer.getIndex() == 5) {
+                matchController.getMatch().getDeadPlayer().add(nextPlayer);
+            }
+        }
+        for (Player nextPlayer : players) {
+            if (nextPlayer.getIndex() == 6) {
+                matchController.getMatch().getRescuedPlayer().add(nextPlayer);
+            }
+        }
+
         // cerco il player successivo
         Player endPlayer = new Player("", 9);
         for (Player nextPlayer : players) {
-            if (nextPlayer.getIndex() == 4) {
+            if (nextPlayer.getIndex() == 7) {
                 endPlayer = nextPlayer;
             }
         }
@@ -313,7 +335,7 @@ public class TurnControllerTest {
             }
 
             @Override
-            public void updateDeckView(Player player) {
+            protected void updateDeckView(Player player) {
             }
 
         };
@@ -430,7 +452,7 @@ public class TurnControllerTest {
             }
 
             @Override
-            public void updateDeckView(Player player) {
+            protected void updateDeckView(Player player) {
             }
 
             @Override

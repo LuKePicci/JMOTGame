@@ -139,7 +139,7 @@ public class DiscardCardTest {
             }
 
             @Override
-            public void updateDeckView(Player player) {
+            protected void updateDeckView(Player player) {
             }
         };
 

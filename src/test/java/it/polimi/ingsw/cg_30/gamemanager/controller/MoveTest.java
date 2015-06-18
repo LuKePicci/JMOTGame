@@ -50,24 +50,24 @@ public class MoveTest {
             }
 
             @Override
-            public void notifyAPlayerAbout(Player player, String about) {
+            protected void notifyAPlayerAbout(Player player, String about) {
             }
 
             @Override
-            public void showCardToParty(Card card) {
+            protected void showCardToParty(Card card) {
             }
 
             @Override
-            public void updateDeckView(Player player) {
+            protected void updateDeckView(Player player) {
             }
 
             @Override
-            public void sendMapVariationToPlayer(Player player, Sector sec,
+            protected void sendMapVariationToPlayer(Player player, Sector sec,
                     SectorHighlight highlight) {
             }
 
             @Override
-            public void sendViewModelToAPlayer(Player p, ViewModel content) {
+            protected void sendViewModelToAPlayer(Player p, ViewModel content) {
             }
         };
 
@@ -127,24 +127,24 @@ public class MoveTest {
             }
 
             @Override
-            public void notifyAPlayerAbout(Player player, String about) {
+            protected void notifyAPlayerAbout(Player player, String about) {
             }
 
             @Override
-            public void showCardToParty(Card card) {
+            protected void showCardToParty(Card card) {
             }
 
             @Override
-            public void updateDeckView(Player player) {
+            protected void updateDeckView(Player player) {
             }
 
             @Override
-            public void sendMapVariationToPlayer(Player player, Sector sec,
+            protected void sendMapVariationToPlayer(Player player, Sector sec,
                     SectorHighlight highlight) {
             }
 
             @Override
-            public void sendViewModelToAPlayer(Player p, ViewModel content) {
+            protected void sendViewModelToAPlayer(Player p, ViewModel content) {
             }
 
         };
@@ -212,24 +212,24 @@ public class MoveTest {
             }
 
             @Override
-            public void notifyAPlayerAbout(Player player, String about) {
+            protected void notifyAPlayerAbout(Player player, String about) {
             }
 
             @Override
-            public void showCardToParty(Card card) {
+            protected void showCardToParty(Card card) {
             }
 
             @Override
-            public void updateDeckView(Player player) {
+            protected void updateDeckView(Player player) {
             }
 
             @Override
-            public void sendMapVariationToPlayer(Player player, Sector sec,
+            protected void sendMapVariationToPlayer(Player player, Sector sec,
                     SectorHighlight highlight) {
             }
 
             @Override
-            public void sendViewModelToAPlayer(Player p, ViewModel content) {
+            protected void sendViewModelToAPlayer(Player p, ViewModel content) {
             }
 
         };
@@ -293,24 +293,24 @@ public class MoveTest {
             }
 
             @Override
-            public void notifyAPlayerAbout(Player player, String about) {
+            protected void notifyAPlayerAbout(Player player, String about) {
             }
 
             @Override
-            public void showCardToParty(Card card) {
+            protected void showCardToParty(Card card) {
             }
 
             @Override
-            public void updateDeckView(Player player) {
+            protected void updateDeckView(Player player) {
             }
 
             @Override
-            public void sendMapVariationToPlayer(Player player, Sector sec,
+            protected void sendMapVariationToPlayer(Player player, Sector sec,
                     SectorHighlight highlight) {
             }
 
             @Override
-            public void sendViewModelToAPlayer(Player p, ViewModel content) {
+            protected void sendViewModelToAPlayer(Player p, ViewModel content) {
             }
         };
 
@@ -435,24 +435,24 @@ public class MoveTest {
             }
 
             @Override
-            public void notifyAPlayerAbout(Player player, String about) {
+            protected void notifyAPlayerAbout(Player player, String about) {
             }
 
             @Override
-            public void showCardToParty(Card card) {
+            protected void showCardToParty(Card card) {
             }
 
             @Override
-            public void updateDeckView(Player player) {
+            protected void updateDeckView(Player player) {
             }
 
             @Override
-            public void sendMapVariationToPlayer(Player player, Sector sec,
+            protected void sendMapVariationToPlayer(Player player, Sector sec,
                     SectorHighlight highlight) {
             }
 
             @Override
-            public void sendViewModelToAPlayer(Player p, ViewModel content) {
+            protected void sendViewModelToAPlayer(Player p, ViewModel content) {
             }
         };
 
@@ -515,24 +515,24 @@ public class MoveTest {
             }
 
             @Override
-            public void notifyAPlayerAbout(Player player, String about) {
+            protected void notifyAPlayerAbout(Player player, String about) {
             }
 
             @Override
-            public void showCardToParty(Card card) {
+            protected void showCardToParty(Card card) {
             }
 
             @Override
-            public void updateDeckView(Player player) {
+            protected void updateDeckView(Player player) {
             }
 
             @Override
-            public void sendMapVariationToPlayer(Player player, Sector sec,
+            protected void sendMapVariationToPlayer(Player player, Sector sec,
                     SectorHighlight highlight) {
             }
 
             @Override
-            public void sendViewModelToAPlayer(Player p, ViewModel content) {
+            protected void sendViewModelToAPlayer(Player p, ViewModel content) {
             }
         };
 
@@ -595,24 +595,24 @@ public class MoveTest {
             }
 
             @Override
-            public void notifyAPlayerAbout(Player player, String about) {
+            protected void notifyAPlayerAbout(Player player, String about) {
             }
 
             @Override
-            public void showCardToParty(Card card) {
+            protected void showCardToParty(Card card) {
             }
 
             @Override
-            public void updateDeckView(Player player) {
+            protected void updateDeckView(Player player) {
             }
 
             @Override
-            public void sendMapVariationToPlayer(Player player, Sector sec,
+            protected void sendMapVariationToPlayer(Player player, Sector sec,
                     SectorHighlight highlight) {
             }
 
             @Override
-            public void sendViewModelToAPlayer(Player p, ViewModel content) {
+            protected void sendViewModelToAPlayer(Player p, ViewModel content) {
             }
         };
 
@@ -686,24 +686,24 @@ public class MoveTest {
             }
 
             @Override
-            public void notifyAPlayerAbout(Player player, String about) {
+            protected void notifyAPlayerAbout(Player player, String about) {
             }
 
             @Override
-            public void showCardToParty(Card card) {
+            protected void showCardToParty(Card card) {
             }
 
             @Override
-            public void updateDeckView(Player player) {
+            protected void updateDeckView(Player player) {
             }
 
             @Override
-            public void sendMapVariationToPlayer(Player player, Sector sec,
+            protected void sendMapVariationToPlayer(Player player, Sector sec,
                     SectorHighlight highlight) {
             }
 
             @Override
-            public void sendViewModelToAPlayer(Player p, ViewModel content) {
+            protected void sendViewModelToAPlayer(Player p, ViewModel content) {
             }
 
         };
@@ -783,24 +783,24 @@ public class MoveTest {
             }
 
             @Override
-            public void notifyAPlayerAbout(Player player, String about) {
+            protected void notifyAPlayerAbout(Player player, String about) {
             }
 
             @Override
-            public void showCardToParty(Card card) {
+            protected void showCardToParty(Card card) {
             }
 
             @Override
-            public void updateDeckView(Player player) {
+            protected void updateDeckView(Player player) {
             }
 
             @Override
-            public void sendMapVariationToPlayer(Player player, Sector sec,
+            protected void sendMapVariationToPlayer(Player player, Sector sec,
                     SectorHighlight highlight) {
             }
 
             @Override
-            public void sendViewModelToAPlayer(Player p, ViewModel content) {
+            protected void sendViewModelToAPlayer(Player p, ViewModel content) {
             }
 
         };
@@ -875,24 +875,24 @@ public class MoveTest {
             }
 
             @Override
-            public void notifyAPlayerAbout(Player player, String about) {
+            protected void notifyAPlayerAbout(Player player, String about) {
             }
 
             @Override
-            public void showCardToParty(Card card) {
+            protected void showCardToParty(Card card) {
             }
 
             @Override
-            public void updateDeckView(Player player) {
+            protected void updateDeckView(Player player) {
             }
 
             @Override
-            public void sendMapVariationToPlayer(Player player, Sector sec,
+            protected void sendMapVariationToPlayer(Player player, Sector sec,
                     SectorHighlight highlight) {
             }
 
             @Override
-            public void sendViewModelToAPlayer(Player p, ViewModel content) {
+            protected void sendViewModelToAPlayer(Player p, ViewModel content) {
             }
         };
 

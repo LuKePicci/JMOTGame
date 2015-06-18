@@ -45,7 +45,7 @@ public class DrawCardTest {
             }
 
             @Override
-            public void updateDeckView(Player player) {
+            protected void updateDeckView(Player player) {
             }
         };
         PlayerCard alien = new PlayerCard(PlayerRace.ALIEN, null);
@@ -109,7 +109,7 @@ public class DrawCardTest {
             }
 
             @Override
-            public void updateDeckView(Player player) {
+            protected void updateDeckView(Player player) {
             }
         };
         PlayerCard alien = new PlayerCard(PlayerRace.ALIEN, null);
@@ -170,7 +170,7 @@ public class DrawCardTest {
             }
 
             @Override
-            public void updateDeckView(Player player) {
+            protected void updateDeckView(Player player) {
             }
         };
         PlayerCard alien = new PlayerCard(PlayerRace.ALIEN, null);
@@ -230,7 +230,7 @@ public class DrawCardTest {
             }
 
             @Override
-            public void updateDeckView(Player player) {
+            protected void updateDeckView(Player player) {
             }
         };
         PlayerCard alien = new PlayerCard(PlayerRace.ALIEN, null);

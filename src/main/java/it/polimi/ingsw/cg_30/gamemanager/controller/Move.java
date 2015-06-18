@@ -92,8 +92,8 @@ public class Move extends ActionController {
                 try {
                     this.notifyCurrentPlayerByServer("YOU ARE SAFE NOW");
                 } catch (DisconnectedException e) {
-                    // TODO il player se torna non sa se è fuggito o se è stato
-                    // ucciso fino a che finisce il match...
+                    // the player will be told about his escape as soon as he
+                    // reconnects
                 }
                 for (Player otherPlayer : others) {
                     this.matchController.notifyAPlayerAbout(otherPlayer,
@@ -106,8 +106,10 @@ public class Move extends ActionController {
                 try {
                     this.notifyCurrentPlayerByServer("YOU CAN'T USE THIS HATCH");
                 } catch (DisconnectedException e) {
-                    // TODO il player se torna non sa se è fuggito o se è stato
-                    // ucciso fino a che finisce il match...
+                    // the player will be told about his failure attempt to
+                    // escape as soon as he reconnects: he will be told that he
+                    // is either alive or dead (because someone killed him while
+                    // he was offline)
                 }
                 for (Player otherPlayer : others) {
                     this.matchController.notifyAPlayerAbout(otherPlayer,
@@ -120,7 +122,7 @@ public class Move extends ActionController {
                 this.matchController.getZoneController().lockHatch(
                         this.target.getPoint());
             } catch (NotAnHatchException e) {
-                // TODO technically I have already checked the sector, so an
+                // Technically I have already checked the sector, so an
                 // exception should never be thrown
             }
             // update the map
