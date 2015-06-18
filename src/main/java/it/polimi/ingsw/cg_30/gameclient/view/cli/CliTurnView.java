@@ -26,6 +26,10 @@ public class CliTurnView extends View {
             CliEngine
                     .printLineToCli("You will not draw a Sector Card if you end your movement on a dangerous sector.");
         }
+        // drawn card
+        if (viewModel.getDrawnCard() != null) {
+            CliEngine.printLineToCli("Choose where to make the noise.");
+        }
     }
 
 }
