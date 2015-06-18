@@ -10,13 +10,14 @@ public class GameClient {
 
     public static void main(String[] args) {
         GameClient gc = new GameClient();
-        switch (args[0].toLowerCase()) {
+        String vEngine = args.length > 0 ? args[0].toLowerCase() : "";
+        switch (vEngine) {
             case "cli":
+            default:
                 gc.startCli();
                 break;
 
             case "gui":
-            default:
                 gc.startGui();
                 break;
         }

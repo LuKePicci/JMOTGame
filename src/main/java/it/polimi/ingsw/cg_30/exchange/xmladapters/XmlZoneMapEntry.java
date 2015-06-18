@@ -1,4 +1,4 @@
-package it.polimi.ingsw.cg_30.gamemanager.model;
+package it.polimi.ingsw.cg_30.exchange.xmladapters;
 
 import it.polimi.ingsw.cg_30.exchange.viewmodels.HexPoint;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Sector;
