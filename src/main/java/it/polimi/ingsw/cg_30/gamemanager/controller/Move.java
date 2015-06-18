@@ -88,7 +88,10 @@ public class Move extends ActionController {
             this.matchController.showCardToParty(drawnCard);
             if (HatchChance.FREE.equals(drawnCard.getChance())) {
                 this.matchController.getMatch().getRescuedPlayer().add(player);
-                this.notifyInChatByServer("GREEN HATCH CAR");
+                // player is removed from the map
+                this.matchController.getZoneController().getCurrentZone()
+                        .movePlayer(player, matchController.endingSector);
+                this.notifyInChatByServer("GREEN HATCH CARD");
                 try {
                     this.notifyCurrentPlayerByServer("YOU ARE SAFE NOW");
                 } catch (DisconnectedException e) {

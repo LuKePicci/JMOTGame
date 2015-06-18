@@ -134,8 +134,7 @@ public class MatchController {
 
         // turn (in case returningPlayer is the currentPlayer)
         if (turnController.getTurn().getCurrentPlayer().equals(returningPlayer)) {
-            sendViewModelToAPlayer(returningPlayer, turnController.getTurn()
-                    .getViewModel());
+            this.sendTurnViewModel();
         }
     }
 
