@@ -447,7 +447,7 @@ public class MatchController {
                 act.processAction();
             else
                 this.notifyAPlayerAbout(turnController.getTurn()
-                        .getCurrentPlayer(), "Sorry, you can't do this");
+                        .getCurrentPlayer(), "Sorry, you can't do this.");
 
         } catch (InstantiationException | IllegalAccessException e) {
             // TODO Log this exception

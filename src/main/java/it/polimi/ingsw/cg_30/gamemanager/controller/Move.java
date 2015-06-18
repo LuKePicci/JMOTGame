@@ -146,8 +146,8 @@ public class Move extends ActionController {
                     this.matchController.getTurnController().getTurn()
                             .setIsSecDangerous(false);
             }
-        }
-        // the sector is secure (white), nothing have to be done
-        this.matchController.sendTurnViewModel();
+        } else
+            // the sector is secure (white), nothing have to be done
+            this.matchController.sendTurnViewModel();
     }
 }

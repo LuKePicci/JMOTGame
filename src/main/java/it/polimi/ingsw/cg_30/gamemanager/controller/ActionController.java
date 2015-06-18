@@ -37,9 +37,6 @@ public abstract class ActionController {
     /** The current player. */
     protected Player player;
 
-    /** The server word text. */
-    private String serverWordText = "Server";
-
     static {
         strategies.put(ActionType.ATTACK, Attack.class);
         strategies.put(ActionType.DISCARD_CARD, DiscardCard.class);
@@ -142,7 +139,7 @@ public abstract class ActionController {
             // notifies the player about the drawn card
             try {
                 this.notifyCurrentPlayerByServer("You have just picked a "
-                        + icard.getItem().toString() + " card");
+                        + icard.getItem().toString() + " item.");
             } catch (DisconnectedException e2) {
                 // no problem: the player will discover his new card as soon as
                 // he comes back
@@ -160,7 +157,7 @@ public abstract class ActionController {
                 this.matchController.getTurnController().getTurn()
                         .setMustDiscard(true);
                 try {
-                    this.notifyCurrentPlayerByServer("You must use or discard at least one card in this turn");
+                    this.notifyCurrentPlayerByServer("You must use or discard at least one card in this turn.");
                 } catch (DisconnectedException e) {
                     // the player won't be able to end his turn until he
                     // discards a card, if he won't figure it out the game will
@@ -194,7 +191,8 @@ public abstract class ActionController {
      */
     protected void notifyInChatByServer(String what) {
         this.matchController.getPartyController().sendMessageToParty(
-                new ChatMessage(new ChatViewModel(what, serverWordText,
+                new ChatMessage(new ChatViewModel(what,
+                        this.matchController.serverWordText,
                         ChatVisibility.PARTY)));
     }
 
@@ -215,7 +213,8 @@ public abstract class ActionController {
                                 .getCurrentParty().getPlayerUUID(player))
                 .getAcceptPlayer()
                 .sendMessage(
-                        new ChatMessage(new ChatViewModel(what, serverWordText,
+                        new ChatMessage(new ChatViewModel(what,
+                                this.matchController.serverWordText,
                                 ChatVisibility.PLAYER)));
     }
 
@@ -257,6 +256,15 @@ public abstract class ActionController {
                 // returningPlayer) in MatchController
             }
         }
+    }
+
+    protected String getCharFromNumber(int i) {
+        return i > 0 && i < 27 ? String.valueOf((char) (i + 64)) : null;
+    }
+
+    protected String getStringFromSector(Sector sec) {
+        return this.getCharFromNumber(sec.getPoint().getOffsetX())
+                + sec.getPoint().getOffsetY() + 1;
 
     }
 

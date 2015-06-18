@@ -17,15 +17,15 @@ public class CliSectorView extends View {
 
         switch (viewModel.getHighlight()) {
             case PLAYER_LOCATION:
-                CliEngine.printLineToCli("You are in " + sectorRep + ".");
+                CliEngine.printLineToCli("\r\nYou are in " + sectorRep + ".");
                 break;
             case HATCH_LOCKED:
-                CliEngine.printLineToCli("Hatch in " + sectorRep
+                CliEngine.printLineToCli("\r\nHatch in " + sectorRep
                         + " is now locked.");
                 break;
             case SPOTTED:
-                CliEngine
-                        .printLineToCli("Player spotted in " + sectorRep + "!");
+                CliEngine.printLineToCli("\r\nPlayer spotted in " + sectorRep
+                        + "!");
                 break;
         }
     }

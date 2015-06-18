@@ -15,8 +15,9 @@ public class CliPartyView extends View {
             PlayerViewModel playerView = (PlayerViewModel) view;
             players += playerView.getName() + "\r\n";
         }
-        CliEngine.printLineToCli("Name of the party: "
-                + viewModel.getPartyName() + "\r\nPlayers of the party:");
+        CliEngine.printLineToCli("\r\nName of the party:\r\n"
+                + viewModel.getPartyName() + "\r\nPlayers of the party:\r\n"
+                + players);
     }
 
 }

@@ -114,8 +114,7 @@ public class TurnController {
                                 .contains(nextPlayer)) {
                     // it's nextPlayer's turn
                     matchController.checkEndGame();
-                    matchController.getTurnController().setTurn(
-                            new Turn(nextPlayer));
+                    this.turn = new Turn(nextPlayer);
                     this.notify(nextPlayer, matchController);
                     return;
                 }
@@ -172,7 +171,7 @@ public class TurnController {
     protected void notify(Player nextPlayer, MatchController matchController) {
         matchController.getPartyController().sendMessageToParty(
                 new ChatMessage(new ChatViewModel("It's "
-                        + nextPlayer.getName() + "'s turn",
+                        + nextPlayer.getName() + "'s turn.",
                         matchController.serverWordText, ChatVisibility.PARTY)));
         try {
             matchController.sendViewModelToAPlayer(nextPlayer, matchController
