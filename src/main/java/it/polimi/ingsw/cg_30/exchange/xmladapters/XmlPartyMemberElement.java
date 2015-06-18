@@ -1,4 +1,6 @@
-package it.polimi.ingsw.cg_30.gamemanager.model;
+package it.polimi.ingsw.cg_30.exchange.xmladapters;
+
+import it.polimi.ingsw.cg_30.gamemanager.model.Player;
 
 import java.util.ArrayList;
 import java.util.List;

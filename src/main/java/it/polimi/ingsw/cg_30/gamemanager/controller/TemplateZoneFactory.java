@@ -2,12 +2,8 @@ package it.polimi.ingsw.cg_30.gamemanager.controller;
 
 import it.polimi.ingsw.cg_30.gamemanager.model.Zone;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.InputStream;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -15,29 +11,22 @@ import javax.xml.bind.Unmarshaller;
 
 public class TemplateZoneFactory extends ZoneFactory {
 
-    private File zoneTemplate;
+    private InputStream zoneTemplate;
 
-    public TemplateZoneFactory(String mapName) throws FileNotFoundException,
-            URISyntaxException {
-        URL resourceUrl = getClass().getResource("/" + mapName + ".xml");
-        if (resourceUrl == null)
-            throw new FileNotFoundException();
-        Path resourcePath;
-
-        resourcePath = Paths.get(resourceUrl.toURI());
-        zoneTemplate = resourcePath.toFile();
-        if (!zoneTemplate.exists()) {
-            throw new FileNotFoundException();
-        }
-
+    public TemplateZoneFactory(String mapName) throws FileNotFoundException {
+        this.zoneTemplate = getClass().getResourceAsStream(
+                "/" + mapName + ".xml");
+        if (this.zoneTemplate == null)
+            throw new FileNotFoundException(String.format(
+                    "Map XML template not found for '%s'", mapName));
     }
 
     @Override
     public Zone newMap() {
-        return this.jaxbXMLToZone(zoneTemplate);
+        return this.jaxbXMLToZone(this.zoneTemplate);
     }
 
-    private Zone jaxbXMLToZone(File xmlFile) {
+    private Zone jaxbXMLToZone(InputStream xmlFile) {
         try {
             JAXBContext context = JAXBContext.newInstance(Zone.class);
             Unmarshaller un = context.createUnmarshaller();
