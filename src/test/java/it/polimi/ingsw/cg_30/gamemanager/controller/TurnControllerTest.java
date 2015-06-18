@@ -254,7 +254,7 @@ public class TurnControllerTest {
         // turno di partenza
         Player startPlayer = new Player("", 9);
         for (Player nextPlayer : players) {
-            if (nextPlayer.getIndex() == 3) {
+            if (nextPlayer.getIndex() == 2) {
                 startPlayer = nextPlayer;
             }
         }
@@ -264,10 +264,32 @@ public class TurnControllerTest {
                 .getCurrentPlayer().equals(startPlayer));
         int num = matchController.getMatch().getTurnCount();
 
+        // rimozione player morti/fuggiti
+        for (Player nextPlayer : players) {
+            if (nextPlayer.getIndex() == 3) {
+                matchController.getMatch().getDeadPlayer().add(nextPlayer);
+            }
+        }
+        for (Player nextPlayer : players) {
+            if (nextPlayer.getIndex() == 4) {
+                matchController.getMatch().getDeadPlayer().add(nextPlayer);
+            }
+        }
+        for (Player nextPlayer : players) {
+            if (nextPlayer.getIndex() == 5) {
+                matchController.getMatch().getDeadPlayer().add(nextPlayer);
+            }
+        }
+        for (Player nextPlayer : players) {
+            if (nextPlayer.getIndex() == 6) {
+                matchController.getMatch().getRescuedPlayer().add(nextPlayer);
+            }
+        }
+
         // cerco il player successivo
         Player endPlayer = new Player("", 9);
         for (Player nextPlayer : players) {
-            if (nextPlayer.getIndex() == 4) {
+            if (nextPlayer.getIndex() == 7) {
                 endPlayer = nextPlayer;
             }
         }

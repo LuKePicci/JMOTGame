@@ -101,6 +101,7 @@ public class MatchController {
      */
     public void modelSender(Player returningPlayer)
             throws DisconnectedException {
+
         // cleqn map
         this.sendMapViewToPlayer(returningPlayer);
         // player's location
@@ -110,9 +111,17 @@ public class MatchController {
 
         // party
         this.updatePartyModel(returningPlayer);
-
         // player's cards
         this.updateDeckView(returningPlayer);
+
+        // is player still alive
+        if (match.getDeadPlayer().contains(returningPlayer)) {
+            this.notifyAPlayerAbout(returningPlayer, "You are dead.");
+        } else if (match.getRescuedPlayer().contains(returningPlayer)) {
+            this.notifyAPlayerAbout(returningPlayer, "You are escaped.");
+        } else {
+            this.notifyAPlayerAbout(returningPlayer, "You are still alive.");
+        }
 
         // turn (in case returningPlayer is the currentPlayer)
         if (turnController.getTurn().getCurrentPlayer().equals(returningPlayer)) {
