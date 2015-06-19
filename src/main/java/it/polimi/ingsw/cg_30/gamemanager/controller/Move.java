@@ -78,7 +78,7 @@ public class Move extends ActionController {
         this.matchController.getTurnController().getTurn().setMustMove();
         if (SectorType.ESCAPE_HATCH.equals(this.target.getType())) {
             this.notifyInChatByCurrentPlayer("I am in "
-                    + this.target.getPoint().toString());
+                    + this.getStringFromHexPoint(this.target.getPoint()));
             HatchCard drawnCard = this.matchController.getMatch()
                     .getHatchesDeck().pickAndThrow();
             List<Player> others = this.matchController.obtainPartyPlayers();
@@ -88,7 +88,10 @@ public class Move extends ActionController {
             this.matchController.showCardToParty(drawnCard);
             if (HatchChance.FREE.equals(drawnCard.getChance())) {
                 this.matchController.getMatch().getRescuedPlayer().add(player);
-                this.notifyInChatByServer("GREEN HATCH CAR");
+                // player is removed from the map
+                this.matchController.getZoneController().getCurrentZone()
+                        .movePlayer(player, matchController.endingSector);
+                this.notifyInChatByServer("GREEN HATCH CARD");
                 try {
                     this.notifyCurrentPlayerByServer("YOU ARE SAFE NOW");
                 } catch (DisconnectedException e) {
@@ -146,8 +149,8 @@ public class Move extends ActionController {
                     this.matchController.getTurnController().getTurn()
                             .setIsSecDangerous(false);
             }
-        }
-        // the sector is secure (white), nothing have to be done
-        this.matchController.sendTurnViewModel();
+        } else
+            // the sector is secure (white), nothing have to be done
+            this.matchController.sendTurnViewModel();
     }
 }

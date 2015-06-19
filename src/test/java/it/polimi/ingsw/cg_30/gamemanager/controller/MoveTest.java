@@ -349,15 +349,6 @@ public class MoveTest {
         HexPoint point3 = HexPoint.fromOffset(1, 9);
         HexPoint point4 = HexPoint.fromOffset(5, 0);
 
-        Sector secFinal1 = matchController.getZoneController().getCurrentZone()
-                .getMap().get(point1);
-        Sector secFinal2 = matchController.getZoneController().getCurrentZone()
-                .getMap().get(point2);
-        Sector secFinal3 = matchController.getZoneController().getCurrentZone()
-                .getMap().get(point3);
-        Sector secFinal4 = matchController.getZoneController().getCurrentZone()
-                .getMap().get(point4);
-
         ActionRequest action1 = new ActionRequest(ActionType.MOVE, point1, null);
         // eseguo l'azione
         Move mo = new Move() {
@@ -404,14 +395,6 @@ public class MoveTest {
         // verifico esito
         assertTrue(matchController.getMatch().getHatchesDeck().getBucket()
                 .size() == 4);
-        assertTrue(matchController.getZoneController().getCurrentZone()
-                .getCell(player1).equals(secFinal1));
-        assertTrue(matchController.getZoneController().getCurrentZone()
-                .getCell(player2).equals(secFinal2));
-        assertTrue(matchController.getZoneController().getCurrentZone()
-                .getCell(player3).equals(secFinal3));
-        assertTrue(matchController.getZoneController().getCurrentZone()
-                .getCell(player4).equals(secFinal4));
     }
 
     // non vado su settore partenza umani

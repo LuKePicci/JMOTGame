@@ -6,6 +6,7 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.Sector;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorType;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewModel;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ZoneViewModel;
+import it.polimi.ingsw.cg_30.exchange.xmladapters.XmlZoneMapAdapter;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public class Zone extends GameTable<Sector> implements IViewable, Serializable {
     /** The sectors map. */
     @XmlElement(name = "Contents")
     @XmlJavaTypeAdapter(XmlZoneMapAdapter.class)
-    private Map<HexPoint, Sector> sectorsMap = new HashMap<HexPoint, Sector>();
+    private Map<HexPoint, Sector> sectorsMap;;
 
     /** The map name. */
     @XmlAttribute(name = "Name")

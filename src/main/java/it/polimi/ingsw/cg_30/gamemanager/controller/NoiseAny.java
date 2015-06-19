@@ -27,7 +27,8 @@ public class NoiseAny extends ActionController {
     public void processAction() {
         Sector sec = this.matchController.getZoneController().getCurrentZone()
                 .getMap().get(this.req.getActionTarget());
-        this.notifyInChatByCurrentPlayer("NOISE in sector " + sec.toString());
+        this.notifyInChatByCurrentPlayer("NOISE in sector "
+                + this.getStringFromSector(sec) + ".");
         this.hasObject(this.matchController.getTurnController().getTurn()
                 .getDrawnCard());
         // after using it, the card have to be removed, so UseCard and TurnOver

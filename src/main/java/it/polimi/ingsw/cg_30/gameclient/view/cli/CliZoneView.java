@@ -9,36 +9,37 @@ public class CliZoneView extends View {
     @Override
     public synchronized void applyUpdate(ViewModel model) {
         ZoneViewModel viewModel = (ZoneViewModel) model;
-        CliEngine.printLineToCli("This map contains the following sectors:");
+        String textZone = "\r\nThis map contains the following sectors:\r\n";
         for (Sector sec : viewModel.getSectorsMap().values()) {
-            this.printSector(sec);
+            textZone += this.getSectorRep(sec);
         }
+        CliEngine.printLineToCli(textZone);
     }
 
-    private void printSector(Sector sec) {
-        CliEngine.printToCli(""
-                + this.getCharFromNumber(sec.getPoint().getOffsetX()));
-        CliEngine.printToCli("" + sec.getPoint().getOffsetY() + 1);
+    private String getSectorRep(Sector sec) {
+        String rep = this.getCharFromNumber(sec.getPoint().getOffsetX() + 1)
+                + String.format("%02d", (sec.getPoint().getOffsetY() + 1));
         switch (sec.getType()) {
             case DANGEROUS:
-                CliEngine.printLineToCli(" dangerous");
+                rep += " dangerous";
                 break;
             case SECURE:
-                CliEngine.printLineToCli(" secure");
+                rep += " secure";
                 break;
             case ALIENS_START:
-                CliEngine.printLineToCli(" aliens' start");
+                rep += " aliens' start";
                 break;
             case HUMANS_START:
-                CliEngine.printLineToCli(" humans' start");
+                rep += " humans' start";
                 break;
             case ESCAPE_HATCH:
-                CliEngine.printLineToCli(" escape hatch");
+                rep += " escape hatch";
                 break;
             case EMPTY:
-                CliEngine.printLineToCli(" empty");
+                rep += " empty";
                 break;
         }
-    }
 
+        return rep + "\r\n";
+    }
 }

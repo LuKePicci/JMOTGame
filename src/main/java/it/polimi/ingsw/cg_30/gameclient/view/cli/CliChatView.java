@@ -9,6 +9,7 @@ public class CliChatView extends View {
     @Override
     public synchronized void applyUpdate(ViewModel model) {
         ChatViewModel viewModel = (ChatViewModel) model;
+        CliEngine.printLineToCli("");
         CliEngine.printLineToCli(viewModel.getSenderNick().toUpperCase() + ": "
                 + viewModel.getText());
     }

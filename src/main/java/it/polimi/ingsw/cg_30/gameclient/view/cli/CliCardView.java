@@ -15,7 +15,7 @@ public class CliCardView extends View {
         Card viewModel = (Card) model;
         switch (viewModel.getType()) {
             case ITEM:
-                CliEngine.printToCli("Item card: ");
+                CliEngine.printToCli("\r\nItem card: ");
                 ItemCard icard = (ItemCard) viewModel;
                 switch (icard.getItem()) {
                     case ADRENALINE:

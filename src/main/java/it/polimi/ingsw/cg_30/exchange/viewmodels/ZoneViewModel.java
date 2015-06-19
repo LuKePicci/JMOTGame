@@ -1,6 +1,6 @@
 package it.polimi.ingsw.cg_30.exchange.viewmodels;
 
-import it.polimi.ingsw.cg_30.gamemanager.model.XmlZoneMapAdapter;
+import it.polimi.ingsw.cg_30.exchange.xmladapters.XmlZoneMapAdapter;
 
 import java.util.Map;
 
@@ -11,9 +11,6 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @XmlRootElement(name = "Zone")
 public class ZoneViewModel extends ViewModel {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -437562171602695439L;
 
     /** The sectors map. */
@@ -26,13 +23,18 @@ public class ZoneViewModel extends ViewModel {
         this.sectorsMap = map;
     }
 
+    private ZoneViewModel() {
+        // JAXB handled
+        super(ViewType.ZONE);
+    }
+
     public Map<HexPoint, Sector> getSectorsMap() {
         return this.sectorsMap;
     }
 
-    private ZoneViewModel() {
-        // JAXB handled
-        super(ViewType.ZONE);
+    @Override
+    public String toString() {
+        return "ZoneViewModel { sectorsMap: " + sectorsMap + " }";
     }
 
 }

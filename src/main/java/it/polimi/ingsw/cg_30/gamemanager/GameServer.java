@@ -22,6 +22,7 @@ public class GameServer {
              */
             @Override
             public void run() {
+                System.out.println("Shutting down...");
                 es.shutdown();
                 try {
                     if (!es.awaitTermination(SHUTDOWN_TIME, TimeUnit.SECONDS)) {

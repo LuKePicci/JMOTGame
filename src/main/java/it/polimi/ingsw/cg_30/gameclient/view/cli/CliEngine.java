@@ -25,7 +25,8 @@ public class CliEngine extends ViewEngine {
     @Override
     public void logonWizard() {
 
-        this.printLineToCli("Welcome to EFTAIOS - Enjoy the CLI version of this game!");
+        CliEngine
+                .printLineToCli("Welcome to EFTAIOS - Enjoy the CLI version of this game!");
 
         this.chooseProtocol();
 
@@ -34,11 +35,12 @@ public class CliEngine extends ViewEngine {
 
     @Override
     public void runEngine() {
+        this.registerViews();
 
         StringTokenizer stkn;
-        this.printLineToCli("");
+        CliEngine.printLineToCli("");
         while (!Thread.interrupted()) {
-            this.printToCli("eftaios> ");
+            CliEngine.printToCli("eftaios> ");
 
             stkn = new StringTokenizer(stdin.nextLine());
             if (stkn.hasMoreTokens())
@@ -79,7 +81,6 @@ public class CliEngine extends ViewEngine {
 
     @Override
     public void registerViews() {
-        // TODO bind(ViewType.*, new *CliView());
         bind(ViewType.DECK, new CliDeckView());
         bind(ViewType.PARTY, new CliPartyView());
         bind(ViewType.CHAT, new CliChatView());
@@ -185,11 +186,11 @@ public class CliEngine extends ViewEngine {
 
     }
 
-    protected static void printToCli(String text) {
+    protected static synchronized void printToCli(String text) {
         System.out.print(text);
     }
 
-    protected static void printLineToCli(String line) {
+    protected static synchronized void printLineToCli(String line) {
         System.out.println(line);
     }
 
