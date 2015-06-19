@@ -276,10 +276,9 @@ public class MatchController {
                     + killedPlayer.getName() + " is dead");
         }
         // discards killedPlayer's cards
-        for (ItemCard card : killedPlayer.getItemsDeck().getCards()) {
-            this.match.getItemsDeck().putIntoBucket(card);
-            killedPlayer.getItemsDeck().getCards().remove(card);
-        }
+        this.match.getItemsDeck().putAllIntoBucket(
+                killedPlayer.getItemsDeck().getCards());
+        killedPlayer.getItemsDeck().getCards().clear();
         try {
             this.updateDeckView(killedPlayer);
         } catch (DisconnectedException e) {
