@@ -45,7 +45,6 @@ public class DrawCard extends ActionController {
         if (SectorEvent.SILENCE.equals(drawnCard.getEvent())) {
             this.notifyInChatByCurrentPlayer("SILENCE");
         } else if (SectorEvent.NOISE_YOUR.equals(drawnCard.getEvent())) {
-            // TODO work in progress
             this.notifyInChatByCurrentPlayer("NOISE in sector "
                     + this.getStringFromSector(this.matchController
                             .getZoneController().getCurrentZone()

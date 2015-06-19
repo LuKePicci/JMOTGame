@@ -526,8 +526,12 @@ public class AttackTest {
         ItemCard defenseCard1 = new ItemCard(Item.DEFENSE);
         ItemCard defenseCard2 = new ItemCard(Item.DEFENSE);
         ItemCard spotlightCard = new ItemCard(Item.SPOTLIGHT);
+        ItemCard card2 = new ItemCard(Item.SEDATIVES);
+        ItemCard card3 = new ItemCard(Item.ATTACK);
         player3.getItemsDeck().getCards().add(defenseCard1);
         player4.getItemsDeck().getCards().add(spotlightCard);
+        player4.getItemsDeck().getCards().add(card2);
+        player4.getItemsDeck().getCards().add(card3);
         player6.getItemsDeck().getCards().add(defenseCard2);
 
         matchController.initMatch(partyController);
@@ -593,9 +597,17 @@ public class AttackTest {
                 .contains(defenseCard1));
         assertTrue(matchController.getMatch().getItemsDeck().getBucket()
                 .contains(defenseCard2));
-        assertTrue(matchController.getMatch().getItemsDeck().getBucket().size() == 3);
+        assertTrue(matchController.getMatch().getItemsDeck().getBucket()
+                .contains(spotlightCard));
+        assertTrue(matchController.getMatch().getItemsDeck().getBucket()
+                .contains(card2));
+        assertTrue(matchController.getMatch().getItemsDeck().getBucket()
+                .contains(card3));
+        assertTrue(matchController.getMatch().getItemsDeck().getBucket().size() == 5);
         assertFalse(player3.getItemsDeck().getCards().contains(defenseCard1));
         assertFalse(player4.getItemsDeck().getCards().contains(spotlightCard));
+        assertFalse(player4.getItemsDeck().getCards().contains(card2));
+        assertFalse(player4.getItemsDeck().getCards().contains(card3));
         assertFalse(player6.getItemsDeck().getCards().contains(defenseCard2));
     }
 

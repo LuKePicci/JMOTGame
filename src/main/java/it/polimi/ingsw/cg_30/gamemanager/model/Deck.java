@@ -12,9 +12,13 @@ import java.util.Set;
 
 /**
  * The Class Deck.
+ *
+ * @param <C>
+ *            the generic type
  */
 public abstract class Deck<C extends Card> implements IViewable, Serializable {
 
+    /** The Constant serialVersionUID. */
     private static final long serialVersionUID = -555545505649022630L;
 
     /** The bucket. */
@@ -40,13 +44,23 @@ public abstract class Deck<C extends Card> implements IViewable, Serializable {
     protected abstract void recycle();
 
     /**
-     * Puts into bucket.
+     * Puts card into bucket.
      *
      * @param c
      *            the card that will be put into bucket
      */
     public void putIntoBucket(C c) {
         this.bucket.add(c);
+    }
+
+    /**
+     * Put all cards into bucket.
+     *
+     * @param c
+     *            the cards that will be put into bucket
+     */
+    public void putAllIntoBucket(Set<C> c) {
+        this.bucket.addAll(c);
     }
 
     @Override
