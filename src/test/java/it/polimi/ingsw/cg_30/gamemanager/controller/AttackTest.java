@@ -593,6 +593,8 @@ public class AttackTest {
                 .contains(defenseCard1));
         assertTrue(matchController.getMatch().getItemsDeck().getBucket()
                 .contains(defenseCard2));
+        assertTrue(matchController.getMatch().getItemsDeck().getBucket()
+                .contains(spotlightCard));
         assertTrue(matchController.getMatch().getItemsDeck().getBucket().size() == 3);
         assertFalse(player3.getItemsDeck().getCards().contains(defenseCard1));
         assertFalse(player4.getItemsDeck().getCards().contains(spotlightCard));

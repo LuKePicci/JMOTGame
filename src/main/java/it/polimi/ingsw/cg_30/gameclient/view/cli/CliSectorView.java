@@ -22,7 +22,7 @@ public class CliSectorView extends View {
                     break;
                 case HATCH_LOCKED:
                     CliEngine.printLineToCli("\r\nHatch in " + sectorRep
-                            + " is now locked.");
+                            + " is locked now.");
                     break;
                 case SPOTTED:
                     CliEngine.printLineToCli("\r\nPlayer spotted in "
