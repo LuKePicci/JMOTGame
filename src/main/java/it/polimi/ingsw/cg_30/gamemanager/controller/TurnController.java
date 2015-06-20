@@ -33,7 +33,7 @@ public class TurnController {
     private static final int MAX_TURN = 39;
 
     /** The maximum turn duration. */
-    private static final int MAX_TURN_DURATION = 90 * 1000;
+    private static final int MAX_TURN_DURATION = 75 * 1000;
 
     /**
      * Instance of discard card action needed if a player can't end his turn
@@ -74,7 +74,6 @@ public class TurnController {
         Player player0 = new Player("player0", 0, pcard);
         this.turn = new Turn(player0);
         this.nextTurn();
-        this.startTimeoutTimer();
     }
 
     /**
