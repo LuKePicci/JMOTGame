@@ -72,7 +72,8 @@ public class TurnController {
         PlayerCard pcard = new PlayerCard(PlayerRace.ALIEN,
                 PlayerCharacter.THE_FIRST_ALIEN);
         Player player0 = new Player("player0", 0, pcard);
-        this.turn = new Turn(player0, matchController.getMatch().getTurnCount());
+        this.turn = new Turn(player0, this.currentMatch.getMatch()
+                .getTurnCount());
         this.nextTurn();
     }
 
@@ -124,8 +125,8 @@ public class TurnController {
                                 .contains(nextPlayer)) {
                     // it's nextPlayer's turn
                     this.currentMatch.checkEndGame();
-                    this.turn = new Turn(nextPlayer, matchController.getMatch()
-                            .getTurnCount());
+                    this.turn = new Turn(nextPlayer, this.currentMatch
+                            .getMatch().getTurnCount());
                     this.notify(nextPlayer);
                     this.startTimeoutTimer();
                     return;
@@ -183,8 +184,8 @@ public class TurnController {
     protected void notify(Player nextPlayer) {
         this.currentMatch.getPartyController()
                 .sendMessageToParty(
-                new ChatMessage(new ChatViewModel("It's "
-                        + nextPlayer.getName() + "'s turn.",
+                        new ChatMessage(new ChatViewModel("It's "
+                                + nextPlayer.getName() + "'s turn.",
                                 this.currentMatch.serverWordText,
                                 ChatVisibility.PARTY)));
         try {
