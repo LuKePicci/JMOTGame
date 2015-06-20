@@ -85,7 +85,6 @@ public class UseCard extends ActionController {
                     null, null);
             forcedAttack.initAction(matchController, forcedRequest);
             forcedAttack.processAction();
-            this.matchController.getMatch().getItemsDeck().putIntoBucket(card);
 
         } else if (Item.TELEPORT.equals(item)) {
             this.notifyInChatByCurrentPlayer("TELEPORT CARD");
@@ -97,9 +96,8 @@ public class UseCard extends ActionController {
                         SectorHighlight.PLAYER_LOCATION);
             } catch (DisconnectedException e) {
                 // player's location will be updated as soon as the player comes
-                // back
-                // thanks to modelSender(Player returningPlayer) in
-                // MatchController
+                // back thanks to modelSender(Player returningPlayer)
+                // in MatchController
             }
 
         } else if (Item.ADRENALINE.equals(item)) {
