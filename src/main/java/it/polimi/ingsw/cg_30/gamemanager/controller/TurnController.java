@@ -209,8 +209,7 @@ public class TurnController {
                 context.nextTurn();
             }
         };
-        this.turnTimeout.schedule(timeoutTask, MAX_TURN_DURATION,
-                MAX_TURN_DURATION);
+        this.turnTimeout.schedule(timeoutTask, MAX_TURN_DURATION);
     }
 
     /**
