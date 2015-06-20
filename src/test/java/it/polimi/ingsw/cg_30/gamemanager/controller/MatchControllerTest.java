@@ -84,7 +84,7 @@ public class MatchControllerTest {
 
         matchController.initMatch(partyController);
 
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         matchController.getMatch().getDeadPlayer().add(player3);
         matchController.getMatch().getDeadPlayer().add(player4);
@@ -165,7 +165,7 @@ public class MatchControllerTest {
 
         matchController.initMatch(partyController);
 
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         matchController.getMatch().getDeadPlayer().add(player3);
         matchController.getMatch().getDeadPlayer().add(player4);
@@ -246,7 +246,7 @@ public class MatchControllerTest {
 
         matchController.initMatch(partyController);
 
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         matchController.getMatch().getDeadPlayer().add(player3);
         matchController.getMatch().getDeadPlayer().add(player4);
@@ -328,7 +328,7 @@ public class MatchControllerTest {
 
         matchController.initMatch(partyController);
 
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         matchController.getMatch().getDeadPlayer().add(player3);
         matchController.getMatch().getDeadPlayer().add(player4);
@@ -409,7 +409,7 @@ public class MatchControllerTest {
 
         matchController.initMatch(partyController);
 
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         matchController.getMatch().getDeadPlayer().add(player3);
         matchController.getMatch().getDeadPlayer().add(player4);

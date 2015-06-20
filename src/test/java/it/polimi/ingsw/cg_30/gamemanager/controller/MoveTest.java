@@ -82,7 +82,7 @@ public class MoveTest {
 
         matchController.initMatch(partyController);
         players.add(player1);
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         matchController.getTurnController().getTurn().setMustMove();
         HexPoint point = HexPoint.fromOffset(11, 4);
@@ -167,7 +167,7 @@ public class MoveTest {
         List<Player> playersList = new ArrayList<Player>();
         playersList.add(player1);
         playersList.add(player2);
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         HexPoint point = HexPoint.fromOffset(12, 3);
         matchController.getZoneController().placePlayers(playersList);
@@ -245,7 +245,7 @@ public class MoveTest {
 
         matchController.initMatch(partyController);
         players.add(player1);
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         HexPoint startPoint = HexPoint.fromOffset(15, 1);
         Sector sec = new Sector(SectorType.DANGEROUS, startPoint);
@@ -337,7 +337,8 @@ public class MoveTest {
         player5.setIdentity(human);
 
         matchController.initMatch(partyController);
-        Turn turn1 = new Turn(player1);
+        Turn turn1 = new Turn(player1, matchController.getMatch()
+                .getTurnCount());
         matchController.getTurnController().setTurn(turn1);
         HexPoint startPoint = HexPoint.fromOffset(15, 1);
         Sector sec = matchController.getZoneController().getCurrentZone()
@@ -374,19 +375,22 @@ public class MoveTest {
             mo.processAction();
         }
         // seconda scialuppa
-        Turn turn2 = new Turn(player2);
+        Turn turn2 = new Turn(player2, matchController.getMatch()
+                .getTurnCount());
         matchController.getTurnController().setTurn(turn2);
         ActionRequest action2 = new ActionRequest(ActionType.MOVE, point2, null);
         mo.initAction(matchController, action2);
         mo.processAction();
         // terza scialuppa
-        Turn turn3 = new Turn(player3);
+        Turn turn3 = new Turn(player3, matchController.getMatch()
+                .getTurnCount());
         matchController.getTurnController().setTurn(turn3);
         ActionRequest action3 = new ActionRequest(ActionType.MOVE, point3, null);
         mo.initAction(matchController, action3);
         mo.processAction();
         // quarta scialuppa
-        Turn turn4 = new Turn(player4);
+        Turn turn4 = new Turn(player4, matchController.getMatch()
+                .getTurnCount());
         matchController.getTurnController().setTurn(turn4);
         ActionRequest action4 = new ActionRequest(ActionType.MOVE, point4, null);
         mo.initAction(matchController, action4);
@@ -450,7 +454,7 @@ public class MoveTest {
 
         matchController.initMatch(partyController);
         players.add(player1);
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         HexPoint startPoint = HexPoint.fromOffset(11, 8);
         Sector sec = new Sector(SectorType.DANGEROUS, startPoint);
@@ -530,7 +534,7 @@ public class MoveTest {
 
         matchController.initMatch(partyController);
         players.add(player1);
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         HexPoint startPoint = HexPoint.fromOffset(11, 4);
         Sector sec = new Sector(SectorType.DANGEROUS, startPoint);
@@ -610,7 +614,7 @@ public class MoveTest {
 
         matchController.initMatch(partyController);
         players.add(player1);
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         HexPoint startPoint = HexPoint.fromOffset(11, 5);
         Sector sec = matchController.getZoneController().getCurrentZone()
@@ -702,7 +706,7 @@ public class MoveTest {
 
         matchController.initMatch(partyController);
         players.add(player1);
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         HexPoint startPoint = HexPoint.fromOffset(11, 7);
         Sector sec = matchController.getZoneController().getCurrentZone()
@@ -799,7 +803,7 @@ public class MoveTest {
 
         matchController.initMatch(partyController);
         players.add(player1);
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         matchController.getTurnController().getTurn().setSilenceForced(true);
         HexPoint startPoint = HexPoint.fromOffset(11, 7);
@@ -890,7 +894,7 @@ public class MoveTest {
 
         matchController.initMatch(partyController);
         players.add(player1);
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         HexPoint startPoint = HexPoint.fromOffset(10, 12);
         Sector sec = matchController.getZoneController().getCurrentZone()

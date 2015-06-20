@@ -484,7 +484,7 @@ public class MatchController {
                             new ChatMessage(new ChatViewModel(about,
                                     serverWordText, ChatVisibility.PLAYER)));
         } catch (DisconnectedException e) {
-            // TODO Enqueue this notification for later dispatch
+            // Should enqueue this notification for later dispatch
         }
     }
 

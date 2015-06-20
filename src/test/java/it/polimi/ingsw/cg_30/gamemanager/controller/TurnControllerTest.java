@@ -166,7 +166,8 @@ public class TurnControllerTest {
                 startPlayer = nextPlayer;
             }
         }
-        Turn turn = new Turn(startPlayer);
+        Turn turn = new Turn(startPlayer, matchController.getMatch()
+                .getTurnCount());
         matchController.getTurnController().setTurn(turn);
         assertTrue(matchController.getTurnController().getTurn()
                 .getCurrentPlayer().equals(startPlayer));
@@ -258,7 +259,8 @@ public class TurnControllerTest {
                 startPlayer = nextPlayer;
             }
         }
-        Turn turn = new Turn(startPlayer);
+        Turn turn = new Turn(startPlayer, matchController.getMatch()
+                .getTurnCount());
         matchController.getTurnController().setTurn(turn);
         assertTrue(matchController.getTurnController().getTurn()
                 .getCurrentPlayer().equals(startPlayer));
@@ -375,7 +377,8 @@ public class TurnControllerTest {
                 startPlayer = nextPlayer;
             }
         }
-        Turn turn = new Turn(startPlayer);
+        Turn turn = new Turn(startPlayer, matchController.getMatch()
+                .getTurnCount());
         matchController.getTurnController().setTurn(turn);
         assertTrue(matchController.getTurnController().getTurn()
                 .getCurrentPlayer().equals(startPlayer));
@@ -512,7 +515,8 @@ public class TurnControllerTest {
                 startPlayer = nextPlayer;
             }
         }
-        Turn turn = new Turn(startPlayer);
+        Turn turn = new Turn(startPlayer, matchController.getMatch()
+                .getTurnCount());
         matchController.getTurnController().setTurn(turn);
         assertTrue(matchController.getTurnController().getTurn()
                 .getCurrentPlayer().equals(startPlayer));
