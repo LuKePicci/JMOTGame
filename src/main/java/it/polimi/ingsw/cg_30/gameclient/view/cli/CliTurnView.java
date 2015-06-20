@@ -31,7 +31,7 @@ public class CliTurnView extends View {
                 : "";
 
         // drawn card
-        situation += viewModel.getDrawnCard() != null ? "\r\nChoose where to make the noise."
+        situation += viewModel.getDrawnCard() != null ? "Choose where to make the noise."
                 : "";
 
         CliEngine.printLineToCli(situation);
