@@ -38,7 +38,7 @@ public class TurnControllerTest {
                     throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
-                this.turnController = new TurnController() {
+                this.turnController = new TurnController(this) {
                     @Override
                     protected boolean checkIfPlayerIsOnline(Player player,
                             MatchController matchController) {
@@ -46,8 +46,7 @@ public class TurnControllerTest {
                     }
 
                     @Override
-                    protected void notify(Player nextPlayer,
-                            MatchController matchController) {
+                    protected void notify(Player nextPlayer) {
                     }
 
                 };
@@ -91,7 +90,7 @@ public class TurnControllerTest {
             }
         }
         // eseguo
-        matchController.getTurnController().firstTurn(matchController);
+        matchController.getTurnController().firstTurn();
         // verifico
         assertTrue(matchController.getTurnController().getTurn()
                 .getCurrentPlayer().equals(player9));
@@ -107,7 +106,7 @@ public class TurnControllerTest {
                     throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
-                this.turnController = new TurnController() {
+                this.turnController = new TurnController(this) {
                     @Override
                     protected boolean checkIfPlayerIsOnline(Player player,
                             MatchController matchController) {
@@ -115,8 +114,7 @@ public class TurnControllerTest {
                     }
 
                     @Override
-                    protected void notify(Player nextPlayer,
-                            MatchController matchController) {
+                    protected void notify(Player nextPlayer) {
                     }
 
                 };
@@ -182,7 +180,7 @@ public class TurnControllerTest {
         }
 
         // eseguo
-        matchController.getTurnController().nextTurn(matchController);
+        matchController.getTurnController().nextTurn();
 
         // verifico
         assertTrue(matchController.getTurnController().getTurn()
@@ -200,7 +198,7 @@ public class TurnControllerTest {
                     throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
-                this.turnController = new TurnController() {
+                this.turnController = new TurnController(this) {
                     @Override
                     protected boolean checkIfPlayerIsOnline(Player player,
                             MatchController matchController) {
@@ -208,8 +206,7 @@ public class TurnControllerTest {
                     }
 
                     @Override
-                    protected void notify(Player nextPlayer,
-                            MatchController matchController) {
+                    protected void notify(Player nextPlayer) {
                     }
 
                 };
@@ -297,7 +294,7 @@ public class TurnControllerTest {
         }
 
         // eseguo
-        matchController.getTurnController().nextTurn(matchController);
+        matchController.getTurnController().nextTurn();
 
         // verifico
         assertTrue(matchController.getTurnController().getTurn()
@@ -314,7 +311,7 @@ public class TurnControllerTest {
                     throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
-                this.turnController = new TurnController() {
+                this.turnController = new TurnController(this) {
                     @Override
                     protected boolean checkIfPlayerIsOnline(Player player,
                             MatchController matchController) {
@@ -322,8 +319,7 @@ public class TurnControllerTest {
                     }
 
                     @Override
-                    protected void notify(Player nextPlayer,
-                            MatchController matchController) {
+                    protected void notify(Player nextPlayer) {
                     }
 
                 };
@@ -409,7 +405,7 @@ public class TurnControllerTest {
         };
         assertTrue(matchController.getMatch().getItemsDeck().getBucket().size() == 0);
         assertTrue(startPlayer.getItemsDeck().getCards().size() == 4);
-        matchController.getTurnController().nextTurn(matchController);
+        matchController.getTurnController().nextTurn();
 
         // verifico
         assertTrue(matchController.getTurnController().getTurn()
@@ -432,7 +428,7 @@ public class TurnControllerTest {
                     throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
-                this.turnController = new TurnController() {
+                this.turnController = new TurnController(this) {
                     @Override
                     protected boolean checkIfPlayerIsOnline(Player player,
                             MatchController matchController) {
@@ -440,10 +436,8 @@ public class TurnControllerTest {
                     }
 
                     @Override
-                    protected void notify(Player nextPlayer,
-                            MatchController matchController) {
+                    protected void notify(Player nextPlayer) {
                     }
-
                 };
                 ZoneFactory zf = new TemplateZoneFactory(
                         EftaiosGame.DEFAULT_MAP);
@@ -521,7 +515,7 @@ public class TurnControllerTest {
         assertTrue(matchController.getTurnController().getTurn()
                 .getCurrentPlayer().equals(startPlayer));
 
-        matchController.getTurnController().nextTurn(matchController);
+        matchController.getTurnController().nextTurn();
         // verifico gli esiti
         assertTrue(perdenti.size() == 2);
         assertTrue(vincitori.size() == 5);
