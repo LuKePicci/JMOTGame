@@ -23,7 +23,16 @@
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.jtattoo</groupId>
+			<artifactId>JTattoo</artifactId>
+			<scope>system</scope>
+			<version>1.6.11</version>
+			<systemPath>${project.basedir}/src/lib/JTattoo-1.6.11.jar
+			</systemPath>
+		</dependency>
 	</dependencies>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -59,6 +68,30 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>jarjar-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>jarjar</goal>
+						</goals>
+						<configuration>
+							<includes>
+								<include>com.jtattoo</include>
+							</includes>
+							<rules>
+								<keep>
+									<pattern>com.jtattoo.**</pattern>
+								</keep>
+
+							</rules>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.18.1</version>
@@ -120,6 +153,7 @@
 							<!-- DO NOT include log4j.properties file in your Jar -->
 							<classifier>GameManager</classifier>
 							<excludes>
+								<exclude>**/com/jtattoo/**</exclude>
 								<exclude>**/it/polimi/ingsw/cg_30/gameclient/**</exclude>
 							</excludes>
 							<finalname>EftaiosServer</finalname>
@@ -172,4 +206,5 @@
 			</plugins>
 		</pluginManagement>
 	</build>
+
 </project>

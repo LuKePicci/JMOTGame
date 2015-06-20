@@ -10,7 +10,7 @@ public class CliSectorView extends View {
     public void applyUpdate(ViewModel model) {
         SectorViewModel viewModel = (SectorViewModel) model;
         if (viewModel.getSector().getPoint().getOffsetX() != 26) {
-            String sectorRep = this.getCharFromNumber(viewModel.getSector()
+            String sectorRep = getCharFromNumber(viewModel.getSector()
                     .getPoint().getOffsetX() + 1)
                     + String.format("%02d", (viewModel.getSector().getPoint()
                             .getOffsetY() + 1));

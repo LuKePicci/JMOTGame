@@ -4,6 +4,8 @@ import it.polimi.ingsw.cg_30.gameclient.view.ViewEngine;
 import it.polimi.ingsw.cg_30.gameclient.view.cli.CliEngine;
 import it.polimi.ingsw.cg_30.gameclient.view.gui.GuiEngine;
 
+import javax.swing.SwingUtilities;
+
 public class GameClient {
 
     private static ViewEngine activeEngine;
@@ -36,8 +38,13 @@ public class GameClient {
     }
 
     private void startGui() {
-        activeEngine = new GuiEngine();
-        this.startEngine();
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                activeEngine = new GuiEngine();
+                startEngine();
+            }
+        });
     }
 
     private void startCli() {
@@ -50,8 +57,18 @@ public class GameClient {
         activeEngine.runEngine();
     }
 
-    private void switchEngine() {
-        activeEngine = new GuiEngine();
-        activeEngine.runEngine();
+    public static void switchEngine() {
+        if (activeEngine instanceof GuiEngine) {
+            activeEngine = new CliEngine();
+            activeEngine.runEngine();
+        } else {
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    activeEngine = new GuiEngine();
+                    activeEngine.runEngine();
+                }
+            });
+        }
     }
 }
