@@ -131,9 +131,11 @@ public class Move extends ActionController {
             // update the map
             this.sendMapVariationToParty(this.target,
                     SectorHighlight.HATCH_LOCKED);
+            this.sendNewPosition();
             this.matchController.checkEndGame();
         } else if (SectorType.DANGEROUS.equals(this.target.getType())) {
             this.matchController.sendTurnViewModel();
+            this.sendNewPosition();
             this.matchController.getTurnController().getTurn()
                     .setIsSecDangerous(true);// an alien can attack or draw a
                                              // card
@@ -149,8 +151,22 @@ public class Move extends ActionController {
                     this.matchController.getTurnController().getTurn()
                             .setIsSecDangerous(false);
             }
-        } else
+        } else {
             // the sector is secure (white), nothing have to be done
+            this.sendNewPosition();
             this.matchController.sendTurnViewModel();
+        }
     }
+
+    private void sendNewPosition() {
+        try {
+            this.matchController.sendMapVariationToPlayer(this.player,
+                    this.target, SectorHighlight.PLAYER_LOCATION);
+        } catch (DisconnectedException e) {
+            // player's location will be updated as soon as the player comes
+            // back thanks to modelSender(Player returningPlayer)
+            // in MatchController
+        }
+    }
+
 }

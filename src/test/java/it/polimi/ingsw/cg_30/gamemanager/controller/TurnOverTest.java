@@ -51,7 +51,7 @@ public class TurnOverTest {
         player1.setIdentity(alien);
 
         matchController.initMatch(partyController);
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         ActionRequest action = new ActionRequest(ActionType.TURN_OVER, null,
                 null);
@@ -88,7 +88,7 @@ public class TurnOverTest {
         player1.setIdentity(alien);
 
         matchController.initMatch(partyController);
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         ActionRequest action = new ActionRequest(ActionType.TURN_OVER, null,
                 null);
@@ -133,7 +133,7 @@ public class TurnOverTest {
         player1.setIdentity(alien);
 
         matchController.initMatch(partyController);
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         ActionRequest action = new ActionRequest(ActionType.TURN_OVER, null,
                 null);
@@ -172,7 +172,7 @@ public class TurnOverTest {
         player1.setIdentity(alien);
 
         matchController.initMatch(partyController);
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         ActionRequest action = new ActionRequest(ActionType.TURN_OVER, null,
                 null);
@@ -211,7 +211,7 @@ public class TurnOverTest {
         player1.setIdentity(alien);
 
         matchController.initMatch(partyController);
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         ActionRequest action = new ActionRequest(ActionType.TURN_OVER, null,
                 null);
@@ -252,7 +252,7 @@ public class TurnOverTest {
         player1.setIdentity(alien);
 
         matchController.initMatch(partyController);
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         ActionRequest action = new ActionRequest(ActionType.TURN_OVER, null,
                 null);
@@ -292,7 +292,7 @@ public class TurnOverTest {
         player1.setIdentity(alien);
 
         matchController.initMatch(partyController);
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         ActionRequest action = new ActionRequest(ActionType.TURN_OVER, null,
                 null);

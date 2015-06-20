@@ -16,7 +16,7 @@ public class TurnTest {
         PlayerCard es = new PlayerCard(PlayerRace.HUMAN,
                 PlayerCharacter.THE_CAPTAIN);
         Player player = new Player("unknown player", 0, es);
-        Turn turn = new Turn(player);
+        Turn turn = new Turn(player, 1);
         assertEquals(false, turn.getCanAttack());
         assertEquals(true, turn.getMustMove());
         assertEquals(1, turn.getMaxSteps(), 0);
@@ -33,7 +33,7 @@ public class TurnTest {
         PlayerCard es = new PlayerCard(PlayerRace.HUMAN,
                 PlayerCharacter.THE_CAPTAIN);
         Player player = new Player("unknown player", 0, es);
-        Turn turn = new Turn(player);
+        Turn turn = new Turn(player, 1);
         turn.setCanAttack(true);
         assertEquals(true, turn.getCanAttack());
         turn.setSilenceForced(true);
@@ -59,11 +59,11 @@ public class TurnTest {
         PlayerCard es = new PlayerCard(PlayerRace.ALIEN,
                 PlayerCharacter.THE_FIRST_ALIEN);
         Player player = new Player("nome", 1, es);
-        Turn turn1 = new Turn(player);
+        Turn turn1 = new Turn(player, 1);
         assertEquals(true, turn1.getCanAttack());
         assertEquals(2, turn1.getMaxSteps(), 0);
         player.incrementKillsCount();
-        Turn turn2 = new Turn(player);
+        Turn turn2 = new Turn(player, 1);
         assertEquals(3, turn2.getMaxSteps(), 0);
     }
 

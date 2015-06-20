@@ -62,7 +62,7 @@ public class TurnController {
         PlayerCard pcard = new PlayerCard(PlayerRace.ALIEN,
                 PlayerCharacter.THE_FIRST_ALIEN);
         Player player0 = new Player("player0", 0, pcard);
-        this.turn = new Turn(player0);
+        this.turn = new Turn(player0, matchController.getMatch().getTurnCount());
         this.nextTurn(matchController);
     }
 
@@ -114,7 +114,8 @@ public class TurnController {
                                 .contains(nextPlayer)) {
                     // it's nextPlayer's turn
                     matchController.checkEndGame();
-                    this.turn = new Turn(nextPlayer);
+                    this.turn = new Turn(nextPlayer, matchController.getMatch()
+                            .getTurnCount());
                     this.notify(nextPlayer, matchController);
                     return;
                 }

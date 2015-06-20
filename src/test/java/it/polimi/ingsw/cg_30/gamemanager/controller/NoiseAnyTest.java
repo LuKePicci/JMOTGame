@@ -54,7 +54,7 @@ public class NoiseAnyTest {
         player1.setIdentity(human);
 
         matchController.initMatch(partyController);
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         SectorCard card = new SectorCard(SectorEvent.NOISE_ANY, false);
         matchController.getTurnController().getTurn().setDrawnCard(card);
@@ -101,7 +101,7 @@ public class NoiseAnyTest {
         player1.setIdentity(human);
 
         matchController.initMatch(partyController);
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         List<HexPoint> secLoc = new ArrayList<HexPoint>();
         for (Sector s : matchController.getZoneController().getCurrentZone()
@@ -157,7 +157,7 @@ public class NoiseAnyTest {
         player1.setIdentity(human);
 
         matchController.initMatch(partyController);
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         SectorCard card = new SectorCard(SectorEvent.NOISE_ANY, false);
         matchController.getTurnController().getTurn().setDrawnCard(card);
