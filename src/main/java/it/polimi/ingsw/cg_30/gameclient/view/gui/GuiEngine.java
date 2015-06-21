@@ -1,5 +1,7 @@
 package it.polimi.ingsw.cg_30.gameclient.view.gui;
 
+import it.polimi.ingsw.cg_30.exchange.messaging.ActionRequest;
+import it.polimi.ingsw.cg_30.exchange.messaging.ActionType;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Item;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ItemCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Sector;
@@ -139,23 +141,34 @@ public class GuiEngine extends ViewEngine {
     public void cardProcessor(ItemCard icard) {
         if (this.discardCard == true) {
             // discard the card
+            ActionRequest action = new ActionRequest(ActionType.DISCARD_CARD,
+                    null, icard.getItem());
         } else {
             if (Item.SPOTLIGHT.equals(icard.getItem())) {
                 this.spolightCard = true;
                 // wait for sector selection, than the action will be processed
                 // by sectorProcessor
+            } else {
+                // use the card
+                ActionRequest action = new ActionRequest(ActionType.USE_ITEM,
+                        null, icard.getItem());
             }
-            // use the card
         }
     }
 
     public void sectorProcessor(Sector sec) {
         if (this.noise == true) {
             // action noise
+            ActionRequest action = new ActionRequest(ActionType.NOISE_ANY,
+                    sec.getPoint(), null);
         } else if (this.spolightCard == true) {
             // use spotlight
+            ActionRequest action = new ActionRequest(ActionType.USE_ITEM,
+                    sec.getPoint(), Item.SPOTLIGHT);
         } else {
             // action move
+            ActionRequest action = new ActionRequest(ActionType.MOVE,
+                    sec.getPoint(), null);
         }
     }
 
