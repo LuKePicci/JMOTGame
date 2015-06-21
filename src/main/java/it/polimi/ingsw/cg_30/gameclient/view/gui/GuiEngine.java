@@ -1,5 +1,8 @@
 package it.polimi.ingsw.cg_30.gameclient.view.gui;
 
+import it.polimi.ingsw.cg_30.exchange.viewmodels.Item;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.ItemCard;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.Sector;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewType;
 import it.polimi.ingsw.cg_30.gameclient.view.ViewEngine;
 
@@ -17,6 +20,16 @@ import com.jtattoo.plaf.hifi.HiFiLookAndFeel;
 public class GuiEngine extends ViewEngine {
 
     private GameView gv;
+
+    // to be sure a player does not use an item card by mistake, we start the
+    // match with discardCard flag true as the game manager will prevent the
+    // player from discarding if he does not have four cards.
+    private boolean discardCard = true;
+    // it's unlikely to use a spotlight card, so by default this flag is false
+    private boolean spolightCard = false;
+    // only when needed this flag will be turn to true, by default a player
+    // selects a sector in order to move, not to make a noise.
+    private boolean noise = false;
 
     public GuiEngine() {
         // enable anti-aliased text:
@@ -122,4 +135,28 @@ public class GuiEngine extends ViewEngine {
             // use default lookAndFeel
         }
     }
+
+    public void cardProcessor(ItemCard icard) {
+        if (this.discardCard == true) {
+            // discard the card
+        } else {
+            if (Item.SPOTLIGHT.equals(icard.getItem())) {
+                this.spolightCard = true;
+                // wait for sector selection, than the action will be processed
+                // by sectorProcessor
+            }
+            // use the card
+        }
+    }
+
+    public void sectorProcessor(Sector sec) {
+        if (this.noise == true) {
+            // action noise
+        } else if (this.spolightCard == true) {
+            // use spotlight
+        } else {
+            // action move
+        }
+    }
+
 }
