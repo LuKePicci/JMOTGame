@@ -40,8 +40,7 @@ public class TurnControllerTest {
                 this.match = new Match();
                 this.turnController = new TurnController(this) {
                     @Override
-                    protected boolean checkIfPlayerIsOnline(Player player,
-                            MatchController matchController) {
+                    protected boolean isPlayerOffline(Player player) {
                         return false;
                     }
 
@@ -108,8 +107,7 @@ public class TurnControllerTest {
                 this.match = new Match();
                 this.turnController = new TurnController(this) {
                     @Override
-                    protected boolean checkIfPlayerIsOnline(Player player,
-                            MatchController matchController) {
+                    protected boolean isPlayerOffline(Player player) {
                         return false;
                     }
 
@@ -200,8 +198,7 @@ public class TurnControllerTest {
                 this.match = new Match();
                 this.turnController = new TurnController(this) {
                     @Override
-                    protected boolean checkIfPlayerIsOnline(Player player,
-                            MatchController matchController) {
+                    protected boolean isPlayerOffline(Player player) {
                         return false;
                     }
 
@@ -313,8 +310,7 @@ public class TurnControllerTest {
                 this.match = new Match();
                 this.turnController = new TurnController(this) {
                     @Override
-                    protected boolean checkIfPlayerIsOnline(Player player,
-                            MatchController matchController) {
+                    protected boolean isPlayerOffline(Player player) {
                         return false;
                     }
 
@@ -430,8 +426,7 @@ public class TurnControllerTest {
                 this.match = new Match();
                 this.turnController = new TurnController(this) {
                     @Override
-                    protected boolean checkIfPlayerIsOnline(Player player,
-                            MatchController matchController) {
+                    protected boolean isPlayerOffline(Player player) {
                         return false;
                     }
 

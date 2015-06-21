@@ -99,7 +99,7 @@ public class AcceptSocketPlayer extends AcceptPlayer implements Runnable {
             this.lastSentData = dataToSend;
         } catch (IOException e) {
             this.disconnect(e);
-            throw new DisconnectedException(new Date());
+            throw new DisconnectedException(this.loseConnection());
         }
     }
 
@@ -123,7 +123,5 @@ public class AcceptSocketPlayer extends AcceptPlayer implements Runnable {
             System.out.println("Socket " + this.mySoc.hashCode()
                     + " already closed");
         }
-
-        this.hasLostConnection = true;
     }
 }

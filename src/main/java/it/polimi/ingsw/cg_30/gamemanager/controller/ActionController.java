@@ -208,15 +208,12 @@ public abstract class ActionController {
      */
     protected void notifyCurrentPlayerByServer(String what)
             throws DisconnectedException {
-        MessageController
-                .getPlayerHandler(
-                        this.matchController.getPartyController()
-                                .getCurrentParty().getPlayerUUID(player))
-                .getAcceptPlayer()
-                .sendMessage(
-                        new ChatMessage(new ChatViewModel(what,
-                                this.matchController.serverWordText,
-                                ChatVisibility.PLAYER)));
+        MessageController.getPlayerHandler(
+                this.matchController.getPartyController().getCurrentParty()
+                        .getPlayerUUID(player)).dispatchOutgoing(
+                new ChatMessage(new ChatViewModel(what,
+                        this.matchController.serverWordText,
+                        ChatVisibility.PLAYER)));
     }
 
     /**
@@ -229,11 +226,10 @@ public abstract class ActionController {
      */
     protected void showCardToCurrentPlayer(Card card)
             throws DisconnectedException {
-        MessageController
-                .getPlayerHandler(
-                        this.matchController.getPartyController()
-                                .getCurrentParty().getPlayerUUID(player))
-                .getAcceptPlayer().sendMessage(new Message(card));
+        MessageController.getPlayerHandler(
+                this.matchController.getPartyController().getCurrentParty()
+                        .getPlayerUUID(player)).dispatchOutgoing(
+                new Message(card));
     }
 
     /**

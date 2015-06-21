@@ -34,6 +34,31 @@ public class MessageController implements IDelivery {
     }
 
     /**
+     * Provides decoupled access to outgoing message delivering. Also sends a
+     * notify to the party which the player belong about his disconnection in
+     * case of {@code DisconnectedException}.
+     *
+     * @param message
+     *            the message to be sent
+     * @throws DisconnectedException
+     *             the disconnected exception
+     */
+    public void dispatchOutgoing(Message message) throws DisconnectedException {
+        if (this.myAP.connectionLost())
+            throw new DisconnectedException(this.myAP.getDisconnectionDate());
+
+        try {
+            this.myAP.sendMessage(message);
+        } catch (DisconnectedException disEx) {
+            this.myParty.sendMessageToParty(new ChatMessage(new ChatViewModel(
+                    "I'm gone offline.", this.myParty.getCurrentParty()
+                            .getNickOfUUID(this.myAP.getUUID()),
+                    ChatVisibility.PARTY)));
+            throw disEx;
+        }
+    }
+
+    /**
      * Deliver a generic message to its target. Let the request instance to
      * invoke its handler.
      *
@@ -89,7 +114,7 @@ public class MessageController implements IDelivery {
                 this.myParty.getCurrentMatch().processActionRequest(req);
 
             else {
-                this.myAP.sendMessage(new ChatMessage(new ChatViewModel(
+                this.dispatchOutgoing(new ChatMessage(new ChatViewModel(
                         "You can't do any action at the moment.", "Server",
                         ChatVisibility.PLAYER)));
             }
@@ -168,7 +193,7 @@ public class MessageController implements IDelivery {
     public static void sendMessageToAll(Message message) {
         for (MessageController mc : MessageController.connectedClients.values())
             try {
-                mc.getAcceptPlayer().sendMessage(message);
+                mc.dispatchOutgoing(message);
             } catch (DisconnectedException e) {
                 // If not handled before, it means at this point the
                 // message can be discarded.
