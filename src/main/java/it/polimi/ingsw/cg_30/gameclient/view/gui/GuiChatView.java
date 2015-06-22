@@ -12,10 +12,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
+import javax.swing.text.DefaultCaret;
 
 public class GuiChatView extends GuiView {
 
@@ -28,7 +29,7 @@ public class GuiChatView extends GuiView {
     private JTabbedPane chatTabs;
 
     @Override
-    public JComponent getComponent() {
+    public JPanel getComponent() {
         if (this.chatPane == null)
             this.createComponents();
         return this.chatPane;
@@ -109,7 +110,14 @@ public class GuiChatView extends GuiView {
     private JTextArea newTab(String title) {
         JTextArea newArea = new JTextArea();
         newArea.setEditable(false);
-        chatTabs.addTab(title, null, newArea, null);
+        DefaultCaret caret = (DefaultCaret) newArea.getCaret();
+        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+
+        JScrollPane areaScrollPane = new JScrollPane(newArea);
+        areaScrollPane
+                .setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+        chatTabs.addTab(title, null, areaScrollPane, null);
         return newArea;
     }
 }

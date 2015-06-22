@@ -8,16 +8,27 @@ import javax.swing.JComponent;
 
 public class MouseHoverMagnify extends MouseAdapter {
 
+    private int xSize, ySize, addSize;
+
+    public MouseHoverMagnify(int x, int y, int addition) {
+        this.xSize = x;
+        this.ySize = y;
+        this.addSize = addition;
+    }
+
     @Override
     public void mouseEntered(MouseEvent e) {
         JComponent sender = (JComponent) e.getSource();
-        sender.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
+        sender.setBorder(BorderFactory.createEmptyBorder(this.ySize
+                + this.addSize, this.xSize + this.addSize, this.ySize
+                + this.addSize, this.xSize + this.addSize));
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
         JComponent sender = (JComponent) e.getSource();
-        sender.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        sender.setBorder(BorderFactory.createEmptyBorder(this.ySize,
+                this.xSize, this.ySize, this.xSize));
     }
 
 }
