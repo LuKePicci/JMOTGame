@@ -244,7 +244,8 @@ public class Turn implements IViewable {
         return new TurnViewModel(this.getCanAttack(), this.getMaxSteps(),
                 this.getMustDiscard(), this.getMustMove(),
                 this.getSilenceForced(), this.getDrawnCard(),
-                this.localTurnCount, this.turnStart);
+                this.localTurnCount, this.turnStart, this.getCurrentPlayer(),
+                this.getIsSecDangerous());
     }
 
 }

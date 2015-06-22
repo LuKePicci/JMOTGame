@@ -1,5 +1,7 @@
 package it.polimi.ingsw.cg_30.exchange.viewmodels;
 
+import it.polimi.ingsw.cg_30.gamemanager.model.Player;
+
 import java.util.Date;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -34,12 +36,18 @@ public class TurnViewModel extends ViewModel {
     @XmlElement(name = "TurnCount")
     private int turnCount;
 
-    @XmlElement(name = "turnStart")
+    @XmlElement(name = "TurnStart")
     private Date turnStart;
+
+    @XmlElement(name = "CurrentPlayer")
+    private Player currentPlayer;
+
+    @XmlElement(name = "IsSecDangerous")
+    private boolean isSecDangerous;
 
     public TurnViewModel(boolean attack, int steps, boolean discard,
             boolean move, boolean silence, SectorCard drawnCard, int turnCount,
-            Date turnStart) {
+            Date turnStart, Player currentPlayer, boolean secDanger) {
         this();
         this.canAttack = attack;
         this.maxSteps = steps;
@@ -49,6 +57,9 @@ public class TurnViewModel extends ViewModel {
         this.drawnCard = drawnCard;
         this.turnCount = turnCount;
         this.turnStart = turnStart;
+        this.currentPlayer = currentPlayer;
+        this.isSecDangerous = secDanger;
+
     }
 
     private TurnViewModel() {
@@ -119,7 +130,8 @@ public class TurnViewModel extends ViewModel {
                 + canAttack + ", mustDiscard: " + mustDiscard + ", mustMove: "
                 + mustMove + ", silenceForced: " + silenceForced
                 + ", drawnCard: " + drawnCard + ", turnCount: " + turnCount
-                + ", turnStart: " + turnStart + " }";
+                + ", turnStart: " + turnStart + ", currentPlayer: "
+                + currentPlayer + ", isSecDangerous: " + isSecDangerous + " }";
     }
 
 }
