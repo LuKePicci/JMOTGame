@@ -480,14 +480,11 @@ public class MatchController {
      */
     protected void notifyAPlayerAbout(Player player, String about) {
         try {
-            MessageController
-                    .getPlayerHandler(
-                            this.partyController.getCurrentParty()
-                                    .getPlayerUUID(player))
-                    .getAcceptPlayer()
-                    .sendMessage(
-                            new ChatMessage(new ChatViewModel(about,
-                                    serverWordText, ChatVisibility.PLAYER)));
+            MessageController.getPlayerHandler(
+                    this.partyController.getCurrentParty()
+                            .getPlayerUUID(player)).dispatchOutgoing(
+                    new ChatMessage(new ChatViewModel(about, serverWordText,
+                            ChatVisibility.PLAYER)));
         } catch (DisconnectedException e) {
             // Should enqueue this notification for later dispatch
         }
@@ -611,10 +608,9 @@ public class MatchController {
      */
     protected void sendViewModelToAPlayer(Player p, ViewModel content)
             throws DisconnectedException {
-        MessageController
-                .getPlayerHandler(
-                        this.partyController.getCurrentParty().getPlayerUUID(p))
-                .getAcceptPlayer().sendMessage(new Message(content));
+        MessageController.getPlayerHandler(
+                this.partyController.getCurrentParty().getPlayerUUID(p))
+                .dispatchOutgoing(new Message(content));
     }
 
 }

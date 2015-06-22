@@ -117,8 +117,7 @@ public class TurnController {
             }
             for (Player nextPlayer : playerList) {
                 if (nextPlayer.getIndex() == index
-                        && !this.checkIfPlayerIsOnline(nextPlayer,
-                                this.currentMatch)
+                        && !this.isPlayerOffline(nextPlayer)
                         && !this.currentMatch.getMatch().getDeadPlayer()
                                 .contains(nextPlayer)
                         && !this.currentMatch.getMatch().getRescuedPlayer()
@@ -156,7 +155,7 @@ public class TurnController {
     }
 
     /**
-     * Checks if the player is online.
+     * Checks if the player is offline.
      *
      * @param player
      *            the player
@@ -164,13 +163,12 @@ public class TurnController {
      *            the match controller
      * @return true, if the player is offline
      */
-    protected boolean checkIfPlayerIsOnline(Player player,
-            MatchController matchController) {
+    protected boolean isPlayerOffline(Player player) {
         return MessageController
                 .getPlayerHandler(
-                        matchController.getPartyController().getCurrentParty()
-                                .getPlayerUUID(player)).getAcceptPlayer()
-                .connectionLost();
+                        this.currentMatch.getPartyController()
+                                .getCurrentParty().getPlayerUUID(player))
+                .getAcceptPlayer().connectionLost();
     }
 
     /**
