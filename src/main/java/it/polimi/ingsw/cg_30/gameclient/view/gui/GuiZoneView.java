@@ -4,6 +4,7 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.HexPoint;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Sector;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewModel;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ZoneViewModel;
+import it.polimi.ingsw.cg_30.gameclient.GameClient;
 import it.polimi.ingsw.cg_30.gameclient.view.gui.components.JSector;
 import it.polimi.ingsw.cg_30.gameclient.view.gui.components.SectorFactory;
 
@@ -45,9 +46,12 @@ public class GuiZoneView extends GuiView {
                 public void mouseClicked(MouseEvent event) {
                     super.mouseClicked(event);
                     JSector sender = (JSector) event.getSource();
-                    // TODO trigger sectorProcessor
-                    System.out.println("Sector clicked: "
-                            + sender.getHexPoint().toString());
+                    if (sender.contains(event.getPoint())
+                            && GameClient.getActiveEngine() instanceof GuiEngine) {
+                        GuiEngine activeEngine = (GuiEngine) GameClient
+                                .getActiveEngine();
+                        activeEngine.sectorProcessor(sender.getHexPoint());
+                    }
                 }
             });
             js.setType(e.getValue().getType());

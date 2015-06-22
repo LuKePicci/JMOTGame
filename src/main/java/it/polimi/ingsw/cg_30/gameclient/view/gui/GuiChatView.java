@@ -2,11 +2,11 @@ package it.polimi.ingsw.cg_30.gameclient.view.gui;
 
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ChatViewModel;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewModel;
+import it.polimi.ingsw.cg_30.gameclient.view.ViewEngine;
 import it.polimi.ingsw.cg_30.gameclient.view.gui.components.PlaceholderTextField;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,8 +19,6 @@ import javax.swing.JTextArea;
 import javax.swing.text.DefaultCaret;
 
 public class GuiChatView extends GuiView {
-
-    private static final SimpleDateFormat SDF = new SimpleDateFormat("HH:mm");
 
     private JTextArea party, match, server;
     private Map<String, JTextArea> privates = new HashMap<String, JTextArea>();
@@ -74,17 +72,18 @@ public class GuiChatView extends GuiView {
         switch (chatMsg.getAudience()) {
             case PUBLIC:
                 server.append(String.format("%s %s : %s\r\n",
-                        SDF.format(chatMsg.getDate()), chatMsg.getSenderNick(),
-                        chatMsg.getText()));
+                        ViewEngine.SDF.format(chatMsg.getDate()),
+                        chatMsg.getSenderNick(), chatMsg.getText()));
                 break;
 
             case PARTY:
                 if ("server".equals(chatMsg.getSenderNick().toLowerCase())) {
                     match.append(String.format("%s  %s\r\n",
-                            SDF.format(chatMsg.getDate()), chatMsg.getText()));
+                            ViewEngine.SDF.format(chatMsg.getDate()),
+                            chatMsg.getText()));
                 } else {
                     party.append(String.format("%s %s : %s\r\n",
-                            SDF.format(chatMsg.getDate()),
+                            ViewEngine.SDF.format(chatMsg.getDate()),
                             chatMsg.getSenderNick(), chatMsg.getText()));
                 }
                 break;
@@ -92,7 +91,8 @@ public class GuiChatView extends GuiView {
             case PLAYER:
                 if ("server".equals(chatMsg.getSenderNick().toLowerCase())) {
                     match.append(String.format("%s  %s\r\n",
-                            SDF.format(chatMsg.getDate()), chatMsg.getText()));
+                            ViewEngine.SDF.format(chatMsg.getDate()),
+                            chatMsg.getText()));
                     break;
                 }
                 if (!privates.containsKey(chatMsg.getSenderNick())) {
@@ -101,7 +101,7 @@ public class GuiChatView extends GuiView {
                 }
                 privates.get(chatMsg.getSenderNick()).append(
                         String.format("%s  %s\r\n",
-                                SDF.format(chatMsg.getDate()),
+                                ViewEngine.SDF.format(chatMsg.getDate()),
                                 chatMsg.getText()));
                 break;
         }

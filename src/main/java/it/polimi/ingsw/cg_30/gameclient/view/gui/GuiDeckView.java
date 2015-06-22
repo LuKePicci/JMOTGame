@@ -4,6 +4,7 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.DeckViewModel;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Item;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ItemCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewModel;
+import it.polimi.ingsw.cg_30.gameclient.GameClient;
 import it.polimi.ingsw.cg_30.gameclient.view.gui.components.JEftaiosCard;
 import it.polimi.ingsw.cg_30.gameclient.view.gui.eventhandlers.MouseHoverMagnify;
 
@@ -96,9 +97,12 @@ public class GuiDeckView extends GuiView {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     super.mouseClicked(e);
-                    JEftaiosCard sender = (JEftaiosCard) e.getSource();
-                    // TODO trigger cardProcessor
-                    System.out.println("Card clicked: " + sender.getItemType());
+                    if (GameClient.getActiveEngine() instanceof GuiEngine) {
+                        JEftaiosCard sender = (JEftaiosCard) e.getSource();
+                        GuiEngine activeEngine = (GuiEngine) GameClient
+                                .getActiveEngine();
+                        activeEngine.cardProcessor(sender.getItemType());
+                    }
                 }
             });
         } else

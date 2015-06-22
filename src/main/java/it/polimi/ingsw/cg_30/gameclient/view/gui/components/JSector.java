@@ -106,14 +106,14 @@ public class JSector extends JComponent {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Graphics2D graphics2D = (Graphics2D) g;
+        Graphics2D g2d = (Graphics2D) g;
 
         // Set anti-alias!
-        graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
         // Set anti-alias for text
-        graphics2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
                 RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
         Point xy;
@@ -125,8 +125,8 @@ public class JSector extends JComponent {
             y[i] = xy.y;
         }
         myShape = new Polygon(x, y, x.length);
-        g.drawPolygon(myShape);
-        g.fillPolygon(myShape);
+        g2d.drawPolygon(myShape);
+        g2d.fillPolygon(myShape);
     }
 
     /*
