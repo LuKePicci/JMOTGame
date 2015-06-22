@@ -181,7 +181,7 @@ public class MatchController {
             throws FileNotFoundException, URISyntaxException {
         this.partyController = partyController;
         this.match = new Match();
-        this.turnController = new TurnController();
+        this.turnController = new TurnController(this);
 
         // map preparation
         EftaiosGame game = (EftaiosGame) partyController.getCurrentParty()
@@ -192,7 +192,7 @@ public class MatchController {
         this.establishRoles(); // roles assignment
         this.zoneController.placePlayers(obtainPartyPlayers()); // put players
                                                                 // on starts
-        this.turnController.firstTurn(this); // first turn preparation
+        this.turnController.firstTurn(); // first turn preparation
         this.modelSender(); // send the models
         this.sayRoles(); // inform every player about his role
     }
@@ -304,7 +304,7 @@ public class MatchController {
      */
     private Set<Player> getHumanPlayers() {
         Set<Player> humanPlayers = new HashSet<Player>();
-        Set<Player> playerList = this.turnController.getPartyPlayers(this);
+        Set<Player> playerList = this.turnController.getPartyPlayers();
         for (Player thisPlayer : playerList) {
             if (PlayerRace.HUMAN.equals(thisPlayer.getIdentity().getRace())) {
                 humanPlayers.add(thisPlayer);
@@ -320,7 +320,7 @@ public class MatchController {
      */
     private Set<Player> getAlienPlayers() {
         Set<Player> alienPlayers = new HashSet<Player>();
-        Set<Player> playerList = this.turnController.getPartyPlayers(this);
+        Set<Player> playerList = this.turnController.getPartyPlayers();
         for (Player thisPlayer : playerList) {
             if (PlayerRace.ALIEN.equals(thisPlayer.getIdentity().getRace())) {
                 alienPlayers.add(thisPlayer);
@@ -334,7 +334,7 @@ public class MatchController {
      * lose.
      */
     private void partialVictory() {
-        Set<Player> playerList = this.turnController.getPartyPlayers(this);
+        Set<Player> playerList = this.turnController.getPartyPlayers();
         // aliens won
         this.sayYouWin(getAlienPlayers());
         // escaped humans won
@@ -376,7 +376,7 @@ public class MatchController {
      * Checks if the game has come to its end.
      */
     protected void checkEndGame() {
-        Set<Player> playerList = this.turnController.getPartyPlayers(this);
+        Set<Player> playerList = this.turnController.getPartyPlayers();
         int playerNumber = playerList.size();
         int humanNumber = playerNumber / 2;
         int deadHumans = 0;
@@ -392,6 +392,7 @@ public class MatchController {
             this.sayYouLose(getHumanPlayers());
             // aliens won
             this.sayYouWin(getAlienPlayers());
+            this.turnController.stopTimeoutTimer();
             this.partyController.endMatch();
         }
 
@@ -401,6 +402,7 @@ public class MatchController {
             this.sayYouWin(getHumanPlayers());
             // aliens lost
             this.sayYouLose(getAlienPlayers());
+            this.turnController.stopTimeoutTimer();
             this.partyController.endMatch();
         }
 
@@ -414,6 +416,7 @@ public class MatchController {
             // dead humans lost
             this.match.getDeadPlayer().removeAll(getAlienPlayers());
             this.sayYouLose(this.match.getDeadPlayer());
+            this.turnController.stopTimeoutTimer();
             this.partyController.endMatch();
         }
 
@@ -427,12 +430,14 @@ public class MatchController {
             // dead humans lost
             this.match.getDeadPlayer().removeAll(getAlienPlayers());
             this.sayYouLose(this.match.getDeadPlayer());
+            this.turnController.stopTimeoutTimer();
             this.partyController.endMatch();
         }
 
         // NO MORE HATCHES AVAILABLE
         else if (this.zoneController.noMoreHatches()) {
             this.partialVictory();
+            this.turnController.stopTimeoutTimer();
             this.partyController.endMatch();
         }
     }
@@ -484,7 +489,7 @@ public class MatchController {
                             new ChatMessage(new ChatViewModel(about,
                                     serverWordText, ChatVisibility.PLAYER)));
         } catch (DisconnectedException e) {
-            // TODO Enqueue this notification for later dispatch
+            // Should enqueue this notification for later dispatch
         }
     }
 

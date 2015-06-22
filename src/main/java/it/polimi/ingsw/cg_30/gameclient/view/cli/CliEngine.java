@@ -3,6 +3,7 @@ package it.polimi.ingsw.cg_30.gameclient.view.cli;
 import it.polimi.ingsw.cg_30.exchange.messaging.JoinRequest;
 import it.polimi.ingsw.cg_30.exchange.messaging.RequestModel;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewType;
+import it.polimi.ingsw.cg_30.gameclient.GameClient;
 import it.polimi.ingsw.cg_30.gameclient.network.ClientMessenger;
 import it.polimi.ingsw.cg_30.gameclient.view.RequestComposer;
 import it.polimi.ingsw.cg_30.gameclient.view.ViewEngine;
@@ -67,8 +68,13 @@ public class CliEngine extends ViewEngine {
                     case "chat":
                         request = new ChatCommand().makeRequest(stkn);
                         break;
+                    case "switch":
+                        GameClient.switchEngine();
+                        CliEngine
+                                .printLineToCli("Switching viewengine: CLI --> GUI");
+                        return;
                     default:
-                        // this.printCommands();
+                        this.showError("error: unrecognized command");
                         return;
                 }
             }

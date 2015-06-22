@@ -37,7 +37,7 @@ public class NoiseAnyTest {
                     throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
-                this.turnController = new TurnController();
+                this.turnController = new TurnController(this);
                 ZoneFactory zf = new TemplateZoneFactory(
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
@@ -54,7 +54,7 @@ public class NoiseAnyTest {
         player1.setIdentity(human);
 
         matchController.initMatch(partyController);
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         SectorCard card = new SectorCard(SectorEvent.NOISE_ANY, false);
         matchController.getTurnController().getTurn().setDrawnCard(card);
@@ -84,7 +84,7 @@ public class NoiseAnyTest {
                     throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
-                this.turnController = new TurnController();
+                this.turnController = new TurnController(this);
                 ZoneFactory zf = new TemplateZoneFactory(
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
@@ -101,7 +101,7 @@ public class NoiseAnyTest {
         player1.setIdentity(human);
 
         matchController.initMatch(partyController);
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         List<HexPoint> secLoc = new ArrayList<HexPoint>();
         for (Sector s : matchController.getZoneController().getCurrentZone()
@@ -140,7 +140,7 @@ public class NoiseAnyTest {
                     throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
-                this.turnController = new TurnController();
+                this.turnController = new TurnController(this);
                 ZoneFactory zf = new TemplateZoneFactory(
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
@@ -157,7 +157,7 @@ public class NoiseAnyTest {
         player1.setIdentity(human);
 
         matchController.initMatch(partyController);
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         SectorCard card = new SectorCard(SectorEvent.NOISE_ANY, false);
         matchController.getTurnController().getTurn().setDrawnCard(card);

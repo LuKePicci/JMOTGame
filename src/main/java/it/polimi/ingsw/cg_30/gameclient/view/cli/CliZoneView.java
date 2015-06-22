@@ -17,7 +17,7 @@ public class CliZoneView extends View {
     }
 
     private String getSectorRep(Sector sec) {
-        String rep = this.getCharFromNumber(sec.getPoint().getOffsetX() + 1)
+        String rep = getCharFromNumber(sec.getPoint().getOffsetX() + 1)
                 + String.format("%02d", (sec.getPoint().getOffsetY() + 1));
         switch (sec.getType()) {
             case DANGEROUS:

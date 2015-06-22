@@ -40,7 +40,7 @@ public class AttackTest {
                     throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
-                this.turnController = new TurnController();
+                this.turnController = new TurnController(this);
                 ZoneFactory zf = new TemplateZoneFactory(
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
@@ -57,7 +57,7 @@ public class AttackTest {
         player1.setIdentity(alien);
 
         matchController.initMatch(partyController);
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         HexPoint point = HexPoint.fromOffset(1, 1);
         Sector sec = new Sector(null, point);
@@ -81,7 +81,7 @@ public class AttackTest {
                     throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
-                this.turnController = new TurnController();
+                this.turnController = new TurnController(this);
                 ZoneFactory zf = new TemplateZoneFactory(
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
@@ -98,7 +98,7 @@ public class AttackTest {
         player1.setIdentity(alien);
 
         matchController.initMatch(partyController);
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         matchController.getTurnController().getTurn().setMustMove();
         matchController.getTurnController().getTurn().setCanAttack(false);
@@ -124,7 +124,7 @@ public class AttackTest {
                     throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
-                this.turnController = new TurnController();
+                this.turnController = new TurnController(this);
                 ZoneFactory zf = new TemplateZoneFactory(
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
@@ -145,7 +145,7 @@ public class AttackTest {
         player1.setIdentity(alien);
 
         matchController.initMatch(partyController);
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         matchController.getTurnController().getTurn().setMustMove();
         HexPoint point = HexPoint.fromOffset(1, 1);
@@ -184,7 +184,7 @@ public class AttackTest {
                     throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
-                this.turnController = new TurnController();
+                this.turnController = new TurnController(this);
                 ZoneFactory zf = new TemplateZoneFactory(
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
@@ -230,7 +230,7 @@ public class AttackTest {
 
         matchController.initMatch(partyController);
 
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         matchController.getTurnController().getTurn().setMustMove();
         HexPoint point = HexPoint.fromOffset(1, 1);
@@ -275,7 +275,7 @@ public class AttackTest {
                     throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
-                this.turnController = new TurnController();
+                this.turnController = new TurnController(this);
                 ZoneFactory zf = new TemplateZoneFactory(
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
@@ -322,7 +322,7 @@ public class AttackTest {
 
         matchController.initMatch(partyController);
 
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         matchController.getTurnController().getTurn().setMustMove();
         HexPoint point = HexPoint.fromOffset(1, 1);
@@ -367,7 +367,7 @@ public class AttackTest {
                     throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
-                this.turnController = new TurnController();
+                this.turnController = new TurnController(this);
                 ZoneFactory zf = new TemplateZoneFactory(
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
@@ -416,7 +416,7 @@ public class AttackTest {
 
         matchController.initMatch(partyController);
 
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         matchController.getTurnController().getTurn().setMustMove();
         HexPoint point = HexPoint.fromOffset(1, 1);
@@ -466,7 +466,7 @@ public class AttackTest {
                     throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
-                this.turnController = new TurnController();
+                this.turnController = new TurnController(this);
                 ZoneFactory zf = new TemplateZoneFactory(
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
@@ -536,7 +536,7 @@ public class AttackTest {
 
         matchController.initMatch(partyController);
 
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         matchController.getTurnController().getTurn().setMustMove();
         HexPoint point = HexPoint.fromOffset(1, 1);
@@ -622,7 +622,7 @@ public class AttackTest {
                     throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
-                this.turnController = new TurnController();
+                this.turnController = new TurnController(this);
                 ZoneFactory zf = new TemplateZoneFactory(
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
@@ -639,7 +639,7 @@ public class AttackTest {
         player1.setIdentity(alien);
 
         matchController.initMatch(partyController);
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         HexPoint point = HexPoint.fromOffset(1, 1);
         Sector sec = new Sector(null, point);
@@ -664,7 +664,7 @@ public class AttackTest {
                     throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
-                this.turnController = new TurnController();
+                this.turnController = new TurnController(this);
                 ZoneFactory zf = new TemplateZoneFactory(
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
@@ -681,7 +681,7 @@ public class AttackTest {
         player1.setIdentity(human);
 
         matchController.initMatch(partyController);
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         HexPoint point = HexPoint.fromOffset(1, 1);
         Sector sec = new Sector(null, point);
@@ -706,7 +706,7 @@ public class AttackTest {
                     throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
-                this.turnController = new TurnController();
+                this.turnController = new TurnController(this);
                 ZoneFactory zf = new TemplateZoneFactory(
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
@@ -723,7 +723,7 @@ public class AttackTest {
         player1.setIdentity(human);
 
         matchController.initMatch(partyController);
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         matchController.getTurnController().getTurn().setMustMove();
         HexPoint point = HexPoint.fromOffset(1, 1);
@@ -749,7 +749,7 @@ public class AttackTest {
                     throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
-                this.turnController = new TurnController();
+                this.turnController = new TurnController(this);
                 ZoneFactory zf = new TemplateZoneFactory(
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
@@ -796,7 +796,7 @@ public class AttackTest {
 
         matchController.initMatch(partyController);
 
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         matchController.getTurnController().getTurn().setMustMove();
         HexPoint point = HexPoint.fromOffset(1, 1);
@@ -842,7 +842,7 @@ public class AttackTest {
                     throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
-                this.turnController = new TurnController();
+                this.turnController = new TurnController(this);
                 ZoneFactory zf = new TemplateZoneFactory(
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
@@ -889,7 +889,7 @@ public class AttackTest {
 
         matchController.initMatch(partyController);
 
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         matchController.getTurnController().getTurn().setMustMove();
         HexPoint point = HexPoint.fromOffset(1, 1);
@@ -933,7 +933,7 @@ public class AttackTest {
                     throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
-                this.turnController = new TurnController();
+                this.turnController = new TurnController(this);
                 ZoneFactory zf = new TemplateZoneFactory(
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
@@ -979,7 +979,7 @@ public class AttackTest {
 
         matchController.initMatch(partyController);
 
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         matchController.getTurnController().getTurn().setMustMove();
         HexPoint point = HexPoint.fromOffset(1, 1);

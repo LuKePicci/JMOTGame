@@ -38,7 +38,7 @@ public class DrawCardTest {
                     throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
-                this.turnController = new TurnController();
+                this.turnController = new TurnController(this);
                 ZoneFactory zf = new TemplateZoneFactory(
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
@@ -46,6 +46,10 @@ public class DrawCardTest {
 
             @Override
             protected void updateDeckView(Player player) {
+            }
+
+            @Override
+            protected void sendTurnViewModel() {
             }
         };
         PlayerCard alien = new PlayerCard(PlayerRace.ALIEN, null);
@@ -59,7 +63,7 @@ public class DrawCardTest {
 
         matchController.initMatch(partyController);
 
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         HexPoint point = HexPoint.fromOffset(0, 7);
         Sector sec = new Sector(SectorType.SECURE, point);
@@ -102,7 +106,7 @@ public class DrawCardTest {
                     throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
-                this.turnController = new TurnController();
+                this.turnController = new TurnController(this);
                 ZoneFactory zf = new TemplateZoneFactory(
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
@@ -110,6 +114,10 @@ public class DrawCardTest {
 
             @Override
             protected void updateDeckView(Player player) {
+            }
+
+            @Override
+            protected void sendTurnViewModel() {
             }
         };
         PlayerCard alien = new PlayerCard(PlayerRace.ALIEN, null);
@@ -121,7 +129,7 @@ public class DrawCardTest {
         Player player1 = players.get(0);
         player1.setIdentity(alien);
         matchController.initMatch(partyController);
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         HexPoint point = HexPoint.fromOffset(0, 7);
         Sector sec = new Sector(SectorType.SECURE, point);
@@ -163,7 +171,7 @@ public class DrawCardTest {
                     throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
-                this.turnController = new TurnController();
+                this.turnController = new TurnController(this);
                 ZoneFactory zf = new TemplateZoneFactory(
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
@@ -171,6 +179,10 @@ public class DrawCardTest {
 
             @Override
             protected void updateDeckView(Player player) {
+            }
+
+            @Override
+            protected void sendTurnViewModel() {
             }
         };
         PlayerCard alien = new PlayerCard(PlayerRace.ALIEN, null);
@@ -182,7 +194,7 @@ public class DrawCardTest {
         Player player1 = players.get(0);
         player1.setIdentity(alien);
         matchController.initMatch(partyController);
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         HexPoint point = HexPoint.fromOffset(0, 2);
         Sector sec = new Sector(SectorType.DANGEROUS, point);
@@ -223,7 +235,7 @@ public class DrawCardTest {
                     throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
-                this.turnController = new TurnController();
+                this.turnController = new TurnController(this);
                 ZoneFactory zf = new TemplateZoneFactory(
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
@@ -231,6 +243,10 @@ public class DrawCardTest {
 
             @Override
             protected void updateDeckView(Player player) {
+            }
+
+            @Override
+            protected void sendTurnViewModel() {
             }
         };
         PlayerCard alien = new PlayerCard(PlayerRace.ALIEN, null);
@@ -242,7 +258,7 @@ public class DrawCardTest {
         Player player1 = players.get(0);
         player1.setIdentity(alien);
         matchController.initMatch(partyController);
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         HexPoint point = HexPoint.fromOffset(0, 2);
         Sector sec = new Sector(SectorType.DANGEROUS, point);

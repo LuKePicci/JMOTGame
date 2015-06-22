@@ -43,7 +43,7 @@ public class UseCardTest {
                     throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
-                this.turnController = new TurnController();
+                this.turnController = new TurnController(this);
                 ZoneFactory zf = new TemplateZoneFactory(
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
@@ -94,7 +94,7 @@ public class UseCardTest {
 
         matchController.initMatch(partyController);
 
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         ActionRequest action = new ActionRequest(ActionType.USE_ITEM, null,
                 Item.ATTACK);
@@ -127,7 +127,7 @@ public class UseCardTest {
                     throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
-                this.turnController = new TurnController();
+                this.turnController = new TurnController(this);
                 ZoneFactory zf = new TemplateZoneFactory(
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
@@ -178,7 +178,7 @@ public class UseCardTest {
 
         matchController.initMatch(partyController);
 
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         ActionRequest action = new ActionRequest(ActionType.USE_ITEM, null,
                 Item.ATTACK);
@@ -211,7 +211,7 @@ public class UseCardTest {
                     throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
-                this.turnController = new TurnController();
+                this.turnController = new TurnController(this);
                 ZoneFactory zf = new TemplateZoneFactory(
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
@@ -262,7 +262,7 @@ public class UseCardTest {
 
         matchController.initMatch(partyController);
 
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         matchController.getTurnController().getTurn().setMustMove();
         ActionRequest action = new ActionRequest(ActionType.USE_ITEM, null,
@@ -296,7 +296,7 @@ public class UseCardTest {
                     throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
-                this.turnController = new TurnController();
+                this.turnController = new TurnController(this);
                 ZoneFactory zf = new TemplateZoneFactory(
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
@@ -347,7 +347,7 @@ public class UseCardTest {
 
         matchController.initMatch(partyController);
 
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         matchController.getTurnController().getTurn().setMustMove();
         ActionRequest action = new ActionRequest(ActionType.USE_ITEM, null,
@@ -381,7 +381,7 @@ public class UseCardTest {
                     throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
-                this.turnController = new TurnController();
+                this.turnController = new TurnController(this);
                 ZoneFactory zf = new TemplateZoneFactory(
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
@@ -432,7 +432,7 @@ public class UseCardTest {
 
         matchController.initMatch(partyController);
 
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         ActionRequest action = new ActionRequest(ActionType.USE_ITEM, null,
                 Item.DEFENSE);
@@ -465,7 +465,7 @@ public class UseCardTest {
                     throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
-                this.turnController = new TurnController();
+                this.turnController = new TurnController(this);
                 ZoneFactory zf = new TemplateZoneFactory(
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
@@ -516,7 +516,7 @@ public class UseCardTest {
 
         matchController.initMatch(partyController);
 
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         ActionRequest action = new ActionRequest(ActionType.USE_ITEM, null,
                 Item.ADRENALINE);
@@ -554,7 +554,7 @@ public class UseCardTest {
                     throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
-                this.turnController = new TurnController();
+                this.turnController = new TurnController(this);
                 ZoneFactory zf = new TemplateZoneFactory(
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
@@ -605,7 +605,7 @@ public class UseCardTest {
 
         matchController.initMatch(partyController);
 
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         ActionRequest action = new ActionRequest(ActionType.USE_ITEM, null,
                 Item.SEDATIVES);
@@ -644,7 +644,7 @@ public class UseCardTest {
                     throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
-                this.turnController = new TurnController();
+                this.turnController = new TurnController(this);
                 ZoneFactory zf = new TemplateZoneFactory(
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
@@ -698,7 +698,7 @@ public class UseCardTest {
 
         matchController.initMatch(partyController);
 
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         HexPoint point = HexPoint.fromOffset(1, 10);
         Sector sec = new Sector(SectorType.SECURE, point);
@@ -751,7 +751,7 @@ public class UseCardTest {
                     throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
-                this.turnController = new TurnController();
+                this.turnController = new TurnController(this);
                 ZoneFactory zf = new TemplateZoneFactory(
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
@@ -805,7 +805,7 @@ public class UseCardTest {
 
         matchController.initMatch(partyController);
 
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         HexPoint point = HexPoint.fromOffset(1, 10);
         Sector sec = new Sector(SectorType.SECURE, point);
@@ -849,7 +849,7 @@ public class UseCardTest {
                     throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
-                this.turnController = new TurnController();
+                this.turnController = new TurnController(this);
                 ZoneFactory zf = new TemplateZoneFactory(
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
@@ -903,7 +903,7 @@ public class UseCardTest {
 
         matchController.initMatch(partyController);
 
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         HexPoint notExist = HexPoint.fromOffset(999, 999);
         HexPoint point = HexPoint.fromOffset(1, 10);
@@ -941,7 +941,7 @@ public class UseCardTest {
                     throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
-                this.turnController = new TurnController();
+                this.turnController = new TurnController(this);
                 ZoneFactory zf = new TemplateZoneFactory(
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
@@ -995,7 +995,7 @@ public class UseCardTest {
 
         matchController.initMatch(partyController);
 
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
 
         HexPoint point = HexPoint.fromOffset(1, 10);

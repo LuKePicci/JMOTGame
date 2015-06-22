@@ -35,7 +35,7 @@ public class DiscardCardTest {
                     throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
-                this.turnController = new TurnController();
+                this.turnController = new TurnController(this);
                 ZoneFactory zf = new TemplateZoneFactory(
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
@@ -52,7 +52,7 @@ public class DiscardCardTest {
         player1.setIdentity(human);
 
         matchController.initMatch(partyController);
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         ActionRequest action = new ActionRequest(ActionType.DISCARD_CARD, null,
                 null);
@@ -79,7 +79,7 @@ public class DiscardCardTest {
                     throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
-                this.turnController = new TurnController();
+                this.turnController = new TurnController(this);
                 ZoneFactory zf = new TemplateZoneFactory(
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
@@ -104,7 +104,7 @@ public class DiscardCardTest {
         player1.getItemsDeck().getCards().add(card4);
 
         matchController.initMatch(partyController);
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         matchController.getTurnController().getTurn().setMustDiscard(true);
         ActionRequest action = new ActionRequest(ActionType.DISCARD_CARD, null,
@@ -132,7 +132,7 @@ public class DiscardCardTest {
                     throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
-                this.turnController = new TurnController();
+                this.turnController = new TurnController(this);
                 ZoneFactory zf = new TemplateZoneFactory(
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
@@ -161,7 +161,7 @@ public class DiscardCardTest {
         player1.getItemsDeck().getCards().add(card4);
 
         matchController.initMatch(partyController);
-        Turn turn = new Turn(player1);
+        Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
         matchController.getTurnController().getTurn().setMustDiscard(true);
         ActionRequest action = new ActionRequest(ActionType.DISCARD_CARD, null,

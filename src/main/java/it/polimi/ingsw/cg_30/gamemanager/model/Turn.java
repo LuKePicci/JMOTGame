@@ -5,6 +5,8 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.TurnViewModel;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewModel;
 
+import java.util.Date;
+
 /**
  * The Class Turn.
  */
@@ -46,13 +48,17 @@ public class Turn implements IViewable {
     /** The drawn card. */
     private SectorCard drawnCard;
 
+    private int localTurnCount;
+
+    private Date turnStart;
+
     /**
      * Instantiates a new turn based on the player "player".
      *
      * @param player
      *            the player
      */
-    public Turn(Player player) {
+    public Turn(Player player, int turnCount) {
         if (PlayerRace.ALIEN == player.getIdentity().getRace()) {// alien
             this.canAttack = true;
             if (player.getKillsCount() > 0) {
@@ -71,6 +77,8 @@ public class Turn implements IViewable {
         this.isSecDangerous = false;
         this.humanKilled = 0;
         this.drawnCard = null;
+        this.localTurnCount = turnCount;
+        this.turnStart = new Date();
     }
 
     /**
@@ -235,7 +243,8 @@ public class Turn implements IViewable {
     public ViewModel getViewModel() {
         return new TurnViewModel(this.getCanAttack(), this.getMaxSteps(),
                 this.getMustDiscard(), this.getMustMove(),
-                this.getSilenceForced(), this.getDrawnCard());
+                this.getSilenceForced(), this.getDrawnCard(),
+                this.localTurnCount, this.turnStart);
     }
 
 }

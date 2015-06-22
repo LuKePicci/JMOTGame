@@ -1,6 +1,5 @@
 package it.polimi.ingsw.cg_30.gamemanager.controller;
 
-
 /**
  * The Class TurnOver.
  */
@@ -31,6 +30,6 @@ public class TurnOver extends ActionController {
      */
     @Override
     public void processAction() {
-        this.matchController.getTurnController().nextTurn(matchController);
+        this.matchController.getTurnController().nextTurn();
     }
 }

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.cg_30.exchange.viewmodels;
 
+import java.util.Date;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -29,8 +31,15 @@ public class TurnViewModel extends ViewModel {
     @XmlElement(name = "DrawnCard")
     private SectorCard drawnCard;
 
+    @XmlElement(name = "TurnCount")
+    private int turnCount;
+
+    @XmlElement(name = "turnStart")
+    private Date turnStart;
+
     public TurnViewModel(boolean attack, int steps, boolean discard,
-            boolean move, boolean silence, SectorCard drawnCard) {
+            boolean move, boolean silence, SectorCard drawnCard, int turnCount,
+            Date turnStart) {
         this();
         this.canAttack = attack;
         this.maxSteps = steps;
@@ -38,6 +47,8 @@ public class TurnViewModel extends ViewModel {
         this.mustMove = move;
         this.silenceForced = silence;
         this.drawnCard = drawnCard;
+        this.turnCount = turnCount;
+        this.turnStart = turnStart;
     }
 
     private TurnViewModel() {
@@ -94,12 +105,21 @@ public class TurnViewModel extends ViewModel {
         return drawnCard;
     }
 
+    public int getTurnCount() {
+        return this.turnCount;
+    }
+
+    public Date getTurnStart() {
+        return this.turnStart;
+    }
+
     @Override
     public String toString() {
         return "TurnViewModel { maxSteps: " + maxSteps + ", canAttack: "
                 + canAttack + ", mustDiscard: " + mustDiscard + ", mustMove: "
                 + mustMove + ", silenceForced: " + silenceForced
-                + ", drawnCard: " + drawnCard + " }";
+                + ", drawnCard: " + drawnCard + ", turnCount: " + turnCount
+                + ", turnStart: " + turnStart + " }";
     }
 
 }
