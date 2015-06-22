@@ -74,6 +74,7 @@ public class GuiDeckView extends GuiView {
         DeckViewModel<ItemCard> deck = (DeckViewModel<ItemCard>) model;
         deckPane.removeAll();
         deckPane.revalidate();
+        deckPane.repaint();
 
         deckPane.add(Box.createHorizontalGlue());
 

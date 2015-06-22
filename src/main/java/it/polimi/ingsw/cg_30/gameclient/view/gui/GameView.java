@@ -6,26 +6,19 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Point;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -66,6 +59,7 @@ public class GameView {
         this.subViews.put(ViewType.ZONE, new GuiZoneView());
         this.subViews.put(ViewType.CHAT, new GuiChatView());
         this.subViews.put(ViewType.DECK, new GuiDeckView());
+        this.subViews.put(ViewType.TURN, new GuiTurnView());
     }
 
     public Set<Entry<ViewType, GuiView>> getSubViews() {
@@ -121,63 +115,6 @@ public class GameView {
         topRightPane.setAlignmentX(Component.RIGHT_ALIGNMENT);
         topRightPane.setLayout(new BorderLayout(0, 0));
         topPanel.add(topRightPane, BorderLayout.EAST);
-
-        JPanel turnPane = new JPanel();
-        turnPane.setAlignmentY(Component.TOP_ALIGNMENT);
-        turnPane.setLayout(new BorderLayout());
-
-        JPanel turnInfo = new JPanel();
-        turnInfo.setLayout(new GridBagLayout());
-        turnPane.add(turnInfo, BorderLayout.NORTH);
-
-        JLabel turnNumber = new JLabel("19/39");
-        turnNumber.setHorizontalAlignment(SwingConstants.CENTER);
-        turnNumber.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
-        GridBagConstraints gbc_turnNumber = new GridBagConstraints();
-        gbc_turnNumber.weightx = 0.35;
-        gbc_turnNumber.anchor = GridBagConstraints.FIRST_LINE_START;
-        gbc_turnNumber.gridy = 0;
-        gbc_turnNumber.gridx = 0;
-        gbc_turnNumber.fill = GridBagConstraints.HORIZONTAL;
-        turnInfo.add(turnNumber, gbc_turnNumber);
-
-        JLabel turnNick = new JLabel("Player1");
-        turnNick.setHorizontalAlignment(SwingConstants.CENTER);
-        turnNick.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
-        GridBagConstraints gbc_turnNick = new GridBagConstraints();
-        gbc_turnNick.weightx = 0.65;
-        gbc_turnNick.anchor = GridBagConstraints.FIRST_LINE_END;
-        gbc_turnNick.fill = GridBagConstraints.HORIZONTAL;
-        gbc_turnNick.gridy = 0;
-        gbc_turnNick.gridx = 1;
-        turnInfo.add(turnNick, gbc_turnNick);
-
-        JLabel turnCountdown = new JLabel("00:30");
-        turnCountdown.setHorizontalAlignment(SwingConstants.CENTER);
-        turnCountdown.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
-        GridBagConstraints gbc_turnCountdown = new GridBagConstraints();
-        gbc_turnCountdown.gridwidth = 2;
-        gbc_turnCountdown.fill = GridBagConstraints.HORIZONTAL;
-        gbc_turnCountdown.gridy = 1;
-        gbc_turnCountdown.gridx = 0;
-        turnInfo.add(turnCountdown, gbc_turnCountdown);
-
-        JPanel turnButtons = new JPanel();
-        turnButtons.setAlignmentY(Component.TOP_ALIGNMENT);
-        turnButtons.setLayout(new GridLayout(2, 2));
-        turnPane.add(turnButtons, BorderLayout.SOUTH);
-
-        JButton attackButton = new JButton("Attack");
-        turnButtons.add(attackButton);
-
-        JButton drawButton = new JButton("Draw");
-        turnButtons.add(drawButton);
-
-        JButton turnoverButton = new JButton("Turnover");
-        turnButtons.add(turnoverButton);
-
-        JButton discardButton = new JButton("Discard");
-        turnButtons.add(discardButton);
 
         topRightPane.add(subViews.get(ViewType.TURN).getComponent(),
                 BorderLayout.NORTH);

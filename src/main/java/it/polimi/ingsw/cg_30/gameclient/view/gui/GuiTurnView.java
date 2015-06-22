@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg_30.gameclient.view.gui;
 
+import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerRace;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.TurnViewModel;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewModel;
 import it.polimi.ingsw.cg_30.gameclient.GameClient;
@@ -11,8 +12,8 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -50,7 +51,7 @@ public class GuiTurnView extends GuiView {
         turnInfo.setLayout(new GridBagLayout());
         turnPane.add(turnInfo, BorderLayout.NORTH);
 
-        turnNumber = new JLabel();
+        turnNumber = new JLabel("0");
         turnNumber.setFont(turnNumber.getFont().deriveFont(Font.PLAIN, 27));
         turnNumber.setHorizontalAlignment(SwingConstants.RIGHT);
         turnNumber.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
@@ -101,10 +102,9 @@ public class GuiTurnView extends GuiView {
 
         attackButton = new JButton("Attack");
         attackButton.setEnabled(false);
-        attackButton.addMouseListener(new MouseAdapter() {
+        attackButton.addActionListener(new ActionListener() {
             @Override
-            public void mouseClicked(MouseEvent event) {
-                super.mouseClicked(event);
+            public void actionPerformed(ActionEvent e) {
                 if (GameClient.getActiveEngine() instanceof GuiEngine) {
                     GuiEngine activeEngine = (GuiEngine) GameClient
                             .getActiveEngine();
@@ -116,10 +116,9 @@ public class GuiTurnView extends GuiView {
 
         drawButton = new JButton("Draw");
         drawButton.setEnabled(false);
-        drawButton.addMouseListener(new MouseAdapter() {
+        drawButton.addActionListener(new ActionListener() {
             @Override
-            public void mouseClicked(MouseEvent event) {
-                super.mouseClicked(event);
+            public void actionPerformed(ActionEvent e) {
                 if (GameClient.getActiveEngine() instanceof GuiEngine) {
                     GuiEngine activeEngine = (GuiEngine) GameClient
                             .getActiveEngine();
@@ -131,10 +130,9 @@ public class GuiTurnView extends GuiView {
 
         turnoverButton = new JButton("Turnover");
         turnoverButton.setEnabled(false);
-        turnoverButton.addMouseListener(new MouseAdapter() {
+        turnoverButton.addActionListener(new ActionListener() {
             @Override
-            public void mouseClicked(MouseEvent event) {
-                super.mouseClicked(event);
+            public void actionPerformed(ActionEvent event) {
                 if (GameClient.getActiveEngine() instanceof GuiEngine) {
                     GuiEngine activeEngine = (GuiEngine) GameClient
                             .getActiveEngine();
@@ -146,10 +144,9 @@ public class GuiTurnView extends GuiView {
 
         discardButton = new JToggleButton("Discard");
         discardButton.setEnabled(false);
-        discardButton.addMouseListener(new MouseAdapter() {
+        discardButton.addActionListener(new ActionListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
+            public void actionPerformed(ActionEvent e) {
                 JToggleButton sender = (JToggleButton) e.getSource();
                 GuiEngine.setDiscardCard(sender.isSelected());
             }
@@ -168,8 +165,11 @@ public class GuiTurnView extends GuiView {
         this.turnNumber.setText(Integer.toString(turn.getTurnCount()));
         GuiEngine.setNoise(turn.getDrawnCard() != null);
         GuiEngine.setMove(turn.mustMove());
+        this.drawButton.setEnabled(turn.isSecDangerous()
+                && PlayerRace.ALIEN.equals(turn.getCurrentPlayerIdentity()
+                        .getRace()));
 
-        // turnover
-        // draw
+        // hardcoded, will be dynamicized in the future
+        this.turnoverButton.setEnabled(true);
     }
 }
