@@ -162,6 +162,8 @@ public class Move extends ActionController {
         try {
             this.matchController.sendMapVariationToPlayer(this.player,
                     this.target, SectorHighlight.PLAYER_LOCATION);
+            this.notifyCurrentPlayerByServer("You are in "
+                    + this.getStringFromSector(this.target));
         } catch (DisconnectedException e) {
             // player's location will be updated as soon as the player comes
             // back thanks to modelSender(Player returningPlayer)

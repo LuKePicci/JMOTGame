@@ -11,15 +11,12 @@ public class CliTurnView extends View {
         TurnViewModel viewModel = (TurnViewModel) model;
         String situation = "\r\n";
 
-        // turn number
-        // situation += "Turn number: " + viewModel.getTurnCount() + "\r\n";
-
-        // must move
+        // must move & turn number
         situation += viewModel.mustMove() ? " - Turn number: "
                 + viewModel.getTurnCount() + "\r\n - You can cross "
                 + viewModel.getMaxSteps() + " sector.\r\n"
                 // can attack
-                : (viewModel.canAttack() ? " - You can attack if you want, but remember:\r\n   if you are on a dangerous sector, you must attack or draw a card before turnover "
+                : (viewModel.canAttack() ? " - You can attack if you want, but remember:\r\n   if you are on a dangerous sector, you must attack or draw a card before turnover."
                         : "");
 
         // must discard
