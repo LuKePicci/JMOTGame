@@ -134,11 +134,11 @@ public class Move extends ActionController {
             this.sendNewPosition();
             this.matchController.checkEndGame();
         } else if (SectorType.DANGEROUS.equals(this.target.getType())) {
-            this.matchController.sendTurnViewModel();
-            this.sendNewPosition();
             this.matchController.getTurnController().getTurn()
                     .setIsSecDangerous(true);// an alien can attack or draw a
                                              // card
+            this.sendNewPosition();
+            this.matchController.sendTurnViewModel();
             if (PlayerRace.HUMAN.equals(player.getIdentity().getRace())) {
                 if (this.matchController.getTurnController().getTurn()
                         .getSilenceForced() == false) {
