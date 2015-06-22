@@ -74,7 +74,7 @@ public class CliEngine extends ViewEngine {
                                 .printLineToCli("Switching viewengine: CLI --> GUI");
                         return;
                     default:
-                        this.showError("error: unrecognized command");
+                        this.showError("unrecognized command");
                         return;
                 }
             }

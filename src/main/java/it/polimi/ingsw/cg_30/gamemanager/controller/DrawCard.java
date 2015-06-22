@@ -56,6 +56,13 @@ public class DrawCard extends ActionController {
             this.matchController.getTurnController().getTurn()
                     .setDrawnCard(drawnCard);
             this.matchController.sendTurnViewModel();
+            try {
+                this.notifyCurrentPlayerByServer("Choose where to make the noise.");
+            } catch (DisconnectedException e) {
+                // when the player is back he will be informed that he has to
+                // make a noise thanks to drawnCard not being null in turn view
+                // model.
+            }
         }
     }
 }

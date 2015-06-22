@@ -37,8 +37,8 @@ public class AcceptRmiPlayer extends AcceptPlayer implements IAcceptRmiPlayer {
             System.out.println(String.format(
                     "%s : Message sending failure to %s", e.getMessage(),
                     this.sessionId));
-            this.hasLostConnection = true;
-            throw new DisconnectedException(new Date());
+
+            throw new DisconnectedException(this.loseConnection());
         }
     }
 

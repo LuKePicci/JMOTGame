@@ -266,14 +266,14 @@ public class MatchController {
         // adds killedPlayer among dead players
         this.match.getDeadPlayer().add(killedPlayer);
         // informs killedPlayer that he is dead
-        this.notifyAPlayerAbout(killedPlayer, "You are dead");
+        this.notifyAPlayerAbout(killedPlayer, "You are dead.");
         // informs the other players about killedPlayer's identity
         List<Player> others = obtainPartyPlayers();
         others.remove(killedPlayer);
         for (Player otherPlayer : others) {
             this.notifyAPlayerAbout(otherPlayer, "The "
                     + killedPlayer.getIdentity().getRace().toString() + " "
-                    + killedPlayer.getName() + " is dead");
+                    + killedPlayer.getName() + " is dead.");
         }
         // discards killedPlayer's cards
         this.match.getItemsDeck().putAllIntoBucket(
@@ -358,7 +358,7 @@ public class MatchController {
      */
     protected void sayYouLose(Set<Player> losers) {
         for (Player loser : losers)
-            this.notifyAPlayerAbout(loser, "GAME OVER\nYOU LOSE");
+            this.notifyAPlayerAbout(loser, "GAME OVER\r\nYOU LOSE");
     }
 
     /**
@@ -369,7 +369,7 @@ public class MatchController {
      */
     protected void sayYouWin(Set<Player> winners) {
         for (Player winner : winners)
-            this.notifyAPlayerAbout(winner, "GAME OVER\nYOU WIN");
+            this.notifyAPlayerAbout(winner, "GAME OVER\r\nYOU WIN");
     }
 
     /**
@@ -480,14 +480,11 @@ public class MatchController {
      */
     protected void notifyAPlayerAbout(Player player, String about) {
         try {
-            MessageController
-                    .getPlayerHandler(
-                            this.partyController.getCurrentParty()
-                                    .getPlayerUUID(player))
-                    .getAcceptPlayer()
-                    .sendMessage(
-                            new ChatMessage(new ChatViewModel(about,
-                                    serverWordText, ChatVisibility.PLAYER)));
+            MessageController.getPlayerHandler(
+                    this.partyController.getCurrentParty()
+                            .getPlayerUUID(player)).dispatchOutgoing(
+                    new ChatMessage(new ChatViewModel(about, serverWordText,
+                            ChatVisibility.PLAYER)));
         } catch (DisconnectedException e) {
             // Should enqueue this notification for later dispatch
         }
@@ -611,10 +608,9 @@ public class MatchController {
      */
     protected void sendViewModelToAPlayer(Player p, ViewModel content)
             throws DisconnectedException {
-        MessageController
-                .getPlayerHandler(
-                        this.partyController.getCurrentParty().getPlayerUUID(p))
-                .getAcceptPlayer().sendMessage(new Message(content));
+        MessageController.getPlayerHandler(
+                this.partyController.getCurrentParty().getPlayerUUID(p))
+                .dispatchOutgoing(new Message(content));
     }
 
 }

@@ -29,8 +29,8 @@ public class ChatController {
         UUID targetUUID = pc.getCurrentParty().getUUIDOfNick(target);
 
         if (targetUUID != null)
-            MessageController.getPlayerHandler(targetUUID).getAcceptPlayer()
-                    .sendMessage(msg);
+            MessageController.getPlayerHandler(targetUUID)
+                    .dispatchOutgoing(msg);
 
     }
 
