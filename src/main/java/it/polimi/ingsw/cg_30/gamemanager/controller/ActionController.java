@@ -19,6 +19,7 @@ import it.polimi.ingsw.cg_30.gamemanager.network.DisconnectedException;
 
 import java.util.EmptyStackException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -141,19 +142,21 @@ public abstract class ActionController {
             try {
                 this.notifyCurrentPlayerByServer("You have just picked a "
                         + icard.getItem().toString() + " item.");
-            } catch (DisconnectedException e2) {
-                // no problem: the player will discover his new card as soon as
-                // he comes back
-            }
-            try {
                 this.showCardToCurrentPlayer(icard);
                 this.matchController.updateDeckView(player);
             } catch (DisconnectedException e1) {
-                // player's deck will be update as soon as the player comes back
+                // no problem: the player will discover his new card as soon as
+                // he comes back; his deck will be update as soon as he comes
+                // back
                 // thanks to modelSender(Player returningPlayer) in
                 // MatchController
             }
+            // the other players are informed that an item card has been drawn.
+            this.notifyOtherPlayers(this.matchController.getTurnController()
+                    .getTurn().getCurrentPlayer().getName()
+                    + " has just picked an item card.");
 
+            this.matchController.updatePartyToAllPlayers();
             if (this.player.getItemsDeck().getCards().size() > 3) {
                 this.matchController.getTurnController().getTurn()
                         .setMustDiscard(true);
@@ -172,8 +175,8 @@ public abstract class ActionController {
     // NOTIFICATION METHODS
 
     /**
-     * Notifies the string received to the party chat using the current player
-     * as sender.
+     * Notifies the string received to the match chat adding the current player
+     * name before the string and using server as sender.
      *
      * @param what
      *            the string to notify
@@ -188,7 +191,7 @@ public abstract class ActionController {
     }
 
     /**
-     * Notifies the string received to the party chat using server as sender.
+     * Notifies the string received to the match chat using server as sender.
      *
      * @param what
      *            the string to notify
@@ -201,7 +204,7 @@ public abstract class ActionController {
     }
 
     /**
-     * Notifies the string received to the current player chat using server as
+     * Notifies the string received to the current player using server as
      * sender.
      *
      * @param what
@@ -217,6 +220,22 @@ public abstract class ActionController {
                 new ChatMessage(new ChatViewModel(what,
                         this.matchController.serverWordText,
                         ChatVisibility.PLAYER)));
+    }
+
+    /**
+     * Notifies all party players except the current player about the string
+     * received.
+     *
+     * @param about
+     *            the string received
+     */
+    protected void notifyOtherPlayers(String about) {
+        List<Player> others = this.matchController.obtainPartyPlayers();
+        others.remove(this.matchController.getTurnController().getTurn()
+                .getCurrentPlayer());
+        for (Player pl : others) {
+            this.matchController.notifyAPlayerAbout(pl, about);
+        }
     }
 
     /**
@@ -236,13 +255,13 @@ public abstract class ActionController {
     }
 
     /**
-     * Send map variation to all party players; a variation could be about
+     * Sends map variation to all party players; a variation could be about
      * player's location, used hatch,... (see SectorHighlight enum) .
      *
      * @param sec
      *            the sector
      * @param highlight
-     *            the highlight
+     *            the kind of highlight
      */
     protected void sendMapVariationToParty(Sector sec, SectorHighlight highlight) {
         SectorViewModel viewModel = new SectorViewModel(sec, highlight);
@@ -258,18 +277,41 @@ public abstract class ActionController {
         }
     }
 
+    /**
+     * Gets the char whose alphabet position is the number received.
+     *
+     * @param i
+     *            the number received
+     * @return the char obtained from number received
+     */
     protected String getCharFromNumber(int i) {
         return i > 0 && i < 27 ? String.valueOf((char) (i + 64)) : null;
     }
 
+    /**
+     * Gets the string from sector received. This string is the literal
+     * representation of the sector coordinates.
+     *
+     * @param sec
+     *            the sector received
+     * @return the string
+     */
     protected String getStringFromSector(Sector sec) {
         return this.getCharFromNumber(sec.getPoint().getOffsetX() + 1)
-                + String.format("%02d", (sec.getPoint().getOffsetY() + 1));
+                + String.format("%02d", sec.getPoint().getOffsetY() + 1);
     }
 
+    /**
+     * Gets the string from the hex point received. This string is the literal
+     * representation of the hex coordinates.
+     *
+     * @param hex
+     *            the hex coordinates
+     * @return the string
+     */
     protected String getStringFromHexPoint(HexPoint hex) {
         return this.getCharFromNumber(hex.getOffsetX() + 1)
-                + String.format("%02d", (hex.getOffsetY() + 1));
+                + String.format("%02d", hex.getOffsetY() + 1);
     }
 
 }
