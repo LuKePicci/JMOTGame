@@ -483,8 +483,8 @@ public class MatchController {
             MessageController.getPlayerHandler(
                     this.partyController.getCurrentParty()
                             .getPlayerUUID(player)).dispatchOutgoing(
-                    new ChatMessage(new ChatViewModel(about, serverWordText,
-                            ChatVisibility.PLAYER)));
+                    new ChatMessage(new ChatViewModel(about,
+                            this.serverWordText, ChatVisibility.PLAYER)));
         } catch (DisconnectedException e) {
             // Should enqueue this notification for later dispatch
         }
@@ -500,9 +500,9 @@ public class MatchController {
      *            the string to notify
      */
     protected void notifyPartyByPlayer(Player player, String what) {
-        this.partyController
-                .sendMessageToParty(new ChatMessage(new ChatViewModel(what,
-                        player.getName(), ChatVisibility.PARTY)));
+        this.partyController.sendMessageToParty(new ChatMessage(
+                new ChatViewModel(player.getName() + ": " + what,
+                        this.serverWordText, ChatVisibility.PARTY)));
     }
 
     /**

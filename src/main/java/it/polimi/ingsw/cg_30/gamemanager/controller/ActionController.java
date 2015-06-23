@@ -180,9 +180,11 @@ public abstract class ActionController {
      */
     protected void notifyInChatByCurrentPlayer(String what) {
         this.matchController.getPartyController().sendMessageToParty(
-                new ChatMessage(new ChatViewModel(what, this.matchController
+                new ChatMessage(new ChatViewModel(this.matchController
                         .getTurnController().getTurn().getCurrentPlayer()
-                        .getName(), ChatVisibility.PARTY)));
+                        .getName()
+                        + ": " + what, this.matchController.serverWordText,
+                        ChatVisibility.PARTY)));
     }
 
     /**

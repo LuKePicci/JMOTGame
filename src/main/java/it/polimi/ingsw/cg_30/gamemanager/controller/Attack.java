@@ -64,7 +64,7 @@ public class Attack extends ActionController {
         if (PlayerRace.ALIEN.equals(this.player.getIdentity().getRace())
                 && this.player.getKillsCount() > 0 && killsCountPrecedent == 0) {
             try {
-                this.notifyCurrentPlayerByServer("FROM NOW YOU CAN CROSS THREE SECTORS DURING YOUR MOVEMENT");
+                this.notifyCurrentPlayerByServer("FROM NOW YOU CAN CROSS 3 SECTORS DURING YOUR MOVEMENT");
             } catch (DisconnectedException e) {
                 // the player won't receive this message, but it's not
                 // fundamental so we can continue
