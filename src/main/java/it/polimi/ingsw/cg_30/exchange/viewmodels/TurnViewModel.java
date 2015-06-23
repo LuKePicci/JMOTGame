@@ -1,7 +1,5 @@
 package it.polimi.ingsw.cg_30.exchange.viewmodels;
 
-import it.polimi.ingsw.cg_30.gamemanager.model.Player;
-
 import java.util.Date;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -39,15 +37,15 @@ public class TurnViewModel extends ViewModel {
     @XmlElement(name = "TurnStart")
     private Date turnStart;
 
-    @XmlElement(name = "CurrentPlayer")
-    private Player currentPlayer;
+    @XmlElement(name = "Player")
+    private PlayerCard currentPlayerIdentity;
 
     @XmlElement(name = "IsSecDangerous")
     private boolean isSecDangerous;
 
     public TurnViewModel(boolean attack, int steps, boolean discard,
             boolean move, boolean silence, SectorCard drawnCard, int turnCount,
-            Date turnStart, Player currentPlayer, boolean secDanger) {
+            Date turnStart, PlayerCard currentPlayer, boolean secDanger) {
         this();
         this.canAttack = attack;
         this.maxSteps = steps;
@@ -57,7 +55,7 @@ public class TurnViewModel extends ViewModel {
         this.drawnCard = drawnCard;
         this.turnCount = turnCount;
         this.turnStart = turnStart;
-        this.currentPlayer = currentPlayer;
+        this.currentPlayerIdentity = currentPlayer;
         this.isSecDangerous = secDanger;
 
     }
@@ -124,6 +122,14 @@ public class TurnViewModel extends ViewModel {
         return this.turnStart;
     }
 
+    public PlayerCard getCurrentPlayerIdentity() {
+        return currentPlayerIdentity;
+    }
+
+    public boolean isSecDangerous() {
+        return isSecDangerous;
+    }
+
     @Override
     public String toString() {
         return "TurnViewModel { maxSteps: " + maxSteps + ", canAttack: "
@@ -131,7 +137,8 @@ public class TurnViewModel extends ViewModel {
                 + mustMove + ", silenceForced: " + silenceForced
                 + ", drawnCard: " + drawnCard + ", turnCount: " + turnCount
                 + ", turnStart: " + turnStart + ", currentPlayer: "
-                + currentPlayer + ", isSecDangerous: " + isSecDangerous + " }";
+                + currentPlayerIdentity + ", isSecDangerous: " + isSecDangerous
+                + " }";
     }
 
 }

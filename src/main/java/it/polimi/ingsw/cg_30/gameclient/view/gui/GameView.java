@@ -1,11 +1,9 @@
 package it.polimi.ingsw.cg_30.gameclient.view.gui;
 
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewType;
-import it.polimi.ingsw.cg_30.gameclient.view.gui.eventhandlers.MouseHoverMagnify;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
 import java.awt.Point;
@@ -14,18 +12,17 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
+import com.jtattoo.plaf.hifi.HiFiLookAndFeel;
 
 public class GameView {
 
@@ -36,20 +33,33 @@ public class GameView {
             0.1406);
     public static final Dimension MAP_SIZE = GuiEngine.getResponsive(2, 1.62);
 
+    public static final Dimension CARD_SIZE = GuiEngine.getResponsive(16, 6);
+
     public static final int SECTOR_WIDTH = GuiEngine.getResponsive(36.2264);
 
     private JFrame mainFrame;
 
-    private JScrollPane mapScrollPane;
+    private JScrollPane mapScrollPane, deckScrollPane;
 
     private final Map<ViewType, GuiView> subViews = new HashMap<ViewType, GuiView>();
 
     /**
+     * @throws UnsupportedLookAndFeelException
+     * @wbp.parser.entryPoint
+     */
+    public static void windowBuilder() throws UnsupportedLookAndFeelException {
+        UIManager.setLookAndFeel(new HiFiLookAndFeel());
+        new GameView().initialize();
+    }
+
+    /**
      * Create the game form.
      */
-    public GameView(GuiEngine gui) {
+    public GameView() {
         this.subViews.put(ViewType.ZONE, new GuiZoneView());
         this.subViews.put(ViewType.CHAT, new GuiChatView());
+        this.subViews.put(ViewType.DECK, new GuiDeckView());
+        this.subViews.put(ViewType.TURN, new GuiTurnView());
     }
 
     public Set<Entry<ViewType, GuiView>> getSubViews() {
@@ -62,7 +72,7 @@ public class GameView {
     public void initialize() {
         mainFrame = new JFrame();
         // mainFrame.setTitle("Escape From The Aliens Into Outer Space - EFTAIOS");
-        mainFrame.setIconImage(GuiEngine.loadImage("eftaios_icon.jpg"));
+        mainFrame.setIconImage(GuiEngine.loadImage("custom_icon.png"));
         Point center = GraphicsEnvironment.getLocalGraphicsEnvironment()
                 .getCenterPoint();
 
@@ -81,40 +91,10 @@ public class GameView {
         JSplitPane bottomSplit = new JSplitPane();
         topDownSplit.setBottomComponent(bottomSplit);
 
-        JScrollPane deckScrollPane = new JScrollPane();
+        deckScrollPane = new JScrollPane();
+        deckScrollPane.setViewportView(subViews.get(ViewType.DECK)
+                .getComponent());
         bottomSplit.setRightComponent(deckScrollPane);
-
-        JPanel cardsPanel = new JPanel();
-        cardsPanel.setLayout(new BoxLayout(cardsPanel, BoxLayout.X_AXIS));
-        cardsPanel.add(Box.createHorizontalGlue());
-
-        deckScrollPane.setViewportView(cardsPanel);
-
-        JLabel cardLabel1 = new JLabel("AN ITEM CARD");
-        cardLabel1.addMouseListener(new MouseHoverMagnify());
-        cardLabel1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        cardLabel1.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        cardLabel1.setFont(GuiEngine.loadCustomFont("TitilliumText22L")
-                .deriveFont(0, cardLabel1.getFont().getSize()));
-        cardsPanel.add(cardLabel1);
-
-        JLabel cardLabel2 = new JLabel("AN ITEM CARD");
-        cardLabel2.addMouseListener(new MouseHoverMagnify());
-        cardLabel2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        cardLabel2.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        cardLabel2.setFont(GuiEngine.loadCustomFont("TitilliumText22L")
-                .deriveFont(0, cardLabel2.getFont().getSize()));
-        cardsPanel.add(cardLabel2);
-
-        JLabel cardLabel3 = new JLabel("AN ITEM CARD");
-        cardLabel3.addMouseListener(new MouseHoverMagnify());
-        cardLabel3.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        cardLabel3.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        cardLabel3.setFont(GuiEngine.loadCustomFont("TitilliumText22L")
-                .deriveFont(0, cardLabel3.getFont().getSize()));
-        cardsPanel.add(cardLabel3);
-
-        cardsPanel.add(Box.createHorizontalGlue());
 
         bottomSplit
                 .setLeftComponent(subViews.get(ViewType.CHAT).getComponent());
@@ -136,15 +116,8 @@ public class GameView {
         topRightPane.setLayout(new BorderLayout(0, 0));
         topPanel.add(topRightPane, BorderLayout.EAST);
 
-        JPanel matchInfoPane = new JPanel();
-        matchInfoPane.setAlignmentY(Component.TOP_ALIGNMENT);
-        matchInfoPane.setLayout(new BorderLayout(0, 0));
-        topRightPane.add(matchInfoPane, BorderLayout.NORTH);
-
-        JLabel matchInfo = new JLabel("MATCH_INFO");
-        matchInfo.setHorizontalAlignment(SwingConstants.CENTER);
-        matchInfo.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
-        matchInfoPane.add(matchInfo, BorderLayout.CENTER);
+        topRightPane.add(subViews.get(ViewType.TURN).getComponent(),
+                BorderLayout.NORTH);
 
         JScrollPane partyScrollPane = new JScrollPane();
         partyScrollPane.setAlignmentY(Component.BOTTOM_ALIGNMENT);

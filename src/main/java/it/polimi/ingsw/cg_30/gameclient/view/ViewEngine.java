@@ -2,10 +2,13 @@ package it.polimi.ingsw.cg_30.gameclient.view;
 
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewType;
 
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
 public abstract class ViewEngine {
+
+    public static final SimpleDateFormat SDF = new SimpleDateFormat("HH:mm");
 
     private static final View debug = new DebugView();
 

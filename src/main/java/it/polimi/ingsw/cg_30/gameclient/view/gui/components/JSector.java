@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg_30.gameclient.view.gui.components;
 
+import it.polimi.ingsw.cg_30.exchange.viewmodels.HexPoint;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorType;
 
 import java.awt.Color;
@@ -46,6 +47,8 @@ public class JSector extends JComponent {
     /** The my shape. */
     private Polygon myShape;
 
+    private final HexPoint myHp;
+
     /**
      * Instantiates a new j sector.
      *
@@ -54,8 +57,9 @@ public class JSector extends JComponent {
      * @param size
      *            the size
      */
-    public JSector(Point position, int size) {
-        this.position = position;
+    public JSector(HexPoint hp, Point gridPosition, int size) {
+        this.myHp = hp;
+        this.position = gridPosition;
         this.size = size;
         this.setType(SectorType.DANGEROUS);
     }
@@ -70,8 +74,8 @@ public class JSector extends JComponent {
      * @param size
      *            the size
      */
-    public JSector(int positionX, int positionY, int size) {
-        this(new Point(positionX, positionY), size);
+    public JSector(HexPoint hp, int positionX, int positionY, int size) {
+        this(hp, new Point(positionX, positionY), size);
     }
 
     /**
@@ -102,14 +106,14 @@ public class JSector extends JComponent {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Graphics2D graphics2D = (Graphics2D) g;
+        Graphics2D g2d = (Graphics2D) g;
 
         // Set anti-alias!
-        graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
         // Set anti-alias for text
-        graphics2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
                 RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
         Point xy;
@@ -121,8 +125,8 @@ public class JSector extends JComponent {
             y[i] = xy.y;
         }
         myShape = new Polygon(x, y, x.length);
-        g.drawPolygon(myShape);
-        g.fillPolygon(myShape);
+        g2d.drawPolygon(myShape);
+        g2d.fillPolygon(myShape);
     }
 
     /*
@@ -162,5 +166,9 @@ public class JSector extends JComponent {
     @Override
     public boolean contains(Point p) {
         return this.myShape.contains(p);
+    }
+
+    public HexPoint getHexPoint() {
+        return this.myHp;
     }
 }

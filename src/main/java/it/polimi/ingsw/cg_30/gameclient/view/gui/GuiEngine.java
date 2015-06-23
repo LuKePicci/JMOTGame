@@ -2,10 +2,11 @@ package it.polimi.ingsw.cg_30.gameclient.view.gui;
 
 import it.polimi.ingsw.cg_30.exchange.messaging.ActionRequest;
 import it.polimi.ingsw.cg_30.exchange.messaging.ActionType;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.HexPoint;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Item;
-import it.polimi.ingsw.cg_30.exchange.viewmodels.ItemCard;
-import it.polimi.ingsw.cg_30.exchange.viewmodels.Sector;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewType;
+import it.polimi.ingsw.cg_30.gameclient.network.ClientMessenger;
+import it.polimi.ingsw.cg_30.gameclient.view.RequestComposer;
 import it.polimi.ingsw.cg_30.gameclient.view.ViewEngine;
 
 import java.awt.Dimension;
@@ -15,6 +16,7 @@ import java.awt.Toolkit;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 import com.jtattoo.plaf.hifi.HiFiLookAndFeel;
@@ -22,16 +24,19 @@ import com.jtattoo.plaf.hifi.HiFiLookAndFeel;
 public class GuiEngine extends ViewEngine {
 
     private GameView gv;
+    private final RequestComposer composer = new RequestComposer();
 
-    // to be sure a player does not use an item card by mistake, we start the
-    // match with discardCard flag true as the game manager will prevent the
-    // player from discarding if he does not have four cards.
-    private boolean discardCard = true;
+    // this flag will become true when a player click the discard button
+    private static boolean discardCard = false;
+
     // it's unlikely to use a spotlight card, so by default this flag is false
-    private boolean spolightCard = false;
+    private static boolean spolightCard = false;
+
     // only when needed this flag will be turn to true, by default a player
     // selects a sector in order to move, not to make a noise.
-    private boolean noise = false;
+    private static boolean noise = false;
+
+    private static boolean move = true;
 
     public GuiEngine() {
         // enable anti-aliased text:
@@ -39,7 +44,7 @@ public class GuiEngine extends ViewEngine {
         System.setProperty("swing.aatext", "true");
         setLookAndFeel();
 
-        this.gv = new GameView(this);
+        this.gv = new GameView();
         this.registerViews();
         this.gv.initialize();
     }
@@ -138,38 +143,80 @@ public class GuiEngine extends ViewEngine {
         }
     }
 
-    public void cardProcessor(ItemCard icard) {
-        if (this.discardCard == true) {
-            // discard the card
-            ActionRequest action = new ActionRequest(ActionType.DISCARD_CARD,
-                    null, icard.getItem());
-        } else {
-            if (Item.SPOTLIGHT.equals(icard.getItem())) {
-                this.spolightCard = true;
-                // wait for sector selection, than the action will be processed
-                // by sectorProcessor
-            } else {
-                // use the card
-                ActionRequest action = new ActionRequest(ActionType.USE_ITEM,
-                        null, icard.getItem());
-            }
+    public void cardProcessor(Item icard) {
+        if (Item.SPOTLIGHT.equals(icard)) {
+            spolightCard = true;
+            // wait for sector selection, than the action will be processed
+            // by sectorProcessor
+            JOptionPane.showMessageDialog(null,
+                    "Click on the sector where you'd like to make a noise.");
+            return;
         }
+
+        ActionRequest request;
+        if (discardCard == true) {
+            // discard the card
+            request = composer.createActionRequest(ActionType.DISCARD_CARD,
+                    null, icard);
+
+        } else {
+            // use the card
+            request = composer.createActionRequest(ActionType.USE_ITEM, null,
+                    icard);
+        }
+
+        ClientMessenger.getCurrentMessenger().executeRequestTask(request);
     }
 
-    public void sectorProcessor(Sector sec) {
-        if (this.noise == true) {
+    public void sectorProcessor(HexPoint hp) {
+        ActionRequest request;
+        if (noise == true) {
             // action noise
-            ActionRequest action = new ActionRequest(ActionType.NOISE_ANY,
-                    sec.getPoint(), null);
-        } else if (this.spolightCard == true) {
+            request = composer.createActionRequest(ActionType.NOISE_ANY, hp,
+                    null);
+
+        } else if (spolightCard == true) {
             // use spotlight
-            ActionRequest action = new ActionRequest(ActionType.USE_ITEM,
-                    sec.getPoint(), Item.SPOTLIGHT);
-        } else {
+            request = composer.createActionRequest(ActionType.USE_ITEM, hp,
+                    Item.SPOTLIGHT);
+            spolightCard = false;
+        } else if (move == true) {
             // action move
-            ActionRequest action = new ActionRequest(ActionType.MOVE,
-                    sec.getPoint(), null);
-        }
+            request = composer.createActionRequest(ActionType.MOVE, hp, null);
+        } else
+            return;
+
+        ClientMessenger.getCurrentMessenger().executeRequestTask(request);
+    }
+
+    public void attackProcessor() {
+        ActionRequest request = composer.createActionRequest(ActionType.ATTACK,
+                null, null);
+        ClientMessenger.getCurrentMessenger().executeRequestTask(request);
+    }
+
+    public void drawProcessor() {
+        ActionRequest request = composer.createActionRequest(
+                ActionType.DRAW_CARD, null, null);
+        ClientMessenger.getCurrentMessenger().executeRequestTask(request);
+    }
+
+    public void turnoverProcessor() {
+        ActionRequest request = composer.createActionRequest(
+                ActionType.TURN_OVER, null, null);
+        ClientMessenger.getCurrentMessenger().executeRequestTask(request);
+    }
+
+    public static void setDiscardCard(boolean value) {
+        discardCard = value;
+    }
+
+    public static void setNoise(boolean value) {
+        noise = value;
+    }
+
+    public static void setMove(boolean value) {
+        move = value;
     }
 
 }

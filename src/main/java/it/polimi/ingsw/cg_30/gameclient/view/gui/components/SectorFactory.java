@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg_30.gameclient.view.gui.components;
 
+import it.polimi.ingsw.cg_30.exchange.viewmodels.HexPoint;
 import it.polimi.ingsw.cg_30.gameclient.view.View;
 import it.polimi.ingsw.cg_30.gameclient.view.gui.GameView;
 import it.polimi.ingsw.cg_30.gameclient.view.gui.GuiEngine;
@@ -16,8 +17,8 @@ import javax.swing.JLabel;
 
 public class SectorFactory {
 
-    public static JSector createGridSector(int i, int j) {
-        return createGridSector(i, j, GameView.SECTOR_WIDTH);
+    public static JSector createGridSector(HexPoint hp) {
+        return createGridSector(hp, GameView.SECTOR_WIDTH);
     }
 
     /**
@@ -33,16 +34,18 @@ public class SectorFactory {
      *            the hexagon width
      * @return the new JSector component
      */
-    public static JSector createGridSector(int i, int j, int width) {
+    public static JSector createGridSector(HexPoint hp, int width) {
         int height = (int) Math.round(width * Math.sqrt(3) / 2);
         int horiz = Math.round((width * 3) / 4) + 2;
-        final JSector sector = new JSector(width / 2, height / 2 + 1, width / 2);
+        final JSector sector = new JSector(hp, width / 2, height / 2 + 1,
+                width / 2);
         sector.setSize(width, height);
-        sector.setLocation(horiz * i, height * j + ((i % 2) * height / 2));
+        sector.setLocation(horiz * hp.getOffsetX(), height * hp.getOffsetY()
+                + ((hp.getOffsetX() % 2) * height / 2));
 
         @SuppressWarnings("serial")
-        JLabel label = new JLabel(View.getCharFromNumber(i + 1)
-                + String.format("%02d", (j + 1))) {
+        JLabel label = new JLabel(View.getCharFromNumber(hp.getOffsetX() + 1)
+                + String.format("%02d", (hp.getOffsetY() + 1))) {
             @Override
             public void paintComponent(Graphics g) {
                 Graphics2D graphics2d = (Graphics2D) g;
