@@ -12,8 +12,9 @@ public class CliTurnView extends View {
         String situation = "\r\n";
 
         // must move & turn number
-        situation += viewModel.mustMove() ? " - Turn number: "
-                + viewModel.getTurnCount() + "\r\n - You can cross "
+        situation += (viewModel.mustMove() && !viewModel.isSecDangerous()) ? " - Turn number: "
+                + viewModel.getTurnCount()
+                + "\r\n - You can cross "
                 + viewModel.getMaxSteps() + " sector.\r\n"
                 // can attack
                 : (viewModel.canAttack() ? " - You can attack if you want, but remember:\r\n   if you are on a dangerous sector, you must attack or draw a card before turnover."

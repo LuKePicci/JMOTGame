@@ -164,6 +164,7 @@ public abstract class ActionController {
                     // discards a card, if he won't figure it out the game will
                     // automatically discard a card
                 }
+                this.matchController.sendTurnViewModel();
             }
         }
     }

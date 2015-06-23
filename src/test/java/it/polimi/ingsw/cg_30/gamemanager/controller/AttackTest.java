@@ -63,6 +63,7 @@ public class AttackTest {
         Sector sec = new Sector(null, point);
         matchController.getZoneController().getCurrentZone()
                 .movePlayer(player1, sec);
+        matchController.getTurnController().getTurn().setCanAttack(true);
         ActionRequest action = new ActionRequest(ActionType.ATTACK, null, null);
         // eseguo l'azione
         Attack atk = new Attack();
@@ -71,7 +72,7 @@ public class AttackTest {
         assertFalse(atk.isValid());
     }
 
-    // ha già attaccato
+    // alieno che ha già attaccato
     @Test
     public void alreadyAttacked() throws FileNotFoundException,
             URISyntaxException, DisconnectedException {
@@ -100,7 +101,7 @@ public class AttackTest {
         matchController.initMatch(partyController);
         Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
-        matchController.getTurnController().getTurn().setMustMove();
+        matchController.getTurnController().getTurn().setMustMove(false);
         matchController.getTurnController().getTurn().setCanAttack(false);
         HexPoint point = HexPoint.fromOffset(1, 1);
         Sector sec = new Sector(null, point);
@@ -133,6 +134,11 @@ public class AttackTest {
             @Override
             public void checkEndGame() {
             }
+
+            @Override
+            protected void sendTurnViewModel() {
+            }
+
         };
 
         PlayerCard alien = new PlayerCard(PlayerRace.ALIEN, null);
@@ -147,11 +153,12 @@ public class AttackTest {
         matchController.initMatch(partyController);
         Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
-        matchController.getTurnController().getTurn().setMustMove();
+        matchController.getTurnController().getTurn().setMustMove(false);
         HexPoint point = HexPoint.fromOffset(1, 1);
         Sector sec = new Sector(null, point);
         matchController.getZoneController().getCurrentZone()
                 .movePlayer(player1, sec);
+        matchController.getTurnController().getTurn().setCanAttack(true);
         ActionRequest action = new ActionRequest(ActionType.ATTACK, null, null);
         // eseguo l'azione
         Attack atk = new Attack() {
@@ -214,6 +221,10 @@ public class AttackTest {
             @Override
             protected void sendViewModelToAPlayer(Player p, ViewModel content) {
             }
+
+            @Override
+            protected void sendTurnViewModel() {
+            }
         };
 
         PlayerCard alien = new PlayerCard(PlayerRace.ALIEN, null);
@@ -232,13 +243,14 @@ public class AttackTest {
 
         Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
-        matchController.getTurnController().getTurn().setMustMove();
+        matchController.getTurnController().getTurn().setMustMove(false);
         HexPoint point = HexPoint.fromOffset(1, 1);
         Sector sec = new Sector(null, point);
         matchController.getZoneController().getCurrentZone()
                 .movePlayer(player1, sec);
         matchController.getZoneController().getCurrentZone()
                 .movePlayer(player2, sec);
+        matchController.getTurnController().getTurn().setCanAttack(true);
         ActionRequest action = new ActionRequest(ActionType.ATTACK, null, null);
         // eseguo l'azione
         Attack atk = new Attack() {
@@ -249,6 +261,7 @@ public class AttackTest {
             @Override
             protected void notifyCurrentPlayerByServer(String what) {
             }
+
         };
         atk.initAction(matchController, action);
         if (atk.isValid())
@@ -324,13 +337,14 @@ public class AttackTest {
 
         Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
-        matchController.getTurnController().getTurn().setMustMove();
+        matchController.getTurnController().getTurn().setMustMove(false);
         HexPoint point = HexPoint.fromOffset(1, 1);
         Sector sec = new Sector(null, point);
         matchController.getZoneController().getCurrentZone()
                 .movePlayer(player1, sec);
         matchController.getZoneController().getCurrentZone()
                 .movePlayer(player2, sec);
+        matchController.getTurnController().getTurn().setCanAttack(true);
         ActionRequest action = new ActionRequest(ActionType.ATTACK, null, null);
         // eseguo l'azione
         Attack atk = new Attack() {
@@ -418,13 +432,14 @@ public class AttackTest {
 
         Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
-        matchController.getTurnController().getTurn().setMustMove();
+        matchController.getTurnController().getTurn().setMustMove(false);
         HexPoint point = HexPoint.fromOffset(1, 1);
         Sector sec = new Sector(null, point);
         matchController.getZoneController().getCurrentZone()
                 .movePlayer(player1, sec);
         matchController.getZoneController().getCurrentZone()
                 .movePlayer(player2, sec);
+        matchController.getTurnController().getTurn().setCanAttack(true);
         ActionRequest action = new ActionRequest(ActionType.ATTACK, null, null);
         // eseguo l'azione
         Attack atk = new Attack() {
@@ -538,7 +553,7 @@ public class AttackTest {
 
         Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
-        matchController.getTurnController().getTurn().setMustMove();
+        matchController.getTurnController().getTurn().setMustMove(false);
         HexPoint point = HexPoint.fromOffset(1, 1);
         Sector sec = new Sector(null, point);
         HexPoint point2 = HexPoint.fromOffset(2, 3);
@@ -555,6 +570,7 @@ public class AttackTest {
                 .movePlayer(player5, sec2);
         matchController.getZoneController().getCurrentZone()
                 .movePlayer(player6, sec);
+        matchController.getTurnController().getTurn().setCanAttack(true);
         ActionRequest action = new ActionRequest(ActionType.ATTACK, null, null);
         // eseguo l'azione
         Attack atk = new Attack() {
@@ -645,6 +661,7 @@ public class AttackTest {
         Sector sec = new Sector(null, point);
         matchController.getZoneController().getCurrentZone()
                 .movePlayer(player1, sec);
+        matchController.getTurnController().getTurn().setCanAttack(true);
         ActionRequest action = new ActionRequest(ActionType.ATTACK, null, null);
         // eseguo l'azione
         Attack atk = new Attack();
@@ -725,7 +742,7 @@ public class AttackTest {
         matchController.initMatch(partyController);
         Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
-        matchController.getTurnController().getTurn().setMustMove();
+        matchController.getTurnController().getTurn().setMustMove(false);
         HexPoint point = HexPoint.fromOffset(1, 1);
         Sector sec = new Sector(null, point);
         matchController.getZoneController().getCurrentZone()
@@ -798,7 +815,7 @@ public class AttackTest {
 
         Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
-        matchController.getTurnController().getTurn().setMustMove();
+        matchController.getTurnController().getTurn().setMustMove(false);
         HexPoint point = HexPoint.fromOffset(1, 1);
         Sector sec = new Sector(null, point);
         matchController.getZoneController().getCurrentZone()
@@ -806,6 +823,7 @@ public class AttackTest {
         matchController.getZoneController().getCurrentZone()
                 .movePlayer(player2, sec);
         player1.incrementKillsCount();
+        matchController.getTurnController().getTurn().setCanAttack(true);
         ActionRequest action = new ActionRequest(ActionType.ATTACK, null, null);
         // eseguo l'azione
         Attack atk = new Attack() {
@@ -891,7 +909,7 @@ public class AttackTest {
 
         Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
-        matchController.getTurnController().getTurn().setMustMove();
+        matchController.getTurnController().getTurn().setMustMove(false);
         HexPoint point = HexPoint.fromOffset(1, 1);
         Sector sec = new Sector(null, point);
         matchController.getZoneController().getCurrentZone()
@@ -981,7 +999,7 @@ public class AttackTest {
 
         Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
-        matchController.getTurnController().getTurn().setMustMove();
+        matchController.getTurnController().getTurn().setMustMove(false);
         HexPoint point = HexPoint.fromOffset(1, 1);
         Sector sec = new Sector(null, point);
         matchController.getZoneController().getCurrentZone()

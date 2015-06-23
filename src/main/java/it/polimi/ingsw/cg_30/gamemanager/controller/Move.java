@@ -75,7 +75,7 @@ public class Move extends ActionController {
         this.matchController.getZoneController().getCurrentZone()
                 .movePlayer(player, this.target);
         // take note that the player has been moved
-        this.matchController.getTurnController().getTurn().setMustMove();
+        this.matchController.getTurnController().getTurn().setMustMove(false);
         if (SectorType.ESCAPE_HATCH.equals(this.target.getType())) {
             this.notifyInChatByCurrentPlayer("I am in "
                     + this.getStringFromHexPoint(this.target.getPoint()));
@@ -138,8 +138,7 @@ public class Move extends ActionController {
                     .setIsSecDangerous(true);// an alien can attack or draw a
                                              // card
             this.sendNewPosition();
-            this.matchController.sendTurnViewModel();
-            if (PlayerRace.HUMAN.equals(player.getIdentity().getRace())) {
+            if (PlayerRace.HUMAN.equals(this.player.getIdentity().getRace())) {
                 if (this.matchController.getTurnController().getTurn()
                         .getSilenceForced() == false) {
                     // a human must draw (except if he used a sedatives card)
@@ -154,8 +153,12 @@ public class Move extends ActionController {
         } else {
             // the sector is secure (white), nothing have to be done
             this.sendNewPosition();
-            this.matchController.sendTurnViewModel();
         }
+        if (PlayerRace.ALIEN.equals(this.player.getIdentity().getRace())) {
+            this.matchController.getTurnController().getTurn()
+                    .setCanAttack(true);
+        }
+        this.matchController.sendTurnViewModel();
     }
 
     private void sendNewPosition() {

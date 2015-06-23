@@ -123,7 +123,6 @@ public class TurnController {
                         && !this.currentMatch.getMatch().getRescuedPlayer()
                                 .contains(nextPlayer)) {
                     // it's nextPlayer's turn
-                    this.currentMatch.checkEndGame();
                     this.turn = new Turn(nextPlayer, this.currentMatch
                             .getMatch().getTurnCount());
                     this.notify(nextPlayer);

@@ -60,16 +60,15 @@ public class Turn implements IViewable {
      */
     public Turn(Player player, int turnCount) {
         if (PlayerRace.ALIEN == player.getIdentity().getRace()) {// alien
-            this.canAttack = true;
             if (player.getKillsCount() > 0) {
                 this.maxSteps = 3;// alien who has already killed a human
             } else {
                 this.maxSteps = 2;// alien who has not killed a human yet
             }
         } else {// human
-            this.canAttack = false;
             this.maxSteps = 1;
         }
+        this.canAttack = false;
         this.mustMove = true;
         this.currentPlayer = player;
         this.silenceForced = false;
@@ -202,11 +201,8 @@ public class Turn implements IViewable {
         this.maxSteps = steps;
     }
 
-    /**
-     * Sets the must move value to false.
-     */
-    public void setMustMove() {
-        this.mustMove = false;
+    public void setMustMove(boolean move) {
+        this.mustMove = move;
     }
 
     /**

@@ -264,7 +264,7 @@ public class UseCardTest {
 
         Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
-        matchController.getTurnController().getTurn().setMustMove();
+        matchController.getTurnController().getTurn().setMustMove(false);
         ActionRequest action = new ActionRequest(ActionType.USE_ITEM, null,
                 Item.ADRENALINE);
         // eseguo l'azione
@@ -349,7 +349,7 @@ public class UseCardTest {
 
         Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
-        matchController.getTurnController().getTurn().setMustMove();
+        matchController.getTurnController().getTurn().setMustMove(false);
         ActionRequest action = new ActionRequest(ActionType.USE_ITEM, null,
                 Item.SEDATIVES);
         // eseguo l'azione

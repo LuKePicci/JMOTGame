@@ -43,6 +43,9 @@ public class TurnViewModel extends ViewModel {
     @XmlElement(name = "IsSecDangerous")
     private boolean isSecDangerous;
 
+    @XmlElement(name = "CanTurnOver")
+    private boolean canTurnOver;
+
     public TurnViewModel(boolean attack, int steps, boolean discard,
             boolean move, boolean silence, SectorCard drawnCard, int turnCount,
             Date turnStart, PlayerCard currentPlayer, boolean secDanger) {
@@ -57,7 +60,8 @@ public class TurnViewModel extends ViewModel {
         this.turnStart = turnStart;
         this.currentPlayerIdentity = currentPlayer;
         this.isSecDangerous = secDanger;
-
+        this.canTurnOver = this.checkCanTurnOver(discard, move, drawnCard,
+                secDanger);
     }
 
     private TurnViewModel() {
@@ -123,11 +127,20 @@ public class TurnViewModel extends ViewModel {
     }
 
     public PlayerCard getCurrentPlayerIdentity() {
-        return currentPlayerIdentity;
+        return this.currentPlayerIdentity;
     }
 
     public boolean isSecDangerous() {
-        return isSecDangerous;
+        return this.isSecDangerous;
+    }
+
+    public boolean canTurnOver() {
+        return this.canTurnOver;
+    }
+
+    private boolean checkCanTurnOver(boolean discard, boolean move,
+            SectorCard drawnCard, boolean secDanger) {
+        return (!move && !discard && !secDanger && drawnCard == null);
     }
 
     @Override
@@ -138,7 +151,7 @@ public class TurnViewModel extends ViewModel {
                 + ", drawnCard: " + drawnCard + ", turnCount: " + turnCount
                 + ", turnStart: " + turnStart + ", currentPlayer: "
                 + currentPlayerIdentity + ", isSecDangerous: " + isSecDangerous
-                + " }";
+                + ", canTurnOver: " + canTurnOver + " }";
     }
 
 }

@@ -75,6 +75,7 @@ public class Attack extends ActionController {
         // dangerous sector effect solved (if there was)
         this.matchController.getTurnController().getTurn()
                 .setIsSecDangerous(false);
+        this.matchController.sendTurnViewModel();
         // check if the game is ended
         this.matchController.checkEndGame();
     }
