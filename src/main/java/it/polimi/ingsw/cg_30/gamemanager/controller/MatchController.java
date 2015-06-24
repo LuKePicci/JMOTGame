@@ -79,8 +79,7 @@ public class MatchController {
         this.sendMapViewToParty();
 
         // party
-        this.partyController.sendMessageToParty(new Message(
-                this.partyController.getCurrentParty().getViewModel()));
+        this.updatePartyToAllPlayers();
 
         // players' cards and position
         for (Player player : obtainPartyPlayers()) {
@@ -101,7 +100,8 @@ public class MatchController {
     }
 
     /**
-     * Model sender.
+     * Sends all the model needed in order to let the ReturningPlayer come back
+     * in the match.
      *
      * @param returningPlayer
      *            the returning player
@@ -345,13 +345,17 @@ public class MatchController {
         this.sayYouLose(playerList);
     }
 
+    /**
+     * Utility method to be used by turnController: all aliens win, rescued
+     * humans win, remaining humans lose.
+     */
     protected void endingByTurnController() {
         this.partialVictory();
         this.partyController.endMatch();
     }
 
     /**
-     * Say the players losers lost this match.
+     * Says the players losers lost this match.
      *
      * @param losers
      *            the losers
@@ -362,7 +366,7 @@ public class MatchController {
     }
 
     /**
-     * Say the players winners won this match.
+     * Says the players winners won this match.
      *
      * @param winners
      *            the winners
@@ -443,7 +447,7 @@ public class MatchController {
     }
 
     /**
-     * Process the action request.
+     * Processes the action request.
      *
      * @param req
      *            the action request
@@ -491,8 +495,8 @@ public class MatchController {
     }
 
     /**
-     * Notifies the string received to the party using the player received as
-     * sender.
+     * Notifies the string received to the party adding player's name before the
+     * string and using server as sender.
      *
      * @param player
      *            the sender
@@ -529,7 +533,7 @@ public class MatchController {
     }
 
     /**
-     * Send map view to party. Note: this map does not contain neither players'
+     * Sends map view to party. Note: this map does not contain neither players'
      * locations nor possible used hatches.
      */
     protected void sendMapViewToParty() {
@@ -538,8 +542,8 @@ public class MatchController {
     }
 
     /**
-     * Send map view to player. Note: this map does not contain neither players'
-     * locations nor possible used hatches.
+     * Sends map view to player. Note: this map does not contain neither
+     * players' locations nor possible used hatches.
      *
      * @param player
      *            the player
@@ -553,15 +557,15 @@ public class MatchController {
     }
 
     /**
-     * Send map variation to player; a variation could be about player's
-     * location, used hatch,... (see SectorHighlight enum) .
+     * Sends map variation to the player "player"; a variation could be about
+     * player's location, used hatch,... (see SectorHighlight enum) .
      *
      * @param player
      *            the player
      * @param sec
      *            the sector
      * @param highlight
-     *            the highlight
+     *            the kind of highlight
      * @throws DisconnectedException
      *             the disconnected exception
      */
@@ -582,9 +586,20 @@ public class MatchController {
     protected void updatePartyModel(Player player) throws DisconnectedException {
         this.sendViewModelToAPlayer(player, this.partyController
                 .getCurrentParty().getViewModel());
-
     }
 
+    /**
+     * Updates the party view to all party players (this view is used in the GUI
+     * to show the number of item cards of each players).
+     */
+    protected void updatePartyToAllPlayers() {
+        this.partyController.sendMessageToParty(new Message(
+                this.partyController.getCurrentParty().getViewModel()));
+    }
+
+    /**
+     * Sends the turn view model to the current player.
+     */
     protected void sendTurnViewModel() {
         try {
             this.sendViewModelToAPlayer(turnController.getTurn()
@@ -597,7 +612,7 @@ public class MatchController {
     }
 
     /**
-     * Send the view model received to the player received.
+     * Sends the view model received to the player received.
      *
      * @param p
      *            the player

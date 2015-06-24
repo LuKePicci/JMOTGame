@@ -68,6 +68,7 @@ public class DiscardCard extends ActionController {
             // thanks to modelSender(Player returningPlayer) in MatchController
         }
         this.matchController.sendTurnViewModel();
+        this.matchController.updatePartyToAllPlayers();
     }
 
 }

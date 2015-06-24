@@ -29,6 +29,14 @@ public class UseCard extends ActionController {
     /** The item. */
     private Item item;
 
+    /**
+     * Initializes the action.
+     *
+     * @param matchController
+     *            the match controller
+     * @param request
+     *            the request
+     */
     @Override
     public void initAction(MatchController matchController,
             ActionRequest request) {
@@ -86,10 +94,6 @@ public class UseCard extends ActionController {
             forcedAttack.initAction(matchController, forcedRequest);
             forcedAttack.processAction();
 
-        } else if (Item.TELEPORT.equals(item)) {
-            this.notifyInChatByCurrentPlayer("TELEPORT CARD");
-            this.teleportLogic();
-
         } else if (Item.ADRENALINE.equals(item)) {
             this.notifyInChatByCurrentPlayer("ADRENALINE CARD");
             this.matchController.getTurnController().getTurn().setMaxSteps(2);
@@ -102,6 +106,10 @@ public class UseCard extends ActionController {
         } else if (Item.SPOTLIGHT.equals(item)) {
             this.notifyInChatByCurrentPlayer("SPOTLIGHT CARD");
             this.spotlightLogic();
+
+        } else {// TELEPORT
+            this.notifyInChatByCurrentPlayer("TELEPORT CARD");
+            this.teleportLogic();
         }
 
         // discard the used item card
@@ -116,6 +124,7 @@ public class UseCard extends ActionController {
             // player's deck will be updated as soon as the player comes back
             // thanks to modelSender(Player returningPlayer) in MatchController
         }
+        this.matchController.updatePartyToAllPlayers();
         this.matchController.sendTurnViewModel();
     }
 
