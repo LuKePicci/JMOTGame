@@ -141,7 +141,7 @@ public class Party implements IViewable, Serializable {
     }
 
     /**
-     * Adds the to party.
+     * Adds the player to party.
      *
      * @param clientId
      *            the client id
@@ -150,7 +150,10 @@ public class Party implements IViewable, Serializable {
      * @return the party
      */
     public Party addToParty(UUID clientId, String nickName) {
-        if (nicksToUUID.containsKey(nickName))
+        if ("+".equals(nickName))
+            nickName = "StupidPlayer-" + clientId.hashCode();
+        else if (nicksToUUID.containsKey(nickName)
+                || "Server".equalsIgnoreCase(nickName))
             nickName = nickName.concat("-" + clientId.hashCode());
 
         Player newPlayer = new Player(nickName, this.members.size() + 1);

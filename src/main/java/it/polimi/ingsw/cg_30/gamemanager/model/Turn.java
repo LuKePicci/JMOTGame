@@ -235,6 +235,16 @@ public class Turn implements IViewable {
         this.drawnCard = drawnCard;
     }
 
+    /**
+     * Sets the current player.
+     * 
+     * @param newPlayer
+     *            the new current player
+     */
+    public void setPlayer(Player newPlayer) {
+        this.currentPlayer = newPlayer;
+    }
+
     @Override
     public ViewModel getViewModel() {
         return new TurnViewModel(this.getCanAttack(), this.getMaxSteps(),
