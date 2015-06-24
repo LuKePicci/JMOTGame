@@ -40,6 +40,8 @@ public class GuiEngine extends ViewEngine {
 
     private static boolean move = true;
 
+    private static String myNickName = "";
+
     public GuiEngine() {
         // enable anti-aliased text:
         System.setProperty("awt.useSystemAAFontSettings", "on");
@@ -245,4 +247,11 @@ public class GuiEngine extends ViewEngine {
         move = value;
     }
 
+    public static String getMyNickName() {
+        return myNickName;
+    }
+
+    public static void setMyNickName(String nick) {
+        myNickName = nick;
+    }
 }

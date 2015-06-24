@@ -17,6 +17,7 @@ import java.util.Map;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
 import javax.swing.JScrollPane;
@@ -66,16 +67,22 @@ public class GuiChatView extends GuiView {
         btnSendchat.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (GameClient.getActiveEngine() instanceof GuiEngine) {
-                    GuiEngine activeEngine = (GuiEngine) GameClient
-                            .getActiveEngine();
-                    if (textMessage.getText().equals(""))
-                        return;
-                    activeEngine.chatProcessor(
-                            chatTabs.getTitleAt(chatTabs.getSelectedIndex()),
-                            textMessage.getText());
-                    textMessage.setText("");
-                }
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (GameClient.getActiveEngine() instanceof GuiEngine) {
+                            GuiEngine activeEngine = (GuiEngine) GameClient
+                                    .getActiveEngine();
+                            if (textMessage.getText().equals(""))
+                                return;
+                            activeEngine.chatProcessor(chatTabs
+                                    .getTitleAt(chatTabs.getSelectedIndex()),
+                                    textMessage.getText());
+                            textMessage.setText("");
+                        }
+                    }
+                });
+
             }
         });
         chatBottomPanel.add(btnSendchat, BorderLayout.EAST);
@@ -102,12 +109,19 @@ public class GuiChatView extends GuiView {
         newTabButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // check if a tab with this name already exists
-                if (chatTabs.indexOfTab(playerNick.getText()) >= 0)
-                    return;
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
 
-                privates.put(playerNick.getText(),
-                        insertTab(playerNick.getText()));
+                        // check if a tab with this name already exists
+                        if (playerNick.getText().equals("")
+                                || chatTabs.indexOfTab(playerNick.getText()) >= 0)
+                            return;
+
+                        privates.put(playerNick.getText(),
+                                insertTab(playerNick.getText()));
+                    }
+                });
             }
         });
         newChatPane.add(newTabButton);
@@ -127,6 +141,7 @@ public class GuiChatView extends GuiView {
                 server.append(String.format("%s %s : %s\r\n",
                         ViewEngine.SDF.format(chatMsg.getDate()),
                         chatMsg.getSenderNick(), chatMsg.getText()));
+                this.selectLastMessageTab(server);
                 break;
 
             case PARTY:
@@ -134,10 +149,12 @@ public class GuiChatView extends GuiView {
                     match.append(String.format("%s  %s\r\n",
                             ViewEngine.SDF.format(chatMsg.getDate()),
                             chatMsg.getText()));
+                    this.selectLastMessageTab(match);
                 } else {
                     party.append(String.format("%s %s : %s\r\n",
                             ViewEngine.SDF.format(chatMsg.getDate()),
                             chatMsg.getSenderNick(), chatMsg.getText()));
+                    this.selectLastMessageTab(party);
                 }
                 break;
 
@@ -146,16 +163,20 @@ public class GuiChatView extends GuiView {
                     match.append(String.format("%s  %s\r\n",
                             ViewEngine.SDF.format(chatMsg.getDate()),
                             chatMsg.getText()));
+                    this.selectLastMessageTab(match);
                     break;
                 }
+                if (chatMsg.getSenderNick().equals(GuiEngine.getMyNickName()))
+                    break;
                 if (!privates.containsKey(chatMsg.getSenderNick())) {
                     privates.put(chatMsg.getSenderNick(),
                             this.insertTab(chatMsg.getSenderNick()));
                 }
-                privates.get(chatMsg.getSenderNick()).append(
-                        String.format("%s %s : %s\r\n",
-                                ViewEngine.SDF.format(chatMsg.getDate()),
-                                chatMsg.getSenderNick(), chatMsg.getText()));
+                JTextArea privateArea = privates.get(chatMsg.getSenderNick());
+                privateArea.append(String.format("%s %s : %s\r\n",
+                        ViewEngine.SDF.format(chatMsg.getDate()),
+                        chatMsg.getSenderNick(), chatMsg.getText()));
+                this.selectLastMessageTab(privateArea);
                 break;
         }
     }
@@ -189,5 +210,10 @@ public class GuiChatView extends GuiView {
             JRootPane rootPane = SwingUtilities.getRootPane(btnSendchat);
             rootPane.setDefaultButton(btnSendchat);
         }
+    }
+
+    private void selectLastMessageTab(JComponent tabContent) {
+        // this.chatTabs.setSelectedIndex(this.chatTabs
+        // .indexOfComponent(tabContent.getParent()));
     }
 }

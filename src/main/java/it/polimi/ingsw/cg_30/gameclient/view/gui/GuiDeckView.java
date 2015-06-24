@@ -22,6 +22,7 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 public class GuiDeckView extends GuiView {
 
@@ -101,10 +102,17 @@ public class GuiDeckView extends GuiView {
                 public void mouseClicked(MouseEvent e) {
                     super.mouseClicked(e);
                     if (GameClient.getActiveEngine() instanceof GuiEngine) {
-                        JEftaiosCard sender = (JEftaiosCard) e.getSource();
-                        GuiEngine activeEngine = (GuiEngine) GameClient
-                                .getActiveEngine();
-                        activeEngine.cardProcessor(sender.getItemType());
+                        final JEftaiosCard sender = (JEftaiosCard) e
+                                .getSource();
+                        SwingUtilities.invokeLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                GuiEngine activeEngine = (GuiEngine) GameClient
+                                        .getActiveEngine();
+                                activeEngine.cardProcessor(sender.getItemType());
+                            }
+                        });
+
                     }
                 }
             });
