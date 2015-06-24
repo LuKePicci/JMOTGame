@@ -4,16 +4,26 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.TurnViewModel;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewModel;
 import it.polimi.ingsw.cg_30.gameclient.view.View;
 
+/**
+ * The Class CliTurnView.
+ */
 public class CliTurnView extends View {
 
+    /**
+     * Updates the CLI using information from model.
+     *
+     * @param model
+     *            the model
+     */
     @Override
     public void applyUpdate(ViewModel model) {
         TurnViewModel viewModel = (TurnViewModel) model;
         String situation = "\r\n";
 
         // must move & turn number
-        situation += viewModel.mustMove() ? " - Turn number: "
-                + viewModel.getTurnCount() + "\r\n - You can cross "
+        situation += (viewModel.mustMove() && !viewModel.isSecDangerous()) ? " - Turn number: "
+                + viewModel.getTurnCount()
+                + "\r\n - You can cross "
                 + viewModel.getMaxSteps() + " sector.\r\n"
                 // can attack
                 : (viewModel.canAttack() ? " - You can attack if you want, but remember:\r\n   if you are on a dangerous sector, you must attack or draw a card before turnover."

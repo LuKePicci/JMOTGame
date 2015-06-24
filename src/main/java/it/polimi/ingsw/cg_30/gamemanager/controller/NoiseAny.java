@@ -34,5 +34,6 @@ public class NoiseAny extends ActionController {
         // after using it, the card have to be removed, so UseCard and TurnOver
         // will be unlocked
         this.matchController.getTurnController().getTurn().setDrawnCard(null);
+        this.matchController.sendTurnViewModel();
     }
 }

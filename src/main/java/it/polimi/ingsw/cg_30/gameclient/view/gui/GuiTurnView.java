@@ -166,10 +166,9 @@ public class GuiTurnView extends GuiView {
         GuiEngine.setNoise(turn.getDrawnCard() != null);
         GuiEngine.setMove(turn.mustMove());
         this.drawButton.setEnabled(turn.isSecDangerous()
+                && !turn.mustMove()
                 && PlayerRace.ALIEN.equals(turn.getCurrentPlayerIdentity()
                         .getRace()));
-
-        // hardcoded, will be dynamicized in the future
-        this.turnoverButton.setEnabled(true);
+        this.turnoverButton.setEnabled(turn.canTurnOver());
     }
 }

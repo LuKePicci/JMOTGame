@@ -6,8 +6,17 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.ItemCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewModel;
 import it.polimi.ingsw.cg_30.gameclient.view.View;
 
+/**
+ * The Class CliDeckView.
+ */
 public class CliDeckView extends View {
 
+    /**
+     * Updates the CLI using information from model.
+     *
+     * @param model
+     *            the model
+     */
     @Override
     public synchronized void applyUpdate(ViewModel model) {
         @SuppressWarnings("unchecked")
@@ -43,6 +52,12 @@ public class CliDeckView extends View {
             CliEngine.printLineToCli("\r\nYou have no item cards.");
     }
 
+    /**
+     * Prints the item card name.
+     *
+     * @param card
+     *            the item card
+     */
     private void printCardName(Card card) {
         ItemCard icard = (ItemCard) card;
         switch (icard.getItem()) {

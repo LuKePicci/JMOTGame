@@ -332,6 +332,10 @@ public class TurnControllerTest {
             protected void updateDeckView(Player player) {
             }
 
+            @Override
+            protected void sendTurnViewModel() {
+            }
+
         };
         PlayerCard alien = new PlayerCard(PlayerRace.ALIEN, null);
         PlayerCard human = new PlayerCard(PlayerRace.HUMAN, null);

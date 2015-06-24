@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg_30.gamemanager.controller;
 
+import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerRace;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorEvent;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorType;
@@ -55,7 +56,6 @@ public class DrawCard extends ActionController {
             // access it in noiseAny action too.
             this.matchController.getTurnController().getTurn()
                     .setDrawnCard(drawnCard);
-            this.matchController.sendTurnViewModel();
             try {
                 this.notifyCurrentPlayerByServer("Choose where to make the noise.");
             } catch (DisconnectedException e) {
@@ -63,6 +63,11 @@ public class DrawCard extends ActionController {
                 // make a noise thanks to drawnCard not being null in turn view
                 // model.
             }
+        }
+        if (PlayerRace.ALIEN.equals(this.player.getIdentity().getRace())) {
+            this.matchController.sendTurnViewModel();
+            // the human player will be updated by the sendTurnViewModel in
+            // Move.
         }
     }
 }

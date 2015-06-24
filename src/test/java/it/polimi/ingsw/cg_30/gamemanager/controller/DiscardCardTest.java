@@ -141,6 +141,11 @@ public class DiscardCardTest {
             @Override
             protected void updateDeckView(Player player) {
             }
+
+            @Override
+            protected void sendTurnViewModel() {
+            }
+
         };
 
         PlayerCard human = new PlayerCard(PlayerRace.HUMAN, null);

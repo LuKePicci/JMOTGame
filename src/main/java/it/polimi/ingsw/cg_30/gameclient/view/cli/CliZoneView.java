@@ -5,7 +5,17 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewModel;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ZoneViewModel;
 import it.polimi.ingsw.cg_30.gameclient.view.View;
 
+/**
+ * The Class CliZoneView.
+ */
 public class CliZoneView extends View {
+
+    /**
+     * Updates the CLI using information from model.
+     *
+     * @param model
+     *            the model
+     */
     @Override
     public synchronized void applyUpdate(ViewModel model) {
         ZoneViewModel viewModel = (ZoneViewModel) model;
@@ -16,9 +26,16 @@ public class CliZoneView extends View {
         CliEngine.printLineToCli(textZone);
     }
 
+    /**
+     * Gets the sector coordinates and type.
+     *
+     * @param sec
+     *            the sector
+     * @return the sector coordinates and type
+     */
     private String getSectorRep(Sector sec) {
         String rep = getCharFromNumber(sec.getPoint().getOffsetX() + 1)
-                + String.format("%02d", (sec.getPoint().getOffsetY() + 1));
+                + String.format("%02d", sec.getPoint().getOffsetY() + 1);
         switch (sec.getType()) {
             case DANGEROUS:
                 rep += " dangerous";
@@ -38,8 +55,10 @@ public class CliZoneView extends View {
             case EMPTY:
                 rep += " empty";
                 break;
+            default:
+                rep += " error";
         }
-
         return rep + "\r\n";
     }
+
 }

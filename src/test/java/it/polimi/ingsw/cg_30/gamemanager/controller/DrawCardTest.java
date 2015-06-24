@@ -289,4 +289,5 @@ public class DrawCardTest {
         }
         assertTrue(player1.getItemsDeck().getCards().size() == 4);
     }
+
 }

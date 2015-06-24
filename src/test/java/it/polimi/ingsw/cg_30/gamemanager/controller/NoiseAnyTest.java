@@ -145,6 +145,11 @@ public class NoiseAnyTest {
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
             }
+
+            @Override
+            protected void sendTurnViewModel() {
+            }
+
         };
 
         PlayerCard human = new PlayerCard(PlayerRace.HUMAN, null);

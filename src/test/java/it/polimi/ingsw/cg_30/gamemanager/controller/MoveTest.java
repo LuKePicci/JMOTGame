@@ -84,7 +84,7 @@ public class MoveTest {
         players.add(player1);
         Turn turn = new Turn(player1, matchController.getMatch().getTurnCount());
         matchController.getTurnController().setTurn(turn);
-        matchController.getTurnController().getTurn().setMustMove();
+        matchController.getTurnController().getTurn().setMustMove(false);
         HexPoint point = HexPoint.fromOffset(11, 4);
         ActionRequest action = new ActionRequest(ActionType.MOVE, point, null);
         // eseguo l'azione

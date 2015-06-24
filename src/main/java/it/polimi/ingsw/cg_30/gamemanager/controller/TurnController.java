@@ -25,8 +25,10 @@ public class TurnController {
     /** The turn. */
     protected Turn turn;
 
+    /** The turn timeout. */
     private Timer turnTimeout;
 
+    /** The current match. */
     private final MatchController currentMatch;
 
     /** The max turn number. */
@@ -41,6 +43,12 @@ public class TurnController {
      */
     protected DiscardCard forcedDiscard = new DiscardCard();
 
+    /**
+     * Instantiates a new turn controller.
+     *
+     * @param match
+     *            the match controller
+     */
     public TurnController(MatchController match) {
         this.currentMatch = match;
     }
@@ -60,7 +68,7 @@ public class TurnController {
      * @param turn
      *            the new turn
      */
-    public void setTurn(Turn turn) {
+    protected void setTurn(Turn turn) {
         this.turn = turn;
     }
 
@@ -89,10 +97,7 @@ public class TurnController {
     }
 
     /**
-     * Assigns the turn to the next player.
-     *
-     * @param matchController
-     *            the match controller
+     * Assigns the turn to the next online player.
      */
     public synchronized void nextTurn() {
         this.stopTimeoutTimer();
@@ -123,7 +128,7 @@ public class TurnController {
                         && !this.currentMatch.getMatch().getRescuedPlayer()
                                 .contains(nextPlayer)) {
                     // it's nextPlayer's turn
-                    this.currentMatch.checkEndGame();
+                    this.endingTurn(nextPlayer);
                     this.turn = new Turn(nextPlayer, this.currentMatch
                             .getMatch().getTurnCount());
                     this.notify(nextPlayer);
@@ -138,9 +143,6 @@ public class TurnController {
      * Checks if a player is ending his turn without having solved the
      * obligation of discarding a card. In case of positive answer, the method
      * discards a card before ending the player's turn.
-     *
-     * @param matchController
-     *            the match controller
      */
     private void checkLegality() {
         if (this.currentMatch.getTurnController().getTurn().getMustDiscard()) {
@@ -158,9 +160,7 @@ public class TurnController {
      * Checks if the player is offline.
      *
      * @param player
-     *            the player
-     * @param matchController
-     *            the match controller
+     *            the player to check
      * @return true, if the player is offline
      */
     protected boolean isPlayerOffline(Player player) {
@@ -175,9 +175,7 @@ public class TurnController {
      * Notify the new turn to all players.
      *
      * @param nextPlayer
-     *            the next player
-     * @param matchController
-     *            the match controller
+     *            the new current player
      */
     protected void notify(Player nextPlayer) {
         this.currentMatch.getPartyController()
@@ -199,6 +197,9 @@ public class TurnController {
         }
     }
 
+    /**
+     * Starts timeout timer.
+     */
     private void startTimeoutTimer() {
         this.turnTimeout = new Timer();
         final TurnController context = this;
@@ -212,10 +213,33 @@ public class TurnController {
     }
 
     /**
-     * Stop timeout timer.
+     * Stops timeout timer.
      */
     public void stopTimeoutTimer() {
         if (this.turnTimeout != null)
             this.turnTimeout.cancel();
     }
+
+    /**
+     * Sends to all party player a turn model which deactivates the turnOver
+     * button for the currentPlayer and update the name of the currentPlayer
+     * using nextPlayer's name; this method avoids to send nextPlayer's
+     * identity.
+     *
+     * @param nextPlayer
+     *            the next player
+     */
+    private void endingTurn(Player nextPlayer) {
+        // in case of ending the turn on a secure sector without having attacked
+        this.turn.setCanAttack(false);
+        // done in order to deactivate the turnOver button
+        this.turn.setMustMove(true);
+        this.turn.setIsSecDangerous(true);
+        // be sure not to tell anyone about nextPlayer's identity
+        Player fakeNextPlayer = new Player(nextPlayer.getName(),
+                nextPlayer.getIndex());
+        this.turn.setPlayer(fakeNextPlayer);
+        this.currentMatch.sendTurnViewModelToParty();
+    }
+
 }
