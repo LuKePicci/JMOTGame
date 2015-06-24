@@ -66,8 +66,10 @@ public class Attack extends ActionController {
             try {
                 this.notifyCurrentPlayerByServer("FROM NOW YOU CAN CROSS 3 SECTORS DURING YOUR MOVEMENT");
             } catch (DisconnectedException e) {
-                // the player won't receive this message, but it's not
-                // fundamental so we can continue
+                LoggerMethods
+                        .disconnectedException(
+                                e,
+                                "the player won't receive this message, but it's not fundamental so we can continue");
             }
         }
         // can't attack twice

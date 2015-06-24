@@ -30,10 +30,9 @@ public class TemplateZoneFactory extends ZoneFactory {
         try {
             JAXBContext context = JAXBContext.newInstance(Zone.class);
             Unmarshaller un = context.createUnmarshaller();
-            Zone obj = (Zone) un.unmarshal(xmlFile);
-            return obj;
+            return (Zone) un.unmarshal(xmlFile);
         } catch (JAXBException e) {
-            e.printStackTrace();
+            LoggerMethods.jAXBException(e);
         }
         return null;
     }

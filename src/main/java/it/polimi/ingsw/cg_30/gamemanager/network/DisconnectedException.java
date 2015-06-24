@@ -6,7 +6,7 @@ public class DisconnectedException extends Exception {
 
     private static final long serialVersionUID = -9024498887687827416L;
 
-    private Date eventDate;
+    private final Date eventDate;
 
     public DisconnectedException(Date d) {
         this.eventDate = d;

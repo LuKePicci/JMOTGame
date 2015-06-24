@@ -17,6 +17,9 @@ import javax.swing.JLabel;
 
 public class SectorFactory {
 
+    private SectorFactory() {
+    }
+
     public static JSector createGridSector(HexPoint hp) {
         return createGridSector(hp, GameView.SECTOR_WIDTH);
     }

@@ -26,20 +26,20 @@ public class CliSectorView extends View {
 
             switch (viewModel.getHighlight()) {
                 case PLAYER_LOCATION:
-                    CliEngine.printLineToCli("\r\nYou are in " + sectorRep
-                            + ".");
+                    // the notification about the new location is already sent
+                    // in the chat.
                     break;
                 case HATCH_LOCKED:
-                    CliEngine.printLineToCli("\r\nHatch in " + sectorRep
+                    CliEngine.printLineToCli("%nHatch in " + sectorRep
                             + " is locked now.");
                     break;
                 case SPOTTED:
-                    CliEngine.printLineToCli("\r\nPlayer spotted in "
-                            + sectorRep + "!");
+                    CliEngine.printLineToCli("%nPlayer spotted in " + sectorRep
+                            + "!");
                     break;
                 default:
                     CliEngine
-                            .printLineToCli("\r\nWrong sector notification received ("
+                            .printLineToCli("%nWrong sector notification received ("
                                     + sectorRep + ").");
                     break;
             }

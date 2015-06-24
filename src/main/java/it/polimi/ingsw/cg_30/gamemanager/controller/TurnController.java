@@ -178,22 +178,19 @@ public class TurnController {
      *            the new current player
      */
     protected void notify(Player nextPlayer) {
-        this.currentMatch.getPartyController()
-                .sendMessageToParty(
-                        new ChatMessage(new ChatViewModel("It's "
-                                + nextPlayer.getName() + "'s turn.",
-                                this.currentMatch.serverWordText,
-                                ChatVisibility.PARTY)));
+        this.currentMatch.getPartyController().sendMessageToParty(
+                new ChatMessage(new ChatViewModel("It's "
+                        + nextPlayer.getName() + "'s turn.",
+                        MatchController.serverWordText, ChatVisibility.PARTY)));
         try {
             this.currentMatch.sendViewModelToAPlayer(nextPlayer,
                     this.currentMatch.getTurnController().getTurn()
                             .getViewModel());
         } catch (DisconnectedException e) {
-            // the player will receive the view of his turn when he will
-            // connect again thanks to modelSender(Player) (if it's
-            // still his turn)
-            // Otherwise, after a timeout the turn will be given to the
-            // next player
+            LoggerMethods
+                    .disconnectedException(
+                            e,
+                            "the player will receive the view of his turn when he will connect again thanks to modelSender(Player) (if it's still his turn)%nOtherwise, after a timeout the turn will be given to the next player");
         }
     }
 

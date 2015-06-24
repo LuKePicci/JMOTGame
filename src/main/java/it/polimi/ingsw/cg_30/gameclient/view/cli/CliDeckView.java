@@ -24,19 +24,19 @@ public class CliDeckView extends View {
         if (viewModel.getPlayerCards() != null) {
             switch (viewModel.getPlayerCards().size()) {
                 case 0:
-                    CliEngine.printLineToCli("\r\nYou have no item cards.");
+                    CliEngine.printLineToCli("%nYou have no item cards.");
                     break;
                 case 1:
-                    CliEngine.printLineToCli("\r\nYou have one item card: ");
+                    CliEngine.printLineToCli("%nYou have one item card: ");
                     break;
                 case 2:
-                    CliEngine.printLineToCli("\r\nYou have two item cards: ");
+                    CliEngine.printLineToCli("%nYou have two item cards: ");
                     break;
                 case 3:
-                    CliEngine.printLineToCli("\r\nYou have three item cards: ");
+                    CliEngine.printLineToCli("%nYou have three item cards: ");
                     break;
                 case 4:
-                    CliEngine.printLineToCli("\r\nYou have four item cards: ");
+                    CliEngine.printLineToCli("%nYou have four item cards: ");
                     break;
                 default:
                     // should never get here, but just in case...
@@ -49,7 +49,7 @@ public class CliDeckView extends View {
             }
 
         } else
-            CliEngine.printLineToCli("\r\nYou have no item cards.");
+            CliEngine.printLineToCli("%nYou have no item cards.");
     }
 
     /**

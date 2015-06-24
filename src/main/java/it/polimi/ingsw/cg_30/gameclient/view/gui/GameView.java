@@ -44,15 +44,6 @@ public class GameView {
     private final Map<ViewType, GuiView> subViews = new HashMap<ViewType, GuiView>();
 
     /**
-     * @throws UnsupportedLookAndFeelException
-     * @wbp.parser.entryPoint
-     */
-    public static void windowBuilder() throws UnsupportedLookAndFeelException {
-        UIManager.setLookAndFeel(new HiFiLookAndFeel());
-        new GameView().initialize();
-    }
-
-    /**
      * Create the game form.
      */
     public GameView() {
@@ -60,6 +51,15 @@ public class GameView {
         this.subViews.put(ViewType.CHAT, new GuiChatView());
         this.subViews.put(ViewType.DECK, new GuiDeckView());
         this.subViews.put(ViewType.TURN, new GuiTurnView());
+    }
+
+    /**
+     * @throws UnsupportedLookAndFeelException
+     * @wbp.parser.entryPoint
+     */
+    public static void windowBuilder() throws UnsupportedLookAndFeelException {
+        UIManager.setLookAndFeel(new HiFiLookAndFeel());
+        new GameView().initialize();
     }
 
     public Set<Entry<ViewType, GuiView>> getSubViews() {
@@ -71,7 +71,6 @@ public class GameView {
      */
     public void initialize() {
         mainFrame = new JFrame();
-        // mainFrame.setTitle("Escape From The Aliens Into Outer Space - EFTAIOS");
         mainFrame.setIconImage(GuiEngine.loadImage("custom_icon.png"));
         Point center = GraphicsEnvironment.getLocalGraphicsEnvironment()
                 .getCenterPoint();

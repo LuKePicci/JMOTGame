@@ -64,8 +64,10 @@ public class DiscardCard extends ActionController {
         try {
             this.matchController.updateDeckView(player);
         } catch (DisconnectedException e) {
-            // player's deck will be updated as soon as the player comes back
-            // thanks to modelSender(Player returningPlayer) in MatchController
+            LoggerMethods
+                    .disconnectedException(
+                            e,
+                            "player's deck will be updated as soon as the player comes back thanks to modelSender(Player returningPlayer) in MatchController");
         }
         this.matchController.sendTurnViewModel();
         this.matchController.updatePartyToAllPlayers();

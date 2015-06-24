@@ -49,7 +49,7 @@ public class MatchController {
     protected Match match;
 
     /** The server word text. */
-    protected String serverWordText = "Server";
+    protected static String serverWordText = "Server";
 
     /**
      * The sector where a player is moved after he had escaped or had been
@@ -89,14 +89,16 @@ public class MatchController {
                         .getCurrentZone().getCell(player),
                         SectorHighlight.PLAYER_LOCATION);
             } catch (DisconnectedException e) {
-                // This player will not be able to play until he reconnects.
+                LoggerMethods
+                        .disconnectedException(e,
+                                "This player will not be able to play until he reconnects");
             }
         }
 
         // chat
         this.partyController.sendMessageToParty(new ChatMessage(
-                new ChatViewModel("Game started", serverWordText,
-                        ChatVisibility.PARTY)));
+                new ChatViewModel("Game started",
+                        MatchController.serverWordText, ChatVisibility.PARTY)));
     }
 
     /**
@@ -252,8 +254,9 @@ public class MatchController {
                     try {
                         updateDeckView(killedPlayer);
                     } catch (DisconnectedException e) {
-                        // do not push this model, will be retrieved manually on
-                        // reconnect
+                        LoggerMethods
+                                .disconnectedException(e,
+                                        "Do not push this model, will be retrieved manually on reconnect.");
                     }
                     this.turnController.getTurn().changeHumanKilled(-1);
                     this.turnController.getTurn().getCurrentPlayer()
@@ -282,7 +285,9 @@ public class MatchController {
         try {
             this.updateDeckView(killedPlayer);
         } catch (DisconnectedException e) {
-            // do not push this model, will be retrieved manually on reconnect
+            LoggerMethods
+                    .disconnectedException(e,
+                            "do not push this model, will be retrieved manually on reconnect");
         }
         // killedPlayer has to disappear from the map
         this.zoneController.getCurrentZone().movePlayer(killedPlayer,
@@ -292,7 +297,9 @@ public class MatchController {
                     .getCurrentZone().getCell(killedPlayer),
                     SectorHighlight.PLAYER_LOCATION);
         } catch (DisconnectedException e) {
-            // do not push this model, will be retrieved manually on reconnect
+            LoggerMethods
+                    .disconnectedException(e,
+                            "do not push this model, will be retrieved manually on reconnect");
         }
         // note: incrementKillCount has already been done in Attack
     }
@@ -465,11 +472,9 @@ public class MatchController {
             else
                 this.notifyAPlayerAbout(turnController.getTurn()
                         .getCurrentPlayer(), "Sorry, you can't do this.");
-
         } catch (InstantiationException | IllegalAccessException e) {
-            // TODO Log this exception
-            System.out
-                    .println("Failed to instanciate a controller for requested action.");
+            LoggerMethods.reflectiveOperationException(e,
+                    "Failed to instanciate a controller for requested action");
         }
     }
 
@@ -488,9 +493,13 @@ public class MatchController {
                     this.partyController.getCurrentParty()
                             .getPlayerUUID(player)).dispatchOutgoing(
                     new ChatMessage(new ChatViewModel(about,
-                            this.serverWordText, ChatVisibility.PLAYER)));
+                            MatchController.serverWordText,
+                            ChatVisibility.PLAYER)));
         } catch (DisconnectedException e) {
-            // Should enqueue this notification for later dispatch
+            LoggerMethods
+                    .disconnectedException(
+                            e,
+                            "if it is important the player will be updated as soon as he comes back online thanks to modelSender method");
         }
     }
 
@@ -506,7 +515,7 @@ public class MatchController {
     protected void notifyPartyByPlayer(Player player, String what) {
         this.partyController.sendMessageToParty(new ChatMessage(
                 new ChatViewModel(player.getName() + ": " + what,
-                        this.serverWordText, ChatVisibility.PARTY)));
+                        MatchController.serverWordText, ChatVisibility.PARTY)));
     }
 
     /**
@@ -606,8 +615,9 @@ public class MatchController {
                     .getCurrentPlayer(), turnController.getTurn()
                     .getViewModel());
         } catch (DisconnectedException e) {
-            // the player will receive the updated turn view when he comes back
-            // online
+            LoggerMethods
+                    .disconnectedException(e,
+                            "the player will receive the updated turn view when he comes back online");
         }
     }
 

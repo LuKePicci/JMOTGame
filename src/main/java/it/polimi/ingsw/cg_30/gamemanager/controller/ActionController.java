@@ -128,12 +128,17 @@ public abstract class ActionController {
                 icard = this.matchController.getMatch().getItemsDeck()
                         .pickCard();
             } catch (EmptyStackException e) {
+                LoggerMethods
+                        .emptyStackException(e,
+                                "the stack of item card is empty; but it is not a problem");
                 // informs the player that there are not item card available
                 try {
                     this.notifyCurrentPlayerByServer("No more cards in the item deck.");
                 } catch (DisconnectedException e1) {
-                    // no problem: the player will notice this because he
-                    // doesn't have any new item card.
+                    LoggerMethods
+                            .disconnectedException(
+                                    e1,
+                                    "no problem: the player will notice this because he doesn't have any new item card");
                 }
                 return;
             }
@@ -145,11 +150,10 @@ public abstract class ActionController {
                 this.showCardToCurrentPlayer(icard);
                 this.matchController.updateDeckView(player);
             } catch (DisconnectedException e1) {
-                // no problem: the player will discover his new card as soon as
-                // he comes back; his deck will be update as soon as he comes
-                // back
-                // thanks to modelSender(Player returningPlayer) in
-                // MatchController
+                LoggerMethods
+                        .disconnectedException(
+                                e1,
+                                "no problem: the player will discover his new card as soon as he comes back; his deck will be update as soon as he comes back thanks to modelSender(Player returningPlayer) in MatchController");
             }
             // the other players are informed that an item card has been drawn.
             this.notifyOtherPlayers(this.matchController.getTurnController()
@@ -163,9 +167,10 @@ public abstract class ActionController {
                 try {
                     this.notifyCurrentPlayerByServer("You must use or discard at least one card in this turn.");
                 } catch (DisconnectedException e) {
-                    // the player won't be able to end his turn until he
-                    // discards a card, if he won't figure it out the game will
-                    // automatically discard a card
+                    LoggerMethods
+                            .disconnectedException(
+                                    e,
+                                    "the player won't be able to end his turn until he discards a card, if he won't figure it out the game will automatically discard a card");
                 }
                 this.matchController.sendTurnViewModel();
             }
@@ -186,7 +191,7 @@ public abstract class ActionController {
                 new ChatMessage(new ChatViewModel(this.matchController
                         .getTurnController().getTurn().getCurrentPlayer()
                         .getName()
-                        + ": " + what, this.matchController.serverWordText,
+                        + ": " + what, MatchController.serverWordText,
                         ChatVisibility.PARTY)));
     }
 
@@ -199,8 +204,7 @@ public abstract class ActionController {
     protected void notifyInChatByServer(String what) {
         this.matchController.getPartyController().sendMessageToParty(
                 new ChatMessage(new ChatViewModel(what,
-                        this.matchController.serverWordText,
-                        ChatVisibility.PARTY)));
+                        MatchController.serverWordText, ChatVisibility.PARTY)));
     }
 
     /**
@@ -216,10 +220,11 @@ public abstract class ActionController {
             throws DisconnectedException {
         MessageController.getPlayerHandler(
                 this.matchController.getPartyController().getCurrentParty()
-                        .getPlayerUUID(player)).dispatchOutgoing(
-                new ChatMessage(new ChatViewModel(what,
-                        this.matchController.serverWordText,
-                        ChatVisibility.PLAYER)));
+                        .getPlayerUUID(player))
+                .dispatchOutgoing(
+                        new ChatMessage(new ChatViewModel(what,
+                                MatchController.serverWordText,
+                                ChatVisibility.PLAYER)));
     }
 
     /**
@@ -270,9 +275,10 @@ public abstract class ActionController {
                 this.matchController.sendViewModelToAPlayer(playerToNotify,
                         viewModel);
             } catch (DisconnectedException e) {
-                // the players who will not receive this update will be updated
-                // as soon as the reconnect using modelSender(Player
-                // returningPlayer) in MatchController
+                LoggerMethods
+                        .disconnectedException(
+                                e,
+                                "the players who will not receive this update will be updated as soon as they reconnect using modelSender(Player returningPlayer) in MatchController");
             }
         }
     }

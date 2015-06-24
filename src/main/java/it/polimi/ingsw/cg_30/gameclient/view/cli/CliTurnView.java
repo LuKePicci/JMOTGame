@@ -18,23 +18,23 @@ public class CliTurnView extends View {
     @Override
     public void applyUpdate(ViewModel model) {
         TurnViewModel viewModel = (TurnViewModel) model;
-        String situation = "\r\n";
+        String situation = "%n";
 
         // must move & turn number
         situation += (viewModel.mustMove() && !viewModel.isSecDangerous()) ? " - Turn number: "
                 + viewModel.getTurnCount()
-                + "\r\n - You can cross "
-                + viewModel.getMaxSteps() + " sector.\r\n"
+                + "%n - You can cross "
+                + viewModel.getMaxSteps() + " sector.%n"
                 // can attack
-                : (viewModel.canAttack() ? " - You can attack if you want, but remember:\r\n   if you are on a dangerous sector, you must attack or draw a card before turnover."
+                : (viewModel.canAttack() ? " - You can attack if you want, but remember:%n   if you are on a dangerous sector, you must attack or draw a card before turnover."
                         : "");
 
         // must discard
-        situation += viewModel.mustDiscard() ? " - You must discard (or use) at least one Item Card before ending your turn.\r\n"
+        situation += viewModel.mustDiscard() ? " - You must discard (or use) at least one Item Card before ending your turn.%n"
                 : "";
 
         // silenced forced
-        situation += viewModel.isSilenceForced() ? " - You won't draw a Sector Card if your movement ends on a dangerous sector.\r\n"
+        situation += viewModel.isSilenceForced() ? " - You won't draw a Sector Card if your movement ends on a dangerous sector.%n"
                 : "";
 
         // drawn card

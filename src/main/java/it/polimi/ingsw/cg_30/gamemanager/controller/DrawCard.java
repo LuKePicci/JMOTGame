@@ -39,9 +39,10 @@ public class DrawCard extends ActionController {
         try {
             this.showCardToCurrentPlayer(drawnCard);
         } catch (DisconnectedException e) {
-            // when the player is back he will be informed if he has to
-            // make a noise thanks to drawnCard not being null in turn view
-            // model.
+            LoggerMethods
+                    .disconnectedException(
+                            e,
+                            "when the player is back he will be informed if he has to make a noise thanks to drawnCard not being null in turn view model");
         }
         if (SectorEvent.SILENCE.equals(drawnCard.getEvent())) {
             this.notifyInChatByCurrentPlayer("SILENCE");
@@ -59,9 +60,10 @@ public class DrawCard extends ActionController {
             try {
                 this.notifyCurrentPlayerByServer("Choose where to make the noise.");
             } catch (DisconnectedException e) {
-                // when the player is back he will be informed that he has to
-                // make a noise thanks to drawnCard not being null in turn view
-                // model.
+                LoggerMethods
+                        .disconnectedException(
+                                e,
+                                "when the player is back he will be informed that he has to make a noise thanks to drawnCard not being null in turn view model");
             }
         }
         if (PlayerRace.ALIEN.equals(this.player.getIdentity().getRace())) {

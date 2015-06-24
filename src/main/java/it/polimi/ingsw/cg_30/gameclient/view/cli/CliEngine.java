@@ -7,6 +7,7 @@ import it.polimi.ingsw.cg_30.gameclient.GameClient;
 import it.polimi.ingsw.cg_30.gameclient.network.ClientMessenger;
 import it.polimi.ingsw.cg_30.gameclient.view.RequestComposer;
 import it.polimi.ingsw.cg_30.gameclient.view.ViewEngine;
+import it.polimi.ingsw.cg_30.gamemanager.controller.LoggerMethods;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -59,9 +60,6 @@ public class CliEngine extends ViewEngine {
                 request = new ActionCommand(ActionCommand.typeOf(command))
                         .makeRequest(stkn);
 
-                // this.printLineToCli("I'll be happy to do it in a few days...");
-                // this.printLineToCli("");
-                // return;
             } else {
                 switch (command) {
 
@@ -80,6 +78,7 @@ public class CliEngine extends ViewEngine {
             }
             ClientMessenger.getCurrentMessenger().executeRequestTask(request);
         } catch (InvalidParameterException pex) {
+            LoggerMethods.invalidParameterException(pex, "");
             return;
         }
 
@@ -126,6 +125,7 @@ public class CliEngine extends ViewEngine {
                     continue;
                 }
             } catch (NumberFormatException | URISyntaxException e) {
+                LoggerMethods.exception(e, "malformed server address");
                 this.showError("malformed server address");
                 continue;
             }
@@ -134,6 +134,7 @@ public class CliEngine extends ViewEngine {
                 ClientMessenger.connectToServer(serverURI);
                 validCommand = true;
             } catch (Exception ex) {
+                LoggerMethods.exception(ex, "cannot connect");
                 this.showError("cannot connect");
             }
         }

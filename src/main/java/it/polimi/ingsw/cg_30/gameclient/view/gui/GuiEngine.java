@@ -8,6 +8,7 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewType;
 import it.polimi.ingsw.cg_30.gameclient.network.ClientMessenger;
 import it.polimi.ingsw.cg_30.gameclient.view.RequestComposer;
 import it.polimi.ingsw.cg_30.gameclient.view.ViewEngine;
+import it.polimi.ingsw.cg_30.gamemanager.controller.LoggerMethods;
 
 import java.awt.Dimension;
 import java.awt.Font;
@@ -98,7 +99,7 @@ public class GuiEngine extends ViewEngine {
                             GameView.class.getResourceAsStream("/" + fontName
                                     + ".ttf"));
         } catch (Exception ioEx) {
-            ioEx.printStackTrace();
+            LoggerMethods.exception(ioEx, "");
             return new Font("Calibri", 0, 18);
         }
     }
@@ -108,6 +109,7 @@ public class GuiEngine extends ViewEngine {
             return ImageIO.read(GameView.class.getResourceAsStream("/"
                     + imageName));
         } catch (Exception ioEx) {
+            LoggerMethods.exception(ioEx, "");
             return null;
         }
     }
@@ -139,7 +141,7 @@ public class GuiEngine extends ViewEngine {
                 HiFiLookAndFeel.setTheme("Small-Font");
             UIManager.setLookAndFeel(new HiFiLookAndFeel());
         } catch (Exception e) {
-            // use default lookAndFeel
+            LoggerMethods.exception(e, "use default lookAndFeel");
         }
     }
 
@@ -154,7 +156,7 @@ public class GuiEngine extends ViewEngine {
         }
 
         ActionRequest request;
-        if (discardCard == true) {
+        if (discardCard) {
             // discard the card
             request = composer.createActionRequest(ActionType.DISCARD_CARD,
                     null, icard);
@@ -170,17 +172,17 @@ public class GuiEngine extends ViewEngine {
 
     public void sectorProcessor(HexPoint hp) {
         ActionRequest request;
-        if (noise == true) {
+        if (noise) {
             // action noise
             request = composer.createActionRequest(ActionType.NOISE_ANY, hp,
                     null);
 
-        } else if (spolightCard == true) {
+        } else if (spolightCard) {
             // use spotlight
             request = composer.createActionRequest(ActionType.USE_ITEM, hp,
                     Item.SPOTLIGHT);
             spolightCard = false;
-        } else if (move == true) {
+        } else if (move) {
             // action move
             request = composer.createActionRequest(ActionType.MOVE, hp, null);
         } else

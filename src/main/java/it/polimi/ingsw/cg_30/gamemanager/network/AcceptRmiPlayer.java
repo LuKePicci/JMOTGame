@@ -3,6 +3,7 @@ package it.polimi.ingsw.cg_30.gamemanager.network;
 import it.polimi.ingsw.cg_30.exchange.messaging.Message;
 import it.polimi.ingsw.cg_30.exchange.network.IAcceptRmiPlayer;
 import it.polimi.ingsw.cg_30.exchange.network.IRmiClient;
+import it.polimi.ingsw.cg_30.gamemanager.controller.LoggerMethods;
 
 import java.rmi.RemoteException;
 import java.util.Date;
@@ -34,10 +35,7 @@ public class AcceptRmiPlayer extends AcceptPlayer implements IAcceptRmiPlayer {
             this.sndMessage = msg;
             this.rmiClient.toClient(this.sndMessage);
         } catch (RemoteException e) {
-            System.out.println(String.format(
-                    "%s : Message sending failure to %s", e.getMessage(),
-                    this.sessionId));
-
+            LoggerMethods.remoteException(e, "Message sending failure");
             throw new DisconnectedException(this.loseConnection());
         }
     }

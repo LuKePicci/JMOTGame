@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg_30.gamemanager.network;
 
 import it.polimi.ingsw.cg_30.exchange.messaging.Message;
+import it.polimi.ingsw.cg_30.gamemanager.controller.LoggerMethods;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -31,7 +32,7 @@ public class AcceptSocketPlayer extends AcceptPlayer implements Runnable {
         try {
             tempDin = new DataInputStream(soc.getInputStream());
         } catch (IOException e) {
-            e.printStackTrace();
+            LoggerMethods.iOException(e, "");
         } finally {
             this.din = tempDin;
         }
@@ -40,7 +41,7 @@ public class AcceptSocketPlayer extends AcceptPlayer implements Runnable {
         try {
             tempDout = new DataOutputStream(soc.getOutputStream());
         } catch (IOException e) {
-            e.printStackTrace();
+            LoggerMethods.iOException(e, "");
         } finally {
             this.dout = tempDout;
         }
@@ -52,10 +53,11 @@ public class AcceptSocketPlayer extends AcceptPlayer implements Runnable {
         try {
             dout.writeUTF(this.sessionId.toString());
         } catch (IOException e) {
+            LoggerMethods.iOException(e, "");
             try {
                 this.mySoc.close();
             } catch (IOException e1) {
-                e1.printStackTrace();
+                LoggerMethods.iOException(e1, "");
             }
         }
     }
@@ -75,8 +77,8 @@ public class AcceptSocketPlayer extends AcceptPlayer implements Runnable {
                 this.disconnect(e);
 
             } catch (Exception e) {
-                System.out
-                        .println("Failed to decode user message, see log for details.");
+                LoggerMethods.exception(e,
+                        "Failed to decode user message, see log for details.");
             }
         }
     }
@@ -120,7 +122,7 @@ public class AcceptSocketPlayer extends AcceptPlayer implements Runnable {
             System.out.println("Player socket " + this.mySoc.hashCode()
                     + " closed because of " + reason.toString());
         } catch (IOException e1) {
-            System.out.println("Socket " + this.mySoc.hashCode()
+            LoggerMethods.iOException(e1, "Socket " + this.mySoc.hashCode()
                     + " already closed");
         }
     }
