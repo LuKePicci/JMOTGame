@@ -5,8 +5,17 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerViewModel;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewModel;
 import it.polimi.ingsw.cg_30.gameclient.view.View;
 
+/**
+ * The Class CliPartyView.
+ */
 public class CliPartyView extends View {
 
+    /**
+     * Updates the CLI using information from model.
+     *
+     * @param model
+     *            the model
+     */
     @Override
     public synchronized void applyUpdate(ViewModel model) {
         PartyViewModel viewModel = (PartyViewModel) model;

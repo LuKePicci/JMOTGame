@@ -4,8 +4,17 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.TurnViewModel;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewModel;
 import it.polimi.ingsw.cg_30.gameclient.view.View;
 
+/**
+ * The Class CliTurnView.
+ */
 public class CliTurnView extends View {
 
+    /**
+     * Updates the CLI using information from model.
+     *
+     * @param model
+     *            the model
+     */
     @Override
     public void applyUpdate(ViewModel model) {
         TurnViewModel viewModel = (TurnViewModel) model;
