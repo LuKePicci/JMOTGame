@@ -98,6 +98,7 @@ public class GameView {
 
         bottomSplit
                 .setLeftComponent(subViews.get(ViewType.CHAT).getComponent());
+        subViews.get(ViewType.CHAT).registerDefaultButton();
 
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new BorderLayout(0, 0));

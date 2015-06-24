@@ -2,6 +2,8 @@ package it.polimi.ingsw.cg_30.gameclient.view.gui;
 
 import it.polimi.ingsw.cg_30.exchange.messaging.ActionRequest;
 import it.polimi.ingsw.cg_30.exchange.messaging.ActionType;
+import it.polimi.ingsw.cg_30.exchange.messaging.ChatRequest;
+import it.polimi.ingsw.cg_30.exchange.messaging.ChatVisibility;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.HexPoint;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Item;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewType;
@@ -30,7 +32,7 @@ public class GuiEngine extends ViewEngine {
     private static boolean discardCard = false;
 
     // it's unlikely to use a spotlight card, so by default this flag is false
-    private static boolean spolightCard = false;
+    private static boolean spotlightCard = false;
 
     // only when needed this flag will be turn to true, by default a player
     // selects a sector in order to move, not to make a noise.
@@ -92,11 +94,10 @@ public class GuiEngine extends ViewEngine {
 
     public static Font loadCustomFont(String fontName) {
         try {
-            return Font
-                    .createFont(
-                            Font.TRUETYPE_FONT,
-                            GameView.class.getResourceAsStream("/" + fontName
-                                    + ".ttf"));
+            return Font.createFont(
+                    Font.TRUETYPE_FONT,
+                    GameView.class.getResourceAsStream("/gameclient/"
+                            + fontName + ".ttf"));
         } catch (Exception ioEx) {
             ioEx.printStackTrace();
             return new Font("Calibri", 0, 18);
@@ -105,8 +106,8 @@ public class GuiEngine extends ViewEngine {
 
     public static Image loadImage(String imageName) {
         try {
-            return ImageIO.read(GameView.class.getResourceAsStream("/"
-                    + imageName));
+            return ImageIO.read(GameView.class
+                    .getResourceAsStream("/gameclient/" + imageName));
         } catch (Exception ioEx) {
             return null;
         }
@@ -144,14 +145,6 @@ public class GuiEngine extends ViewEngine {
     }
 
     public void cardProcessor(Item icard) {
-        if (Item.SPOTLIGHT.equals(icard)) {
-            spolightCard = true;
-            // wait for sector selection, than the action will be processed
-            // by sectorProcessor
-            JOptionPane.showMessageDialog(null,
-                    "Click on the sector where you'd like to make a noise.");
-            return;
-        }
 
         ActionRequest request;
         if (discardCard == true) {
@@ -160,6 +153,15 @@ public class GuiEngine extends ViewEngine {
                     null, icard);
 
         } else {
+            if (Item.SPOTLIGHT.equals(icard)) {
+                spotlightCard = true;
+                // wait for sector selection, than the action will be processed
+                // by sectorProcessor
+                JOptionPane.showMessageDialog(null,
+                        "Click on the sector around you'd like to spot");
+                return;
+            }
+
             // use the card
             request = composer.createActionRequest(ActionType.USE_ITEM, null,
                     icard);
@@ -170,17 +172,18 @@ public class GuiEngine extends ViewEngine {
 
     public void sectorProcessor(HexPoint hp) {
         ActionRequest request;
-        if (noise == true) {
+        if (noise) {
             // action noise
             request = composer.createActionRequest(ActionType.NOISE_ANY, hp,
                     null);
 
-        } else if (spolightCard == true) {
+        } else if (spotlightCard) {
             // use spotlight
             request = composer.createActionRequest(ActionType.USE_ITEM, hp,
                     Item.SPOTLIGHT);
-            spolightCard = false;
-        } else if (move == true) {
+            spotlightCard = false;
+
+        } else if (move) {
             // action move
             request = composer.createActionRequest(ActionType.MOVE, hp, null);
         } else
@@ -207,12 +210,35 @@ public class GuiEngine extends ViewEngine {
         ClientMessenger.getCurrentMessenger().executeRequestTask(request);
     }
 
+    public void chatProcessor(String tabTitle, String text) {
+        ChatRequest request;
+        switch (tabTitle.toLowerCase()) {
+            case "+":
+            case "match":
+                return;
+            case "public":
+                request = composer.createChatRequest(ChatVisibility.PUBLIC,
+                        text);
+                break;
+            case "party":
+                request = composer
+                        .createChatRequest(ChatVisibility.PARTY, text);
+                break;
+            default:
+                request = composer.createChatRequest(tabTitle, text);
+        }
+        ClientMessenger.getCurrentMessenger().executeRequestTask(request);
+    }
+
     public static void setDiscardCard(boolean value) {
         discardCard = value;
     }
 
     public static void setNoise(boolean value) {
         noise = value;
+        if (noise)
+            JOptionPane.showMessageDialog(null,
+                    "Click on the sector where you'd like to make a noise");
     }
 
     public static void setMove(boolean value) {

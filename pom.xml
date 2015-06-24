@@ -71,6 +71,7 @@
 			<plugin>
 				<groupId>org.sonatype.plugins</groupId>
 				<artifactId>jarjar-maven-plugin</artifactId>
+				<version>1.9</version>
 				<executions>
 					<execution>
 						<phase>package</phase>
@@ -129,6 +130,7 @@
 							<classifier>GameClient</classifier>
 							<excludes>
 								<exclude>**/it/polimi/ingsw/cg_30/gamemanager/**</exclude>
+								<exclude>**/gamemanager/**</exclude>
 							</excludes>
 							<finalname>EftaiosClient</finalname>
 							<archive>
@@ -155,6 +157,7 @@
 							<excludes>
 								<exclude>**/com/jtattoo/**</exclude>
 								<exclude>**/it/polimi/ingsw/cg_30/gameclient/**</exclude>
+								<exclude>**/gameclient/**</exclude>
 							</excludes>
 							<finalname>EftaiosServer</finalname>
 							<archive>

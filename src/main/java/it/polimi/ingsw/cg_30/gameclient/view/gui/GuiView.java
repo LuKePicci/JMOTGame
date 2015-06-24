@@ -9,4 +9,8 @@ public abstract class GuiView extends View {
     public abstract JComponent getComponent();
 
     protected abstract void createComponents();
+
+    public void registerDefaultButton() {
+        throw new UnsupportedOperationException();
+    }
 }

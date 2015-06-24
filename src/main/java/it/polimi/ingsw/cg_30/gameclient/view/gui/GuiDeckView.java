@@ -35,10 +35,12 @@ public class GuiDeckView extends GuiView {
             try {
                 CARD_FRONTS
                         .put(i,
-                                new ImageIcon(ImageIO.read(GuiDeckView.class
-                                        .getResourceAsStream("/item_"
-                                                + i.toString().toLowerCase()
-                                                + ".jpg"))));
+                                new ImageIcon(
+                                        ImageIO.read(GuiDeckView.class
+                                                .getResourceAsStream("/gameclient/item_"
+                                                        + i.toString()
+                                                                .toLowerCase()
+                                                        + ".jpg"))));
             } catch (IOException e) {
                 // no image found for item i
             }
