@@ -35,7 +35,7 @@ public class TurnOverTest {
                     throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
-                this.turnController = new TurnController();
+                this.turnController = new TurnController(this);
                 ZoneFactory zf = new TemplateZoneFactory(
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
@@ -72,7 +72,7 @@ public class TurnOverTest {
                     throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
-                this.turnController = new TurnController();
+                this.turnController = new TurnController(this);
                 ZoneFactory zf = new TemplateZoneFactory(
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
@@ -92,7 +92,7 @@ public class TurnOverTest {
         matchController.getTurnController().setTurn(turn);
         ActionRequest action = new ActionRequest(ActionType.TURN_OVER, null,
                 null);
-        matchController.getTurnController().getTurn().setMustMove();
+        matchController.getTurnController().getTurn().setMustMove(false);
         // eseguo l'azione
         TurnOver to = new TurnOver() {
             @Override
@@ -117,7 +117,7 @@ public class TurnOverTest {
                     throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
-                this.turnController = new TurnController();
+                this.turnController = new TurnController(this);
                 ZoneFactory zf = new TemplateZoneFactory(
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
@@ -137,7 +137,7 @@ public class TurnOverTest {
         matchController.getTurnController().setTurn(turn);
         ActionRequest action = new ActionRequest(ActionType.TURN_OVER, null,
                 null);
-        matchController.getTurnController().getTurn().setMustMove();
+        matchController.getTurnController().getTurn().setMustMove(false);
         matchController.getTurnController().getTurn().setCanAttack(false);
         // eseguo l'azione
         TurnOver to = new TurnOver();
@@ -156,7 +156,7 @@ public class TurnOverTest {
                     throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
-                this.turnController = new TurnController();
+                this.turnController = new TurnController(this);
                 ZoneFactory zf = new TemplateZoneFactory(
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
@@ -176,7 +176,7 @@ public class TurnOverTest {
         matchController.getTurnController().setTurn(turn);
         ActionRequest action = new ActionRequest(ActionType.TURN_OVER, null,
                 null);
-        matchController.getTurnController().getTurn().setMustMove();
+        matchController.getTurnController().getTurn().setMustMove(false);
         matchController.getTurnController().getTurn().setIsSecDangerous(true);
         // eseguo l'azione
         TurnOver to = new TurnOver();
@@ -195,7 +195,7 @@ public class TurnOverTest {
                     throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
-                this.turnController = new TurnController();
+                this.turnController = new TurnController(this);
                 ZoneFactory zf = new TemplateZoneFactory(
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
@@ -215,7 +215,7 @@ public class TurnOverTest {
         matchController.getTurnController().setTurn(turn);
         ActionRequest action = new ActionRequest(ActionType.TURN_OVER, null,
                 null);
-        matchController.getTurnController().getTurn().setMustMove();
+        matchController.getTurnController().getTurn().setMustMove(false);
         matchController.getTurnController().getTurn().setIsSecDangerous(false);
         SectorCard drawnCard = new SectorCard(SectorEvent.NOISE_ANY, false);
         matchController.getTurnController().getTurn().setDrawnCard(drawnCard);
@@ -236,7 +236,7 @@ public class TurnOverTest {
                     throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
-                this.turnController = new TurnController();
+                this.turnController = new TurnController(this);
                 ZoneFactory zf = new TemplateZoneFactory(
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
@@ -256,7 +256,7 @@ public class TurnOverTest {
         matchController.getTurnController().setTurn(turn);
         ActionRequest action = new ActionRequest(ActionType.TURN_OVER, null,
                 null);
-        matchController.getTurnController().getTurn().setMustMove();
+        matchController.getTurnController().getTurn().setMustMove(false);
         matchController.getTurnController().getTurn().setIsSecDangerous(false);
         matchController.getTurnController().getTurn().setDrawnCard(null);
         // eseguo l'azione
@@ -276,7 +276,7 @@ public class TurnOverTest {
                     throws FileNotFoundException, URISyntaxException {
                 this.partyController = partyController;
                 this.match = new Match();
-                this.turnController = new TurnController();
+                this.turnController = new TurnController(this);
                 ZoneFactory zf = new TemplateZoneFactory(
                         EftaiosGame.DEFAULT_MAP);
                 this.zoneController = new ZoneController(zf);
@@ -296,7 +296,7 @@ public class TurnOverTest {
         matchController.getTurnController().setTurn(turn);
         ActionRequest action = new ActionRequest(ActionType.TURN_OVER, null,
                 null);
-        matchController.getTurnController().getTurn().setMustMove();
+        matchController.getTurnController().getTurn().setMustMove(false);
         matchController.getTurnController().getTurn().setMustDiscard(true);
         // eseguo l'azione
         TurnOver to = new TurnOver();

@@ -14,6 +14,8 @@ import it.polimi.ingsw.cg_30.gamemanager.model.Turn;
 import it.polimi.ingsw.cg_30.gamemanager.network.DisconnectedException;
 
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * The Class TurnController.
@@ -23,14 +25,33 @@ public class TurnController {
     /** The turn. */
     protected Turn turn;
 
+    /** The turn timeout. */
+    private Timer turnTimeout;
+
+    /** The current match. */
+    private final MatchController currentMatch;
+
     /** The max turn number. */
     private static final int MAX_TURN = 39;
+
+    /** The maximum turn duration. */
+    private static final int MAX_TURN_DURATION = 75 * 1000;
 
     /**
      * Instance of discard card action needed if a player can't end his turn
      * properly.
      */
     protected DiscardCard forcedDiscard = new DiscardCard();
+
+    /**
+     * Instantiates a new turn controller.
+     *
+     * @param match
+     *            the match controller
+     */
+    public TurnController(MatchController match) {
+        this.currentMatch = match;
+    }
 
     /**
      * Gets the turn.
@@ -54,51 +75,46 @@ public class TurnController {
     /**
      * Prepares the first turn by assigning it to the player whose index is one,
      * or to the next online player in case player one is offline.
-     *
-     * @param matchController
-     *            the match controller
      */
-    public void firstTurn(MatchController matchController) {
+    public void firstTurn() {
         PlayerCard pcard = new PlayerCard(PlayerRace.ALIEN,
                 PlayerCharacter.THE_FIRST_ALIEN);
         Player player0 = new Player("player0", 0, pcard);
-        this.turn = new Turn(player0, matchController.getMatch().getTurnCount());
-        this.nextTurn(matchController);
+        this.turn = new Turn(player0, this.currentMatch.getMatch()
+                .getTurnCount());
+        this.nextTurn();
     }
 
     /**
      * Gets the players of this party.
      *
-     * @param matchController
-     *            the match controller
      * @return the players of the party
      */
-    public Set<Player> getPartyPlayers(MatchController matchController) {
+    public Set<Player> getPartyPlayers() {
         // take all party players passing through matchController
-        return matchController.getPartyController().getCurrentParty()
+        return this.currentMatch.getPartyController().getCurrentParty()
                 .getMembers().keySet();// set containing all party players
     }
 
     /**
-     * Assigns the turn to the next player.
-     *
-     * @param matchController
-     *            the match controller
+     * Assigns the turn to the next online player.
      */
-    public void nextTurn(MatchController matchController) {
+    public synchronized void nextTurn() {
+        this.stopTimeoutTimer();
+
         // in case a player has gone offline and the new turn is called due to a
         // timer expiration, I must guarantee the player doesn't end his turn
         // with more than three item card
-        this.checkLegality(matchController);
-        Set<Player> playerList = getPartyPlayers(matchController);
+        this.checkLegality();
+        Set<Player> playerList = getPartyPlayers();
         int playerNumber = playerList.size();
         int index = this.turn.getCurrentPlayer().getIndex();
         for (int i = 0; i < playerNumber; i++) {
             if (index == playerNumber) {
                 index = 1;
-                matchController.getMatch().incrementTurnCount();
-                if (matchController.getMatch().getTurnCount() == (MAX_TURN + 1)) {
-                    matchController.endingByTurnController();
+                this.currentMatch.getMatch().incrementTurnCount();
+                if (this.currentMatch.getMatch().getTurnCount() == (MAX_TURN + 1)) {
+                    this.currentMatch.endingByTurnController();
                     return;
                 }
             } else {
@@ -106,17 +122,16 @@ public class TurnController {
             }
             for (Player nextPlayer : playerList) {
                 if (nextPlayer.getIndex() == index
-                        && !this.checkIfPlayerIsOnline(nextPlayer,
-                                matchController)
-                        && !matchController.getMatch().getDeadPlayer()
+                        && !this.isPlayerOffline(nextPlayer)
+                        && !this.currentMatch.getMatch().getDeadPlayer()
                                 .contains(nextPlayer)
-                        && !matchController.getMatch().getRescuedPlayer()
+                        && !this.currentMatch.getMatch().getRescuedPlayer()
                                 .contains(nextPlayer)) {
                     // it's nextPlayer's turn
-                    matchController.checkEndGame();
-                    this.turn = new Turn(nextPlayer, matchController.getMatch()
-                            .getTurnCount());
-                    this.notify(nextPlayer, matchController);
+                    this.turn = new Turn(nextPlayer, this.currentMatch
+                            .getMatch().getTurnCount());
+                    this.notify(nextPlayer);
+                    this.startTimeoutTimer();
                     return;
                 }
             }
@@ -127,56 +142,51 @@ public class TurnController {
      * Checks if a player is ending his turn without having solved the
      * obligation of discarding a card. In case of positive answer, the method
      * discards a card before ending the player's turn.
-     *
-     * @param matchController
-     *            the match controller
      */
-    private void checkLegality(MatchController matchController) {
-        if (matchController.getTurnController().getTurn().getMustDiscard()) {
-            Object[] playerCards = matchController.getTurnController()
+    private void checkLegality() {
+        if (this.currentMatch.getTurnController().getTurn().getMustDiscard()) {
+            Object[] playerCards = this.currentMatch.getTurnController()
                     .getTurn().getCurrentPlayer().getItemsDeck().getCards()
                     .toArray();
             ActionRequest action = new ActionRequest(ActionType.DISCARD_CARD,
                     null, ((ItemCard) playerCards[3]).getItem());
-            forcedDiscard.initAction(matchController, action);
+            forcedDiscard.initAction(this.currentMatch, action);
             forcedDiscard.processAction();
         }
     }
 
     /**
-     * Checks if the player is online.
+     * Checks if the player is offline.
      *
      * @param player
-     *            the player
-     * @param matchController
-     *            the match controller
+     *            the player to check
      * @return true, if the player is offline
      */
-    protected boolean checkIfPlayerIsOnline(Player player,
-            MatchController matchController) {
+    protected boolean isPlayerOffline(Player player) {
         return MessageController
                 .getPlayerHandler(
-                        matchController.getPartyController().getCurrentParty()
-                                .getPlayerUUID(player)).getAcceptPlayer()
-                .connectionLost();
+                        this.currentMatch.getPartyController()
+                                .getCurrentParty().getPlayerUUID(player))
+                .getAcceptPlayer().connectionLost();
     }
 
     /**
      * Notify the new turn to all players.
      *
      * @param nextPlayer
-     *            the next player
-     * @param matchController
-     *            the match controller
+     *            the new current player
      */
-    protected void notify(Player nextPlayer, MatchController matchController) {
-        matchController.getPartyController().sendMessageToParty(
-                new ChatMessage(new ChatViewModel("It's "
-                        + nextPlayer.getName() + "'s turn.",
-                        matchController.serverWordText, ChatVisibility.PARTY)));
+    protected void notify(Player nextPlayer) {
+        this.currentMatch.getPartyController()
+                .sendMessageToParty(
+                        new ChatMessage(new ChatViewModel("It's "
+                                + nextPlayer.getName() + "'s turn.",
+                                this.currentMatch.serverWordText,
+                                ChatVisibility.PARTY)));
         try {
-            matchController.sendViewModelToAPlayer(nextPlayer, matchController
-                    .getTurnController().getTurn().getViewModel());
+            this.currentMatch.sendViewModelToAPlayer(nextPlayer,
+                    this.currentMatch.getTurnController().getTurn()
+                            .getViewModel());
         } catch (DisconnectedException e) {
             // the player will receive the view of his turn when he will
             // connect again thanks to modelSender(Player) (if it's
@@ -186,4 +196,26 @@ public class TurnController {
         }
     }
 
+    /**
+     * Starts timeout timer.
+     */
+    private void startTimeoutTimer() {
+        this.turnTimeout = new Timer();
+        final TurnController context = this;
+        TimerTask timeoutTask = new TimerTask() {
+            @Override
+            public void run() {
+                context.nextTurn();
+            }
+        };
+        this.turnTimeout.schedule(timeoutTask, MAX_TURN_DURATION);
+    }
+
+    /**
+     * Stops timeout timer.
+     */
+    public void stopTimeoutTimer() {
+        if (this.turnTimeout != null)
+            this.turnTimeout.cancel();
+    }
 }

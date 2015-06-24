@@ -67,6 +67,8 @@ public class DiscardCard extends ActionController {
             // player's deck will be updated as soon as the player comes back
             // thanks to modelSender(Player returningPlayer) in MatchController
         }
+        this.matchController.sendTurnViewModel();
+        this.matchController.updatePartyToAllPlayers();
     }
 
 }

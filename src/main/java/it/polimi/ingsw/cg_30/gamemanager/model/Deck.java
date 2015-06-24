@@ -63,6 +63,9 @@ public abstract class Deck<C extends Card> implements IViewable, Serializable {
         this.bucket.addAll(c);
     }
 
+    /**
+     * @see it.polimi.ingsw.cg_30.gamemanager.model.IViewable#getViewModel()
+     */
     @Override
     public ViewModel getViewModel() {
         return new DeckViewModel<C>(new ArrayList<C>(this.getCardCollection()));

@@ -36,7 +36,7 @@ public class Zone extends GameTable<Sector> implements IViewable, Serializable {
     /** The sectors map. */
     @XmlElement(name = "Contents")
     @XmlJavaTypeAdapter(XmlZoneMapAdapter.class)
-    private Map<HexPoint, Sector> sectorsMap;;
+    private Map<HexPoint, Sector> sectorsMap;
 
     /** The map name. */
     @XmlAttribute(name = "Name")

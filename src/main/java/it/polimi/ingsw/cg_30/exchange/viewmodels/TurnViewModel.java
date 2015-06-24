@@ -34,12 +34,25 @@ public class TurnViewModel extends ViewModel {
     @XmlElement(name = "TurnCount")
     private int turnCount;
 
-    @XmlElement(name = "turnStart")
+    @XmlElement(name = "TurnStart")
     private Date turnStart;
+
+    @XmlElement(name = "PlayerIdentity")
+    private PlayerCard currentPlayerIdentity;
+
+    @XmlElement(name = "PlayerName")
+    private String currentPlayerName;
+
+    @XmlElement(name = "IsSecDangerous")
+    private boolean isSecDangerous;
+
+    @XmlElement(name = "CanTurnOver")
+    private boolean canTurnOver;
 
     public TurnViewModel(boolean attack, int steps, boolean discard,
             boolean move, boolean silence, SectorCard drawnCard, int turnCount,
-            Date turnStart) {
+            Date turnStart, PlayerCard currentPlayerIdentity,
+            String currentPlayerName, boolean secDanger) {
         this();
         this.canAttack = attack;
         this.maxSteps = steps;
@@ -49,6 +62,11 @@ public class TurnViewModel extends ViewModel {
         this.drawnCard = drawnCard;
         this.turnCount = turnCount;
         this.turnStart = turnStart;
+        this.currentPlayerIdentity = currentPlayerIdentity;
+        this.currentPlayerName = currentPlayerName;
+        this.isSecDangerous = secDanger;
+        this.canTurnOver = this.checkCanTurnOver(discard, move, drawnCard,
+                secDanger);
     }
 
     private TurnViewModel() {
@@ -113,13 +131,37 @@ public class TurnViewModel extends ViewModel {
         return this.turnStart;
     }
 
+    public PlayerCard getCurrentPlayerIdentity() {
+        return this.currentPlayerIdentity;
+    }
+
+    public String getCurrentPlayerName() {
+        return this.currentPlayerName;
+    }
+
+    public boolean isSecDangerous() {
+        return this.isSecDangerous;
+    }
+
+    public boolean canTurnOver() {
+        return this.canTurnOver;
+    }
+
+    private boolean checkCanTurnOver(boolean discard, boolean move,
+            SectorCard drawnCard, boolean secDanger) {
+        return (!move && !discard && !secDanger && drawnCard == null);
+    }
+
     @Override
     public String toString() {
         return "TurnViewModel { maxSteps: " + maxSteps + ", canAttack: "
                 + canAttack + ", mustDiscard: " + mustDiscard + ", mustMove: "
                 + mustMove + ", silenceForced: " + silenceForced
                 + ", drawnCard: " + drawnCard + ", turnCount: " + turnCount
-                + ", turnStart: " + turnStart + " }";
+                + ", turnStart: " + turnStart + ", currentPlayerIdentity: "
+                + currentPlayerIdentity + ", currentPlayerName: "
+                + currentPlayerName + ", isSecDangerous: " + isSecDangerous
+                + ", canTurnOver: " + canTurnOver + " }";
     }
 
 }

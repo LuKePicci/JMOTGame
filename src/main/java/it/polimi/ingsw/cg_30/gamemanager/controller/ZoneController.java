@@ -58,7 +58,7 @@ public class ZoneController {
     }
 
     /**
-     * Swap the hatch sector with a new Secure one in same place.
+     * Swaps the hatch sector with a new Secure one in same place.
      *
      * @param hatchPoint
      *            the hatch point location in the map

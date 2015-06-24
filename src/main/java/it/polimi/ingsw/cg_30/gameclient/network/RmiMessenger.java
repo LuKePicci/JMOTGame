@@ -4,6 +4,7 @@ import it.polimi.ingsw.cg_30.exchange.messaging.Message;
 import it.polimi.ingsw.cg_30.exchange.network.IAcceptRmiPlayer;
 import it.polimi.ingsw.cg_30.exchange.network.IRmiAcceptance;
 import it.polimi.ingsw.cg_30.exchange.network.IRmiClient;
+import it.polimi.ingsw.cg_30.gameclient.GameClient;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -20,8 +21,7 @@ public class RmiMessenger extends ClientMessenger implements IRmiClient {
         try {
             this.remoteStub.toServer(msg);
         } catch (RemoteException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            GameClient.getActiveEngine().showError("connection lost");
         }
     }
 

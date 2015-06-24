@@ -28,6 +28,12 @@ public class ActionRequest extends RequestModel implements Serializable {
         super();
     }
 
+    public ActionRequest(ActionType type, HexPoint target, Item item) {
+        this.type = type;
+        this.target = target;
+        this.item = item;
+    }
+
     public void getSettingByName(Object settingName) {
         throw new UnsupportedOperationException();
     }
@@ -47,13 +53,6 @@ public class ActionRequest extends RequestModel implements Serializable {
 
     public Item getActionItem() {
         return this.item;
-    }
-
-    // TODO metodo da eliminare (inserito solo come utlity per il testing))
-    public ActionRequest(ActionType type, HexPoint target, Item item) {
-        this.type = type;
-        this.target = target;
-        this.item = item;
     }
 
 }

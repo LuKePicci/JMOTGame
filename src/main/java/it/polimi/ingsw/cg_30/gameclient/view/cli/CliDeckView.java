@@ -10,6 +10,7 @@ public class CliDeckView extends View {
 
     @Override
     public synchronized void applyUpdate(ViewModel model) {
+        @SuppressWarnings("unchecked")
         DeckViewModel<Card> viewModel = (DeckViewModel<Card>) model;
         if (viewModel.getPlayerCards() != null) {
             switch (viewModel.getPlayerCards().size()) {

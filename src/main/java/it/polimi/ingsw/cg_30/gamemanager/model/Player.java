@@ -155,7 +155,7 @@ public class Player implements IViewable, Serializable {
     @Override
     public ViewModel getViewModel() {
         return new PlayerViewModel(this.getIndex(), this.getName(),
-                this.getKillsCount());
+                this.getKillsCount(), this.getItemsDeck().getCards().size());
     }
 
 }

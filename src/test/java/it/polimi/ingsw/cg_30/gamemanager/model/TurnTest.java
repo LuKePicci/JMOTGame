@@ -42,7 +42,7 @@ public class TurnTest {
         assertEquals(true, turn.getMustDiscard());
         turn.setMaxSteps(2);
         assertEquals(2, turn.getMaxSteps(), 0);
-        turn.setMustMove();
+        turn.setMustMove(false);
         assertEquals(false, turn.getMustMove());
         turn.setIsSecDangerous(true);
         assertEquals(true, turn.getIsSecDangerous());
@@ -60,7 +60,7 @@ public class TurnTest {
                 PlayerCharacter.THE_FIRST_ALIEN);
         Player player = new Player("nome", 1, es);
         Turn turn1 = new Turn(player, 1);
-        assertEquals(true, turn1.getCanAttack());
+        assertEquals(false, turn1.getCanAttack());
         assertEquals(2, turn1.getMaxSteps(), 0);
         player.incrementKillsCount();
         Turn turn2 = new Turn(player, 1);

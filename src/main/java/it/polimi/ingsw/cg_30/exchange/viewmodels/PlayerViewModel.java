@@ -20,11 +20,15 @@ public class PlayerViewModel extends ViewModel {
     @XmlElement(name = "KillsCount")
     int killsCount;
 
-    public PlayerViewModel(int i, String nick, int kills) {
+    @XmlElement(name = "NumOfItemCards")
+    int numOfItemCards;
+
+    public PlayerViewModel(int i, String nick, int kills, int num) {
         this();
         this.index = i;
         this.name = nick;
         this.killsCount = kills;
+        this.numOfItemCards = num;
     }
 
     private PlayerViewModel() {
@@ -44,10 +48,15 @@ public class PlayerViewModel extends ViewModel {
         return this.killsCount;
     }
 
+    public int getNumOfItemCards() {
+        return this.numOfItemCards;
+    }
+
     @Override
     public String toString() {
         return "PlayerViewModel { index: " + index + ", name: " + name
-                + ", killsCount: " + killsCount + " }";
+                + ", killsCount: " + killsCount + ", numOfItemCards: "
+                + numOfItemCards + " }";
     }
 
 }

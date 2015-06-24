@@ -10,8 +10,9 @@ import java.util.UUID;
 public abstract class AcceptPlayer {
 
     protected UUID sessionId;
-    protected transient MessageController mc = new MessageController(this);
+    protected MessageController mc = new MessageController(this);
     protected Date lastMessage;
+    protected Date disconnectionDate;
 
     protected boolean hasLostConnection = false;
 
@@ -42,4 +43,15 @@ public abstract class AcceptPlayer {
         return this.hasLostConnection;
     }
 
+    protected Date loseConnection() {
+        if (!hasLostConnection) {
+            this.hasLostConnection = true;
+            this.disconnectionDate = new Date();
+        }
+        return this.disconnectionDate;
+    }
+
+    public Date getDisconnectionDate() {
+        return this.disconnectionDate;
+    }
 }
