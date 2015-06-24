@@ -68,7 +68,7 @@ public class TurnController {
      * @param turn
      *            the new turn
      */
-    public void setTurn(Turn turn) {
+    protected void setTurn(Turn turn) {
         this.turn = turn;
     }
 
@@ -128,6 +128,7 @@ public class TurnController {
                         && !this.currentMatch.getMatch().getRescuedPlayer()
                                 .contains(nextPlayer)) {
                     // it's nextPlayer's turn
+                    this.endingTurn(nextPlayer);
                     this.turn = new Turn(nextPlayer, this.currentMatch
                             .getMatch().getTurnCount());
                     this.notify(nextPlayer);
@@ -218,4 +219,27 @@ public class TurnController {
         if (this.turnTimeout != null)
             this.turnTimeout.cancel();
     }
+
+    /**
+     * Sends to all party player a turn model which deactivates the turnOver
+     * button for the currentPlayer and update the name of the currentPlayer
+     * using nextPlayer's name; this method avoids to send nextPlayer's
+     * identity.
+     *
+     * @param nextPlayer
+     *            the next player
+     */
+    private void endingTurn(Player nextPlayer) {
+        // in case of ending the turn on a secure sector without having attacked
+        this.turn.setCanAttack(false);
+        // done in order to deactivate the turnOver button
+        this.turn.setMustMove(true);
+        this.turn.setIsSecDangerous(true);
+        // be sure not to tell anyone about nextPlayer's identity
+        Player fakeNextPlayer = new Player(nextPlayer.getName(),
+                nextPlayer.getIndex());
+        this.turn.setPlayer(fakeNextPlayer);
+        this.currentMatch.sendTurnViewModelToParty();
+    }
+
 }

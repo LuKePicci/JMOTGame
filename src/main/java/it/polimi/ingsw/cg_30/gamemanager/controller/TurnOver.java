@@ -30,22 +30,7 @@ public class TurnOver extends ActionController {
      */
     @Override
     public void processAction() {
-        this.endingTurnModel();
         this.matchController.getTurnController().nextTurn();
-    }
-
-    /**
-     * Modifies the turn attributes in order to deactivate the turnOver button
-     * in the GUI.
-     */
-    private void endingTurnModel() {
-        // in case of ending the turn on a secure sector without having attacked
-        this.matchController.getTurnController().getTurn().setCanAttack(false);
-        // done in order to deactivate the turnOver button
-        this.matchController.getTurnController().getTurn().setMustMove(true);
-        this.matchController.getTurnController().getTurn()
-                .setIsSecDangerous(true);
-        this.matchController.sendTurnViewModel();
     }
 
 }

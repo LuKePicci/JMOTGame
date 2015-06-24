@@ -38,9 +38,9 @@ public class Player implements IViewable, Serializable {
      * Instantiates a new player leaving identity undefined.
      *
      * @param name
-     *            the name
+     *            the player name
      * @param index
-     *            the index
+     *            the player index
      */
     public Player(String name, int index) {
         this(name, index, null);
@@ -50,11 +50,11 @@ public class Player implements IViewable, Serializable {
      * Instantiates a new player.
      *
      * @param name
-     *            the name
+     *            the player name
      * @param index
-     *            the index
+     *            the player index
      * @param identity
-     *            the identity
+     *            the player identity
      */
     public Player(String name, int index, PlayerCard identity) {
         this.name = name;

@@ -628,4 +628,12 @@ public class MatchController {
                 .dispatchOutgoing(new Message(content));
     }
 
+    /**
+     * Sends the turn view model to the all party players.
+     */
+    protected void sendTurnViewModelToParty() {
+        this.partyController.sendMessageToParty(new Message(this
+                .getTurnController().getTurn().getViewModel()));
+    }
+
 }
