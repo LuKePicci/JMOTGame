@@ -1,10 +1,12 @@
 package it.polimi.ingsw.cg_30.gameclient.view.gui;
 
 import it.polimi.ingsw.cg_30.gameclient.GameClient;
+import it.polimi.ingsw.cg_30.gameclient.view.gui.components.JAntiAliasedLabel;
 import it.polimi.ingsw.cg_30.gameclient.view.gui.components.PlaceholderTextField;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dialog.ModalExclusionType;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -33,10 +35,6 @@ import javax.swing.JRootPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-
-import com.jtattoo.plaf.hifi.HiFiLookAndFeel;
 
 public class ConnectionView {
 
@@ -48,23 +46,12 @@ public class ConnectionView {
     private Timer animation;
     private Map<BufferedImage, BufferedImage[]> animationCache = new HashMap<BufferedImage, BufferedImage[]>();
 
-    public static void main(String[] args) {
-        try {
-            UIManager.setLookAndFeel(new HiFiLookAndFeel());
-        } catch (UnsupportedLookAndFeelException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        ConnectionView cv = new ConnectionView();
-        cv.initialize();
-        cv.setVisible(true);
-    }
-
     /**
      * @wbp.parser.entryPoint
      */
     public void initialize() {
         connFrame = new JFrame();
+        connFrame.setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
         connFrame.setMaximumSize(new Dimension(470, 325));
         connFrame.setMinimumSize(new Dimension(470, 325));
         connFrame.setPreferredSize(new Dimension(470, 325));
@@ -87,7 +74,7 @@ public class ConnectionView {
         connFrame.getContentPane().add(layeredPane, BorderLayout.CENTER);
         layeredPane.setLayout(new BorderLayout(0, 0));
 
-        topImage = new JLabel();
+        topImage = new JAntiAliasedLabel();
         layeredPane.setLayer(topImage, 2);
         layeredPane.add(topImage, BorderLayout.NORTH);
         topImage.setPreferredSize(new Dimension(0, 75));
@@ -126,7 +113,7 @@ public class ConnectionView {
         gbc_panel.gridy = 0;
         centerPane.add(panel, gbc_panel);
 
-        JLabel lblEscape = new JLabel("ESCAPE");
+        JLabel lblEscape = new JAntiAliasedLabel("ESCAPE");
         lblEscape.setAlignmentX(Component.CENTER_ALIGNMENT);
         lblEscape.setHorizontalAlignment(SwingConstants.CENTER);
         lblEscape.setFont(GuiEngine.loadCustomFont("TitilliumText22L-Xb")
@@ -139,7 +126,7 @@ public class ConnectionView {
         gbc_lblEscape.gridy = 0;
         centerPane.add(lblEscape, gbc_lblEscape);
 
-        JLabel lblFromTheAliens = new JLabel("FROM THE ALIENS");
+        JLabel lblFromTheAliens = new JAntiAliasedLabel("FROM THE ALIENS");
         lblFromTheAliens.setAlignmentX(Component.CENTER_ALIGNMENT);
         lblFromTheAliens.setHorizontalAlignment(SwingConstants.CENTER);
         lblFromTheAliens.setFont(GuiEngine
@@ -151,7 +138,7 @@ public class ConnectionView {
         gbc_lblFromTheAliens.gridy = 1;
         centerPane.add(lblFromTheAliens, gbc_lblFromTheAliens);
 
-        JLabel lblInOuterSpace = new JLabel("IN OUTER SPACE");
+        JLabel lblInOuterSpace = new JAntiAliasedLabel("IN OUTER SPACE");
         lblInOuterSpace.setAlignmentX(Component.CENTER_ALIGNMENT);
         lblInOuterSpace.setHorizontalAlignment(SwingConstants.CENTER);
         lblInOuterSpace.setFont(GuiEngine.loadCustomFont("TitilliumText22L-Xb")
@@ -178,7 +165,7 @@ public class ConnectionView {
         hostName = new PlaceholderTextField();
         hostName.setMinimumSize(new Dimension(4, 25));
         hostName.setPlaceholder("Hostname");
-        hostName.setFont(GuiEngine.loadCustomFont("TitilliumText22L-Lt")
+        hostName.setFont(GuiEngine.loadCustomFont("TitilliumText22L")
                 .deriveFont(0, 16));
         GridBagConstraints gbc_hostName = new GridBagConstraints();
         gbc_hostName.weighty = 0.33;
@@ -189,7 +176,7 @@ public class ConnectionView {
         controlsPane.add(hostName, gbc_hostName);
         hostName.setColumns(15);
 
-        JLabel lblSeparator = new JLabel(":");
+        JLabel lblSeparator = new JAntiAliasedLabel(":");
         lblSeparator.setHorizontalTextPosition(SwingConstants.CENTER);
         lblSeparator.setHorizontalAlignment(SwingConstants.CENTER);
         GridBagConstraints gbc_lblSeparator = new GridBagConstraints();
@@ -201,7 +188,7 @@ public class ConnectionView {
         portNumber = new PlaceholderTextField();
         portNumber.setMinimumSize(new Dimension(4, 25));
         portNumber.setPlaceholder("Port");
-        portNumber.setFont(GuiEngine.loadCustomFont("TitilliumText22L-Lt")
+        portNumber.setFont(GuiEngine.loadCustomFont("TitilliumText22L")
                 .deriveFont(0, 16));
         GridBagConstraints gbc_portNumber = new GridBagConstraints();
         gbc_portNumber.weightx = 0.4;
@@ -259,7 +246,7 @@ public class ConnectionView {
             }
         });
 
-        JLabel label = new JLabel("-");
+        JLabel label = new JAntiAliasedLabel("-");
         label.setHorizontalTextPosition(SwingConstants.CENTER);
         label.setHorizontalAlignment(SwingConstants.CENTER);
         GridBagConstraints gbc_label = new GridBagConstraints();
@@ -293,12 +280,10 @@ public class ConnectionView {
         JRootPane rootPane = SwingUtilities.getRootPane(btnConnect);
         rootPane.setDefaultButton(btnConnect);
 
-        bottomImage = new JLabel();
+        bottomImage = new JAntiAliasedLabel();
         layeredPane.add(bottomImage, BorderLayout.SOUTH);
         bottomImage.setPreferredSize(new Dimension(0, 75));
         bottomImage.setHorizontalAlignment(SwingConstants.CENTER);
-
-        // connFrame.pack();
     }
 
     public void setVisible(boolean visible) {
