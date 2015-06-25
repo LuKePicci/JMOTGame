@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg_30.gameclient.view.gui;
 
+import it.polimi.ingsw.cg_30.exchange.LoggerMethods;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.DeckViewModel;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Item;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ItemCard;
@@ -7,7 +8,6 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewModel;
 import it.polimi.ingsw.cg_30.gameclient.GameClient;
 import it.polimi.ingsw.cg_30.gameclient.view.gui.components.JEftaiosCard;
 import it.polimi.ingsw.cg_30.gameclient.view.gui.eventhandlers.MouseHoverMagnify;
-import it.polimi.ingsw.cg_30.gamemanager.controller.LoggerMethods;
 
 import java.awt.Cursor;
 import java.awt.event.MouseAdapter;

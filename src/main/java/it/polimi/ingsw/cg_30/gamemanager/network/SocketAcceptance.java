@@ -1,7 +1,7 @@
 package it.polimi.ingsw.cg_30.gamemanager.network;
 
+import it.polimi.ingsw.cg_30.exchange.LoggerMethods;
 import it.polimi.ingsw.cg_30.gamemanager.GameServer;
-import it.polimi.ingsw.cg_30.gamemanager.controller.LoggerMethods;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;

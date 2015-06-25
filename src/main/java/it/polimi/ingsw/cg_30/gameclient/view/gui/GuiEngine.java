@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg_30.gameclient.view.gui;
 
+import it.polimi.ingsw.cg_30.exchange.LoggerMethods;
 import it.polimi.ingsw.cg_30.exchange.messaging.ActionRequest;
 import it.polimi.ingsw.cg_30.exchange.messaging.ActionType;
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatRequest;
@@ -11,7 +12,6 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewType;
 import it.polimi.ingsw.cg_30.gameclient.network.ClientMessenger;
 import it.polimi.ingsw.cg_30.gameclient.view.RequestComposer;
 import it.polimi.ingsw.cg_30.gameclient.view.ViewEngine;
-import it.polimi.ingsw.cg_30.gamemanager.controller.LoggerMethods;
 
 import java.awt.Dimension;
 import java.awt.Font;
