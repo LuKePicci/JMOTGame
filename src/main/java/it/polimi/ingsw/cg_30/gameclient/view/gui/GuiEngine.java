@@ -4,6 +4,7 @@ import it.polimi.ingsw.cg_30.exchange.messaging.ActionRequest;
 import it.polimi.ingsw.cg_30.exchange.messaging.ActionType;
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatRequest;
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatVisibility;
+import it.polimi.ingsw.cg_30.exchange.messaging.JoinRequest;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.HexPoint;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Item;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewType;
@@ -94,21 +95,19 @@ public class GuiEngine extends ViewEngine {
 
     @Override
     public void chooseGame() {
-        // final ConnectionView cv = new ConnectionView();
-        // SwingUtilities.invokeLater(new Runnable() {
-        //
-        // @Override
-        // public void run() {
-        // cv.initialize();
-        // cv.setVisible(true);
-        // }
-        // });
+        final ChooseZoneView czv = new ChooseZoneView();
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                czv.initialize();
+                czv.setVisible(true);
+            }
+        });
     }
 
     @Override
     public void showGames() {
-        // TODO Auto-generated method stub
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -193,6 +192,18 @@ public class GuiEngine extends ViewEngine {
             this.showError("Invalid hostname or port number");
         } catch (NotBoundException | IOException e) {
             this.showError("Connection failed");
+        }
+        return false;
+    }
+
+    public boolean join(String nick, String mapName, String partyName) {
+        if (!nick.equals("")) {
+            JoinRequest req = composer.createJoinRequest(nick, mapName
+                    .equals("") ? null : mapName, partyName.equals("") ? null
+                    : partyName);
+            ClientMessenger.getCurrentMessenger().executeRequestTask(req);
+            this.runEngine();
+            return true;
         }
         return false;
     }
