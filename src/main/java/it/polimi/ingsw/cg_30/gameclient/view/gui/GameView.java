@@ -26,6 +26,9 @@ import com.jtattoo.plaf.hifi.HiFiLookAndFeel;
 
 public class GameView {
 
+    public static final Point CENTER = GraphicsEnvironment
+            .getLocalGraphicsEnvironment().getCenterPoint();
+
     public static final Dimension FRAME_SIZE = GuiEngine.getResponsive(1.4049,
             1.1676);
 
@@ -72,12 +75,10 @@ public class GameView {
     public void initialize() {
         mainFrame = new JFrame();
         mainFrame.setIconImage(GuiEngine.loadImage("custom_icon.png"));
-        Point center = GraphicsEnvironment.getLocalGraphicsEnvironment()
-                .getCenterPoint();
 
         // set position and size
-        mainFrame.setBounds((int) (center.x - FRAME_SIZE.getWidth() / 2),
-                (int) (center.y - FRAME_SIZE.getHeight() / 2),
+        mainFrame.setBounds((int) (CENTER.x - FRAME_SIZE.getWidth() / 2),
+                (int) (CENTER.y - FRAME_SIZE.getHeight() / 2),
                 (int) FRAME_SIZE.getWidth(), (int) FRAME_SIZE.getHeight());
 
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -97,6 +98,7 @@ public class GameView {
 
         bottomSplit
                 .setLeftComponent(subViews.get(ViewType.CHAT).getComponent());
+        subViews.get(ViewType.CHAT).registerDefaultButton();
 
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new BorderLayout(0, 0));

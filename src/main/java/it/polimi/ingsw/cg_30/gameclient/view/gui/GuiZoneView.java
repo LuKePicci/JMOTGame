@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 public class GuiZoneView extends GuiView {
 
@@ -52,12 +53,19 @@ public class GuiZoneView extends GuiView {
                 @Override
                 public void mouseClicked(MouseEvent event) {
                     super.mouseClicked(event);
-                    JSector sender = (JSector) event.getSource();
+                    final JSector sender = (JSector) event.getSource();
                     if (sender.contains(event.getPoint())
                             && GameClient.getActiveEngine() instanceof GuiEngine) {
-                        GuiEngine activeEngine = (GuiEngine) GameClient
-                                .getActiveEngine();
-                        activeEngine.sectorProcessor(sender.getHexPoint());
+                        SwingUtilities.invokeLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                GuiEngine activeEngine = (GuiEngine) GameClient
+                                        .getActiveEngine();
+                                activeEngine.sectorProcessor(sender
+                                        .getHexPoint());
+                            }
+                        });
+
                     }
                 }
             });

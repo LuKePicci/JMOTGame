@@ -15,7 +15,7 @@ public class TemplateZoneFactory extends ZoneFactory {
 
     public TemplateZoneFactory(String mapName) throws FileNotFoundException {
         this.zoneTemplate = getClass().getResourceAsStream(
-                "/" + mapName + ".xml");
+                "/gamemanager/" + mapName + ".xml");
         if (this.zoneTemplate == null)
             throw new FileNotFoundException(String.format(
                     "Map XML template not found for '%s'", mapName));
