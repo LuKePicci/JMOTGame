@@ -22,10 +22,10 @@ public class CliPartyView extends View {
         String players = "";
         for (ViewModel view : viewModel.getPartyPlayers()) {
             PlayerViewModel playerView = (PlayerViewModel) view;
-            players += playerView.getName() + "%n";
+            players += playerView.getName() + "\r\n";
         }
-        CliEngine.printLineToCli("%nName of the party:%n"
-                + viewModel.getPartyName() + "%nPlayers of the party:%n"
+        CliEngine.printLineToCli("\r\nName of the party:\r\n"
+                + viewModel.getPartyName() + "\r\nPlayers of the party:\r\n"
                 + players);
     }
 

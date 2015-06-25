@@ -3,6 +3,7 @@ package it.polimi.ingsw.cg_30.gamemanager.model;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Game;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PartyViewModel;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewModel;
+import it.polimi.ingsw.cg_30.gamemanager.controller.MatchController;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -150,17 +151,18 @@ public class Party implements IViewable, Serializable {
      * @return the party
      */
     public Party addToParty(UUID clientId, String nickName) {
+        String chosenName = nickName;
         if ("+".equals(nickName))
-            nickName = "StupidPlayer-" + clientId.hashCode();
+            chosenName = "StupidPlayer-" + clientId.hashCode();
         else if (nicksToUUID.containsKey(nickName)
-                || "Server".equalsIgnoreCase(nickName))
-            nickName = nickName.concat("-" + clientId.hashCode());
+                || MatchController.SERVER_WORD_TEXT.equalsIgnoreCase(nickName))
+            chosenName = nickName.concat("-" + clientId.hashCode());
 
-        Player newPlayer = new Player(nickName, this.members.size() + 1);
+        Player newPlayer = new Player(chosenName, this.members.size() + 1);
         members.put(newPlayer, clientId);
         ids.put(clientId, newPlayer);
-        nicksToUUID.put(nickName, clientId);
-        uuidToNickName.put(clientId, nickName);
+        nicksToUUID.put(chosenName, clientId);
+        uuidToNickName.put(clientId, chosenName);
         return this;
     }
 

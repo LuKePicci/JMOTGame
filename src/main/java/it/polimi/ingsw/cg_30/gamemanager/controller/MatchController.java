@@ -49,7 +49,7 @@ public class MatchController {
     protected Match match;
 
     /** The server word text. */
-    protected static String serverWordText = "Server";
+    public static final String SERVER_WORD_TEXT = "Server";
 
     /**
      * The sector where a player is moved after he had escaped or had been
@@ -96,9 +96,10 @@ public class MatchController {
         }
 
         // chat
-        this.partyController.sendMessageToParty(new ChatMessage(
-                new ChatViewModel("Game started",
-                        MatchController.serverWordText, ChatVisibility.PARTY)));
+        this.partyController
+                .sendMessageToParty(new ChatMessage(new ChatViewModel(
+                        "Game started", MatchController.SERVER_WORD_TEXT,
+                        ChatVisibility.PARTY)));
     }
 
     /**
@@ -472,7 +473,7 @@ public class MatchController {
             else
                 this.notifyAPlayerAbout(turnController.getTurn()
                         .getCurrentPlayer(), "Sorry, you can't do this.");
-        } catch (InstantiationException | IllegalAccessException e) {
+        } catch (ReflectiveOperationException e) {
             LoggerMethods.reflectiveOperationException(e,
                     "Failed to instanciate a controller for requested action");
         }
@@ -493,7 +494,7 @@ public class MatchController {
                     this.partyController.getCurrentParty()
                             .getPlayerUUID(player)).dispatchOutgoing(
                     new ChatMessage(new ChatViewModel(about,
-                            MatchController.serverWordText,
+                            MatchController.SERVER_WORD_TEXT,
                             ChatVisibility.PLAYER)));
         } catch (DisconnectedException e) {
             LoggerMethods
@@ -513,9 +514,10 @@ public class MatchController {
      *            the string to notify
      */
     protected void notifyPartyByPlayer(Player player, String what) {
-        this.partyController.sendMessageToParty(new ChatMessage(
-                new ChatViewModel(player.getName() + ": " + what,
-                        MatchController.serverWordText, ChatVisibility.PARTY)));
+        this.partyController
+                .sendMessageToParty(new ChatMessage(new ChatViewModel(player
+                        .getName() + ": " + what,
+                        MatchController.SERVER_WORD_TEXT, ChatVisibility.PARTY)));
     }
 
     /**

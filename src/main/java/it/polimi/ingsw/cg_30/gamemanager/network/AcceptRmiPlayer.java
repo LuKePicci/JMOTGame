@@ -12,7 +12,7 @@ import java.util.UUID;
 public class AcceptRmiPlayer extends AcceptPlayer implements IAcceptRmiPlayer {
 
     protected Message rcvMessage, sndMessage;
-    private transient IRmiClient rmiClient;
+    private IRmiClient rmiClient;
 
     public AcceptRmiPlayer(IRmiClient client) throws RemoteException {
         this(client, UUID.randomUUID());

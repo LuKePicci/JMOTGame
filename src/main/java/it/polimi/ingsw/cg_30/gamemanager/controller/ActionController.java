@@ -191,7 +191,7 @@ public abstract class ActionController {
                 new ChatMessage(new ChatViewModel(this.matchController
                         .getTurnController().getTurn().getCurrentPlayer()
                         .getName()
-                        + ": " + what, MatchController.serverWordText,
+                        + ": " + what, MatchController.SERVER_WORD_TEXT,
                         ChatVisibility.PARTY)));
     }
 
@@ -204,7 +204,7 @@ public abstract class ActionController {
     protected void notifyInChatByServer(String what) {
         this.matchController.getPartyController().sendMessageToParty(
                 new ChatMessage(new ChatViewModel(what,
-                        MatchController.serverWordText, ChatVisibility.PARTY)));
+                        MatchController.SERVER_WORD_TEXT, ChatVisibility.PARTY)));
     }
 
     /**
@@ -223,7 +223,7 @@ public abstract class ActionController {
                         .getPlayerUUID(player))
                 .dispatchOutgoing(
                         new ChatMessage(new ChatViewModel(what,
-                                MatchController.serverWordText,
+                                MatchController.SERVER_WORD_TEXT,
                                 ChatVisibility.PLAYER)));
     }
 

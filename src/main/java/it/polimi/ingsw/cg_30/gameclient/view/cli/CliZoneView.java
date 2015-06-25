@@ -19,7 +19,7 @@ public class CliZoneView extends View {
     @Override
     public synchronized void applyUpdate(ViewModel model) {
         ZoneViewModel viewModel = (ZoneViewModel) model;
-        String textZone = "%nThis map contains the following sectors:%n";
+        String textZone = "\r\nThis map contains the following sectors:\r\n";
         for (Sector sec : viewModel.getSectorsMap().values()) {
             textZone += this.getSectorRep(sec);
         }
@@ -58,7 +58,7 @@ public class CliZoneView extends View {
             default:
                 rep += " error";
         }
-        return rep + "%n";
+        return rep + "\r\n";
     }
 
 }

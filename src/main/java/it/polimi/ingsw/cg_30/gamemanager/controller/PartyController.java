@@ -113,7 +113,7 @@ public class PartyController implements Serializable {
         joined.sendMessageToParty(new ChatMessage(new ChatViewModel(String
                 .format("%s joined the party.", joined.getCurrentParty()
                         .getNickOfUUID(playerClient)),
-                MatchController.serverWordText, ChatVisibility.PARTY)));
+                MatchController.SERVER_WORD_TEXT, ChatVisibility.PARTY)));
 
         if (joined.getCurrentParty().getMembers().size() >= 2)
             joined.scheduleMatchStart();
@@ -178,7 +178,7 @@ public class PartyController implements Serializable {
             this.currentMatch = null;
             this.sendMessageToParty(new ChatMessage(new ChatViewModel(
                     "Unable to initialize a new game",
-                    MatchController.serverWordText, ChatVisibility.PARTY)));
+                    MatchController.SERVER_WORD_TEXT, ChatVisibility.PARTY)));
         }
     }
 
@@ -205,7 +205,7 @@ public class PartyController implements Serializable {
                                 String.format(
                                         "The match will begin in %s seconds.",
                                         Long.toString(getStartDelay() * 5)),
-                                MatchController.serverWordText,
+                                MatchController.SERVER_WORD_TEXT,
                                 ChatVisibility.PARTY)));
                     }
                 } else

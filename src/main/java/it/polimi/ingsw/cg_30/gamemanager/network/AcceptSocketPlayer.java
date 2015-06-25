@@ -14,9 +14,9 @@ import javax.xml.bind.DatatypeConverter;
 
 public class AcceptSocketPlayer extends AcceptPlayer implements Runnable {
 
-    private final transient Socket mySoc;
-    private final transient DataInputStream din;
-    private final transient DataOutputStream dout;
+    private final Socket mySoc;
+    private final DataInputStream din;
+    private final DataOutputStream dout;
 
     private String lastSentData = null;
 

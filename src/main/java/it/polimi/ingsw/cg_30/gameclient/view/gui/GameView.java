@@ -26,12 +26,12 @@ import com.jtattoo.plaf.hifi.HiFiLookAndFeel;
 
 public class GameView {
 
-    public static final Dimension FRAME_SIZE = GuiEngine.getResponsive(1.5610,
+    public static final Dimension FRAME_SIZE = GuiEngine.getResponsive(1.4049,
             1.1676);
 
     public static final Dimension PARTY_SIZE = GuiEngine.getResponsive(0.6204,
             0.1406);
-    public static final Dimension MAP_SIZE = GuiEngine.getResponsive(2, 1.62);
+    public static final Dimension MAP_SIZE = GuiEngine.getResponsive(1.9, 1.62);
 
     public static final Dimension CARD_SIZE = GuiEngine.getResponsive(16, 6);
 

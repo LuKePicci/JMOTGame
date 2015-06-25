@@ -30,16 +30,16 @@ public class CliSectorView extends View {
                     // in the chat.
                     break;
                 case HATCH_LOCKED:
-                    CliEngine.printLineToCli("%nHatch in " + sectorRep
+                    CliEngine.printLineToCli("\r\nHatch in " + sectorRep
                             + " is locked now.");
                     break;
                 case SPOTTED:
-                    CliEngine.printLineToCli("%nPlayer spotted in " + sectorRep
-                            + "!");
+                    CliEngine.printLineToCli("\r\nPlayer spotted in "
+                            + sectorRep + "!");
                     break;
                 default:
                     CliEngine
-                            .printLineToCli("%nWrong sector notification received ("
+                            .printLineToCli("\r\nWrong sector notification received ("
                                     + sectorRep + ").");
                     break;
             }

@@ -17,7 +17,7 @@ import javax.xml.bind.JAXBException;
 public class LoggerMethods {
 
     /** The logger. */
-    private static final Logger logger = Logger.getLogger("");
+    private static final Logger LOGGER = Logger.getLogger("");
 
     /**
      * Prevents the creation of an instance of LoggerMethods.
@@ -34,7 +34,7 @@ public class LoggerMethods {
      *            the comment to that exception
      */
     public static void emptyStackException(EmptyStackException e, String str) {
-        logger.info("EmptyStackException: " + e.getMessage() + str);
+        LOGGER.info("EmptyStackException: " + e.getMessage() + "\r\n" + str);
     }
 
     /**
@@ -46,7 +46,7 @@ public class LoggerMethods {
      *            the comment to that exception
      */
     public static void disconnectedException(DisconnectedException e, String str) {
-        logger.info("DisconnectedException: " + e.getMessage() + str);
+        LOGGER.info("DisconnectedException: " + e.getMessage() + "\r\n" + str);
     }
 
     /**
@@ -59,7 +59,8 @@ public class LoggerMethods {
      */
     public static void reflectiveOperationException(
             ReflectiveOperationException e, String str) {
-        logger.info("ReflectiveOperationException: " + e.getMessage() + str);
+        LOGGER.info("ReflectiveOperationException: " + e.getMessage() + "\r\n"
+                + str);
     }
 
     /**
@@ -71,7 +72,7 @@ public class LoggerMethods {
      *            the comment to that exception
      */
     public static void notAnHatchException(NotAnHatchException e, String str) {
-        logger.info("NotAnHatchException: " + e.getMessage() + str);
+        LOGGER.info("NotAnHatchException: " + e.getMessage() + "\r\n" + str);
     }
 
     /**
@@ -81,7 +82,7 @@ public class LoggerMethods {
      *            the message
      */
     public static void warning(String string) {
-        logger.warning(string);
+        LOGGER.warning(string);
     }
 
     /**
@@ -91,7 +92,7 @@ public class LoggerMethods {
      *            the exception
      */
     public static void jAXBException(JAXBException e) {
-        logger.info(e.getMessage());
+        LOGGER.info(e.getMessage());
     }
 
     /**
@@ -104,7 +105,8 @@ public class LoggerMethods {
      */
     public static void fileNotFoundException(FileNotFoundException e,
             String string) {
-        logger.info("FileNotFoundException: " + e.getMessage() + string);
+        LOGGER.info("FileNotFoundException: " + e.getMessage() + "\r\n"
+                + string);
     }
 
     /**
@@ -116,7 +118,7 @@ public class LoggerMethods {
      *            the comment to that exception
      */
     public static void iOException(IOException e, String string) {
-        logger.info("IOException: " + e.getMessage() + string);
+        LOGGER.info("IOException: " + e.getMessage() + "\r\n" + string);
     }
 
     /**
@@ -128,7 +130,7 @@ public class LoggerMethods {
      *            the comment to that exception
      */
     public static void exception(Exception ex, String string) {
-        logger.info("Exception: " + ex.getMessage() + string);
+        LOGGER.info("Exception: " + ex.getMessage() + "\r\n" + string);
     }
 
     /**
@@ -140,7 +142,7 @@ public class LoggerMethods {
      *            the comment to that exception
      */
     public static void remoteException(RemoteException e, String string) {
-        logger.info("RemoteException: " + e.getMessage() + string);
+        LOGGER.info("RemoteException: " + e.getMessage() + "\r\n" + string);
     }
 
     /**
@@ -153,7 +155,8 @@ public class LoggerMethods {
      */
     public static void invalidParameterException(InvalidParameterException ex,
             String string) {
-        logger.info("InvalidParameterException: " + ex.getMessage() + string);
+        LOGGER.info("InvalidParameterException: " + ex.getMessage() + "\r\n"
+                + string);
     }
 
     /**
@@ -166,7 +169,7 @@ public class LoggerMethods {
      */
     public static void interruptedException(InterruptedException e,
             String string) {
-        logger.info("InterruptedException: " + e.getMessage() + string);
+        LOGGER.info("InterruptedException: " + e.getMessage() + "\r\n" + string);
     }
 
     /**
@@ -179,7 +182,8 @@ public class LoggerMethods {
      */
     public static void illegalArgumentException(IllegalArgumentException ex,
             String string) {
-        logger.info("IllegalArgumentException: " + ex.getMessage() + string);
+        LOGGER.info("IllegalArgumentException: " + ex.getMessage() + "\r\n"
+                + string);
     }
 
     /**
@@ -192,8 +196,8 @@ public class LoggerMethods {
      */
     public static void unsupportedOperationException(
             UnsupportedOperationException ex, String string) {
-        logger.info("UnsupportedOperationException: " + ex.getMessage()
-                + string);
+        LOGGER.info("UnsupportedOperationException: " + ex.getMessage()
+                + "\r\n" + string);
     }
 
 }
