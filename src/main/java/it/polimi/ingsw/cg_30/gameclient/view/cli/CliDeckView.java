@@ -40,7 +40,7 @@ public class CliDeckView extends View {
                     break;
                 default:
                     // should never get here, but just in case...
-                    CliEngine.printLineToCli("You have these item cards:");
+                    CliEngine.printLineToCli("\r\nYou have these item cards:");
                     break;
             }
 

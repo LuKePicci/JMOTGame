@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg_30.gamemanager.network;
 
 import it.polimi.ingsw.cg_30.gamemanager.GameServer;
+import it.polimi.ingsw.cg_30.gamemanager.controller.LoggerMethods;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -19,7 +20,7 @@ public class SocketAcceptance extends PlayerAcceptance {
         try {
             this.soc = new ServerSocket();
         } catch (IOException e) {
-            e.printStackTrace();
+            LoggerMethods.iOException(e, "");
         }
     }
 
@@ -32,7 +33,7 @@ public class SocketAcceptance extends PlayerAcceptance {
             if (!soc.isClosed())
                 this.soc.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            LoggerMethods.iOException(e, "");
         }
     }
 
@@ -55,19 +56,19 @@ public class SocketAcceptance extends PlayerAcceptance {
                 try {
                     this.socketAccept();
                 } catch (IOException e) {
-                    System.out.println("Server " + soc.hashCode()
+                    LoggerMethods.iOException(e, "Server " + soc.hashCode()
                             + " closed because of " + e.getMessage());
                     return;
                 }
             }
         } catch (IOException e1) {
-            e1.printStackTrace();
+            LoggerMethods.iOException(e1, "");
         } finally {
             try {
                 if (soc != null && !soc.isClosed())
                     soc.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                LoggerMethods.iOException(e, "");
             }
         }
     }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg_30.gamemanager.model;
 
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Card;
+import it.polimi.ingsw.cg_30.gamemanager.controller.LoggerMethods;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -53,6 +54,7 @@ public class StackedDeck<C extends Card> extends Deck<C> {
             return this.cards.pop();
 
         } catch (EmptyStackException e) {
+            LoggerMethods.emptyStackException(e, "Local exception management");
             this.recycle();
             return this.cards.pop();
         }

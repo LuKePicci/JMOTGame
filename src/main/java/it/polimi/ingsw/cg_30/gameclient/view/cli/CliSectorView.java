@@ -26,8 +26,8 @@ public class CliSectorView extends View {
 
             switch (viewModel.getHighlight()) {
                 case PLAYER_LOCATION:
-                    CliEngine.printLineToCli("\r\nYou are in " + sectorRep
-                            + ".");
+                    // the notification about the new location is already sent
+                    // in the chat.
                     break;
                 case HATCH_LOCKED:
                     CliEngine.printLineToCli("\r\nHatch in " + sectorRep

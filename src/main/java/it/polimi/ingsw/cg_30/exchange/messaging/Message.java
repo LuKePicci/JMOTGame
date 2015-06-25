@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg_30.exchange.messaging;
 
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewModel;
+import it.polimi.ingsw.cg_30.gamemanager.controller.LoggerMethods;
 
 import java.io.Serializable;
 import java.io.StringReader;
@@ -44,10 +45,9 @@ public class Message implements Serializable {
             JAXBContext ctx;
             ctx = JAXBContext.newInstance(Message.class);
             msl = ctx.createMarshaller();
-            // msl.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
             unmsl = ctx.createUnmarshaller();
         } catch (JAXBException e) {
-            e.printStackTrace();
+            LoggerMethods.jAXBException(e);
         } finally {
             Message.messageMarshaller = msl;
             Message.messageUnmarshaller = unmsl;
@@ -114,7 +114,7 @@ public class Message implements Serializable {
         try {
             Message.messageMarshaller.marshal(msg, sw);
         } catch (JAXBException e) {
-            e.printStackTrace();
+            LoggerMethods.jAXBException(e);
         }
         return sw.toString();
     }
@@ -126,7 +126,7 @@ public class Message implements Serializable {
                     .unmarshal(new StringReader(xml));
 
         } catch (JAXBException e) {
-            e.printStackTrace();
+            LoggerMethods.jAXBException(e);
         }
         return msg;
     }

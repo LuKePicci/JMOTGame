@@ -121,8 +121,10 @@ public class UseCard extends ActionController {
         try {
             this.matchController.updateDeckView(player);
         } catch (DisconnectedException e) {
-            // player's deck will be updated as soon as the player comes back
-            // thanks to modelSender(Player returningPlayer) in MatchController
+            LoggerMethods
+                    .disconnectedException(
+                            e,
+                            "player's deck will be updated as soon as the player comes back thanks to modelSender(Player returningPlayer) in MatchController");
         }
         this.matchController.updatePartyToAllPlayers();
         this.matchController.sendTurnViewModel();
@@ -144,9 +146,10 @@ public class UseCard extends ActionController {
                     this.matchController.getZoneController().getHumansStart(),
                     SectorHighlight.PLAYER_LOCATION);
         } catch (DisconnectedException e) {
-            // player's location will be updated as soon as the player comes
-            // back thanks to modelSender(Player returningPlayer)
-            // in MatchController
+            LoggerMethods
+                    .disconnectedException(
+                            e,
+                            "player's location will be updated as soon as the player comes back thanks to modelSender(Player returningPlayer) in MatchController");
         }
     }
 

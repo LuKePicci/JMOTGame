@@ -11,6 +11,9 @@ public class ChatController {
 
     private static final String CANNOT_CONTACT = " is offline.";
 
+    private ChatController() {
+    }
+
     public static void sendToParty(ChatMessage msg, PartyController pc) {
         if (pc != null)
             pc.sendMessageToParty(msg);
@@ -56,10 +59,12 @@ public class ChatController {
                     ChatMessage offlineMsg = new ChatMessage(new ChatViewModel(
                             chatReq.getRecipient() + CANNOT_CONTACT,
                             senderNick, chatReq.getAudience()));
+                    LoggerMethods.disconnectedException(e, "");
                     try {
                         sendToPlayer(offlineMsg, pc, senderNick);
                     } catch (DisconnectedException e1) {
-                        // nothing to be done
+                        LoggerMethods.disconnectedException(e1,
+                                "nothing to be done");
                     }
                 }
                 break;

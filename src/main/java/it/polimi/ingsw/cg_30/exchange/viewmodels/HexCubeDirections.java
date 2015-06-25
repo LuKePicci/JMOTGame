@@ -29,9 +29,9 @@ public enum HexCubeDirections {
      * @param Y
      *            the y
      */
-    private HexCubeDirections(int X, int Y) {
-        this.addX = X;
-        this.addY = Y;
+    private HexCubeDirections(int x, int y) {
+        this.addX = x;
+        this.addY = y;
     }
 
     /**

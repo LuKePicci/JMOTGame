@@ -26,12 +26,12 @@ import com.jtattoo.plaf.hifi.HiFiLookAndFeel;
 
 public class GameView {
 
-    public static final Dimension FRAME_SIZE = GuiEngine.getResponsive(1.5610,
+    public static final Dimension FRAME_SIZE = GuiEngine.getResponsive(1.4049,
             1.1676);
 
     public static final Dimension PARTY_SIZE = GuiEngine.getResponsive(0.6204,
             0.1406);
-    public static final Dimension MAP_SIZE = GuiEngine.getResponsive(2, 1.62);
+    public static final Dimension MAP_SIZE = GuiEngine.getResponsive(1.9, 1.62);
 
     public static final Dimension CARD_SIZE = GuiEngine.getResponsive(16, 6);
 
@@ -44,15 +44,6 @@ public class GameView {
     private final Map<ViewType, GuiView> subViews = new HashMap<ViewType, GuiView>();
 
     /**
-     * @throws UnsupportedLookAndFeelException
-     * @wbp.parser.entryPoint
-     */
-    public static void windowBuilder() throws UnsupportedLookAndFeelException {
-        UIManager.setLookAndFeel(new HiFiLookAndFeel());
-        new GameView().initialize();
-    }
-
-    /**
      * Create the game form.
      */
     public GameView() {
@@ -60,6 +51,15 @@ public class GameView {
         this.subViews.put(ViewType.CHAT, new GuiChatView());
         this.subViews.put(ViewType.DECK, new GuiDeckView());
         this.subViews.put(ViewType.TURN, new GuiTurnView());
+    }
+
+    /**
+     * @throws UnsupportedLookAndFeelException
+     * @wbp.parser.entryPoint
+     */
+    public static void windowBuilder() throws UnsupportedLookAndFeelException {
+        UIManager.setLookAndFeel(new HiFiLookAndFeel());
+        new GameView().initialize();
     }
 
     public Set<Entry<ViewType, GuiView>> getSubViews() {
@@ -71,7 +71,6 @@ public class GameView {
      */
     public void initialize() {
         mainFrame = new JFrame();
-        // mainFrame.setTitle("Escape From The Aliens Into Outer Space - EFTAIOS");
         mainFrame.setIconImage(GuiEngine.loadImage("custom_icon.png"));
         Point center = GraphicsEnvironment.getLocalGraphicsEnvironment()
                 .getCenterPoint();

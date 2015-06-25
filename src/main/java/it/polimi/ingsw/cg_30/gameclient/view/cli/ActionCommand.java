@@ -6,6 +6,7 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.HexPoint;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Item;
 import it.polimi.ingsw.cg_30.gameclient.GameClient;
 import it.polimi.ingsw.cg_30.gameclient.view.RequestComposer;
+import it.polimi.ingsw.cg_30.gamemanager.controller.LoggerMethods;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -84,6 +85,7 @@ public class ActionCommand implements ICliCommand {
             }
             return HexPoint.fromOffset(x, y - 1);
         } catch (Exception ex) {
+            LoggerMethods.exception(ex, "");
             return null;
         }
 

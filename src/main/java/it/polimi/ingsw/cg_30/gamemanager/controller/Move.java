@@ -99,8 +99,9 @@ public class Move extends ActionController {
                 try {
                     this.notifyCurrentPlayerByServer("YOU ARE SAFE NOW");
                 } catch (DisconnectedException e) {
-                    // the player will be told about his escape as soon as he
-                    // reconnects
+                    LoggerMethods
+                            .disconnectedException(e,
+                                    "the player will be told about his escape as soon as he reconnects");
                 }
                 this.notifyOtherPlayers(this.matchController
                         .getTurnController().getTurn().getCurrentPlayer()
@@ -111,10 +112,10 @@ public class Move extends ActionController {
                 try {
                     this.notifyCurrentPlayerByServer("YOU CAN'T USE THIS HATCH");
                 } catch (DisconnectedException e) {
-                    // the player will be told about his failure attempt to
-                    // escape as soon as he reconnects: he will be told that he
-                    // is either alive or dead (because someone killed him while
-                    // he was offline)
+                    LoggerMethods
+                            .disconnectedException(
+                                    e,
+                                    "the player will be told about his failure attempt to escape as soon as he reconnects: he will be told that he is either alive or dead (because someone killed him while he was offline)");
                 }
                 this.notifyOtherPlayers(this.matchController
                         .getTurnController().getTurn().getCurrentPlayer()
@@ -126,8 +127,10 @@ public class Move extends ActionController {
                 this.matchController.getZoneController().lockHatch(
                         this.target.getPoint());
             } catch (NotAnHatchException e) {
-                // Technically I have already checked the sector, so an
-                // exception should never be thrown
+                LoggerMethods
+                        .notAnHatchException(
+                                e,
+                                "Technically I have already checked the sector, so an exception should never be thrown");
             }
             // update the map
             this.sendMapVariationToParty(this.target,
@@ -169,14 +172,13 @@ public class Move extends ActionController {
         try {
             this.matchController.sendMapVariationToPlayer(this.player,
                     this.target, SectorHighlight.PLAYER_LOCATION);
-            // TODO queste righe sono inutili se cli e gui gestiscono al
-            // ricezione del model della riga precedente
-            // this.notifyCurrentPlayerByServer("You are in "
-            // + this.getStringFromSector(this.target));
+            this.notifyCurrentPlayerByServer("You are in "
+                    + this.getStringFromSector(this.target));
         } catch (DisconnectedException e) {
-            // player's location will be updated as soon as the player comes
-            // back thanks to modelSender(Player returningPlayer)
-            // in MatchController
+            LoggerMethods
+                    .disconnectedException(
+                            e,
+                            "player's location will be updated as soon as the player comes back thanks to modelSender(Player returningPlayer) in MatchController");
         }
     }
 

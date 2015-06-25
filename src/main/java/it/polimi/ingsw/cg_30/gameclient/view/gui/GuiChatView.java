@@ -22,6 +22,7 @@ public class GuiChatView extends GuiView {
 
     private JTextArea party, match, server;
     private Map<String, JTextArea> privates = new HashMap<String, JTextArea>();
+    private String stringToPrint = "%s  %s%n";
 
     private JPanel chatPane;
     private JTabbedPane chatTabs;
@@ -71,26 +72,26 @@ public class GuiChatView extends GuiView {
             chatMsg.setDate(new Date());
         switch (chatMsg.getAudience()) {
             case PUBLIC:
-                server.append(String.format("%s %s : %s\r\n",
+                server.append(String.format("%s %s : %s%n",
                         ViewEngine.SDF.format(chatMsg.getDate()),
                         chatMsg.getSenderNick(), chatMsg.getText()));
                 break;
 
             case PARTY:
-                if ("server".equals(chatMsg.getSenderNick().toLowerCase())) {
-                    match.append(String.format("%s  %s\r\n",
+                if ("server".equalsIgnoreCase(chatMsg.getSenderNick())) {
+                    match.append(String.format(this.stringToPrint,
                             ViewEngine.SDF.format(chatMsg.getDate()),
                             chatMsg.getText()));
                 } else {
-                    party.append(String.format("%s %s : %s\r\n",
+                    party.append(String.format("%s %s : %s%n",
                             ViewEngine.SDF.format(chatMsg.getDate()),
                             chatMsg.getSenderNick(), chatMsg.getText()));
                 }
                 break;
 
             case PLAYER:
-                if ("server".equals(chatMsg.getSenderNick().toLowerCase())) {
-                    match.append(String.format("%s  %s\r\n",
+                if ("server".equalsIgnoreCase(chatMsg.getSenderNick())) {
+                    match.append(String.format(this.stringToPrint,
                             ViewEngine.SDF.format(chatMsg.getDate()),
                             chatMsg.getText()));
                     break;
@@ -100,7 +101,7 @@ public class GuiChatView extends GuiView {
                             this.newTab(chatMsg.getSenderNick()));
                 }
                 privates.get(chatMsg.getSenderNick()).append(
-                        String.format("%s  %s\r\n",
+                        String.format(this.stringToPrint,
                                 ViewEngine.SDF.format(chatMsg.getDate()),
                                 chatMsg.getText()));
                 break;

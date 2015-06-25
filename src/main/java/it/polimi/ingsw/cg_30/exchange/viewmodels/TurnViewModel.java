@@ -149,7 +149,7 @@ public class TurnViewModel extends ViewModel {
 
     private boolean checkCanTurnOver(boolean discard, boolean move,
             SectorCard drawnCard, boolean secDanger) {
-        return (!move && !discard && !secDanger && drawnCard == null);
+        return !move && !discard && !secDanger && drawnCard == null;
     }
 
     @Override
