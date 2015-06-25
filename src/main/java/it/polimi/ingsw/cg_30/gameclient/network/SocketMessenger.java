@@ -30,7 +30,7 @@ public class SocketMessenger extends ClientMessenger implements Runnable {
     }
 
     @Override
-    public void connect(String host, int port) throws Exception {
+    public void connect(String host, int port) throws IOException {
         try {
             this.mySoc = new Socket(host, port);
             this.socOut = new DataOutputStream(this.mySoc.getOutputStream());

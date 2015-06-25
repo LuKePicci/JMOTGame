@@ -42,17 +42,13 @@ public class GameClient {
             @Override
             public void run() {
                 activeEngine = new GuiEngine();
-                startEngine();
+                activeEngine.logonWizard();
             }
         });
     }
 
     private void startCli() {
         activeEngine = new CliEngine();
-        this.startEngine();
-    }
-
-    private void startEngine() {
         activeEngine.logonWizard();
         activeEngine.runEngine();
     }

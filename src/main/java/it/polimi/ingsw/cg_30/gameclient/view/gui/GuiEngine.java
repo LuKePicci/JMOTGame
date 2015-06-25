@@ -13,12 +13,18 @@ import it.polimi.ingsw.cg_30.gameclient.view.ViewEngine;
 
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.rmi.NotBoundException;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import com.jtattoo.plaf.hifi.HiFiLookAndFeel;
@@ -27,6 +33,9 @@ public class GuiEngine extends ViewEngine {
 
     private GameView gv;
     private final RequestComposer composer = new RequestComposer();
+
+    private static final Map<String, BufferedImage> imageCache = new HashMap<String, BufferedImage>();
+    private static final Map<String, Font> fontCache = new HashMap<String, Font>();
 
     // this flag will become true when a player click the discard button
     private static boolean discardCard = false;
@@ -55,7 +64,7 @@ public class GuiEngine extends ViewEngine {
 
     @Override
     public void logonWizard() {
-        // TODO Auto-generated method stub
+        this.chooseProtocol();
 
     }
 
@@ -72,14 +81,28 @@ public class GuiEngine extends ViewEngine {
 
     @Override
     public void chooseProtocol() {
-        // TODO Auto-generated method stub
+        final ConnectionView cv = new ConnectionView();
+        SwingUtilities.invokeLater(new Runnable() {
 
+            @Override
+            public void run() {
+                cv.initialize();
+                cv.setVisible(true);
+            }
+        });
     }
 
     @Override
     public void chooseGame() {
-        // TODO Auto-generated method stub
-
+        // final ConnectionView cv = new ConnectionView();
+        // SwingUtilities.invokeLater(new Runnable() {
+        //
+        // @Override
+        // public void run() {
+        // cv.initialize();
+        // cv.setVisible(true);
+        // }
+        // });
     }
 
     @Override
@@ -90,28 +113,40 @@ public class GuiEngine extends ViewEngine {
 
     @Override
     public void showError(String text) {
-        // TODO Auto-generated method stub
-
+        JOptionPane
+                .showMessageDialog(null, text, "", JOptionPane.ERROR_MESSAGE);
     }
 
     public static Font loadCustomFont(String fontName) {
-        try {
-            return Font.createFont(
-                    Font.TRUETYPE_FONT,
-                    GameView.class.getResourceAsStream("/gameclient/"
-                            + fontName + ".ttf"));
-        } catch (Exception ioEx) {
-            ioEx.printStackTrace();
-            return new Font("Calibri", 0, 18);
+        if (fontCache.containsKey(fontName)) {
+            return fontCache.get(fontName);
+        } else {
+            try {
+                Font newFont = Font.createFont(
+                        Font.TRUETYPE_FONT,
+                        GameView.class.getResourceAsStream("/gameclient/"
+                                + fontName + ".ttf"));
+                fontCache.put(fontName, newFont);
+                return newFont;
+            } catch (Exception ioEx) {
+                ioEx.printStackTrace();
+                return new Font("Calibri", 0, 18);
+            }
         }
     }
 
-    public static Image loadImage(String imageName) {
-        try {
-            return ImageIO.read(GameView.class
-                    .getResourceAsStream("/gameclient/" + imageName));
-        } catch (Exception ioEx) {
-            return null;
+    public static BufferedImage loadImage(String imageName) {
+        if (fontCache.containsKey(imageName)) {
+            return imageCache.get(imageName);
+        } else {
+            try {
+                BufferedImage newImage = ImageIO.read(GameView.class
+                        .getResourceAsStream("/gameclient/" + imageName));
+                imageCache.put(imageName, newImage);
+                return newImage;
+            } catch (Exception ioEx) {
+                return null;
+            }
         }
     }
 
@@ -144,6 +179,22 @@ public class GuiEngine extends ViewEngine {
         } catch (Exception e) {
             // use default lookAndFeel
         }
+    }
+
+    public boolean connect(String schema, String hostName, String portNumber) {
+        URI serverURI;
+        try {
+            serverURI = new URI(schema.toLowerCase(), null, hostName,
+                    Integer.parseInt(portNumber), null, null, null);
+            ClientMessenger.connectToServer(serverURI);
+            this.chooseGame();
+            return true;
+        } catch (NumberFormatException | URISyntaxException e) {
+            this.showError("Invalid hostname or port number");
+        } catch (NotBoundException | IOException e) {
+            this.showError("Connection failed");
+        }
+        return false;
     }
 
     public void cardProcessor(Item icard) {
@@ -254,4 +305,5 @@ public class GuiEngine extends ViewEngine {
     public static void setMyNickName(String nick) {
         myNickName = nick;
     }
+
 }

@@ -7,8 +7,11 @@ import it.polimi.ingsw.cg_30.gameclient.UpdateTask;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URI;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.util.Scanner;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
@@ -32,7 +35,8 @@ public abstract class ClientMessenger {
         this.executeUpdateProcessor(receivedMessage);
     }
 
-    public abstract void connect(String host, int port) throws Exception;
+    public abstract void connect(String host, int port) throws RemoteException,
+            NotBoundException, IOException;
 
     public UUID getUUID() {
         return this.myID;
@@ -75,7 +79,8 @@ public abstract class ClientMessenger {
         currentMessenger = m;
     }
 
-    public static void connectToServer(URI serverURI) throws Exception {
+    public static void connectToServer(URI serverURI) throws NotBoundException,
+            IOException {
         switch (serverURI.getScheme().toLowerCase()) {
             case "rmi":
                 connectToRmi(serverURI);
@@ -86,12 +91,14 @@ public abstract class ClientMessenger {
         }
     }
 
-    private static void connectToRmi(URI serverURI) throws Exception {
+    private static void connectToRmi(URI serverURI) throws NotBoundException,
+            IOException {
         currentMessenger = new RmiMessenger();
         currentMessenger.connect(serverURI.getHost(), serverURI.getPort());
     }
 
-    private static void connectToSocket(URI serverURI) throws Exception {
+    private static void connectToSocket(URI serverURI)
+            throws NotBoundException, IOException {
         currentMessenger = new SocketMessenger();
         currentMessenger.connect(serverURI.getHost(), serverURI.getPort());
     }

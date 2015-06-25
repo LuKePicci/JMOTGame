@@ -26,7 +26,8 @@ public class RmiMessenger extends ClientMessenger implements IRmiClient {
     }
 
     @Override
-    public void connect(String host, int port) throws Exception {
+    public void connect(String host, int port) throws RemoteException,
+            NotBoundException {
         try {
             Registry reg = LocateRegistry.getRegistry(host, port);
             IRmiAcceptance rmiServer = (IRmiAcceptance) reg.lookup("RmiServer");
