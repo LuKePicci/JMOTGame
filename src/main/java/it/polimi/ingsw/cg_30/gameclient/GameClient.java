@@ -15,10 +15,9 @@ public class GameClient {
         String vEngine = args.length > 0 ? args[0].toLowerCase() : "";
         switch (vEngine) {
             case "cli":
-            default:
                 gc.startCli();
                 break;
-
+            default:
             case "gui":
                 gc.startGui();
                 break;
