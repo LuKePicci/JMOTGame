@@ -90,7 +90,7 @@ public class GuiEngine extends ViewEngine {
             public void run() {
                 cv.initialize();
                 cv.setVisible(true);
-    }
+            }
         });
     }
 
@@ -121,34 +121,34 @@ public class GuiEngine extends ViewEngine {
         if (fontCache.containsKey(fontName)) {
             return fontCache.get(fontName);
         } else {
-        try {
+            try {
                 Font newFont = Font.createFont(
-                            Font.TRUETYPE_FONT,
+                        Font.TRUETYPE_FONT,
                         GameView.class.getResourceAsStream("/gameclient/"
                                 + fontName + ".ttf"));
                 fontCache.put(fontName, newFont);
                 return newFont;
-        } catch (Exception ioEx) {
-            LoggerMethods.exception(ioEx, "");
-            return new Font("Calibri", 0, 18);
+            } catch (Exception ioEx) {
+                LoggerMethods.exception(ioEx, "");
+                return new Font("Calibri", 0, 18);
+            }
         }
-    }
     }
 
     public static BufferedImage loadImage(String imageName) {
         if (fontCache.containsKey(imageName)) {
             return imageCache.get(imageName);
         } else {
-        try {
+            try {
                 BufferedImage newImage = ImageIO.read(GameView.class
                         .getResourceAsStream("/gameclient/" + imageName));
                 imageCache.put(imageName, newImage);
                 return newImage;
-        } catch (Exception ioEx) {
-            LoggerMethods.exception(ioEx, "");
-            return null;
+            } catch (Exception ioEx) {
+                LoggerMethods.exception(ioEx, "");
+                return null;
+            }
         }
-    }
     }
 
     public static Dimension getResponsive(double propX, double propY) {
@@ -200,9 +200,11 @@ public class GuiEngine extends ViewEngine {
 
     public boolean join(String nick, String mapName, String partyName) {
         if (!nick.equals("")) {
+
             JoinRequest req = composer.createJoinRequest(nick, mapName
                     .equals("") ? null : mapName, partyName.equals("") ? null
                     : partyName);
+            ClientMessenger.getCurrentMessenger().loadToken(req.getNick());
             ClientMessenger.getCurrentMessenger().executeRequestTask(req);
             this.runEngine();
             return true;

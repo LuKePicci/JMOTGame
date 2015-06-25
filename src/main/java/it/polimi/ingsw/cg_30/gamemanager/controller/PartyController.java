@@ -106,7 +106,8 @@ public class PartyController implements Serializable {
             request.setGame(new EftaiosGame(EftaiosGame.DEFAULT_MAP));
 
         final PartyController joined;
-        if (request.isPrivate())
+        if (request.isPrivate() && request.getPartyName() != null
+                && !request.getPartyName().equals(""))
             joined = joinPrivateParty(playerClient, request);
         else
             joined = joinPublicParty(playerClient, request);
