@@ -9,6 +9,7 @@ public class DisconnectedException extends Exception {
     private final Date eventDate;
 
     public DisconnectedException(Date d) {
+        super("Connection lost");
         this.eventDate = d;
     }
 

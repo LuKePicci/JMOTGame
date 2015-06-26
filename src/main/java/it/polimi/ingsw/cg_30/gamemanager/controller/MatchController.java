@@ -71,9 +71,6 @@ public class MatchController {
 
     /**
      * Sends all the model needed in order to star a new match.
-     *
-     * @throws DisconnectedException
-     *             the disconnected exception
      */
     private void modelSender() {
         // clean map
@@ -178,8 +175,6 @@ public class MatchController {
      *             the file not found exception
      * @throws URISyntaxException
      *             the URI syntax exception
-     * @throws DisconnectedException
-     *             the disconnected exception
      */
     public void initMatch(PartyController partyController)
             throws FileNotFoundException, URISyntaxException {
@@ -281,16 +276,7 @@ public class MatchController {
                     + killedPlayer.getName() + " is dead.");
         }
         // discards killedPlayer's cards
-        this.match.getItemsDeck().putAllIntoBucket(
-                killedPlayer.getItemsDeck().getCards());
-        killedPlayer.getItemsDeck().getCards().clear();
-        try {
-            this.updateDeckView(killedPlayer);
-        } catch (DisconnectedException e) {
-            LoggerMethods
-                    .disconnectedException(e,
-                            "do not push this model, will be retrieved manually on reconnect");
-        }
+        this.cardsRemoval(killedPlayer);
         // killedPlayer has to disappear from the map
         this.zoneController.getCurrentZone().movePlayer(killedPlayer,
                 endingSector);
@@ -647,6 +633,25 @@ public class MatchController {
     protected void sendTurnViewModelToParty() {
         this.partyController.sendMessageToParty(new Message(this
                 .getTurnController().getTurn().getViewModel()));
+    }
+
+    /**
+     * Removes all cards from player's item deck.
+     *
+     * @param remPlayer
+     *            the player who is dead or escaped.
+     */
+    protected void cardsRemoval(Player remPlayer) {
+        this.match.getItemsDeck().putAllIntoBucket(
+                remPlayer.getItemsDeck().getCards());
+        remPlayer.getItemsDeck().getCards().clear();
+        try {
+            this.updateDeckView(remPlayer);
+        } catch (DisconnectedException e) {
+            LoggerMethods
+                    .disconnectedException(e,
+                            "do not push this model, will be retrieved manually on reconnect");
+        }
     }
 
 }
