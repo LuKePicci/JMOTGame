@@ -106,8 +106,8 @@ public class LoggerMethods {
      */
     public static void fileNotFoundException(FileNotFoundException e,
             String string) {
-        LOGGER.info("FileNotFoundException: " + e.getMessage() + "\r\n"
-                + string);
+        // LOGGER.info("FileNotFoundException: " + e.getMessage() + "\r\n"
+        // + string);
     }
 
     /**
