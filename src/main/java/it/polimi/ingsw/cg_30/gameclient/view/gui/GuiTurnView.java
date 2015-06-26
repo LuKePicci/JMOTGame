@@ -203,9 +203,7 @@ public class GuiTurnView extends GuiView {
                 && PlayerRace.ALIEN.equals(turn.getCurrentPlayerIdentity()
                         .getRace()));
         this.turnoverButton.setEnabled(turn.canTurnOver());
-        if (turn.mustMove() && turn.isSecDangerous())
-            ;
-        else
+        if (!(turn.mustMove() && turn.isSecDangerous()))
             this.startCountDown(turn.getTurnStart());
     }
 

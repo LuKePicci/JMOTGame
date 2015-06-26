@@ -45,6 +45,8 @@ public class ConnectionView {
     private BufferedImage floor, roof, imageBackBuffer;
     private Timer animation;
     private Map<BufferedImage, BufferedImage[]> animationCache = new HashMap<BufferedImage, BufferedImage[]>();
+    private String titilliumTextXb = "TitilliumText22L-Xb";
+    private String titilliumText = "TitilliumText22L";
 
     /**
      * @wbp.parser.entryPoint
@@ -116,8 +118,8 @@ public class ConnectionView {
         JLabel lblEscape = new JAntiAliasedLabel("ESCAPE");
         lblEscape.setAlignmentX(Component.CENTER_ALIGNMENT);
         lblEscape.setHorizontalAlignment(SwingConstants.CENTER);
-        lblEscape.setFont(GuiEngine.loadCustomFont("TitilliumText22L-Xb")
-                .deriveFont(0, 64));
+        lblEscape.setFont(GuiEngine.loadCustomFont(titilliumTextXb).deriveFont(
+                0, 64));
         GridBagConstraints gbc_lblEscape = new GridBagConstraints();
         gbc_lblEscape.fill = GridBagConstraints.BOTH;
         gbc_lblEscape.weightx = 0.3;
@@ -129,8 +131,8 @@ public class ConnectionView {
         JLabel lblFromTheAliens = new JAntiAliasedLabel("FROM THE ALIENS");
         lblFromTheAliens.setAlignmentX(Component.CENTER_ALIGNMENT);
         lblFromTheAliens.setHorizontalAlignment(SwingConstants.CENTER);
-        lblFromTheAliens.setFont(GuiEngine
-                .loadCustomFont("TitilliumText22L-Xb").deriveFont(0, 26));
+        lblFromTheAliens.setFont(GuiEngine.loadCustomFont(titilliumTextXb)
+                .deriveFont(0, 26));
         GridBagConstraints gbc_lblFromTheAliens = new GridBagConstraints();
         gbc_lblFromTheAliens.fill = GridBagConstraints.BOTH;
         gbc_lblFromTheAliens.insets = new Insets(0, 0, 5, 5);
@@ -141,7 +143,7 @@ public class ConnectionView {
         JLabel lblInOuterSpace = new JAntiAliasedLabel("IN OUTER SPACE");
         lblInOuterSpace.setAlignmentX(Component.CENTER_ALIGNMENT);
         lblInOuterSpace.setHorizontalAlignment(SwingConstants.CENTER);
-        lblInOuterSpace.setFont(GuiEngine.loadCustomFont("TitilliumText22L-Xb")
+        lblInOuterSpace.setFont(GuiEngine.loadCustomFont(titilliumTextXb)
                 .deriveFont(0, 30));
         GridBagConstraints gbc_lblInOuterSpace = new GridBagConstraints();
         gbc_lblInOuterSpace.fill = GridBagConstraints.BOTH;
@@ -165,8 +167,8 @@ public class ConnectionView {
         hostName = new PlaceholderTextField();
         hostName.setMinimumSize(new Dimension(4, 25));
         hostName.setPlaceholder("Hostname");
-        hostName.setFont(GuiEngine.loadCustomFont("TitilliumText22L")
-                .deriveFont(0, 16));
+        hostName.setFont(GuiEngine.loadCustomFont(titilliumText).deriveFont(0,
+                16));
         GridBagConstraints gbc_hostName = new GridBagConstraints();
         gbc_hostName.weighty = 0.33;
         gbc_hostName.weightx = 0.6;
@@ -188,8 +190,8 @@ public class ConnectionView {
         portNumber = new PlaceholderTextField();
         portNumber.setMinimumSize(new Dimension(4, 25));
         portNumber.setPlaceholder("Port");
-        portNumber.setFont(GuiEngine.loadCustomFont("TitilliumText22L")
-                .deriveFont(0, 16));
+        portNumber.setFont(GuiEngine.loadCustomFont(titilliumText).deriveFont(
+                0, 16));
         GridBagConstraints gbc_portNumber = new GridBagConstraints();
         gbc_portNumber.weightx = 0.4;
         gbc_portNumber.fill = GridBagConstraints.HORIZONTAL;
@@ -201,8 +203,8 @@ public class ConnectionView {
         JRadioButton rdbtnSocket = new JRadioButton("Socket");
         rdbtnSocket.setHorizontalAlignment(SwingConstants.CENTER);
         rdbtnSocket.setHorizontalTextPosition(SwingConstants.LEADING);
-        rdbtnSocket.setFont(GuiEngine.loadCustomFont("TitilliumText22L")
-                .deriveFont(0, 13));
+        rdbtnSocket.setFont(GuiEngine.loadCustomFont(titilliumText).deriveFont(
+                0, 13));
         buttonGroup.add(rdbtnSocket);
         rdbtnSocket.setSelected(true);
         GridBagConstraints gbc_rdbtnSocket = new GridBagConstraints();
@@ -258,8 +260,8 @@ public class ConnectionView {
 
         JRadioButton rdbtnRmi = new JRadioButton("RMI");
         rdbtnRmi.setHorizontalAlignment(SwingConstants.CENTER);
-        rdbtnRmi.setFont(GuiEngine.loadCustomFont("TitilliumText22L")
-                .deriveFont(0, 13));
+        rdbtnRmi.setFont(GuiEngine.loadCustomFont(titilliumText).deriveFont(0,
+                13));
         buttonGroup.add(rdbtnRmi);
         GridBagConstraints gbc_rdbtnRmi = new GridBagConstraints();
         gbc_rdbtnRmi.gridheight = 2;
@@ -267,8 +269,8 @@ public class ConnectionView {
         gbc_rdbtnRmi.gridx = 2;
         gbc_rdbtnRmi.gridy = 1;
         controlsPane.add(rdbtnRmi, gbc_rdbtnRmi);
-        btnConnect.setFont(GuiEngine.loadCustomFont("TitilliumText22L")
-                .deriveFont(0, 17));
+        btnConnect.setFont(GuiEngine.loadCustomFont(titilliumText).deriveFont(
+                0, 17));
         GridBagConstraints gbc_btnConnect = new GridBagConstraints();
         gbc_btnConnect.weighty = 0.33;
         gbc_btnConnect.gridheight = 2;

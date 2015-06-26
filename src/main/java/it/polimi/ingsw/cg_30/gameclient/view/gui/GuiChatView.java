@@ -30,7 +30,8 @@ public class GuiChatView extends GuiView {
 
     private JTextArea party, match, server;
     private Map<String, JTextArea> privates = new HashMap<String, JTextArea>();
-    private String stringToPrint = "%s  %s%n";
+    private String stringToPrint1 = "%s  %s%n";
+    private String stringToPrint2 = "%s %s : %s%n";
 
     private JPanel chatPane;
     private JTabbedPane chatTabs;
@@ -139,7 +140,7 @@ public class GuiChatView extends GuiView {
             chatMsg.setDate(new Date());
         switch (chatMsg.getAudience()) {
             case PUBLIC:
-                server.append(String.format("%s %s : %s%n",
+                server.append(String.format(stringToPrint2,
                         ViewEngine.SDF.format(chatMsg.getDate()),
                         chatMsg.getSenderNick(), chatMsg.getText()));
                 this.selectLastMessageTab(server);
@@ -147,12 +148,12 @@ public class GuiChatView extends GuiView {
 
             case PARTY:
                 if ("server".equalsIgnoreCase(chatMsg.getSenderNick())) {
-                    match.append(String.format(this.stringToPrint,
+                    match.append(String.format(this.stringToPrint1,
                             ViewEngine.SDF.format(chatMsg.getDate()),
                             chatMsg.getText()));
                     this.selectLastMessageTab(match);
                 } else {
-                    party.append(String.format("%s %s : %s%n",
+                    party.append(String.format(stringToPrint2,
                             ViewEngine.SDF.format(chatMsg.getDate()),
                             chatMsg.getSenderNick(), chatMsg.getText()));
                     this.selectLastMessageTab(party);
@@ -161,7 +162,7 @@ public class GuiChatView extends GuiView {
 
             case PLAYER:
                 if ("server".equalsIgnoreCase(chatMsg.getSenderNick())) {
-                    match.append(String.format(this.stringToPrint,
+                    match.append(String.format(this.stringToPrint1,
                             ViewEngine.SDF.format(chatMsg.getDate()),
                             chatMsg.getText()));
                     this.selectLastMessageTab(match);
@@ -174,7 +175,7 @@ public class GuiChatView extends GuiView {
                             this.insertTab(chatMsg.getSenderNick()));
                 }
                 JTextArea privateArea = privates.get(chatMsg.getSenderNick());
-                privateArea.append(String.format("%s %s : %s%n",
+                privateArea.append(String.format(stringToPrint2,
                         ViewEngine.SDF.format(chatMsg.getDate()),
                         chatMsg.getSenderNick(), chatMsg.getText()));
                 this.selectLastMessageTab(privateArea);
@@ -214,7 +215,6 @@ public class GuiChatView extends GuiView {
     }
 
     private void selectLastMessageTab(JComponent tabContent) {
-        // this.chatTabs.setSelectedIndex(this.chatTabs
-        // .indexOfComponent(tabContent.getParent()));
+
     }
 }
