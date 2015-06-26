@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg_30.gamemanager.controller;
 
+import it.polimi.ingsw.cg_30.exchange.LoggerMethods;
 import it.polimi.ingsw.cg_30.exchange.messaging.ActionRequest;
 import it.polimi.ingsw.cg_30.exchange.messaging.ActionType;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.HatchCard;
@@ -107,6 +108,8 @@ public class Move extends ActionController {
                         .getTurnController().getTurn().getCurrentPlayer()
                         .getName()
                         + " HAS ESCAPED");
+                // remove player's cards
+                this.matchController.cardsRemoval(player);
             } else {
                 this.notifyInChatByServer("RED HATCH CARD");
                 try {

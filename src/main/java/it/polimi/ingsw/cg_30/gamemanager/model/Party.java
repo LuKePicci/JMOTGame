@@ -2,7 +2,7 @@ package it.polimi.ingsw.cg_30.gamemanager.model;
 
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Game;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PartyViewModel;
-import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewModel;
+import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerViewModel;
 import it.polimi.ingsw.cg_30.gamemanager.controller.MatchController;
 
 import java.io.Serializable;
@@ -167,8 +167,8 @@ public class Party implements IViewable, Serializable {
     }
 
     @Override
-    public ViewModel getViewModel() {
-        List<ViewModel> pvmList = new ArrayList<ViewModel>();
+    public PartyViewModel getViewModel() {
+        List<PlayerViewModel> pvmList = new ArrayList<PlayerViewModel>();
         for (Player p : this.getMembers().keySet())
             pvmList.add(p.getViewModel());
 

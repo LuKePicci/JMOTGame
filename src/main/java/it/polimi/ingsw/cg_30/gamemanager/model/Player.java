@@ -3,7 +3,6 @@ package it.polimi.ingsw.cg_30.gamemanager.model;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ItemCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerViewModel;
-import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewModel;
 
 import java.io.Serializable;
 
@@ -153,7 +152,7 @@ public class Player implements IViewable, Serializable {
     }
 
     @Override
-    public ViewModel getViewModel() {
+    public PlayerViewModel getViewModel() {
         return new PlayerViewModel(this.getIndex(), this.getName(),
                 this.getKillsCount(), this.getItemsDeck().getCards().size());
     }

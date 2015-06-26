@@ -38,6 +38,10 @@ public class PlaceholderTextField extends JTextField {
 
     @Override
     protected void paintComponent(final Graphics pG) {
+        Graphics2D graphics2d = (Graphics2D) pG;
+        graphics2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+
         super.paintComponent(pG);
 
         if (placeholder.length() == 0 || getText().length() > 0) {

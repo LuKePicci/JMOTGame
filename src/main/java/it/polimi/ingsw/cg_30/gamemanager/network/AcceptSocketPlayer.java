@@ -1,7 +1,7 @@
 package it.polimi.ingsw.cg_30.gamemanager.network;
 
+import it.polimi.ingsw.cg_30.exchange.LoggerMethods;
 import it.polimi.ingsw.cg_30.exchange.messaging.Message;
-import it.polimi.ingsw.cg_30.gamemanager.controller.LoggerMethods;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

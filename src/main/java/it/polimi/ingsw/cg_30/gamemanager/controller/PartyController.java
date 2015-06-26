@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg_30.gamemanager.controller;
 
+import it.polimi.ingsw.cg_30.exchange.LoggerMethods;
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatMessage;
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatVisibility;
 import it.polimi.ingsw.cg_30.exchange.messaging.JoinRequest;
@@ -105,7 +106,8 @@ public class PartyController implements Serializable {
             request.setGame(new EftaiosGame(EftaiosGame.DEFAULT_MAP));
 
         final PartyController joined;
-        if (request.isPrivate())
+        if (request.isPrivate() && request.getPartyName() != null
+                && !"".equals(request.getPartyName()))
             joined = joinPrivateParty(playerClient, request);
         else
             joined = joinPublicParty(playerClient, request);

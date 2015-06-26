@@ -22,7 +22,8 @@ public class CliPartyView extends View {
         String players = "";
         for (ViewModel view : viewModel.getPartyPlayers()) {
             PlayerViewModel playerView = (PlayerViewModel) view;
-            players += playerView.getName() + "\r\n";
+            players += playerView.getName() + "   (item cards: "
+                    + playerView.getNumOfItemCards() + ")\r\n";
         }
         CliEngine.printLineToCli("\r\nName of the party:\r\n"
                 + viewModel.getPartyName() + "\r\nPlayers of the party:\r\n"

@@ -13,11 +13,9 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.swing.JFrame;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -26,11 +24,14 @@ import com.jtattoo.plaf.hifi.HiFiLookAndFeel;
 
 public class GameView {
 
+    public static final Point CENTER = GraphicsEnvironment
+            .getLocalGraphicsEnvironment().getCenterPoint();
+
     public static final Dimension FRAME_SIZE = GuiEngine.getResponsive(1.4049,
             1.1676);
 
-    public static final Dimension PARTY_SIZE = GuiEngine.getResponsive(0.6204,
-            0.1406);
+    public static final Dimension PARTY_SIZE = GuiEngine.getResponsive(7.5294,
+            2.4);
     public static final Dimension MAP_SIZE = GuiEngine.getResponsive(1.9, 1.62);
 
     public static final Dimension CARD_SIZE = GuiEngine.getResponsive(16, 6);
@@ -51,6 +52,10 @@ public class GameView {
         this.subViews.put(ViewType.CHAT, new GuiChatView());
         this.subViews.put(ViewType.DECK, new GuiDeckView());
         this.subViews.put(ViewType.TURN, new GuiTurnView());
+        this.subViews.put(ViewType.PARTY, new GuiPartyView());
+        this.subViews.put(ViewType.SECTOR,
+                new GuiSectorView(subViews.get(ViewType.ZONE)));
+        this.subViews.put(ViewType.CARD, new GuiCardView());
     }
 
     /**
@@ -72,12 +77,10 @@ public class GameView {
     public void initialize() {
         mainFrame = new JFrame();
         mainFrame.setIconImage(GuiEngine.loadImage("custom_icon.png"));
-        Point center = GraphicsEnvironment.getLocalGraphicsEnvironment()
-                .getCenterPoint();
 
         // set position and size
-        mainFrame.setBounds((int) (center.x - FRAME_SIZE.getWidth() / 2),
-                (int) (center.y - FRAME_SIZE.getHeight() / 2),
+        mainFrame.setBounds((int) (CENTER.x - FRAME_SIZE.getWidth() / 2),
+                (int) (CENTER.y - FRAME_SIZE.getHeight() / 2),
                 (int) FRAME_SIZE.getWidth(), (int) FRAME_SIZE.getHeight());
 
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -97,6 +100,7 @@ public class GameView {
 
         bottomSplit
                 .setLeftComponent(subViews.get(ViewType.CHAT).getComponent());
+        subViews.get(ViewType.CHAT).registerDefaultButton();
 
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new BorderLayout(0, 0));
@@ -123,11 +127,10 @@ public class GameView {
         partyScrollPane
                 .setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         topRightPane.add(partyScrollPane, BorderLayout.CENTER);
+        partyScrollPane.setViewportView(subViews.get(ViewType.PARTY)
+                .getComponent());
 
-        JList partyList = new JList();
-        partyList.setMaximumSize(PARTY_SIZE);
-        partyList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        partyScrollPane.setViewportView(partyList);
+        subViews.get(ViewType.CARD).getComponent();
     }
 
     /**

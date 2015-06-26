@@ -1,8 +1,8 @@
 package it.polimi.ingsw.cg_30.gameclient.network;
 
+import it.polimi.ingsw.cg_30.exchange.LoggerMethods;
 import it.polimi.ingsw.cg_30.exchange.messaging.Message;
 import it.polimi.ingsw.cg_30.gameclient.GameClient;
-import it.polimi.ingsw.cg_30.gamemanager.controller.LoggerMethods;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -32,7 +32,7 @@ public class SocketMessenger extends ClientMessenger implements Runnable {
     }
 
     @Override
-    public void connect(String host, int port) throws Exception {
+    public void connect(String host, int port) throws IOException {
         try {
             this.mySoc = new Socket(host, port);
             this.socOut = new DataOutputStream(this.mySoc.getOutputStream());

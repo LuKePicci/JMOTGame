@@ -66,20 +66,20 @@ public class SectorFactory {
         sector.add(label);
 
         MouseAdapter ma = new MouseAdapter() {
-            Color orig;
+            Color c;
 
             @Override
             public void mouseEntered(MouseEvent e) {
                 JComponent sender = (JComponent) e.getSource();
-                orig = sender.getForeground();
-                sender.setForeground(new Color(orig.getRed(), orig.getGreen(),
-                        orig.getBlue(), orig.getAlpha() - 20));
+                c = sender.getForeground();
+                sender.setForeground(new Color(c.getRed(), c.getGreen(), c
+                        .getBlue(), c.getAlpha() - 20));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                JComponent sender = (JComponent) e.getSource();
-                sender.setForeground(orig);
+                JSector sender = (JSector) e.getSource();
+                sender.setForeground(JSector.ColorMap.get(sender.getType()));
             }
         };
         sector.addMouseListener(ma);

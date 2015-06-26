@@ -33,10 +33,6 @@ public class CliSectorView extends View {
                     CliEngine.printLineToCli("\r\nHatch in " + sectorRep
                             + " is locked now.");
                     break;
-                case SPOTTED:
-                    CliEngine.printLineToCli("\r\nPlayer spotted in "
-                            + sectorRep + "!");
-                    break;
                 default:
                     CliEngine
                             .printLineToCli("\r\nWrong sector notification received ("

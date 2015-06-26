@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg_30.gamemanager.controller;
 
+import it.polimi.ingsw.cg_30.exchange.LoggerMethods;
 import it.polimi.ingsw.cg_30.exchange.messaging.ActionRequest;
 import it.polimi.ingsw.cg_30.exchange.messaging.ActionType;
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatMessage;
@@ -147,7 +148,6 @@ public abstract class ActionController {
             try {
                 this.notifyCurrentPlayerByServer("You have just picked a "
                         + icard.getItem().toString() + " item.");
-                this.showCardToCurrentPlayer(icard);
                 this.matchController.updateDeckView(player);
             } catch (DisconnectedException e1) {
                 LoggerMethods
@@ -202,9 +202,11 @@ public abstract class ActionController {
      *            the string to notify
      */
     protected void notifyInChatByServer(String what) {
-        this.matchController.getPartyController().sendMessageToParty(
-                new ChatMessage(new ChatViewModel(what,
-                        MatchController.SERVER_WORD_TEXT, ChatVisibility.PARTY)));
+        this.matchController.getPartyController()
+                .sendMessageToParty(
+                        new ChatMessage(new ChatViewModel(what,
+                                MatchController.SERVER_WORD_TEXT,
+                                ChatVisibility.PARTY)));
     }
 
     /**
@@ -220,9 +222,9 @@ public abstract class ActionController {
             throws DisconnectedException {
         MessageController.getPlayerHandler(
                 this.matchController.getPartyController().getCurrentParty()
-                        .getPlayerUUID(player))
-                .dispatchOutgoing(
-                        new ChatMessage(new ChatViewModel(what,
+                        .getPlayerUUID(player)).dispatchOutgoing(
+                new ChatMessage(
+                        new ChatViewModel(what,
                                 MatchController.SERVER_WORD_TEXT,
                                 ChatVisibility.PLAYER)));
     }

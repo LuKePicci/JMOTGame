@@ -1,5 +1,6 @@
-package it.polimi.ingsw.cg_30.gamemanager.controller;
+package it.polimi.ingsw.cg_30.exchange;
 
+import it.polimi.ingsw.cg_30.gamemanager.controller.NotAnHatchException;
 import it.polimi.ingsw.cg_30.gamemanager.network.DisconnectedException;
 
 import java.io.FileNotFoundException;
