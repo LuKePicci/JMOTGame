@@ -1,7 +1,7 @@
 USING ECLIPSE
 Game manager can be started by right clicking on GameServer.java in the package it.polimi.ingsw.cg_30.gamemanager and selecting Run As -> Java Aplication.
 Game client can be started by adding two run configurations; both configurations use the same  it.polimi.ingsw.cg_30.gameclient.GameClient as main class, but the program arguments must be GUI(or gui, or Gui, or... it's case unsensitive) in order to start the GUI, CLI (or cli, Cli,...) in order to start the CLI.
-After starting the CLI it is possible to move to GUI by writing the "switch" command before the match starting.
+After starting the CLI it is possible to move to GUI by writing the "switch" command before the match begins.
 
 USING JAR FILES
 In target directory two .jar files can be found.
