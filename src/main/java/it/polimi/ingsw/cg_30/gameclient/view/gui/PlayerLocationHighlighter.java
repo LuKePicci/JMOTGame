@@ -20,7 +20,7 @@ public class PlayerLocationHighlighter implements ActionListener {
      * @return PlayerLocationHighlighter instance
      */
     public static PlayerLocationHighlighter getPlayerLocationHighlighter() {
-        return plh == null ? new PlayerLocationHighlighter() : plh;
+        return plh == null ? plh = new PlayerLocationHighlighter() : plh;
     }
 
     public void updateLocation(JSector jsec) {

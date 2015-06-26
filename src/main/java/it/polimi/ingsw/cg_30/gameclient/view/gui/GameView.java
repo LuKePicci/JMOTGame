@@ -133,6 +133,8 @@ public class GameView {
         partyList.setMaximumSize(PARTY_SIZE);
         partyList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         partyScrollPane.setViewportView(partyList);
+
+        subViews.get(ViewType.CARD).getComponent();
     }
 
     /**

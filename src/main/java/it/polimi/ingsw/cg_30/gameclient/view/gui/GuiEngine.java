@@ -193,8 +193,10 @@ public class GuiEngine extends ViewEngine {
             return true;
         } catch (NumberFormatException | URISyntaxException e) {
             this.showError("Invalid hostname or port number");
+            LoggerMethods.exception(e, "Invalid hostname or port number");
         } catch (NotBoundException | IOException e) {
             this.showError("Connection failed");
+            LoggerMethods.exception(e, "Connection failed");
         }
         return false;
     }

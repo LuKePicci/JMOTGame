@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg_30.gameclient.view.gui;
 
+import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorHighlight;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorType;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorViewModel;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewModel;
@@ -37,8 +38,9 @@ public class GuiSectorView extends GuiView {
         JSector jsec = gzv.getJSector(viewModel.getSector().getPoint());
         if (jsec == null)
             return;
-        if (SectorType.ESCAPE_HATCH.equals(jsec.getType())) { // hatch sector
-                                                              // removed
+        // SectorType.ESCAPE_HATCH.equals(jsec.getType() condizione superflua
+        if (SectorHighlight.HATCH_LOCKED.equals(viewModel.getHighlight())) {
+            // hatch sector removed
             jsec.setType(SectorType.SECURE);
         } else { // new player's location
 

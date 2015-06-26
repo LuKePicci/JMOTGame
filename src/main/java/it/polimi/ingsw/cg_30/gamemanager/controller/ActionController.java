@@ -148,7 +148,6 @@ public abstract class ActionController {
             try {
                 this.notifyCurrentPlayerByServer("You have just picked a "
                         + icard.getItem().toString() + " item.");
-                this.showCardToCurrentPlayer(icard);
                 this.matchController.updateDeckView(player);
             } catch (DisconnectedException e1) {
                 LoggerMethods

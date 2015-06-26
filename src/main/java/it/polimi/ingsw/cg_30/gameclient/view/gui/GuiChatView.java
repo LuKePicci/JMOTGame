@@ -174,8 +174,8 @@ public class GuiChatView extends GuiView {
                             this.insertTab(chatMsg.getSenderNick()));
                 }
                 JTextArea privateArea = privates.get(chatMsg.getSenderNick());
-                privateArea.append(String.format("%s %s : %s\r\n",
-                                ViewEngine.SDF.format(chatMsg.getDate()),
+                privateArea.append(String.format("%s %s : %s%n",
+                        ViewEngine.SDF.format(chatMsg.getDate()),
                         chatMsg.getSenderNick(), chatMsg.getText()));
                 this.selectLastMessageTab(privateArea);
                 break;
