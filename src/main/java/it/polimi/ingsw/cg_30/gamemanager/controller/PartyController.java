@@ -107,7 +107,7 @@ public class PartyController implements Serializable {
 
         final PartyController joined;
         if (request.isPrivate() && request.getPartyName() != null
-                && !request.getPartyName().equals(""))
+                && !"".equals(request.getPartyName()))
             joined = joinPrivateParty(playerClient, request);
         else
             joined = joinPublicParty(playerClient, request);

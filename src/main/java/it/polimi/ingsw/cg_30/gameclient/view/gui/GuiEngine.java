@@ -202,11 +202,11 @@ public class GuiEngine extends ViewEngine {
     }
 
     public boolean join(String nick, String mapName, String partyName) {
-        if (!nick.equals("")) {
+        if (!"".equals(nick)) {
 
-            JoinRequest req = composer.createJoinRequest(nick, mapName
-                    .equals("") ? null : mapName, partyName.equals("") ? null
-                    : partyName);
+            JoinRequest req = composer.createJoinRequest(nick, ""
+                    .equals(mapName) ? null : mapName,
+                    "".equals(partyName) ? null : partyName);
             ClientMessenger.getCurrentMessenger().loadToken(req.getNick());
             ClientMessenger.getCurrentMessenger().executeRequestTask(req);
             this.runEngine();

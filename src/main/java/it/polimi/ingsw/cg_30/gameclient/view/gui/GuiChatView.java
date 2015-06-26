@@ -74,7 +74,7 @@ public class GuiChatView extends GuiView {
                         if (GameClient.getActiveEngine() instanceof GuiEngine) {
                             GuiEngine activeEngine = (GuiEngine) GameClient
                                     .getActiveEngine();
-                            if (textMessage.getText().equals(""))
+                            if ("".equals(textMessage.getText()))
                                 return;
                             activeEngine.chatProcessor(chatTabs
                                     .getTitleAt(chatTabs.getSelectedIndex()),
@@ -115,7 +115,7 @@ public class GuiChatView extends GuiView {
                     public void run() {
 
                         // check if a tab with this name already exists
-                        if (playerNick.getText().equals("")
+                        if ("".equals(playerNick.getText())
                                 || chatTabs.indexOfTab(playerNick.getText()) >= 0)
                             return;
 
