@@ -11,6 +11,7 @@ import java.io.Serializable;
  */
 public class Player implements IViewable, Serializable {
 
+    /** The Constant serialVersionUID. */
     private static final long serialVersionUID = -5724559163488614305L;
 
     /** The name. */
@@ -151,6 +152,9 @@ public class Player implements IViewable, Serializable {
         this.killsCount--;
     }
 
+    /**
+     * @see it.polimi.ingsw.cg_30.gamemanager.model.IViewable#getViewModel()
+     */
     @Override
     public PlayerViewModel getViewModel() {
         return new PlayerViewModel(this.getIndex(), this.getName(),

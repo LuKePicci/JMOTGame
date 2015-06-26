@@ -111,8 +111,8 @@ public class Party implements IViewable, Serializable {
     /**
      * Gets the player by its uuid.
      *
-     * @param p
-     *            the player's uuid
+     * @param id
+     *            the id
      * @return the player with given uuid
      */
     public Player getPlayerByUUID(UUID id) {
@@ -166,6 +166,9 @@ public class Party implements IViewable, Serializable {
         return this;
     }
 
+    /**
+     * @see it.polimi.ingsw.cg_30.gamemanager.model.IViewable#getViewModel()
+     */
     @Override
     public PartyViewModel getViewModel() {
         List<PlayerViewModel> pvmList = new ArrayList<PlayerViewModel>();

@@ -9,10 +9,21 @@ import java.util.Map;
 
 import javax.swing.ImageIcon;
 
+/**
+ * The Class CardsImageLoader.
+ */
 public class CardsImageLoader {
 
+    /**
+     * The Constant SECTOR_CARDS which contains the pictures of each sector
+     * card.
+     */
     public static final Map<SectorEvent, ImageIcon> SECTOR_CARDS = new HashMap<SectorEvent, ImageIcon>();
+
+    /** The Constant HATCH_CARDS which contains the pictures of each hatch card. */
     public static final Map<HatchChance, ImageIcon> HATCH_CARDS = new HashMap<HatchChance, ImageIcon>();
+
+    /** The Constant ITEM_CARDS which contains the pictures of each item card. */
     public static final Map<Item, ImageIcon> ITEM_CARDS = new HashMap<Item, ImageIcon>();
 
     static {
@@ -35,6 +46,9 @@ public class CardsImageLoader {
                             + i.toString().toLowerCase() + ".jpg")));
     }
 
+    /**
+     * Instantiates a new cards image loader.
+     */
     private CardsImageLoader() {
     }
 }

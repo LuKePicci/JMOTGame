@@ -17,15 +17,31 @@ import java.util.Map;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+/**
+ * The Class GuiZoneView.
+ */
 public class GuiZoneView extends GuiView {
 
+    /** The zone panel. */
     private JPanel zonePane;
+
+    /** The JSectors. */
     private final Map<HexPoint, JSector> jSectors = new HashMap<HexPoint, JSector>();
 
+    /**
+     * Gets the JSector from the hexPoint hex.
+     *
+     * @param hex
+     *            the hex point
+     * @return the JSector
+     */
     public JSector getJSector(HexPoint hex) {
         return this.jSectors.get(hex);
     }
 
+    /**
+     * @see it.polimi.ingsw.cg_30.gameclient.view.gui.GuiView#getComponent()
+     */
     @Override
     public JPanel getComponent() {
         if (this.zonePane == null)
@@ -33,6 +49,9 @@ public class GuiZoneView extends GuiView {
         return this.zonePane;
     }
 
+    /**
+     * @see it.polimi.ingsw.cg_30.gameclient.view.gui.GuiView#createComponents()
+     */
     @Override
     protected void createComponents() {
         this.zonePane = new JPanel();
@@ -42,6 +61,9 @@ public class GuiZoneView extends GuiView {
                 .getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
     }
 
+    /**
+     * @see it.polimi.ingsw.cg_30.gameclient.view.View#applyUpdate(it.polimi.ingsw.cg_30.exchange.viewmodels.ViewModel)
+     */
     @Override
     public void applyUpdate(ViewModel model) {
         Map<HexPoint, Sector> sectors = ((ZoneViewModel) model).getSectorsMap();

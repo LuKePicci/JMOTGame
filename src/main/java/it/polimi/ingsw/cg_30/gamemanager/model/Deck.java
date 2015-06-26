@@ -39,7 +39,7 @@ public abstract class Deck<C extends Card> implements IViewable, Serializable {
     public abstract Collection<C> getCardCollection();
 
     /**
-     * Recycle.
+     * Recycles.
      */
     protected abstract void recycle();
 
@@ -54,7 +54,7 @@ public abstract class Deck<C extends Card> implements IViewable, Serializable {
     }
 
     /**
-     * Put all cards into bucket.
+     * Puts all cards into bucket.
      *
      * @param c
      *            the cards that will be put into bucket

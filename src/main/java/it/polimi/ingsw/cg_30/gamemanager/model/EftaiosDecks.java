@@ -15,13 +15,26 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * The Class EftaiosDecks.
+ */
 public class EftaiosDecks {
 
+    /** The Constant HATCH_CARDS. */
     private static final Set<HatchCard> HATCH_CARDS;
+
+    /** The Constant SECTOR_CARDS. */
     private static final Set<SectorCard> SECTOR_CARDS;
+
+    /** The Constant ITEM_CARDS. */
     private static final Set<ItemCard> ITEM_CARDS;
+
+    /** The Constant PLAYER_CARDS. */
     private static final List<PlayerCard> PLAYER_CARDS;
 
+    /**
+     * Instantiates a new eftaios decks.
+     */
     private EftaiosDecks() {
     }
 

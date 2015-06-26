@@ -21,13 +21,25 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
+/**
+ * The Class GuiCardView.
+ */
 public class GuiCardView extends GuiView {
 
+    /** The Constant SIZE_CARD_SHOWN. */
     public static final Dimension SIZE_CARD_SHOWN = GuiEngine.getResponsive(
             9.1429, 3.6);
+
+    /** The card dialog. */
     private JDialog cardDialog;
+
+    /** The card picture. */
     private JLabel cardPicture;
+
+    /** The close button. */
     private JButton closeButton;
+
+    /** The close listener. */
     private final ActionListener closeListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -35,8 +47,13 @@ public class GuiCardView extends GuiView {
             closeTimer.stop();
         }
     };
+
+    /** The timer which closes the JDialog. */
     private Timer closeTimer;
 
+    /**
+     * @see it.polimi.ingsw.cg_30.gameclient.view.gui.GuiView#getComponent()
+     */
     @Override
     public JDialog getComponent() {
         if (this.cardDialog == null)
@@ -44,6 +61,9 @@ public class GuiCardView extends GuiView {
         return this.cardDialog;
     }
 
+    /**
+     * @see it.polimi.ingsw.cg_30.gameclient.view.gui.GuiView#createComponents()
+     */
     @Override
     protected void createComponents() {
         closeTimer = new Timer(3000, closeListener);
@@ -70,6 +90,9 @@ public class GuiCardView extends GuiView {
         cardDialog.setVisible(false);
     }
 
+    /**
+     * @see it.polimi.ingsw.cg_30.gameclient.view.View#applyUpdate(it.polimi.ingsw.cg_30.exchange.viewmodels.ViewModel)
+     */
     @Override
     public void applyUpdate(ViewModel model) {
         Card card = (Card) model;
@@ -81,6 +104,13 @@ public class GuiCardView extends GuiView {
 
     }
 
+    /**
+     * Gets the card icon.
+     *
+     * @param card
+     *            the card
+     * @return the card icon
+     */
     private ImageIcon getCardIcon(Card card) {
         switch (card.getType()) {
             case HATCH:
