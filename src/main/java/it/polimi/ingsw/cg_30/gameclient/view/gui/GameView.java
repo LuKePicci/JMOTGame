@@ -13,11 +13,9 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.swing.JFrame;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -32,8 +30,8 @@ public class GameView {
     public static final Dimension FRAME_SIZE = GuiEngine.getResponsive(1.4049,
             1.1676);
 
-    public static final Dimension PARTY_SIZE = GuiEngine.getResponsive(0.6204,
-            0.1406);
+    public static final Dimension PARTY_SIZE = GuiEngine.getResponsive(7.5294,
+            2.4);
     public static final Dimension MAP_SIZE = GuiEngine.getResponsive(1.9, 1.62);
 
     public static final Dimension CARD_SIZE = GuiEngine.getResponsive(16, 6);
@@ -54,6 +52,7 @@ public class GameView {
         this.subViews.put(ViewType.CHAT, new GuiChatView());
         this.subViews.put(ViewType.DECK, new GuiDeckView());
         this.subViews.put(ViewType.TURN, new GuiTurnView());
+        this.subViews.put(ViewType.PARTY, new GuiPartyView());
         this.subViews.put(ViewType.SECTOR,
                 new GuiSectorView(subViews.get(ViewType.ZONE)));
         this.subViews.put(ViewType.CARD, new GuiCardView());
@@ -128,11 +127,8 @@ public class GameView {
         partyScrollPane
                 .setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         topRightPane.add(partyScrollPane, BorderLayout.CENTER);
-
-        JList partyList = new JList();
-        partyList.setMaximumSize(PARTY_SIZE);
-        partyList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        partyScrollPane.setViewportView(partyList);
+        partyScrollPane.setViewportView(subViews.get(ViewType.PARTY)
+                .getComponent());
 
         subViews.get(ViewType.CARD).getComponent();
     }

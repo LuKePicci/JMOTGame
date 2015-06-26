@@ -85,119 +85,119 @@ public class ConnectionView {
         JPanel centerPane = new JPanel();
         layeredPane.setLayer(centerPane, 1);
         layeredPane.add(centerPane);
-        GridBagLayout gbl_centerPane = new GridBagLayout();
-        centerPane.setLayout(gbl_centerPane);
+        GridBagLayout gblCenterPane = new GridBagLayout();
+        centerPane.setLayout(gblCenterPane);
 
-        JPanel panel_1 = new JPanel();
-        GridBagConstraints gbc_panel_1 = new GridBagConstraints();
-        gbc_panel_1.weightx = 0.05;
-        gbc_panel_1.gridheight = 3;
-        gbc_panel_1.fill = GridBagConstraints.BOTH;
-        gbc_panel_1.gridx = 0;
-        gbc_panel_1.gridy = 0;
-        centerPane.add(panel_1, gbc_panel_1);
+        JPanel panel1 = new JPanel();
+        GridBagConstraints gbcPanel1 = new GridBagConstraints();
+        gbcPanel1.weightx = 0.05;
+        gbcPanel1.gridheight = 3;
+        gbcPanel1.fill = GridBagConstraints.BOTH;
+        gbcPanel1.gridx = 0;
+        gbcPanel1.gridy = 0;
+        centerPane.add(panel1, gbcPanel1);
 
-        JPanel panel_2 = new JPanel();
-        GridBagConstraints gbc_panel_2 = new GridBagConstraints();
-        gbc_panel_2.weightx = 0.05;
-        gbc_panel_2.gridheight = 3;
-        gbc_panel_2.fill = GridBagConstraints.BOTH;
-        gbc_panel_2.gridx = 2;
-        gbc_panel_2.gridy = 0;
-        centerPane.add(panel_2, gbc_panel_2);
+        JPanel panel2 = new JPanel();
+        GridBagConstraints gbcPanel2 = new GridBagConstraints();
+        gbcPanel2.weightx = 0.05;
+        gbcPanel2.gridheight = 3;
+        gbcPanel2.fill = GridBagConstraints.BOTH;
+        gbcPanel2.gridx = 2;
+        gbcPanel2.gridy = 0;
+        centerPane.add(panel2, gbcPanel2);
 
         JPanel panel = new JPanel();
-        GridBagConstraints gbc_panel = new GridBagConstraints();
-        gbc_panel.weightx = 0.05;
-        gbc_panel.gridheight = 3;
-        gbc_panel.fill = GridBagConstraints.BOTH;
-        gbc_panel.gridx = 4;
-        gbc_panel.gridy = 0;
-        centerPane.add(panel, gbc_panel);
+        GridBagConstraints gbcPanel = new GridBagConstraints();
+        gbcPanel.weightx = 0.05;
+        gbcPanel.gridheight = 3;
+        gbcPanel.fill = GridBagConstraints.BOTH;
+        gbcPanel.gridx = 4;
+        gbcPanel.gridy = 0;
+        centerPane.add(panel, gbcPanel);
 
         JLabel lblEscape = new JAntiAliasedLabel("ESCAPE");
         lblEscape.setAlignmentX(Component.CENTER_ALIGNMENT);
         lblEscape.setHorizontalAlignment(SwingConstants.CENTER);
-        lblEscape.setFont(GuiEngine.loadCustomFont(titilliumTextXb).deriveFont(
-                0, 64));
-        GridBagConstraints gbc_lblEscape = new GridBagConstraints();
-        gbc_lblEscape.fill = GridBagConstraints.BOTH;
-        gbc_lblEscape.weightx = 0.3;
-        gbc_lblEscape.insets = new Insets(10, 0, 5, 5);
-        gbc_lblEscape.gridx = 1;
-        gbc_lblEscape.gridy = 0;
-        centerPane.add(lblEscape, gbc_lblEscape);
+        lblEscape.setFont(GuiEngine.loadCustomFont(titilliumTextXb)
+                .deriveFont(0, 64));
+        GridBagConstraints gbcLblEscape = new GridBagConstraints();
+        gbcLblEscape.fill = GridBagConstraints.BOTH;
+        gbcLblEscape.weightx = 0.3;
+        gbcLblEscape.insets = new Insets(10, 0, 5, 5);
+        gbcLblEscape.gridx = 1;
+        gbcLblEscape.gridy = 0;
+        centerPane.add(lblEscape, gbcLblEscape);
 
         JLabel lblFromTheAliens = new JAntiAliasedLabel("FROM THE ALIENS");
         lblFromTheAliens.setAlignmentX(Component.CENTER_ALIGNMENT);
         lblFromTheAliens.setHorizontalAlignment(SwingConstants.CENTER);
-        lblFromTheAliens.setFont(GuiEngine.loadCustomFont(titilliumTextXb)
-                .deriveFont(0, 26));
-        GridBagConstraints gbc_lblFromTheAliens = new GridBagConstraints();
-        gbc_lblFromTheAliens.fill = GridBagConstraints.BOTH;
-        gbc_lblFromTheAliens.insets = new Insets(0, 0, 5, 5);
-        gbc_lblFromTheAliens.gridx = 1;
-        gbc_lblFromTheAliens.gridy = 1;
-        centerPane.add(lblFromTheAliens, gbc_lblFromTheAliens);
+        lblFromTheAliens.setFont(GuiEngine
+                .loadCustomFont(titilliumTextXb).deriveFont(0, 26));
+        GridBagConstraints gbcLblFromTheAliens = new GridBagConstraints();
+        gbcLblFromTheAliens.fill = GridBagConstraints.BOTH;
+        gbcLblFromTheAliens.insets = new Insets(0, 0, 5, 5);
+        gbcLblFromTheAliens.gridx = 1;
+        gbcLblFromTheAliens.gridy = 1;
+        centerPane.add(lblFromTheAliens, gbcLblFromTheAliens);
 
         JLabel lblInOuterSpace = new JAntiAliasedLabel("IN OUTER SPACE");
         lblInOuterSpace.setAlignmentX(Component.CENTER_ALIGNMENT);
         lblInOuterSpace.setHorizontalAlignment(SwingConstants.CENTER);
         lblInOuterSpace.setFont(GuiEngine.loadCustomFont(titilliumTextXb)
                 .deriveFont(0, 30));
-        GridBagConstraints gbc_lblInOuterSpace = new GridBagConstraints();
-        gbc_lblInOuterSpace.fill = GridBagConstraints.BOTH;
-        gbc_lblInOuterSpace.insets = new Insets(0, 0, 8, 5);
-        gbc_lblInOuterSpace.gridx = 1;
-        gbc_lblInOuterSpace.gridy = 2;
-        centerPane.add(lblInOuterSpace, gbc_lblInOuterSpace);
+        GridBagConstraints gbcLblInOuterSpace = new GridBagConstraints();
+        gbcLblInOuterSpace.fill = GridBagConstraints.BOTH;
+        gbcLblInOuterSpace.insets = new Insets(0, 0, 8, 5);
+        gbcLblInOuterSpace.gridx = 1;
+        gbcLblInOuterSpace.gridy = 2;
+        centerPane.add(lblInOuterSpace, gbcLblInOuterSpace);
 
         JPanel controlsPane = new JPanel();
-        GridBagConstraints gbc_controlsPane = new GridBagConstraints();
-        gbc_controlsPane.insets = new Insets(0, 0, 0, 5);
-        gbc_controlsPane.weightx = 0.65;
-        gbc_controlsPane.gridheight = 3;
-        gbc_controlsPane.fill = GridBagConstraints.BOTH;
-        gbc_controlsPane.gridx = 3;
-        gbc_controlsPane.gridy = 0;
-        centerPane.add(controlsPane, gbc_controlsPane);
-        GridBagLayout gbl_controlsPane = new GridBagLayout();
-        controlsPane.setLayout(gbl_controlsPane);
+        GridBagConstraints gbcControlsPane = new GridBagConstraints();
+        gbcControlsPane.insets = new Insets(0, 0, 0, 5);
+        gbcControlsPane.weightx = 0.65;
+        gbcControlsPane.gridheight = 3;
+        gbcControlsPane.fill = GridBagConstraints.BOTH;
+        gbcControlsPane.gridx = 3;
+        gbcControlsPane.gridy = 0;
+        centerPane.add(controlsPane, gbcControlsPane);
+        GridBagLayout gblControlsPane = new GridBagLayout();
+        controlsPane.setLayout(gblControlsPane);
 
         hostName = new PlaceholderTextField();
         hostName.setMinimumSize(new Dimension(4, 25));
         hostName.setPlaceholder("Hostname");
-        hostName.setFont(GuiEngine.loadCustomFont(titilliumText).deriveFont(0,
-                16));
-        GridBagConstraints gbc_hostName = new GridBagConstraints();
-        gbc_hostName.weighty = 0.33;
-        gbc_hostName.weightx = 0.6;
-        gbc_hostName.fill = GridBagConstraints.HORIZONTAL;
-        gbc_hostName.gridx = 0;
-        gbc_hostName.gridy = 0;
-        controlsPane.add(hostName, gbc_hostName);
+        hostName.setFont(GuiEngine.loadCustomFont(titilliumText)
+                .deriveFont(0, 16));
+        GridBagConstraints gbcHostName = new GridBagConstraints();
+        gbcHostName.weighty = 0.33;
+        gbcHostName.weightx = 0.6;
+        gbcHostName.fill = GridBagConstraints.HORIZONTAL;
+        gbcHostName.gridx = 0;
+        gbcHostName.gridy = 0;
+        controlsPane.add(hostName, gbcHostName);
         hostName.setColumns(15);
 
         JLabel lblSeparator = new JAntiAliasedLabel(":");
         lblSeparator.setHorizontalTextPosition(SwingConstants.CENTER);
         lblSeparator.setHorizontalAlignment(SwingConstants.CENTER);
-        GridBagConstraints gbc_lblSeparator = new GridBagConstraints();
-        gbc_lblSeparator.fill = GridBagConstraints.HORIZONTAL;
-        gbc_lblSeparator.gridx = 1;
-        gbc_lblSeparator.gridy = 0;
-        controlsPane.add(lblSeparator, gbc_lblSeparator);
+        GridBagConstraints gbcLblSeparator = new GridBagConstraints();
+        gbcLblSeparator.fill = GridBagConstraints.HORIZONTAL;
+        gbcLblSeparator.gridx = 1;
+        gbcLblSeparator.gridy = 0;
+        controlsPane.add(lblSeparator, gbcLblSeparator);
 
         portNumber = new PlaceholderTextField();
         portNumber.setMinimumSize(new Dimension(4, 25));
         portNumber.setPlaceholder("Port");
-        portNumber.setFont(GuiEngine.loadCustomFont(titilliumText).deriveFont(
-                0, 16));
-        GridBagConstraints gbc_portNumber = new GridBagConstraints();
-        gbc_portNumber.weightx = 0.4;
-        gbc_portNumber.fill = GridBagConstraints.HORIZONTAL;
-        gbc_portNumber.gridx = 2;
-        gbc_portNumber.gridy = 0;
-        controlsPane.add(portNumber, gbc_portNumber);
+        portNumber.setFont(GuiEngine.loadCustomFont(titilliumText)
+                .deriveFont(0, 16));
+        GridBagConstraints gbcPortNumber = new GridBagConstraints();
+        gbcPortNumber.weightx = 0.4;
+        gbcPortNumber.fill = GridBagConstraints.HORIZONTAL;
+        gbcPortNumber.gridx = 2;
+        gbcPortNumber.gridy = 0;
+        controlsPane.add(portNumber, gbcPortNumber);
         portNumber.setColumns(5);
 
         JRadioButton rdbtnSocket = new JRadioButton("Socket");
@@ -207,14 +207,14 @@ public class ConnectionView {
                 0, 13));
         buttonGroup.add(rdbtnSocket);
         rdbtnSocket.setSelected(true);
-        GridBagConstraints gbc_rdbtnSocket = new GridBagConstraints();
-        gbc_rdbtnSocket.weighty = 0.33;
-        gbc_rdbtnSocket.gridheight = 2;
-        gbc_rdbtnSocket.weightx = 0.5;
-        gbc_rdbtnSocket.fill = GridBagConstraints.BOTH;
-        gbc_rdbtnSocket.gridx = 0;
-        gbc_rdbtnSocket.gridy = 1;
-        controlsPane.add(rdbtnSocket, gbc_rdbtnSocket);
+        GridBagConstraints gbcRdbtnSocket = new GridBagConstraints();
+        gbcRdbtnSocket.weighty = 0.33;
+        gbcRdbtnSocket.gridheight = 2;
+        gbcRdbtnSocket.weightx = 0.5;
+        gbcRdbtnSocket.fill = GridBagConstraints.BOTH;
+        gbcRdbtnSocket.gridx = 0;
+        gbcRdbtnSocket.gridy = 1;
+        controlsPane.add(rdbtnSocket, gbcRdbtnSocket);
 
         JButton btnConnect = new JButton("Connect");
         btnConnect.addActionListener(new ActionListener() {
@@ -251,34 +251,34 @@ public class ConnectionView {
         JLabel label = new JAntiAliasedLabel("-");
         label.setHorizontalTextPosition(SwingConstants.CENTER);
         label.setHorizontalAlignment(SwingConstants.CENTER);
-        GridBagConstraints gbc_label = new GridBagConstraints();
-        gbc_label.gridheight = 2;
-        gbc_label.fill = GridBagConstraints.HORIZONTAL;
-        gbc_label.gridx = 1;
-        gbc_label.gridy = 1;
-        controlsPane.add(label, gbc_label);
+        GridBagConstraints gbcLabel = new GridBagConstraints();
+        gbcLabel.gridheight = 2;
+        gbcLabel.fill = GridBagConstraints.HORIZONTAL;
+        gbcLabel.gridx = 1;
+        gbcLabel.gridy = 1;
+        controlsPane.add(label, gbcLabel);
 
         JRadioButton rdbtnRmi = new JRadioButton("RMI");
         rdbtnRmi.setHorizontalAlignment(SwingConstants.CENTER);
         rdbtnRmi.setFont(GuiEngine.loadCustomFont(titilliumText).deriveFont(0,
                 13));
         buttonGroup.add(rdbtnRmi);
-        GridBagConstraints gbc_rdbtnRmi = new GridBagConstraints();
-        gbc_rdbtnRmi.gridheight = 2;
-        gbc_rdbtnRmi.fill = GridBagConstraints.BOTH;
-        gbc_rdbtnRmi.gridx = 2;
-        gbc_rdbtnRmi.gridy = 1;
-        controlsPane.add(rdbtnRmi, gbc_rdbtnRmi);
-        btnConnect.setFont(GuiEngine.loadCustomFont(titilliumText).deriveFont(
-                0, 17));
-        GridBagConstraints gbc_btnConnect = new GridBagConstraints();
-        gbc_btnConnect.weighty = 0.33;
-        gbc_btnConnect.gridheight = 2;
-        gbc_btnConnect.fill = GridBagConstraints.HORIZONTAL;
-        gbc_btnConnect.gridwidth = 3;
-        gbc_btnConnect.gridx = 0;
-        gbc_btnConnect.gridy = 3;
-        controlsPane.add(btnConnect, gbc_btnConnect);
+        GridBagConstraints gbcRdbtnRmi = new GridBagConstraints();
+        gbcRdbtnRmi.gridheight = 2;
+        gbcRdbtnRmi.fill = GridBagConstraints.BOTH;
+        gbcRdbtnRmi.gridx = 2;
+        gbcRdbtnRmi.gridy = 1;
+        controlsPane.add(rdbtnRmi, gbcRdbtnRmi);
+        btnConnect.setFont(GuiEngine.loadCustomFont(titilliumText)
+                .deriveFont(0, 17));
+        GridBagConstraints gbcBtnConnect = new GridBagConstraints();
+        gbcBtnConnect.weighty = 0.33;
+        gbcBtnConnect.gridheight = 2;
+        gbcBtnConnect.fill = GridBagConstraints.HORIZONTAL;
+        gbcBtnConnect.gridwidth = 3;
+        gbcBtnConnect.gridx = 0;
+        gbcBtnConnect.gridy = 3;
+        controlsPane.add(btnConnect, gbcBtnConnect);
         JRootPane rootPane = SwingUtilities.getRootPane(btnConnect);
         rootPane.setDefaultButton(btnConnect);
 
