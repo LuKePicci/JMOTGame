@@ -1,7 +1,7 @@
 package it.polimi.ingsw.cg_30.gameclient.view.cli;
 
+import it.polimi.ingsw.cg_30.exchange.LoggerMethods;
 import it.polimi.ingsw.cg_30.exchange.messaging.JoinRequest;
-import it.polimi.ingsw.cg_30.exchange.messaging.LoggerMethods;
 import it.polimi.ingsw.cg_30.exchange.messaging.RequestModel;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewType;
 import it.polimi.ingsw.cg_30.gameclient.GameClient;

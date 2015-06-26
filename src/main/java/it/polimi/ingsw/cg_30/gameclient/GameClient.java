@@ -15,10 +15,9 @@ public class GameClient {
         String vEngine = args.length > 0 ? args[0].toLowerCase() : "";
         switch (vEngine) {
             case "cli":
-            default:
                 gc.startCli();
                 break;
-
+            default:
             case "gui":
                 gc.startGui();
                 break;
@@ -42,17 +41,13 @@ public class GameClient {
             @Override
             public void run() {
                 activeEngine = new GuiEngine();
-                startEngine();
+                activeEngine.logonWizard();
             }
         });
     }
 
     private void startCli() {
         activeEngine = new CliEngine();
-        this.startEngine();
-    }
-
-    private void startEngine() {
         activeEngine.logonWizard();
         activeEngine.runEngine();
     }

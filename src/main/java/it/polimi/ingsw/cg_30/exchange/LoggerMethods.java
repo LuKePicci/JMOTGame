@@ -1,4 +1,4 @@
-package it.polimi.ingsw.cg_30.exchange.messaging;
+package it.polimi.ingsw.cg_30.exchange;
 
 import it.polimi.ingsw.cg_30.gamemanager.controller.NotAnHatchException;
 import it.polimi.ingsw.cg_30.gamemanager.network.DisconnectedException;

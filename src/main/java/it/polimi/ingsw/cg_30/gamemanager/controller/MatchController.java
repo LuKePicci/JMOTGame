@@ -1,9 +1,9 @@
 package it.polimi.ingsw.cg_30.gamemanager.controller;
 
+import it.polimi.ingsw.cg_30.exchange.LoggerMethods;
 import it.polimi.ingsw.cg_30.exchange.messaging.ActionRequest;
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatMessage;
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatVisibility;
-import it.polimi.ingsw.cg_30.exchange.messaging.LoggerMethods;
 import it.polimi.ingsw.cg_30.exchange.messaging.Message;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Card;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ChatViewModel;

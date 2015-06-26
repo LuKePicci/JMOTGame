@@ -1,12 +1,12 @@
 package it.polimi.ingsw.cg_30.gamemanager.controller;
 
+import it.polimi.ingsw.cg_30.exchange.LoggerMethods;
 import it.polimi.ingsw.cg_30.exchange.messaging.ActionRequest;
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatMessage;
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatRequest;
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatVisibility;
 import it.polimi.ingsw.cg_30.exchange.messaging.IDelivery;
 import it.polimi.ingsw.cg_30.exchange.messaging.JoinRequest;
-import it.polimi.ingsw.cg_30.exchange.messaging.LoggerMethods;
 import it.polimi.ingsw.cg_30.exchange.messaging.Message;
 import it.polimi.ingsw.cg_30.exchange.messaging.PartyRequest;
 import it.polimi.ingsw.cg_30.exchange.messaging.RequestModel;

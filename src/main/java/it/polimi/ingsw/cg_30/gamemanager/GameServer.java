@@ -1,6 +1,6 @@
 package it.polimi.ingsw.cg_30.gamemanager;
 
-import it.polimi.ingsw.cg_30.exchange.messaging.LoggerMethods;
+import it.polimi.ingsw.cg_30.exchange.LoggerMethods;
 import it.polimi.ingsw.cg_30.gamemanager.network.PlayerAcceptance;
 import it.polimi.ingsw.cg_30.gamemanager.network.RmiAcceptance;
 import it.polimi.ingsw.cg_30.gamemanager.network.SocketAcceptance;

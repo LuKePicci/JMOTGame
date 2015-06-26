@@ -1,6 +1,6 @@
 package it.polimi.ingsw.cg_30.gamemanager.model;
 
-import it.polimi.ingsw.cg_30.exchange.messaging.LoggerMethods;
+import it.polimi.ingsw.cg_30.exchange.LoggerMethods;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Card;
 
 import java.util.Collection;

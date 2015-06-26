@@ -1,9 +1,6 @@
 package it.polimi.ingsw.cg_30.exchange.viewmodels;
 
 import static org.junit.Assert.assertEquals;
-import it.polimi.ingsw.cg_30.exchange.viewmodels.HexPoint;
-import it.polimi.ingsw.cg_30.exchange.viewmodels.Sector;
-import it.polimi.ingsw.cg_30.exchange.viewmodels.SectorType;
 
 import org.junit.Test;
 

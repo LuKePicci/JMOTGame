@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg_30.exchange.messaging;
 
+import it.polimi.ingsw.cg_30.exchange.LoggerMethods;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewModel;
 
 import java.io.Serializable;

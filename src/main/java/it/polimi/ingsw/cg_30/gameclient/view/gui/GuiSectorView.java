@@ -35,6 +35,8 @@ public class GuiSectorView extends GuiView {
         SectorViewModel viewModel = (SectorViewModel) model; // jsec I want to
                                                              // modify.
         JSector jsec = gzv.getJSector(viewModel.getSector().getPoint());
+        if (jsec == null)
+            return;
         if (SectorType.ESCAPE_HATCH.equals(jsec.getType())) { // hatch sector
                                                               // removed
             jsec.setType(SectorType.SECURE);

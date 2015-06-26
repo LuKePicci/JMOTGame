@@ -3,7 +3,6 @@ package it.polimi.ingsw.cg_30.exchange.viewmodels;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import it.polimi.ingsw.cg_30.exchange.viewmodels.HexPoint;
 
 import org.junit.Test;
 
