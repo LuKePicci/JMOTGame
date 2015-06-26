@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg_30.gameclient.network;
 
+import it.polimi.ingsw.cg_30.exchange.LoggerMethods;
 import it.polimi.ingsw.cg_30.exchange.messaging.Message;
 import it.polimi.ingsw.cg_30.exchange.messaging.RequestModel;
 import it.polimi.ingsw.cg_30.gameclient.RequestTask;
@@ -7,8 +8,10 @@ import it.polimi.ingsw.cg_30.gameclient.UpdateTask;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URI;
+import java.rmi.NotBoundException;
 import java.util.Scanner;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
@@ -32,7 +35,8 @@ public abstract class ClientMessenger {
         this.executeUpdateProcessor(receivedMessage);
     }
 
-    public abstract void connect(String host, int port) throws Exception;
+    public abstract void connect(String host, int port)
+            throws NotBoundException, IOException;
 
     public UUID getUUID() {
         return this.myID;
@@ -53,7 +57,7 @@ public abstract class ClientMessenger {
             out.println(this.myID.toString());
             out.close();
         } catch (FileNotFoundException e) {
-
+            LoggerMethods.fileNotFoundException(e, "");
         }
     }
 
@@ -63,7 +67,7 @@ public abstract class ClientMessenger {
             this.myID = reader.hasNextLine() ? UUID.fromString(reader
                     .nextLine()) : null;
         } catch (FileNotFoundException e) {
-            // session file not existing
+            LoggerMethods.fileNotFoundException(e, "session file not existing");
         }
     }
 
@@ -75,7 +79,8 @@ public abstract class ClientMessenger {
         currentMessenger = m;
     }
 
-    public static void connectToServer(URI serverURI) throws Exception {
+    public static void connectToServer(URI serverURI) throws NotBoundException,
+            IOException {
         switch (serverURI.getScheme().toLowerCase()) {
             case "rmi":
                 connectToRmi(serverURI);
@@ -86,12 +91,14 @@ public abstract class ClientMessenger {
         }
     }
 
-    private static void connectToRmi(URI serverURI) throws Exception {
+    private static void connectToRmi(URI serverURI) throws NotBoundException,
+            IOException {
         currentMessenger = new RmiMessenger();
         currentMessenger.connect(serverURI.getHost(), serverURI.getPort());
     }
 
-    private static void connectToSocket(URI serverURI) throws Exception {
+    private static void connectToSocket(URI serverURI)
+            throws NotBoundException, IOException {
         currentMessenger = new SocketMessenger();
         currentMessenger.connect(serverURI.getHost(), serverURI.getPort());
     }

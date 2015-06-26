@@ -11,13 +11,20 @@ import it.polimi.ingsw.cg_30.gameclient.view.gui.components.SectorFactory;
 import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 public class GuiZoneView extends GuiView {
 
     private JPanel zonePane;
+    private final Map<HexPoint, JSector> jSectors = new HashMap<HexPoint, JSector>();
+
+    public JSector getJSector(HexPoint hex) {
+        return this.jSectors.get(hex);
+    }
 
     @Override
     public JPanel getComponent() {
@@ -41,16 +48,24 @@ public class GuiZoneView extends GuiView {
 
         for (Map.Entry<HexPoint, Sector> e : sectors.entrySet()) {
             JSector js = SectorFactory.createGridSector(e.getKey());
+            this.jSectors.put(e.getKey(), js);
             js.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent event) {
                     super.mouseClicked(event);
-                    JSector sender = (JSector) event.getSource();
+                    final JSector sender = (JSector) event.getSource();
                     if (sender.contains(event.getPoint())
                             && GameClient.getActiveEngine() instanceof GuiEngine) {
-                        GuiEngine activeEngine = (GuiEngine) GameClient
-                                .getActiveEngine();
-                        activeEngine.sectorProcessor(sender.getHexPoint());
+                        SwingUtilities.invokeLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                GuiEngine activeEngine = (GuiEngine) GameClient
+                                        .getActiveEngine();
+                                activeEngine.sectorProcessor(sender
+                                        .getHexPoint());
+                            }
+                        });
+
                     }
                 }
             });

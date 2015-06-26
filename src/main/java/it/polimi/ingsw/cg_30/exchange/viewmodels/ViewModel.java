@@ -21,10 +21,17 @@ public abstract class ViewModel implements Serializable {
     @XmlElement(name = "UUID")
     protected UUID myID;
 
+    @XmlAttribute(name = "TargetView")
+    private ViewType targetView;
+
     protected Date updatedAt;
 
     protected ViewModel() {
         this.setDate(new Date());
+    }
+
+    protected ViewModel(ViewType t) {
+        this.targetView = t;
     }
 
     @XmlAttribute(name = "Date")
@@ -42,13 +49,6 @@ public abstract class ViewModel implements Serializable {
 
     public void setMyID(UUID id) {
         this.myID = id;
-    }
-
-    @XmlAttribute(name = "TargetView")
-    private ViewType targetView;
-
-    protected ViewModel(ViewType t) {
-        this.targetView = t;
     }
 
     public ViewType getViewType() {

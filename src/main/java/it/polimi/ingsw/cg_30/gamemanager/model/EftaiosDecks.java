@@ -22,6 +22,9 @@ public class EftaiosDecks {
     private static final Set<ItemCard> ITEM_CARDS;
     private static final List<PlayerCard> PLAYER_CARDS;
 
+    private EftaiosDecks() {
+    }
+
     static {
         HATCH_CARDS = new HashSet<HatchCard>();
         for (int i = 0; i < 3; i++) {

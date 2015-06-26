@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg_30.gameclient.view.cli;
 
+import it.polimi.ingsw.cg_30.exchange.LoggerMethods;
 import it.polimi.ingsw.cg_30.exchange.messaging.ActionType;
 import it.polimi.ingsw.cg_30.exchange.messaging.RequestModel;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.HexPoint;
@@ -84,6 +85,7 @@ public class ActionCommand implements ICliCommand {
             }
             return HexPoint.fromOffset(x, y - 1);
         } catch (Exception ex) {
+            LoggerMethods.exception(ex, "");
             return null;
         }
 

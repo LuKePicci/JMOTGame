@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg_30.gamemanager;
 
+import it.polimi.ingsw.cg_30.exchange.LoggerMethods;
 import it.polimi.ingsw.cg_30.gamemanager.network.PlayerAcceptance;
 import it.polimi.ingsw.cg_30.gamemanager.network.RmiAcceptance;
 import it.polimi.ingsw.cg_30.gamemanager.network.SocketAcceptance;
@@ -17,24 +18,23 @@ public class GameServer {
 
     static {
         Runtime.getRuntime().addShutdownHook(new Thread() {
-            /**
-             * @see java.lang.Thread#run()
-             */
+
             @Override
             public void run() {
                 System.out.println("Shutting down...");
                 es.shutdown();
                 try {
                     if (!es.awaitTermination(SHUTDOWN_TIME, TimeUnit.SECONDS)) {
-                        // log.warn("Executor did not terminate in the specified time.");
+                        LoggerMethods
+                                .warning("Executor did not terminate in the specified time.");
                         List<Runnable> droppedTasks = es.shutdownNow();
-                        // log.warn
-                        System.out.println("Executor was abruptly shut down. "
-                                + droppedTasks.size()
-                                + " tasks will not be executed.");
+                        LoggerMethods
+                                .warning("Executor was abruptly shut down. "
+                                        + droppedTasks.size()
+                                        + " tasks will not be executed.");
                     }
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    LoggerMethods.interruptedException(e, "");
                 }
             }
         });

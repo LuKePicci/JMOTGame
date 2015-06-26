@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg_30.gamemanager.controller;
 
+import it.polimi.ingsw.cg_30.exchange.LoggerMethods;
 import it.polimi.ingsw.cg_30.exchange.messaging.ActionRequest;
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatMessage;
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatRequest;
@@ -70,8 +71,8 @@ public class MessageController implements IDelivery {
             RequestModel rq = msg.getRawRequest();
             rq.process(this);
         } catch (UnsupportedOperationException ex) {
-            // TODO Log this event
-            System.out.println("User issued an unsupported request");
+            LoggerMethods.unsupportedOperationException(ex,
+                    "User issued an unsupported request");
         }
     }
 
@@ -86,6 +87,7 @@ public class MessageController implements IDelivery {
             try {
                 this.reuseId(req.getMyID());
             } catch (IllegalArgumentException ex) {
+                LoggerMethods.illegalArgumentException(ex, "");
                 this.bindToParty(req);
             }
     }
@@ -119,8 +121,9 @@ public class MessageController implements IDelivery {
                         ChatVisibility.PLAYER)));
             }
         } catch (DisconnectedException e) {
-            // the connection to the subscriber has been lost while
-            // performing action
+            LoggerMethods
+                    .disconnectedException(e,
+                            "the connection to the subscriber has been lost while performing action.");
         }
     }
 
@@ -195,8 +198,9 @@ public class MessageController implements IDelivery {
             try {
                 mc.dispatchOutgoing(message);
             } catch (DisconnectedException e) {
-                // If not handled before, it means at this point the
-                // message can be discarded.
+                LoggerMethods
+                        .disconnectedException(e,
+                                "If not handled before, it means at this point the message can be discarded.");
             }
     }
 }

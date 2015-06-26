@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg_30.gameclient.network;
 
+import it.polimi.ingsw.cg_30.exchange.LoggerMethods;
 import it.polimi.ingsw.cg_30.exchange.messaging.Message;
 import it.polimi.ingsw.cg_30.gameclient.GameClient;
 
@@ -25,12 +26,13 @@ public class SocketMessenger extends ClientMessenger implements Runnable {
         try {
             this.socOut.writeUTF(dataToSend);
         } catch (IOException e) {
+            LoggerMethods.iOException(e, "connection lost");
             GameClient.getActiveEngine().showError("connection lost");
         }
     }
 
     @Override
-    public void connect(String host, int port) throws Exception {
+    public void connect(String host, int port) throws IOException {
         try {
             this.mySoc = new Socket(host, port);
             this.socOut = new DataOutputStream(this.mySoc.getOutputStream());
@@ -54,10 +56,11 @@ public class SocketMessenger extends ClientMessenger implements Runnable {
                 receivedMessage = Message.msgFromXML(clearXml);
                 this.receiveMessage(receivedMessage);
             } catch (IOException e) {
+                LoggerMethods.iOException(e, "");
                 try {
                     this.mySoc.close();
                 } catch (IOException e1) {
-                    // BTW...
+                    LoggerMethods.iOException(e1, "");
                 }
             }
         }

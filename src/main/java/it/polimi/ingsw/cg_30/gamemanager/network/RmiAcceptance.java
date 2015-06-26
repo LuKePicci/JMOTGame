@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg_30.gamemanager.network;
 
+import it.polimi.ingsw.cg_30.exchange.LoggerMethods;
 import it.polimi.ingsw.cg_30.exchange.network.IAcceptRmiPlayer;
 import it.polimi.ingsw.cg_30.exchange.network.IRmiAcceptance;
 import it.polimi.ingsw.cg_30.exchange.network.IRmiClient;
@@ -25,9 +26,11 @@ public class RmiAcceptance extends PlayerAcceptance implements IRmiAcceptance {
             this.rmiRegistry = LocateRegistry.createRegistry(9090);
 
         } catch (RemoteException e) {
+            LoggerMethods.remoteException(e, "");
             try {
                 this.rmiRegistry = LocateRegistry.getRegistry(9090);
             } catch (RemoteException e1) {
+                LoggerMethods.remoteException(e1, "");
                 return;
             }
         }
@@ -37,7 +40,7 @@ public class RmiAcceptance extends PlayerAcceptance implements IRmiAcceptance {
                     .exportObject(this, 0);
             this.rmiRegistry.rebind("RmiServer", stub);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            LoggerMethods.remoteException(e, "");
         }
     }
 
@@ -49,10 +52,9 @@ public class RmiAcceptance extends PlayerAcceptance implements IRmiAcceptance {
             gameClient = new AcceptRmiPlayer(rmiClient);
             this.connections.add(gameClient);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            LoggerMethods.remoteException(e, "");
         }
-        IAcceptRmiPlayer r = (IAcceptRmiPlayer) UnicastRemoteObject
-                .exportObject(gameClient, 0);
-        return r;
+        return (IAcceptRmiPlayer) UnicastRemoteObject.exportObject(gameClient,
+                0);
     }
 }

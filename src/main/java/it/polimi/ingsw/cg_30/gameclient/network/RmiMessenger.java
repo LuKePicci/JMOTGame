@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg_30.gameclient.network;
 
+import it.polimi.ingsw.cg_30.exchange.LoggerMethods;
 import it.polimi.ingsw.cg_30.exchange.messaging.Message;
 import it.polimi.ingsw.cg_30.exchange.network.IAcceptRmiPlayer;
 import it.polimi.ingsw.cg_30.exchange.network.IRmiAcceptance;
@@ -21,12 +22,14 @@ public class RmiMessenger extends ClientMessenger implements IRmiClient {
         try {
             this.remoteStub.toServer(msg);
         } catch (RemoteException e) {
+            LoggerMethods.remoteException(e, "connection lost");
             GameClient.getActiveEngine().showError("connection lost");
         }
     }
 
     @Override
-    public void connect(String host, int port) throws Exception {
+    public void connect(String host, int port) throws RemoteException,
+            NotBoundException {
         try {
             Registry reg = LocateRegistry.getRegistry(host, port);
             IRmiAcceptance rmiServer = (IRmiAcceptance) reg.lookup("RmiServer");

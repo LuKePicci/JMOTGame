@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg_30.gamemanager.controller;
 
+import it.polimi.ingsw.cg_30.exchange.LoggerMethods;
 import it.polimi.ingsw.cg_30.gamemanager.model.Zone;
 
 import java.io.FileNotFoundException;
@@ -15,7 +16,7 @@ public class TemplateZoneFactory extends ZoneFactory {
 
     public TemplateZoneFactory(String mapName) throws FileNotFoundException {
         this.zoneTemplate = getClass().getResourceAsStream(
-                "/" + mapName + ".xml");
+                "/gamemanager/" + mapName.toLowerCase() + ".xml");
         if (this.zoneTemplate == null)
             throw new FileNotFoundException(String.format(
                     "Map XML template not found for '%s'", mapName));
@@ -30,10 +31,9 @@ public class TemplateZoneFactory extends ZoneFactory {
         try {
             JAXBContext context = JAXBContext.newInstance(Zone.class);
             Unmarshaller un = context.createUnmarshaller();
-            Zone obj = (Zone) un.unmarshal(xmlFile);
-            return obj;
+            return (Zone) un.unmarshal(xmlFile);
         } catch (JAXBException e) {
-            e.printStackTrace();
+            LoggerMethods.jAXBException(e);
         }
         return null;
     }

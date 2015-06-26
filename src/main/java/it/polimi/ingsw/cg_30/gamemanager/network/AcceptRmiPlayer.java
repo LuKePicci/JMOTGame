@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg_30.gamemanager.network;
 
+import it.polimi.ingsw.cg_30.exchange.LoggerMethods;
 import it.polimi.ingsw.cg_30.exchange.messaging.Message;
 import it.polimi.ingsw.cg_30.exchange.network.IAcceptRmiPlayer;
 import it.polimi.ingsw.cg_30.exchange.network.IRmiClient;
@@ -11,7 +12,7 @@ import java.util.UUID;
 public class AcceptRmiPlayer extends AcceptPlayer implements IAcceptRmiPlayer {
 
     protected Message rcvMessage, sndMessage;
-    private transient IRmiClient rmiClient;
+    private IRmiClient rmiClient;
 
     public AcceptRmiPlayer(IRmiClient client) throws RemoteException {
         this(client, UUID.randomUUID());
@@ -34,10 +35,7 @@ public class AcceptRmiPlayer extends AcceptPlayer implements IAcceptRmiPlayer {
             this.sndMessage = msg;
             this.rmiClient.toClient(this.sndMessage);
         } catch (RemoteException e) {
-            System.out.println(String.format(
-                    "%s : Message sending failure to %s", e.getMessage(),
-                    this.sessionId));
-
+            LoggerMethods.remoteException(e, "Message sending failure");
             throw new DisconnectedException(this.loseConnection());
         }
     }

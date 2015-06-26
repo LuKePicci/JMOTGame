@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg_30.gamemanager.controller;
 
+import it.polimi.ingsw.cg_30.exchange.LoggerMethods;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerRace;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Sector;
 import it.polimi.ingsw.cg_30.gamemanager.model.Player;
@@ -66,8 +67,10 @@ public class Attack extends ActionController {
             try {
                 this.notifyCurrentPlayerByServer("FROM NOW YOU CAN CROSS 3 SECTORS DURING YOUR MOVEMENT");
             } catch (DisconnectedException e) {
-                // the player won't receive this message, but it's not
-                // fundamental so we can continue
+                LoggerMethods
+                        .disconnectedException(
+                                e,
+                                "the player won't receive this message, but it's not fundamental so we can continue");
             }
         }
         // can't attack twice

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg_30.gamemanager.controller;
 
+import it.polimi.ingsw.cg_30.exchange.LoggerMethods;
 import it.polimi.ingsw.cg_30.exchange.messaging.ActionRequest;
 import it.polimi.ingsw.cg_30.exchange.messaging.ActionType;
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatMessage;
@@ -182,18 +183,17 @@ public class TurnController {
                 .sendMessageToParty(
                         new ChatMessage(new ChatViewModel("It's "
                                 + nextPlayer.getName() + "'s turn.",
-                                this.currentMatch.serverWordText,
+                                MatchController.SERVER_WORD_TEXT,
                                 ChatVisibility.PARTY)));
         try {
             this.currentMatch.sendViewModelToAPlayer(nextPlayer,
                     this.currentMatch.getTurnController().getTurn()
                             .getViewModel());
         } catch (DisconnectedException e) {
-            // the player will receive the view of his turn when he will
-            // connect again thanks to modelSender(Player) (if it's
-            // still his turn)
-            // Otherwise, after a timeout the turn will be given to the
-            // next player
+            LoggerMethods
+                    .disconnectedException(
+                            e,
+                            "the player will receive the view of his turn when he will connect again thanks to modelSender(Player) (if it's still his turn)%nOtherwise, after a timeout the turn will be given to the next player");
         }
     }
 

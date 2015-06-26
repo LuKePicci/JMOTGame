@@ -37,7 +37,7 @@ public class CliCardView extends View {
                 this.hatchPrinter(viewModel);
                 break;
             default:
-                CliEngine.printLineToCli("Wrong card model received.");
+                CliEngine.printLineToCli("\r\nWrong card model received.");
                 break;
         }
     }
@@ -83,7 +83,7 @@ public class CliCardView extends View {
      *            the card view model
      */
     private void playerPrinter(Card viewModel) {
-        CliEngine.printLineToCli("Player card: ");
+        CliEngine.printLineToCli("\r\nPlayer card: ");
         PlayerCard pcard = (PlayerCard) viewModel;
         switch (pcard.getCharacter()) {
             case THE_FIRST_ALIEN:
@@ -123,7 +123,7 @@ public class CliCardView extends View {
      *            the card view model
      */
     private void sectorPrinter(Card viewModel) {
-        CliEngine.printToCli("Sector card: ");
+        CliEngine.printToCli("\r\nSector card: ");
         SectorCard scard = (SectorCard) viewModel;
         switch (scard.getEvent()) {
             case SILENCE:
@@ -148,7 +148,7 @@ public class CliCardView extends View {
      *            the card view model
      */
     private void hatchPrinter(Card viewModel) {
-        CliEngine.printToCli("Hatch card: ");
+        CliEngine.printToCli("\r\nHatch card: ");
         HatchCard hcard = (HatchCard) viewModel;
         if (hcard.getChance().equals(HatchChance.FREE)) {
             CliEngine.printLineToCli("GREEN ESCAPE HATCH CARD");

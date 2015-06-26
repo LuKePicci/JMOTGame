@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg_30.gamemanager.controller;
 
+import it.polimi.ingsw.cg_30.exchange.LoggerMethods;
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatMessage;
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatVisibility;
 import it.polimi.ingsw.cg_30.exchange.messaging.JoinRequest;
@@ -105,15 +106,16 @@ public class PartyController implements Serializable {
             request.setGame(new EftaiosGame(EftaiosGame.DEFAULT_MAP));
 
         final PartyController joined;
-        if (request.isPrivate())
+        if (request.isPrivate() && request.getPartyName() != null
+                && !"".equals(request.getPartyName()))
             joined = joinPrivateParty(playerClient, request);
         else
             joined = joinPublicParty(playerClient, request);
 
         joined.sendMessageToParty(new ChatMessage(new ChatViewModel(String
                 .format("%s joined the party.", joined.getCurrentParty()
-                        .getNickOfUUID(playerClient)), "Server",
-                ChatVisibility.PARTY)));
+                        .getNickOfUUID(playerClient)),
+                MatchController.SERVER_WORD_TEXT, ChatVisibility.PARTY)));
 
         if (joined.getCurrentParty().getMembers().size() >= 2)
             joined.scheduleMatchStart();
@@ -141,12 +143,8 @@ public class PartyController implements Serializable {
                 mc.dispatchOutgoing(message);
 
             } catch (DisconnectedException e) {
-                // this member will not receive the message
-                // ChatRequest offlineNotification = new ChatRequest(
-                // "I'm offline", ChatVisibility.PARTY, null);
-                // offlineNotification.setSender(memberId);
-                // ChatController.sendToParty(
-                // new ChatMessage(offlineNotification), this);
+                LoggerMethods.disconnectedException(e,
+                        "this member will not receive the message");
             }
 
         }
@@ -178,10 +176,11 @@ public class PartyController implements Serializable {
             this.currentMatch = new MatchController();
             this.currentMatch.initMatch(this);
         } catch (Exception ex) {
+            LoggerMethods.exception(ex, "Unable to initialize a new game");
             this.currentMatch = null;
             this.sendMessageToParty(new ChatMessage(new ChatViewModel(
-                    "Unable to initialize a new game", "Server",
-                    ChatVisibility.PARTY)));
+                    "Unable to initialize a new game",
+                    MatchController.SERVER_WORD_TEXT, ChatVisibility.PARTY)));
         }
     }
 
@@ -208,7 +207,8 @@ public class PartyController implements Serializable {
                                 String.format(
                                         "The match will begin in %s seconds.",
                                         Long.toString(getStartDelay() * 5)),
-                                "Server", ChatVisibility.PARTY)));
+                                MatchController.SERVER_WORD_TEXT,
+                                ChatVisibility.PARTY)));
                     }
                 } else
                     resetTimer().schedule(buildStartTask(), 5000);
@@ -236,7 +236,8 @@ public class PartyController implements Serializable {
                 this.currentMatch.modelSender(this.getCurrentParty()
                         .getPlayerByUUID(playerId));
             } catch (DisconnectedException e) {
-                // maybe the next time...
+                LoggerMethods
+                        .disconnectedException(e, "maybe the next time...");
             }
     }
 }

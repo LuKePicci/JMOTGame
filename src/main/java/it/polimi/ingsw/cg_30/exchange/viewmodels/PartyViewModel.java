@@ -15,9 +15,9 @@ public class PartyViewModel extends ViewModel {
     private String partyName;
 
     @XmlElement(name = "Members")
-    private List<ViewModel> players;
+    private List<PlayerViewModel> players;
 
-    public PartyViewModel(String name, List<ViewModel> pvmList) {
+    public PartyViewModel(String name, List<PlayerViewModel> pvmList) {
         this();
 
         this.partyName = name;
@@ -34,7 +34,7 @@ public class PartyViewModel extends ViewModel {
         return this.partyName;
     }
 
-    public List<ViewModel> getPartyPlayers() {
+    public List<PlayerViewModel> getPartyPlayers() {
         return this.players;
     }
 

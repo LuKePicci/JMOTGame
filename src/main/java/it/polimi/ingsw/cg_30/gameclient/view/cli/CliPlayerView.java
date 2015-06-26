@@ -18,11 +18,10 @@ public class CliPlayerView extends View {
     @Override
     public synchronized void applyUpdate(ViewModel model) {
         PlayerViewModel viewModel = (PlayerViewModel) model;
-        CliEngine.printLineToCli("\r\nPlayer's details:");
-        CliEngine.printLineToCli("\r\nname: " + viewModel.getName()
-                + "\r\nkills number: " + viewModel.getKillsCount()
-                + "\r\nindex: " + viewModel.getIndex()
-                + "\r\nnumber of item cards owned: "
+        CliEngine.printLineToCli("%nPlayer's details:");
+        CliEngine.printLineToCli("%nname: " + viewModel.getName()
+                + "%nkills number: " + viewModel.getKillsCount() + "%nindex: "
+                + viewModel.getIndex() + "%nnumber of item cards owned: "
                 + viewModel.getNumOfItemCards());
     }
 }

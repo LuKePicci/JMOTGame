@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg_30.gamemanager.controller;
 
+import it.polimi.ingsw.cg_30.exchange.LoggerMethods;
 import it.polimi.ingsw.cg_30.exchange.messaging.ActionRequest;
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatMessage;
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatVisibility;
@@ -49,7 +50,7 @@ public class MatchController {
     protected Match match;
 
     /** The server word text. */
-    protected String serverWordText = "Server";
+    public static final String SERVER_WORD_TEXT = "Server";
 
     /**
      * The sector where a player is moved after he had escaped or had been
@@ -70,9 +71,6 @@ public class MatchController {
 
     /**
      * Sends all the model needed in order to star a new match.
-     *
-     * @throws DisconnectedException
-     *             the disconnected exception
      */
     private void modelSender() {
         // clean map
@@ -89,13 +87,16 @@ public class MatchController {
                         .getCurrentZone().getCell(player),
                         SectorHighlight.PLAYER_LOCATION);
             } catch (DisconnectedException e) {
-                // This player will not be able to play until he reconnects.
+                LoggerMethods
+                        .disconnectedException(e,
+                                "This player will not be able to play until he reconnects");
             }
         }
 
         // chat
-        this.partyController.sendMessageToParty(new ChatMessage(
-                new ChatViewModel("Game started", serverWordText,
+        this.partyController
+                .sendMessageToParty(new ChatMessage(new ChatViewModel(
+                        "Game started", MatchController.SERVER_WORD_TEXT,
                         ChatVisibility.PARTY)));
     }
 
@@ -174,8 +175,6 @@ public class MatchController {
      *             the file not found exception
      * @throws URISyntaxException
      *             the URI syntax exception
-     * @throws DisconnectedException
-     *             the disconnected exception
      */
     public void initMatch(PartyController partyController)
             throws FileNotFoundException, URISyntaxException {
@@ -252,8 +251,9 @@ public class MatchController {
                     try {
                         updateDeckView(killedPlayer);
                     } catch (DisconnectedException e) {
-                        // do not push this model, will be retrieved manually on
-                        // reconnect
+                        LoggerMethods
+                                .disconnectedException(e,
+                                        "Do not push this model, will be retrieved manually on reconnect.");
                     }
                     this.turnController.getTurn().changeHumanKilled(-1);
                     this.turnController.getTurn().getCurrentPlayer()
@@ -276,14 +276,7 @@ public class MatchController {
                     + killedPlayer.getName() + " is dead.");
         }
         // discards killedPlayer's cards
-        this.match.getItemsDeck().putAllIntoBucket(
-                killedPlayer.getItemsDeck().getCards());
-        killedPlayer.getItemsDeck().getCards().clear();
-        try {
-            this.updateDeckView(killedPlayer);
-        } catch (DisconnectedException e) {
-            // do not push this model, will be retrieved manually on reconnect
-        }
+        this.cardsRemoval(killedPlayer);
         // killedPlayer has to disappear from the map
         this.zoneController.getCurrentZone().movePlayer(killedPlayer,
                 endingSector);
@@ -292,7 +285,9 @@ public class MatchController {
                     .getCurrentZone().getCell(killedPlayer),
                     SectorHighlight.PLAYER_LOCATION);
         } catch (DisconnectedException e) {
-            // do not push this model, will be retrieved manually on reconnect
+            LoggerMethods
+                    .disconnectedException(e,
+                            "do not push this model, will be retrieved manually on reconnect");
         }
         // note: incrementKillCount has already been done in Attack
     }
@@ -465,11 +460,9 @@ public class MatchController {
             else
                 this.notifyAPlayerAbout(turnController.getTurn()
                         .getCurrentPlayer(), "Sorry, you can't do this.");
-
-        } catch (InstantiationException | IllegalAccessException e) {
-            // TODO Log this exception
-            System.out
-                    .println("Failed to instanciate a controller for requested action.");
+        } catch (ReflectiveOperationException e) {
+            LoggerMethods.reflectiveOperationException(e,
+                    "Failed to instanciate a controller for requested action");
         }
     }
 
@@ -488,9 +481,13 @@ public class MatchController {
                     this.partyController.getCurrentParty()
                             .getPlayerUUID(player)).dispatchOutgoing(
                     new ChatMessage(new ChatViewModel(about,
-                            this.serverWordText, ChatVisibility.PLAYER)));
+                            MatchController.SERVER_WORD_TEXT,
+                            ChatVisibility.PLAYER)));
         } catch (DisconnectedException e) {
-            // Should enqueue this notification for later dispatch
+            LoggerMethods
+                    .disconnectedException(
+                            e,
+                            "if it is important the player will be updated as soon as he comes back online thanks to modelSender method");
         }
     }
 
@@ -504,9 +501,10 @@ public class MatchController {
      *            the string to notify
      */
     protected void notifyPartyByPlayer(Player player, String what) {
-        this.partyController.sendMessageToParty(new ChatMessage(
-                new ChatViewModel(player.getName() + ": " + what,
-                        this.serverWordText, ChatVisibility.PARTY)));
+        this.partyController
+                .sendMessageToParty(new ChatMessage(new ChatViewModel(player
+                        .getName() + ": " + what,
+                        MatchController.SERVER_WORD_TEXT, ChatVisibility.PARTY)));
     }
 
     /**
@@ -606,8 +604,9 @@ public class MatchController {
                     .getCurrentPlayer(), turnController.getTurn()
                     .getViewModel());
         } catch (DisconnectedException e) {
-            // the player will receive the updated turn view when he comes back
-            // online
+            LoggerMethods
+                    .disconnectedException(e,
+                            "the player will receive the updated turn view when he comes back online");
         }
     }
 
@@ -634,6 +633,25 @@ public class MatchController {
     protected void sendTurnViewModelToParty() {
         this.partyController.sendMessageToParty(new Message(this
                 .getTurnController().getTurn().getViewModel()));
+    }
+
+    /**
+     * Removes all cards from player's item deck.
+     *
+     * @param remPlayer
+     *            the player who is dead or escaped.
+     */
+    protected void cardsRemoval(Player remPlayer) {
+        this.match.getItemsDeck().putAllIntoBucket(
+                remPlayer.getItemsDeck().getCards());
+        remPlayer.getItemsDeck().getCards().clear();
+        try {
+            this.updateDeckView(remPlayer);
+        } catch (DisconnectedException e) {
+            LoggerMethods
+                    .disconnectedException(e,
+                            "do not push this model, will be retrieved manually on reconnect");
+        }
     }
 
 }
