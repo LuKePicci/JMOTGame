@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URI;
 import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
 import java.util.Scanner;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
@@ -36,8 +35,8 @@ public abstract class ClientMessenger {
         this.executeUpdateProcessor(receivedMessage);
     }
 
-    public abstract void connect(String host, int port) throws RemoteException,
-            NotBoundException, IOException;
+    public abstract void connect(String host, int port)
+            throws NotBoundException, IOException;
 
     public UUID getUUID() {
         return this.myID;

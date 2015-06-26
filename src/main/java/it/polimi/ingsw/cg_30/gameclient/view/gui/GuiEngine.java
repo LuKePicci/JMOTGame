@@ -145,7 +145,8 @@ public class GuiEngine extends ViewEngine {
                 imageCache.put(imageName, newImage);
                 return newImage;
             } catch (Exception ioEx) {
-                LoggerMethods.exception(ioEx, "");
+                LoggerMethods.exception(ioEx, "no image found for resource "
+                        + imageName);
                 return null;
             }
         }
@@ -192,18 +193,20 @@ public class GuiEngine extends ViewEngine {
             return true;
         } catch (NumberFormatException | URISyntaxException e) {
             this.showError("Invalid hostname or port number");
+            LoggerMethods.exception(e, "Invalid hostname or port number");
         } catch (NotBoundException | IOException e) {
             this.showError("Connection failed");
+            LoggerMethods.exception(e, "Connection failed");
         }
         return false;
     }
 
     public boolean join(String nick, String mapName, String partyName) {
-        if (!nick.equals("")) {
+        if (!"".equals(nick)) {
 
-            JoinRequest req = composer.createJoinRequest(nick, mapName
-                    .equals("") ? null : mapName, partyName.equals("") ? null
-                    : partyName);
+            JoinRequest req = composer.createJoinRequest(nick, ""
+                    .equals(mapName) ? null : mapName,
+                    "".equals(partyName) ? null : partyName);
             ClientMessenger.getCurrentMessenger().loadToken(req.getNick());
             ClientMessenger.getCurrentMessenger().executeRequestTask(req);
             this.runEngine();

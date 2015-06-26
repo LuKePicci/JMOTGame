@@ -108,6 +108,8 @@ public class Move extends ActionController {
                         .getTurnController().getTurn().getCurrentPlayer()
                         .getName()
                         + " HAS ESCAPED");
+                // remove player's cards
+                this.matchController.cardsRemoval(player);
             } else {
                 this.notifyInChatByServer("RED HATCH CARD");
                 try {

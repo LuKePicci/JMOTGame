@@ -179,10 +179,12 @@ public class TurnController {
      *            the new current player
      */
     protected void notify(Player nextPlayer) {
-        this.currentMatch.getPartyController().sendMessageToParty(
-                new ChatMessage(new ChatViewModel("It's "
-                        + nextPlayer.getName() + "'s turn.",
-                        MatchController.SERVER_WORD_TEXT, ChatVisibility.PARTY)));
+        this.currentMatch.getPartyController()
+                .sendMessageToParty(
+                        new ChatMessage(new ChatViewModel("It's "
+                                + nextPlayer.getName() + "'s turn.",
+                                MatchController.SERVER_WORD_TEXT,
+                                ChatVisibility.PARTY)));
         try {
             this.currentMatch.sendViewModelToAPlayer(nextPlayer,
                     this.currentMatch.getTurnController().getTurn()

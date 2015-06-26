@@ -25,6 +25,8 @@ public class ChooseZoneView {
 
     JFrame chooseFrame;
 
+    private String titilliumTextString = "TitilliumText22L";
+
     /**
      * @wbp.parser.entryPoint
      */
@@ -47,7 +49,7 @@ public class ChooseZoneView {
         chooseFrame.getContentPane().setLayout(gridBagLayout);
 
         JLabel nickLabel = new JAntiAliasedLabel("Enter your nickname:");
-        nickLabel.setFont(GuiEngine.loadCustomFont("TitilliumText22L")
+        nickLabel.setFont(GuiEngine.loadCustomFont(titilliumTextString)
                 .deriveFont(0, 12));
         nickLabel.setHorizontalAlignment(SwingConstants.CENTER);
         GridBagConstraints gbc_nickLabel = new GridBagConstraints();
@@ -58,7 +60,7 @@ public class ChooseZoneView {
 
         final PlaceholderTextField nickTextField = new PlaceholderTextField();
         nickTextField.setPlaceholder("Nickname");
-        nickTextField.setFont(GuiEngine.loadCustomFont("TitilliumText22L")
+        nickTextField.setFont(GuiEngine.loadCustomFont(titilliumTextString)
                 .deriveFont(0, 12));
         nickTextField.setMinimumSize(new Dimension(4, 25));
         nickTextField.setColumns(10);
@@ -72,7 +74,7 @@ public class ChooseZoneView {
 
         JLabel zoneLabel = new JAntiAliasedLabel(
                 "Choose the zone where you would like to play:");
-        zoneLabel.setFont(GuiEngine.loadCustomFont("TitilliumText22L")
+        zoneLabel.setFont(GuiEngine.loadCustomFont(titilliumTextString)
                 .deriveFont(0, 12));
         zoneLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -84,7 +86,7 @@ public class ChooseZoneView {
         chooseFrame.getContentPane().add(zoneLabel, gbc_zoneLabel);
 
         final JComboBox<String> zoneCombo = new JComboBox<String>();
-        zoneCombo.setFont(GuiEngine.loadCustomFont("TitilliumText22L")
+        zoneCombo.setFont(GuiEngine.loadCustomFont(titilliumTextString)
                 .deriveFont(0, 12));
         zoneLabel.setLabelFor(zoneCombo);
         zoneCombo.setMinimumSize(new Dimension(25, 22));
@@ -100,7 +102,7 @@ public class ChooseZoneView {
 
         JLabel partyLabel1 = new JAntiAliasedLabel(
                 "Choose the name of your party if you would like to play with your friends,");
-        partyLabel1.setFont(GuiEngine.loadCustomFont("TitilliumText22L")
+        partyLabel1.setFont(GuiEngine.loadCustomFont(titilliumTextString)
                 .deriveFont(0, 12));
         GridBagConstraints gbc_partyLabel1 = new GridBagConstraints();
         gbc_partyLabel1.insets = new Insets(15, 0, 5, 0);
@@ -113,7 +115,7 @@ public class ChooseZoneView {
 
         JLabel partyLabel2 = new JAntiAliasedLabel(
                 "otherwise leave blank and you will be joined to a free party with other people.");
-        partyLabel2.setFont(GuiEngine.loadCustomFont("TitilliumText22L")
+        partyLabel2.setFont(GuiEngine.loadCustomFont(titilliumTextString)
                 .deriveFont(0, 12));
         partyLabel2.setHorizontalAlignment(SwingConstants.CENTER);
         GridBagConstraints gbc_partyLabel2 = new GridBagConstraints();
@@ -124,7 +126,7 @@ public class ChooseZoneView {
         chooseFrame.getContentPane().add(partyLabel2, gbc_partyLabel2);
 
         final PlaceholderTextField partyTextField = new PlaceholderTextField();
-        partyTextField.setFont(GuiEngine.loadCustomFont("TitilliumText22L")
+        partyTextField.setFont(GuiEngine.loadCustomFont(titilliumTextString)
                 .deriveFont(0, 12));
         partyTextField.setMinimumSize(new Dimension(4, 25));
         partyTextField.setPlaceholder("Party name");
@@ -138,7 +140,7 @@ public class ChooseZoneView {
         partyTextField.setColumns(10);
 
         JButton joinButton = new JButton("Enter the party");
-        joinButton.setFont(GuiEngine.loadCustomFont("TitilliumText22L")
+        joinButton.setFont(GuiEngine.loadCustomFont(titilliumTextString)
                 .deriveFont(0, 12));
         joinButton.addActionListener(new ActionListener() {
             @Override

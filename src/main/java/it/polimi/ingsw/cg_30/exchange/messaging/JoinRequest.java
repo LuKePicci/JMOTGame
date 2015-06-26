@@ -33,7 +33,7 @@ public class JoinRequest extends RequestModel {
     }
 
     public JoinRequest(String nick, Game g, String partyName) {
-        this(nick, g, partyName != null && !partyName.equals(""), partyName);
+        this(nick, g, partyName != null && !"".equals(partyName), partyName);
     }
 
     private JoinRequest(String nick, Game g, boolean privateParty, String name) {
