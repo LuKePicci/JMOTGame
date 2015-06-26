@@ -21,10 +21,15 @@ import javax.swing.JRootPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
+/**
+ * The Class ChooseZoneView.
+ */
 public class ChooseZoneView {
 
+    /** The choose frame. */
     JFrame chooseFrame;
 
+    /** The titillium text string. */
     private String titilliumTextString = "TitilliumText22L";
 
     /**
@@ -172,6 +177,12 @@ public class ChooseZoneView {
         rootPane.setDefaultButton(joinButton);
     }
 
+    /**
+     * Sets the visibility.
+     *
+     * @param visible
+     *            the new visible
+     */
     public void setVisible(boolean visible) {
         this.chooseFrame.setVisible(visible);
     }

@@ -48,8 +48,10 @@ public class Turn implements IViewable {
     /** The drawn card. */
     private SectorCard drawnCard;
 
+    /** The local turn count. */
     private int localTurnCount;
 
+    /** The turn start date. */
     private Date turnStart;
 
     /**
@@ -57,6 +59,8 @@ public class Turn implements IViewable {
      *
      * @param player
      *            the player
+     * @param turnCount
+     *            the turn count
      */
     public Turn(Player player, int turnCount) {
         if (PlayerRace.ALIEN == player.getIdentity().getRace()) {// alien
@@ -201,6 +205,12 @@ public class Turn implements IViewable {
         this.maxSteps = steps;
     }
 
+    /**
+     * Sets the must move.
+     *
+     * @param move
+     *            the new must move
+     */
     public void setMustMove(boolean move) {
         this.mustMove = move;
     }
@@ -245,6 +255,11 @@ public class Turn implements IViewable {
         this.currentPlayer = newPlayer;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.polimi.ingsw.cg_30.gamemanager.model.IViewable#getViewModel()
+     */
     @Override
     public ViewModel getViewModel() {
         return new TurnViewModel(this.getCanAttack(), this.getMaxSteps(),

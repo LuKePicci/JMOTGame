@@ -13,13 +13,26 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+/**
+ * The Class GuiPartyView.
+ */
 public class GuiPartyView extends GuiView {
 
+    /** The party panel. */
     private JPanel partyPane;
+
+    /** The players panel. */
     private JPanel playersPanel;
+
+    /** The party name label. */
     private JLabel partyNameLabel;
+
+    /** The cards label. */
     private JLabel cardsLabel;
 
+    /**
+     * @see it.polimi.ingsw.cg_30.gameclient.view.gui.GuiView#getComponent()
+     */
     @Override
     public JPanel getComponent() {
         if (this.partyPane == null)
@@ -27,6 +40,9 @@ public class GuiPartyView extends GuiView {
         return this.partyPane;
     }
 
+    /**
+     * @see it.polimi.ingsw.cg_30.gameclient.view.gui.GuiView#createComponents()
+     */
     @Override
     protected void createComponents() {
         this.partyPane = new JPanel();
@@ -62,6 +78,9 @@ public class GuiPartyView extends GuiView {
         partyContainerPane.add(playersPanel, BorderLayout.NORTH);
     }
 
+    /**
+     * @see it.polimi.ingsw.cg_30.gameclient.view.View#applyUpdate(it.polimi.ingsw.cg_30.exchange.viewmodels.ViewModel)
+     */
     @Override
     public void applyUpdate(ViewModel model) {
         PartyViewModel party = (PartyViewModel) model;
@@ -73,6 +92,13 @@ public class GuiPartyView extends GuiView {
         this.cardsLabel.setVisible(true);
     }
 
+    /**
+     * Returns the JPanel of the PlayerViewModel received.
+     *
+     * @param pvm
+     *            the player view model
+     * @return the player JPanel
+     */
     private JPanel newPlayer(PlayerViewModel pvm) {
         GridBagConstraints gbcPlayerPane = new GridBagConstraints();
         gbcPlayerPane.weighty = 0.2;

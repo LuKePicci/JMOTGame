@@ -22,30 +22,43 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import com.jtattoo.plaf.hifi.HiFiLookAndFeel;
 
+/**
+ * The Class GameView.
+ */
 public class GameView {
 
+    /** The Constant CENTER. */
     public static final Point CENTER = GraphicsEnvironment
             .getLocalGraphicsEnvironment().getCenterPoint();
 
+    /** The Constant FRAME_SIZE. */
     public static final Dimension FRAME_SIZE = GuiEngine.getResponsive(1.4049,
             1.1676);
 
+    /** The Constant PARTY_SIZE. */
     public static final Dimension PARTY_SIZE = GuiEngine.getResponsive(7.5294,
             2.4);
+
+    /** The Constant MAP_SIZE. */
     public static final Dimension MAP_SIZE = GuiEngine.getResponsive(1.9, 1.62);
 
+    /** The Constant CARD_SIZE. */
     public static final Dimension CARD_SIZE = GuiEngine.getResponsive(16, 6);
 
+    /** The Constant SECTOR_WIDTH. */
     public static final int SECTOR_WIDTH = GuiEngine.getResponsive(36.2264);
 
+    /** The main frame. */
     private JFrame mainFrame;
 
+    /** The deck scroll pane. */
     private JScrollPane mapScrollPane, deckScrollPane;
 
+    /** The sub views. */
     private final Map<ViewType, GuiView> subViews = new HashMap<ViewType, GuiView>();
 
     /**
-     * Create the game form.
+     * Creates the game form.
      */
     public GameView() {
         this.subViews.put(ViewType.ZONE, new GuiZoneView());
@@ -59,7 +72,10 @@ public class GameView {
     }
 
     /**
+     * Window builder.
+     *
      * @throws UnsupportedLookAndFeelException
+     *             the unsupported look and feel exception
      * @wbp.parser.entryPoint
      */
     public static void windowBuilder() throws UnsupportedLookAndFeelException {
@@ -67,12 +83,17 @@ public class GameView {
         new GameView().initialize();
     }
 
+    /**
+     * Gets the sub views.
+     *
+     * @return the sub views
+     */
     public Set<Entry<ViewType, GuiView>> getSubViews() {
         return this.subViews.entrySet();
     }
 
     /**
-     * Initialize the contents of the frame.
+     * Initializes the contents of the frame.
      */
     public void initialize() {
         mainFrame = new JFrame();

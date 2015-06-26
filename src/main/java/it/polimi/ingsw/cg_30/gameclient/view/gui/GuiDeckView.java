@@ -19,11 +19,20 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+/**
+ * The Class GuiDeckView.
+ */
 public class GuiDeckView extends GuiView {
 
+    /** The deck panel. */
     JPanel deckPane;
+
+    /** The empty label. */
     JLabel emptyLabel;
 
+    /**
+     * @see it.polimi.ingsw.cg_30.gameclient.view.gui.GuiView#getComponent()
+     */
     @Override
     public JPanel getComponent() {
         if (this.deckPane == null)
@@ -31,6 +40,9 @@ public class GuiDeckView extends GuiView {
         return this.deckPane;
     }
 
+    /**
+     * @see it.polimi.ingsw.cg_30.gameclient.view.gui.GuiView#createComponents()
+     */
     @Override
     protected void createComponents() {
         deckPane = new JPanel();
@@ -48,6 +60,9 @@ public class GuiDeckView extends GuiView {
 
     }
 
+    /**
+     * @see it.polimi.ingsw.cg_30.gameclient.view.View#applyUpdate(it.polimi.ingsw.cg_30.exchange.viewmodels.ViewModel)
+     */
     @Override
     public void applyUpdate(ViewModel model) {
         @SuppressWarnings("unchecked")
@@ -70,6 +85,13 @@ public class GuiDeckView extends GuiView {
         deckPane.revalidate();
     }
 
+    /**
+     * Returns the JLabel of the itemType received.
+     *
+     * @param itemType
+     *            the item type
+     * @return the card JLabel
+     */
     private JLabel newCard(Item itemType) {
         JLabel newCardLabel;
         if (CardsImageLoader.ITEM_CARDS.containsKey(itemType)) {
@@ -85,10 +107,10 @@ public class GuiDeckView extends GuiView {
                         SwingUtilities.invokeLater(new Runnable() {
                             @Override
                             public void run() {
-                        GuiEngine activeEngine = (GuiEngine) GameClient
-                                .getActiveEngine();
-                        activeEngine.cardProcessor(sender.getItemType());
-                    }
+                                GuiEngine activeEngine = (GuiEngine) GameClient
+                                        .getActiveEngine();
+                                activeEngine.cardProcessor(sender.getItemType());
+                            }
                         });
 
                     }

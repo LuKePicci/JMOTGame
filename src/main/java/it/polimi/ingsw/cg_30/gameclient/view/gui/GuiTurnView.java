@@ -31,19 +31,41 @@ import org.joda.time.Period;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
 
+/**
+ * The Class GuiTurnView.
+ */
 public class GuiTurnView extends GuiView {
 
+    /** The turn panel. */
     private JPanel turnPane;
+
+    /** The discard button. */
     private JToggleButton discardButton;
+
+    /** The turnover button. */
     private JButton turnoverButton;
+
+    /** The draw button. */
     private JButton drawButton;
+
+    /** The attack button. */
     private JButton attackButton;
+
+    /** The turn countdown. */
     private JLabel turnCountdown;
+
+    /** The turn nick. */
     private JLabel turnNick;
+
+    /** The turn number. */
     private JLabel turnNumber;
 
+    /** The count down timer. */
     private Timer countDown;
 
+    /**
+     * @see it.polimi.ingsw.cg_30.gameclient.view.gui.GuiView#getComponent()
+     */
     @Override
     public JComponent getComponent() {
         if (this.turnPane == null)
@@ -51,6 +73,9 @@ public class GuiTurnView extends GuiView {
         return this.turnPane;
     }
 
+    /**
+     * @see it.polimi.ingsw.cg_30.gameclient.view.gui.GuiView#createComponents()
+     */
     @Override
     protected void createComponents() {
         turnPane = new JPanel();
@@ -186,6 +211,9 @@ public class GuiTurnView extends GuiView {
         turnButtons.add(discardButton);
     }
 
+    /**
+     * @see it.polimi.ingsw.cg_30.gameclient.view.View#applyUpdate(it.polimi.ingsw.cg_30.exchange.viewmodels.ViewModel)
+     */
     @Override
     public void applyUpdate(ViewModel model) {
         TurnViewModel turn = (TurnViewModel) model;
@@ -207,6 +235,12 @@ public class GuiTurnView extends GuiView {
             this.startCountDown(turn.getTurnStart());
     }
 
+    /**
+     * Starts the count down timer.
+     *
+     * @param d
+     *            the date
+     */
     private void startCountDown(Date d) {
         DateTime startDate = new DateTime(d);
         final DateTime endDate = startDate.plus(new Duration(75L * 1000L));
@@ -237,6 +271,9 @@ public class GuiTurnView extends GuiView {
 
     }
 
+    /**
+     * Stops the count down timer.
+     */
     private void stopCountDown() {
         if (countDown != null)
             countDown.stop();
