@@ -1,6 +1,6 @@
 package it.polimi.ingsw.cg_30.gameclient.view.gui;
 
-import it.polimi.ingsw.cg_30.gamemanager.controller.LoggerMethods;
+import it.polimi.ingsw.cg_30.exchange.messaging.LoggerMethods;
 
 import java.awt.EventQueue;
 import java.awt.Font;

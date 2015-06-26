@@ -4,6 +4,7 @@ import it.polimi.ingsw.cg_30.exchange.messaging.ActionRequest;
 import it.polimi.ingsw.cg_30.exchange.messaging.ActionType;
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatMessage;
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatVisibility;
+import it.polimi.ingsw.cg_30.exchange.messaging.LoggerMethods;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ChatViewModel;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ItemCard;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.PlayerCard;
@@ -178,10 +179,12 @@ public class TurnController {
      *            the new current player
      */
     protected void notify(Player nextPlayer) {
-        this.currentMatch.getPartyController().sendMessageToParty(
-                new ChatMessage(new ChatViewModel("It's "
-                        + nextPlayer.getName() + "'s turn.",
-                        MatchController.SERVER_WORD_TEXT, ChatVisibility.PARTY)));
+        this.currentMatch.getPartyController()
+                .sendMessageToParty(
+                        new ChatMessage(new ChatViewModel("It's "
+                                + nextPlayer.getName() + "'s turn.",
+                                MatchController.SERVER_WORD_TEXT,
+                                ChatVisibility.PARTY)));
         try {
             this.currentMatch.sendViewModelToAPlayer(nextPlayer,
                     this.currentMatch.getTurnController().getTurn()

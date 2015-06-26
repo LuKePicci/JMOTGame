@@ -1,10 +1,10 @@
 package it.polimi.ingsw.cg_30.gameclient.network;
 
+import it.polimi.ingsw.cg_30.exchange.messaging.LoggerMethods;
 import it.polimi.ingsw.cg_30.exchange.messaging.Message;
 import it.polimi.ingsw.cg_30.exchange.messaging.RequestModel;
 import it.polimi.ingsw.cg_30.gameclient.RequestTask;
 import it.polimi.ingsw.cg_30.gameclient.UpdateTask;
-import it.polimi.ingsw.cg_30.gamemanager.controller.LoggerMethods;
 
 import java.io.File;
 import java.io.FileNotFoundException;

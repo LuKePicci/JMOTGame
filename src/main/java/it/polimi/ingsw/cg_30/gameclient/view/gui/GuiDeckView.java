@@ -7,20 +7,14 @@ import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewModel;
 import it.polimi.ingsw.cg_30.gameclient.GameClient;
 import it.polimi.ingsw.cg_30.gameclient.view.gui.components.JEftaiosCard;
 import it.polimi.ingsw.cg_30.gameclient.view.gui.eventhandlers.MouseHoverMagnify;
-import it.polimi.ingsw.cg_30.gamemanager.controller.LoggerMethods;
 
 import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -28,22 +22,6 @@ public class GuiDeckView extends GuiView {
 
     JPanel deckPane;
     JLabel emptyLabel;
-
-    private static final Map<Item, ImageIcon> CARD_FRONTS = new HashMap<Item, ImageIcon>();
-
-    static {
-        for (Item i : Item.values())
-            try {
-                CARD_FRONTS
-                        .put(i,
-                                new ImageIcon(ImageIO.read(GuiDeckView.class
-                                        .getResourceAsStream("/item_"
-                                                + i.toString().toLowerCase()
-                                                + ".jpg"))));
-            } catch (IOException e) {
-                LoggerMethods.iOException(e, "no image found for item");
-            }
-    }
 
     @Override
     public JPanel getComponent() {
@@ -93,8 +71,9 @@ public class GuiDeckView extends GuiView {
 
     private JLabel newCard(Item itemType) {
         JLabel newCardLabel;
-        if (CARD_FRONTS.containsKey(itemType)) {
-            newCardLabel = new JEftaiosCard(itemType, CARD_FRONTS.get(itemType));
+        if (CardsImageLoader.ITEM_CARDS.containsKey(itemType)) {
+            newCardLabel = new JEftaiosCard(itemType,
+                    CardsImageLoader.ITEM_CARDS.get(itemType));
             newCardLabel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {

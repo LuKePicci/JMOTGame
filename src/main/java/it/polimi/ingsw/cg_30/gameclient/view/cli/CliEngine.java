@@ -1,13 +1,13 @@
 package it.polimi.ingsw.cg_30.gameclient.view.cli;
 
 import it.polimi.ingsw.cg_30.exchange.messaging.JoinRequest;
+import it.polimi.ingsw.cg_30.exchange.messaging.LoggerMethods;
 import it.polimi.ingsw.cg_30.exchange.messaging.RequestModel;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewType;
 import it.polimi.ingsw.cg_30.gameclient.GameClient;
 import it.polimi.ingsw.cg_30.gameclient.network.ClientMessenger;
 import it.polimi.ingsw.cg_30.gameclient.view.RequestComposer;
 import it.polimi.ingsw.cg_30.gameclient.view.ViewEngine;
-import it.polimi.ingsw.cg_30.gamemanager.controller.LoggerMethods;
 
 import java.net.URI;
 import java.net.URISyntaxException;

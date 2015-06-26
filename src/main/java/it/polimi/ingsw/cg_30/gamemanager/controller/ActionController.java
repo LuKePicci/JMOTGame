@@ -4,6 +4,7 @@ import it.polimi.ingsw.cg_30.exchange.messaging.ActionRequest;
 import it.polimi.ingsw.cg_30.exchange.messaging.ActionType;
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatMessage;
 import it.polimi.ingsw.cg_30.exchange.messaging.ChatVisibility;
+import it.polimi.ingsw.cg_30.exchange.messaging.LoggerMethods;
 import it.polimi.ingsw.cg_30.exchange.messaging.Message;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.Card;
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ChatViewModel;
@@ -202,9 +203,11 @@ public abstract class ActionController {
      *            the string to notify
      */
     protected void notifyInChatByServer(String what) {
-        this.matchController.getPartyController().sendMessageToParty(
-                new ChatMessage(new ChatViewModel(what,
-                        MatchController.SERVER_WORD_TEXT, ChatVisibility.PARTY)));
+        this.matchController.getPartyController()
+                .sendMessageToParty(
+                        new ChatMessage(new ChatViewModel(what,
+                                MatchController.SERVER_WORD_TEXT,
+                                ChatVisibility.PARTY)));
     }
 
     /**
@@ -220,9 +223,9 @@ public abstract class ActionController {
             throws DisconnectedException {
         MessageController.getPlayerHandler(
                 this.matchController.getPartyController().getCurrentParty()
-                        .getPlayerUUID(player))
-                .dispatchOutgoing(
-                        new ChatMessage(new ChatViewModel(what,
+                        .getPlayerUUID(player)).dispatchOutgoing(
+                new ChatMessage(
+                        new ChatViewModel(what,
                                 MatchController.SERVER_WORD_TEXT,
                                 ChatVisibility.PLAYER)));
     }

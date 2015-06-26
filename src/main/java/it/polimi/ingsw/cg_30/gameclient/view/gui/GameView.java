@@ -51,6 +51,9 @@ public class GameView {
         this.subViews.put(ViewType.CHAT, new GuiChatView());
         this.subViews.put(ViewType.DECK, new GuiDeckView());
         this.subViews.put(ViewType.TURN, new GuiTurnView());
+        this.subViews.put(ViewType.SECTOR,
+                new GuiSectorView(subViews.get(ViewType.ZONE)));
+        this.subViews.put(ViewType.CARD, new GuiCardView());
     }
 
     /**

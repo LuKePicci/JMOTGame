@@ -1,11 +1,11 @@
 package it.polimi.ingsw.cg_30.gameclient.network;
 
+import it.polimi.ingsw.cg_30.exchange.messaging.LoggerMethods;
 import it.polimi.ingsw.cg_30.exchange.messaging.Message;
 import it.polimi.ingsw.cg_30.exchange.network.IAcceptRmiPlayer;
 import it.polimi.ingsw.cg_30.exchange.network.IRmiAcceptance;
 import it.polimi.ingsw.cg_30.exchange.network.IRmiClient;
 import it.polimi.ingsw.cg_30.gameclient.GameClient;
-import it.polimi.ingsw.cg_30.gamemanager.controller.LoggerMethods;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;

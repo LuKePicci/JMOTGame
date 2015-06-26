@@ -1,7 +1,6 @@
 package it.polimi.ingsw.cg_30.exchange.messaging;
 
 import it.polimi.ingsw.cg_30.exchange.viewmodels.ViewModel;
-import it.polimi.ingsw.cg_30.gamemanager.controller.LoggerMethods;
 
 import java.io.Serializable;
 import java.io.StringReader;
