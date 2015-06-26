@@ -50,11 +50,11 @@ public class ChooseZoneView {
         nickLabel.setFont(GuiEngine.loadCustomFont("TitilliumText22L")
                 .deriveFont(0, 12));
         nickLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        GridBagConstraints gbc_nickLabel = new GridBagConstraints();
-        gbc_nickLabel.insets = new Insets(0, 0, 5, 0);
-        gbc_nickLabel.gridx = 0;
-        gbc_nickLabel.gridy = 0;
-        chooseFrame.getContentPane().add(nickLabel, gbc_nickLabel);
+        GridBagConstraints gbcNickLabel = new GridBagConstraints();
+        gbcNickLabel.insets = new Insets(0, 0, 5, 0);
+        gbcNickLabel.gridx = 0;
+        gbcNickLabel.gridy = 0;
+        chooseFrame.getContentPane().add(nickLabel, gbcNickLabel);
 
         final PlaceholderTextField nickTextField = new PlaceholderTextField();
         nickTextField.setPlaceholder("Nickname");
@@ -76,12 +76,12 @@ public class ChooseZoneView {
                 .deriveFont(0, 12));
         zoneLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-        GridBagConstraints gbc_zoneLabel = new GridBagConstraints();
-        gbc_zoneLabel.insets = new Insets(0, 0, 5, 0);
-        gbc_zoneLabel.fill = GridBagConstraints.BOTH;
-        gbc_zoneLabel.gridx = 0;
-        gbc_zoneLabel.gridy = 3;
-        chooseFrame.getContentPane().add(zoneLabel, gbc_zoneLabel);
+        GridBagConstraints gbcZoneLabel = new GridBagConstraints();
+        gbcZoneLabel.insets = new Insets(0, 0, 5, 0);
+        gbcZoneLabel.fill = GridBagConstraints.BOTH;
+        gbcZoneLabel.gridx = 0;
+        gbcZoneLabel.gridy = 3;
+        chooseFrame.getContentPane().add(zoneLabel, gbcZoneLabel);
 
         final JComboBox<String> zoneCombo = new JComboBox<String>();
         zoneCombo.setFont(GuiEngine.loadCustomFont("TitilliumText22L")
@@ -91,24 +91,24 @@ public class ChooseZoneView {
         zoneCombo.setEditable(true);
         zoneCombo.setModel(new DefaultComboBoxModel<String>(new String[] {
                 "Galilei", "Galvani", "Fermi" }));
-        GridBagConstraints gbc_zoneCombo = new GridBagConstraints();
-        gbc_zoneCombo.insets = new Insets(0, 0, 5, 0);
-        gbc_zoneCombo.fill = GridBagConstraints.HORIZONTAL;
-        gbc_zoneCombo.gridx = 0;
-        gbc_zoneCombo.gridy = 4;
-        chooseFrame.getContentPane().add(zoneCombo, gbc_zoneCombo);
+        GridBagConstraints gbcZoneCombo = new GridBagConstraints();
+        gbcZoneCombo.insets = new Insets(0, 0, 5, 0);
+        gbcZoneCombo.fill = GridBagConstraints.HORIZONTAL;
+        gbcZoneCombo.gridx = 0;
+        gbcZoneCombo.gridy = 4;
+        chooseFrame.getContentPane().add(zoneCombo, gbcZoneCombo);
 
         JLabel partyLabel1 = new JAntiAliasedLabel(
                 "Choose the name of your party if you would like to play with your friends,");
         partyLabel1.setFont(GuiEngine.loadCustomFont("TitilliumText22L")
                 .deriveFont(0, 12));
-        GridBagConstraints gbc_partyLabel1 = new GridBagConstraints();
-        gbc_partyLabel1.insets = new Insets(15, 0, 5, 0);
-        gbc_partyLabel1.fill = GridBagConstraints.BOTH;
-        gbc_partyLabel1.gridx = 0;
-        gbc_partyLabel1.gridy = 5;
+        GridBagConstraints gbcPartyLabel1 = new GridBagConstraints();
+        gbcPartyLabel1.insets = new Insets(15, 0, 5, 0);
+        gbcPartyLabel1.fill = GridBagConstraints.BOTH;
+        gbcPartyLabel1.gridx = 0;
+        gbcPartyLabel1.gridy = 5;
 
-        chooseFrame.getContentPane().add(partyLabel1, gbc_partyLabel1);
+        chooseFrame.getContentPane().add(partyLabel1, gbcPartyLabel1);
         partyLabel1.setHorizontalAlignment(SwingConstants.CENTER);
 
         JLabel partyLabel2 = new JAntiAliasedLabel(
@@ -116,12 +116,12 @@ public class ChooseZoneView {
         partyLabel2.setFont(GuiEngine.loadCustomFont("TitilliumText22L")
                 .deriveFont(0, 12));
         partyLabel2.setHorizontalAlignment(SwingConstants.CENTER);
-        GridBagConstraints gbc_partyLabel2 = new GridBagConstraints();
-        gbc_partyLabel2.insets = new Insets(0, 0, 5, 0);
-        gbc_partyLabel2.fill = GridBagConstraints.BOTH;
-        gbc_partyLabel2.gridx = 0;
-        gbc_partyLabel2.gridy = 6;
-        chooseFrame.getContentPane().add(partyLabel2, gbc_partyLabel2);
+        GridBagConstraints gbcPartyLabel2 = new GridBagConstraints();
+        gbcPartyLabel2.insets = new Insets(0, 0, 5, 0);
+        gbcPartyLabel2.fill = GridBagConstraints.BOTH;
+        gbcPartyLabel2.gridx = 0;
+        gbcPartyLabel2.gridy = 6;
+        chooseFrame.getContentPane().add(partyLabel2, gbcPartyLabel2);
 
         final PlaceholderTextField partyTextField = new PlaceholderTextField();
         partyTextField.setFont(GuiEngine.loadCustomFont("TitilliumText22L")
@@ -129,12 +129,12 @@ public class ChooseZoneView {
         partyTextField.setMinimumSize(new Dimension(4, 25));
         partyTextField.setPlaceholder("Party name");
 
-        GridBagConstraints gbc_partyTextField = new GridBagConstraints();
-        gbc_partyTextField.insets = new Insets(0, 0, 5, 0);
-        gbc_partyTextField.fill = GridBagConstraints.HORIZONTAL;
-        gbc_partyTextField.gridx = 0;
-        gbc_partyTextField.gridy = 7;
-        chooseFrame.getContentPane().add(partyTextField, gbc_partyTextField);
+        GridBagConstraints gbcPartyTextField = new GridBagConstraints();
+        gbcPartyTextField.insets = new Insets(0, 0, 5, 0);
+        gbcPartyTextField.fill = GridBagConstraints.HORIZONTAL;
+        gbcPartyTextField.gridx = 0;
+        gbcPartyTextField.gridy = 7;
+        chooseFrame.getContentPane().add(partyTextField, gbcPartyTextField);
         partyTextField.setColumns(10);
 
         JButton joinButton = new JButton("Enter the party");
@@ -160,11 +160,11 @@ public class ChooseZoneView {
                 });
             }
         });
-        GridBagConstraints gbc_joinButton = new GridBagConstraints();
-        gbc_joinButton.fill = GridBagConstraints.HORIZONTAL;
-        gbc_joinButton.gridx = 0;
-        gbc_joinButton.gridy = 9;
-        chooseFrame.getContentPane().add(joinButton, gbc_joinButton);
+        GridBagConstraints gbcJoinButton = new GridBagConstraints();
+        gbcJoinButton.fill = GridBagConstraints.HORIZONTAL;
+        gbcJoinButton.gridx = 0;
+        gbcJoinButton.gridy = 9;
+        chooseFrame.getContentPane().add(joinButton, gbcJoinButton);
 
         JRootPane rootPane = SwingUtilities.getRootPane(joinButton);
         rootPane.setDefaultButton(joinButton);
